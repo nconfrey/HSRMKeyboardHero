@@ -1,4 +1,4 @@
-package model;
+package controller.player;
 
 import java.util.ArrayList;
 import java.util.Date;
