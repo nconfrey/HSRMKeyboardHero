@@ -1,4 +1,4 @@
-package model;
+package controller.player;
 
 import de.umass.lastfm.Album;
 import de.umass.lastfm.ImageSize;
