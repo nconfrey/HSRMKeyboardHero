@@ -1,4 +1,4 @@
-package controller.player;
+package model;
 
 /**
  *
@@ -6,7 +6,8 @@ package controller.player;
  */
 public interface MP3PlayerListener {
     
-    public void playbackDidStart(MP3Player player);
-    public void playbackDidStop(MP3Player player);
+    public void playbackDidStart(final MP3Player player);
+    public void playbackDidStop(final MP3Player player);
+    public void playbackPlaying(final MP3Player player, final int frame);
     
 }

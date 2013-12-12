@@ -1,4 +1,4 @@
-package controller.player;
+package model;
 
 import java.io.File;
 
@@ -57,5 +57,10 @@ public class Track {
 
     public File getFile() {
         return file;
+    }
+
+    @Override
+    public String toString() {
+        return getArtist() + " - " + getTitle();
     }
 }

@@ -1,14 +1,15 @@
-package controller.player;
+package model;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import javax.swing.AbstractListModel;
 
 /**
  *
  * @author sseye001
  */
-public class Playlist {
+public class Playlist extends AbstractListModel<Track>{
     
     private long id;
     private String name;
@@ -17,6 +18,7 @@ public class Playlist {
 
     public Playlist(String name) {
         tracks = new ArrayList<>();
+
         this.name = name;
     }   
     
@@ -43,5 +45,16 @@ public class Playlist {
     
     public void addTrack(Track track){
         this.tracks.add(track);
+        fireContentsChanged(track, this.tracks.size()-1,  this.tracks.size()-1);
+    }
+
+    @Override
+    public int getSize() {
+        return tracks.size();
+    }
+
+    @Override
+    public Track getElementAt(int index) {
+        return tracks.get(index);
     }
 }
