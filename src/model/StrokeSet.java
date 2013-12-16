@@ -17,7 +17,7 @@ public class StrokeSet {
 			return strokes.get(frame);
 		}
 		
-		Stroke newStroke = new Stroke(strokeKey, 0);
+		Stroke newStroke = new Stroke(strokeKey, frame, 0);
 		strokes.put(frame, newStroke);
 		return newStroke;
 	}

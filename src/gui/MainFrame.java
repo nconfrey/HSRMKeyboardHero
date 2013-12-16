@@ -8,6 +8,8 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import view.GuitarPane;
+
 public class MainFrame extends JFrame{
 		
 	/**
@@ -21,6 +23,7 @@ public class MainFrame extends JFrame{
 	private JPanel leftContent;		// Panel fuer Punktestand Statistik etc...
 	private JPanel rightContent;	// Panel fuer Punktestand Statistik etc...
 	private JPanel gameContent;		// Spielablauf
+	private GuitarPane gp;
 	
 	private final Dimension screenSize;
 	private final Dimension frameSize;
@@ -74,7 +77,10 @@ public class MainFrame extends JFrame{
 		gameContent = new JPanel();
 	    gameContent.setBackground(Color.WHITE);
 	    gameContent.setPreferredSize(new Dimension(frameSize.width/6*4,frameSize.height)); // 4/6 der Frame Size
-	    gameContent.add(new JLabel("CENTER"));
+	    gp = new GuitarPane();
+	    gp.setPreferredSize(gameContent.getPreferredSize());
+	    gp.render();
+	    gameContent.add(gp);
 	    return gameContent;
 	}
 	
