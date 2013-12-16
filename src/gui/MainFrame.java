@@ -3,14 +3,26 @@ package gui;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.awt.event.InputEvent;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.util.ArrayList;
 
+import javax.swing.AbstractAction;
+import javax.swing.Action;
+import javax.swing.InputMap;
+import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-
+import javax.swing.KeyStroke;
 import view.GuitarPane;
+import model.StrokeKey;
+import controller.GuitarStringListener;
+import controller.player.MP3PlayerListener;
 
-public class MainFrame extends JFrame{
+public class MainFrame extends JFrame implements KeyListener {
 		
 	/**
 	 * 
@@ -27,6 +39,8 @@ public class MainFrame extends JFrame{
 	
 	private final Dimension screenSize;
 	private final Dimension frameSize;
+	
+	private ArrayList<GuitarStringListener> guitarStringListener;
 	
 	public MainFrame(){
 		
@@ -54,6 +68,13 @@ public class MainFrame extends JFrame{
 	    this.setResizable(false);
 	    this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 	    this.setVisible(true);
+	    
+	    
+	    // key related
+	    wrapper.addKeyListener(this);
+	    wrapper.setFocusable(true);
+	    guitarStringListener = new ArrayList<>();
+	    
 	}
 	
 	public JPanel buildLeftContent(){
@@ -83,5 +104,38 @@ public class MainFrame extends JFrame{
 	    gameContent.add(gp);
 	    return gameContent;
 	}
+	
+	
+	// Key Handling
+	
+	public void addGuitarStringListener(GuitarStringListener listener) {
+        this.guitarStringListener.add(listener);
+    }
+
+    public void removeGuitarStringListener(GuitarStringListener listener) {
+    	this.guitarStringListener.remove(listener);
+    }
+	
+	public void keyPressed(KeyEvent e) {
+		StrokeKey strokeKey = StrokeKey.keyForCode(e.getKeyCode());
+		if(strokeKey != StrokeKey.INVALID) {
+			for (GuitarStringListener guitarStringListener : this.guitarStringListener) {
+				guitarStringListener.guitarStringPressed(strokeKey);
+	        }
+		}
+    }
+	
+    public void keyReleased(KeyEvent e) {
+    	StrokeKey strokeKey = StrokeKey.keyForCode(e.getKeyCode());
+		if(strokeKey != StrokeKey.INVALID) {
+			for (GuitarStringListener guitarStringListener : this.guitarStringListener) {
+				guitarStringListener.GuitarStringReleased(strokeKey);
+	        }
+		}
+    }
+    
+    public void keyTyped(KeyEvent e) {
+        
+    }
 	
 }

@@ -48,14 +48,14 @@ public class TrackImporter {
             importTracks(file);
         } else {
             if (file.getName().endsWith(".mp3")) {
-                Track track = loadTrack(file);
+                MP3PlayerTrack track = loadTrack(file);
                 playlist.addTrack(track);
             }
         }
     }
 
-    private Track loadTrack(File file) {
-        Track track = new Track(file);
+    private MP3PlayerTrack loadTrack(File file) {
+        MP3PlayerTrack track = new MP3PlayerTrack(file);
         try {
             MP3File mp3File = new MP3File(file);
             

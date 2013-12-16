@@ -9,12 +9,12 @@ import javax.swing.AbstractListModel;
  *
  * @author sseye001
  */
-public class Playlist extends AbstractListModel<Track>{
+public class Playlist extends AbstractListModel<MP3PlayerTrack>{
     
     private long id;
     private String name;
     private Date creationDate;
-    private List<Track> tracks;
+    private List<MP3PlayerTrack> tracks;
 
     public Playlist(String name) {
         tracks = new ArrayList<>();
@@ -39,11 +39,11 @@ public class Playlist extends AbstractListModel<Track>{
         return tracks.size();
     }
     
-    public Track getTrack(int number){
+    public MP3PlayerTrack getTrack(int number){
         return tracks.get(number);
     }
     
-    public void addTrack(Track track){
+    public void addTrack(MP3PlayerTrack track){
         this.tracks.add(track);
         fireContentsChanged(track, this.tracks.size()-1,  this.tracks.size()-1);
     }
@@ -54,7 +54,7 @@ public class Playlist extends AbstractListModel<Track>{
     }
 
     @Override
-    public Track getElementAt(int index) {
+    public MP3PlayerTrack getElementAt(int index) {
         return tracks.get(index);
     }
 }

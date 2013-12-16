@@ -14,7 +14,7 @@ import javax.imageio.ImageIO;
  */
 public class AlbumLoader {
 
-    public static BufferedImage loadCover(Track track) {
+    public static BufferedImage loadCover(MP3PlayerTrack track) {
         /* API Key: 61047b4acdccb090ea7a05ac7e5602f8
            Secret: is 54452eda42c6f50c9305a86573acaafb */
         Album album = Album.getInfo(
