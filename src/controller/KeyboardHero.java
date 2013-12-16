@@ -24,7 +24,7 @@ public class KeyboardHero {
 		// Stroke Recording
 		File mp3File = null;
 		try {
-			mp3File = new File(KeyboardHero.class.getResource("/smoke_on_the_water.mp3").toURI());
+			mp3File = new File(KeyboardHero.class.getResource("/smoke_on_the_water_short.mp3").toURI());
 		} catch (Exception e) {
 			
 		}

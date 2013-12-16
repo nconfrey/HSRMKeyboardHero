@@ -116,6 +116,8 @@ public class MP3Player {
 
                         if (continues) {
                             skip();
+                        } else {
+                        	stopAndWait();
                         }
                     } catch (JavaLayerException ex) {
                         Logger.getLogger(MP3Player.class.getName()).log(Level.SEVERE, null, ex);

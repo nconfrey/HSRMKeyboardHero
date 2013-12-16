@@ -67,7 +67,6 @@ public class GuitarPane extends JPanel{
 	public void draw(Graphics2D g) {
 		ArrayList<RenderBlock> toDelete = new ArrayList<RenderBlock>();
 		for (RenderBlock block : this.blocks) {
-			System.out.println(block.getMaxFrame());
 			if (block.getStartFrame() + block.getMaxFrame() < frame) {
 				toDelete.add(block);
 			} else {

@@ -1,25 +1,50 @@
 package model;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.NavigableMap;
+import java.util.TreeMap;
+
 import model.StrokeKey;
 
 public class StrokeSet {
 	
-	private Map<Integer, Stroke> strokes;
+	private NavigableMap<Integer, List<Stroke>> strokes;
 	
 	public StrokeSet() {
-		this.strokes = new HashMap<>();
+		this.strokes = new TreeMap<>();
+	}
+
+	
+	public NavigableMap<Integer, List<Stroke>> getStrokes() {
+		return strokes;
+	}
+
+
+	public Stroke set(Integer frame, StrokeKey key, Integer length) {
+		Stroke stroke = new Stroke(key, frame, 0);
+		return set(stroke);
 	}
 	
-	public Stroke set(int frame, StrokeKey strokeKey) {
-		if(strokes.containsKey(frame)) {
-			return strokes.get(frame);
+	public Stroke set(Stroke stroke) {
+		ArrayList<Stroke> frameList = getListForFrame(stroke.getStartFrame());
+		
+		// remove old stroke with possibly other length
+		if(frameList.contains(stroke)) {
+			frameList.remove(stroke);
 		}
 		
-		Stroke newStroke = new Stroke(strokeKey, frame, 0);
-		strokes.put(frame, newStroke);
-		return newStroke;
+		frameList.add(stroke);
+		return stroke;
 	}
 	
+	private ArrayList<Stroke> getListForFrame(Integer frame) {
+		if(strokes.containsKey(frame)) {
+			return (ArrayList<Stroke>)strokes.get(frame);
+		}
+		
+		ArrayList<Stroke> newList = new ArrayList<Stroke>();
+		this.strokes.put(frame, newList);
+		return newList;
+	}
 }

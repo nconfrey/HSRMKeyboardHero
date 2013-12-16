@@ -24,5 +24,34 @@ public class Stroke {
 		return startFrame;
 	}
 
+	public void setLength(int length) {
+		this.length = length;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((key == null) ? 0 : key.hashCode());
+		result = prime * result + startFrame;
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Stroke other = (Stroke) obj;
+		if (key != other.key)
+			return false;
+		if (startFrame != other.startFrame)
+			return false;
+		return true;
+	}
+
 	
 }
