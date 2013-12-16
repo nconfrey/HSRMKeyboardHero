@@ -14,6 +14,9 @@ public class Track {
 	}
 
 	public StrokeSet getStrokeSet() {
+		if(strokeSet == null) {
+			strokeSet = new StrokeSet();
+		}
 		return strokeSet;
 	}
 

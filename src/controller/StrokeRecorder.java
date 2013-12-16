@@ -1,6 +1,7 @@
 package controller;
 
 import model.StrokeKey;
+import model.StrokeSet;
 import model.Track;
 import controller.player.MP3Player;
 import controller.player.Playlist;

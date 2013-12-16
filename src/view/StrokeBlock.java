@@ -19,7 +19,7 @@ public class StrokeBlock{
 		
 		g.setColor(Color.red);
 		
-		int x = (int)Layouter.getPixelForStroke(stroke.getKey().getValue());//TODO!!
+		int x = (int)Layouter.getPixelForStroke(stroke.getKey());//TODO!!
 		int y = (int)Layouter.getPixelForFrame(stroke.getStartFrame());
 		int width = Layouter.STROKE_WIDTH;
 		int height = (int)Layouter.getPixelForFrame(stroke.getLength());

@@ -19,6 +19,20 @@ public enum StrokeKey {
 		} else {
 			return StrokeKey.INVALID;
 		}
-		
+	}
+	
+	public int getPosition() {
+		if(this == StrokeKey.F1) {
+			return 0;
+		} else if(this == StrokeKey.F2) {
+			return 1;
+		} else if(this == StrokeKey.F3) {
+			return 2;
+		} else if(this == StrokeKey.F4) {
+			return 3;
+		} else if(this == StrokeKey.F5) {
+			return 4;
+		}
+		return -1;
 	}
 }
