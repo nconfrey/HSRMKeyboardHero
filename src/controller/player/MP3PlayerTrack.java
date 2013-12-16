@@ -6,7 +6,7 @@ import java.io.File;
  *
  * @author sseye001
  */
-public class Track {
+public class MP3PlayerTrack {
 
     private long id;
     private String title;
@@ -15,7 +15,7 @@ public class Track {
     private String artist;
     private final File file;
 
-    public Track(File file) {
+    public MP3PlayerTrack(File file) {
         this.file = file;
     }
 

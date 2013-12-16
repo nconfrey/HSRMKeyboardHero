@@ -1,19 +1,24 @@
 package model;
 
+import java.awt.event.KeyEvent;
+
 public enum StrokeKey {
-	F1((byte)(1<<0)),
-	F2((byte)(1<<1)),
-	F3((byte)(1<<2)),
-	F4((byte)(1<<3)),
-	F5((byte)(1<<4));
+	F1,F2,F3,F4,F5,INVALID;
 	
-	private final byte value;
-	
-	private StrokeKey(byte value) {
-		this.value = value;
-	}
-	
-	public byte getValue() {
-		return value;
+	public static StrokeKey keyForCode(int keyCode) {
+		if(keyCode == KeyEvent.VK_F1) {
+			return StrokeKey.F1;
+		} else if(keyCode == KeyEvent.VK_F2) {
+			return StrokeKey.F2;
+		} else if(keyCode == KeyEvent.VK_F3) {
+			return StrokeKey.F3;
+		} else if(keyCode == KeyEvent.VK_F4) {
+			return StrokeKey.F4;
+		} else if(keyCode == KeyEvent.VK_F5) {
+			return StrokeKey.F5;
+		} else {
+			return StrokeKey.INVALID;
+		}
+		
 	}
 }

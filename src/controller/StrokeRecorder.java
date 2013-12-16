@@ -1,32 +1,43 @@
 package controller;
 
-import java.io.File;
-import java.net.URISyntaxException;
-
-import model.StrokeSet;
+import model.StrokeKey;
+import model.Track;
 import controller.player.MP3Player;
 import controller.player.Playlist;
-import controller.player.Track;
 
-public class StrokeRecorder {
+public class StrokeRecorder implements GuitarStringListener {
 	
-	private StrokeSet strokeSet;
+	private Track track;
+	MP3Player player;
 	
-	public void play() {
-		MP3Player player = new MP3Player();
-		Playlist defaultPlaylist = player.createPlayList("defaultPlaylist");
-		
-		Track track1;
-		try {
-			track1 = new Track(new File(KeyboardHero.class.getResource("/smoke_on_the_water.mp3").toURI()));
-			defaultPlaylist.addTrack(track1);
-			player.selectPlaylist(0);
-			player.selectTrack(0);
-			player.play();
-		} catch (URISyntaxException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+	public StrokeRecorder(Track track) {
+		this.player = new MP3Player();
+		setTrack(track);
 	}
+
+	public void setTrack(Track track) {
+		this.track = track;
+		
+		// set track to player
+		Playlist currentPlaylist = player.getCurrentPlaylist();
+		if(currentPlaylist == null) {
+			currentPlaylist = player.createPlayList("defaultPlaylist");
+		}
+		currentPlaylist.addTrack(track.getMp3());
+		player.selectPlaylist(0);
+		player.selectTrack(0);
+	}
+
+	public void record() {
+		player.play();
+	}
+	
+	public void guitarStringPressed(StrokeKey strokeKey) {
+		System.out.println("pressed");
+	}
+	
+    public void GuitarStringReleased(StrokeKey strokeKey) {
+    	System.out.println("released");
+    }
 	
 }

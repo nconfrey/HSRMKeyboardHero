@@ -63,7 +63,7 @@ public class MP3Player {
         return currentPlaylist;
     }
 
-    public Track getCurrentTrack() {
+    public MP3PlayerTrack getCurrentTrack() {
         if (!isPlaying()) {
             return null;
         }
@@ -101,7 +101,7 @@ public class MP3Player {
                     stopAndWait();
                 }
 
-                Track t = currentPlaylist.getTrack(currentTrack);
+                MP3PlayerTrack t = currentPlaylist.getTrack(currentTrack);
                 if (t != null) {
                     File f = t.getFile();
                     try {
