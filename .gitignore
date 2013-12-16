@@ -25,3 +25,19 @@ local.properties
 
 # TeXlipse plugin
 .texlipse
+
+#mac os
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Icon must ends with two \r.
+Icon
+
+
+# Thumbnails
+._*
+
+# Files that might appear on external disk
+.Spotlight-V100
+.Trashes
