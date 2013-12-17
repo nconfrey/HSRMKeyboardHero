@@ -38,4 +38,9 @@ public class Score {
 		
 		return score;
 	}
+
+	public long getScore() {
+		return score;
+	}
+
 }

@@ -7,6 +7,7 @@ import java.io.File;
 import java.net.URI;
 import java.net.URISyntaxException;
 
+import model.Score;
 import model.Track;
 import controller.player.MP3Player;
 import controller.player.Playlist;
@@ -18,8 +19,6 @@ public class KeyboardHero {
 
 	public static void main(String[] args) {
 		MainFrame mainFrame = new MainFrame();
-		
-		
 		
 		// Stroke Recording
 		File mp3File = null;
