@@ -28,6 +28,10 @@ public class Stroke {
 		this.length = length;
 	}
 
+	public void setStartFrame(int startFrame) {
+		this.startFrame = startFrame;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;

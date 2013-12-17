@@ -53,8 +53,14 @@ public class StrokeRecorder implements GuitarStringListener, MP3PlayerListener {
 	public void guitarStringPressed(StrokeKey strokeKey) {
 		if(!isRecording) return;
 		
-		if(!strokes.containsKey(strokeKey)) {
-			strokes.put(strokeKey, new Stroke(strokeKey, frame, 0));
+		if(strokeKey.isGuitarString() && !strokes.containsKey(strokeKey)) {
+			strokes.put(strokeKey, new Stroke(strokeKey, 0, 0));
+		} else if(strokeKey == StrokeKey.ENTER) {
+			for(Stroke aStroke : strokes.values()) {
+				if(aStroke.getStartFrame() <= 0) {
+					aStroke.setStartFrame(frame);
+				}
+			}
 		}
 	}
 	
@@ -62,16 +68,37 @@ public class StrokeRecorder implements GuitarStringListener, MP3PlayerListener {
     public void GuitarStringReleased(StrokeKey strokeKey) {
 		if(!isRecording) return;
 		
+		if(strokeKey.isGuitarString()) {
+			strokeKeyReleased(strokeKey, false);
+		} else if(strokeKey == StrokeKey.ENTER) {
+			for(StrokeKey singleStrokeKey : strokes.keySet()) {
+				// FIX: raises ConcurrentModificationException because this method removes items from "strokes"
+				strokeKeyReleased(singleStrokeKey, true);
+			}
+		}
+    }
+	
+	private void strokeKeyReleased(StrokeKey strokeKey, boolean becauseOfEnter) {
 		if(strokes.containsKey(strokeKey)) {
+			
 			Stroke aStroke = strokes.remove(strokeKey);
+			
+			if(aStroke.getStartFrame() <= 0) return;
+			
 			int length = frame - aStroke.getStartFrame();
+			
 			if(length > 0) {
 				aStroke.setLength(length);
 				StrokeSet set = track.getStrokeSet();
 				set.set(aStroke);
+				System.out.println("played " + aStroke.getKey() + " for " + length + " frames");
+			}
+			
+			if(becauseOfEnter) {
+				strokes.put(strokeKey, new Stroke(strokeKey, 0, 0));
 			}
 		}
-    }
+	}
 
 	
 	// MP3PlayerListener

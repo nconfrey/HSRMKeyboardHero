@@ -3,7 +3,7 @@ package model;
 import java.awt.event.KeyEvent;
 
 public enum StrokeKey {
-	F1,F2,F3,F4,F5,INVALID;
+	F1,F2,F3,F4,F5,ENTER, INVALID;
 	
 	public static StrokeKey keyForCode(int keyCode) {
 		if(keyCode == KeyEvent.VK_F1) {
@@ -16,6 +16,8 @@ public enum StrokeKey {
 			return StrokeKey.F4;
 		} else if(keyCode == KeyEvent.VK_F5) {
 			return StrokeKey.F5;
+		} else if(keyCode == KeyEvent.VK_ENTER) {
+			return StrokeKey.ENTER;
 		} else {
 			return StrokeKey.INVALID;
 		}
@@ -34,5 +36,9 @@ public enum StrokeKey {
 			return 4;
 		}
 		return -1;
+	}
+	
+	public boolean isGuitarString() {
+		return (this != StrokeKey.ENTER && this != StrokeKey.INVALID);
 	}
 }
