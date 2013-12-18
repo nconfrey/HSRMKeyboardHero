@@ -28,13 +28,12 @@ public class MainFrame extends JFrame implements KeyListener {
 	 * 
 	 */
 	private static final long serialVersionUID = 8845013593437103736L;
-	// TEST TEST
 	
-	private JPanel wrapper;			// Background Panel
+	private JPanel wrapper;			// background Panel
 	private JPanel contentPanel;	
-	private JPanel leftContent;		// Panel fuer Punktestand Statistik etc...
-	private JPanel rightContent;	// Panel fuer Punktestand Statistik etc...
-	private JPanel gameContent;		// Spielablauf
+	private JPanel leftContent;		// sidepanel for scores, songtitle ...
+	private JPanel rightContent;	// sidepanel for scores, songtitle ...
+	private JPanel gameContent;		// main game content
 	private GuitarPane gp;
 	
 	private final Dimension screenSize;
@@ -50,7 +49,7 @@ public class MainFrame extends JFrame implements KeyListener {
 		this.setSize(frameSize);
 		this.setName("Keyboard Hero");
 		
-		// Frame zentrieren
+		// center mainframe
 	    this.setLocation((int) ((screenSize.getWidth() - this.getWidth()) / 2), (int) ((screenSize.getHeight() - this.getHeight()) / 2));
 		
 	    wrapper = new JPanel();
