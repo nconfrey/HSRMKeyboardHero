@@ -1,4 +1,6 @@
-package controller;
+package controller.recorder;
+
+import gui.GuitarStringListener;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -21,10 +23,14 @@ public class StrokeRecorder implements GuitarStringListener, MP3PlayerListener {
 	
 	private Track track;
 	private MP3Player player;
+	
 	private Map<StrokeKey, Stroke> strokes;
 	private List<StrokeKey> pressedKeys;
+	
 	private int frame = 0;
 	private boolean isRecording = false;
+	
+	private ArrayList<StrokeRecorderListener> strokeRecorderListener;
 	
 	public StrokeRecorder(Track track) {
 		this.player = new MP3Player();
@@ -32,8 +38,12 @@ public class StrokeRecorder implements GuitarStringListener, MP3PlayerListener {
 		
 		this.strokes = new HashMap<StrokeKey, Stroke>();
 		this.pressedKeys = new ArrayList<>();
+		this.strokeRecorderListener = new ArrayList<>();
+		
 		setTrack(track);
 	}
+	
+	// Getters, Setters
 
 	public void setTrack(Track track) {
 		this.track = track;
@@ -48,9 +58,28 @@ public class StrokeRecorder implements GuitarStringListener, MP3PlayerListener {
 		player.selectTrack(0);
 		
 	}
+	
+	public void addStrokeRecorderListener(StrokeRecorderListener listener) {
+        this.strokeRecorderListener.add(listener);
+    }
+
+    public void removeStrokeRecorderListener(StrokeRecorderListener listener) {
+    	this.strokeRecorderListener.remove(listener);
+    }
+    
+    // public methods
 
 	public void record() {
+		if(track.getStrokeSet() == null) {
+			track.setStrokeSet(new StrokeSet());
+		}
+		
 		player.play();
+		
+		for (StrokeRecorderListener listener : this.strokeRecorderListener) {
+			listener.recorderDidStartRecording(this, track);
+        }
+		
 	}
 	
 	// GuitarStringListener
@@ -123,6 +152,10 @@ public class StrokeRecorder implements GuitarStringListener, MP3PlayerListener {
 	public void playbackDidStop(MP3Player player) {
 		frame = 0;
 		isRecording = false;
+		
+		for (StrokeRecorderListener listener : this.strokeRecorderListener) {
+			listener.recorderDidStopRecording(this, this.track);
+        }
 		
 		// recorded Keyset debug output
 		for (Map.Entry<Integer, List<Stroke>> entry : this.track.getStrokeSet().getStrokes().entrySet()) {

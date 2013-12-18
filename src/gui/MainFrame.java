@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -12,14 +13,16 @@ import java.util.ArrayList;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.InputMap;
+import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.KeyStroke;
+
 import view.GuitarPane;
 import model.StrokeKey;
-import controller.GuitarStringListener;
+import model.Track;
 import controller.player.MP3PlayerListener;
 
 public class MainFrame extends JFrame implements KeyListener {
@@ -34,40 +37,45 @@ public class MainFrame extends JFrame implements KeyListener {
 	private JPanel leftContent;		// sidepanel for scores, songtitle ...
 	private JPanel rightContent;	// sidepanel for scores, songtitle ...
 	private JPanel gameContent;		// main game content
-	private GuitarPane gp;
+	private GuitarPane guitarPane;
+	private JButton recordButton;
+	private JButton playButton;
 	
 	private final Dimension screenSize;
 	private final Dimension frameSize;
 	
+	private Track currentTrack;
 	private ArrayList<GuitarStringListener> guitarStringListener;
 	
 	public MainFrame(){
 		
+		// Window
 		frameSize = new Dimension(800,600);
 		screenSize = this.getToolkit().getScreenSize(); 
-		
 		this.setSize(frameSize);
 		this.setName("Keyboard Hero");
 		
 		// center mainframe
 	    this.setLocation((int) ((screenSize.getWidth() - this.getWidth()) / 2), (int) ((screenSize.getHeight() - this.getHeight()) / 2));
 		
+	    // Wrapper
 	    wrapper = new JPanel();
 	    
+	    // ContentPanel
 	    contentPanel = new JPanel();
 	    contentPanel.setLayout(new BorderLayout());
 	    contentPanel.add(this.buildLeftContent(), BorderLayout.WEST);
 	    contentPanel.add(this.buildGameContent(), BorderLayout.CENTER);
 	    contentPanel.add(this.buildRightContent(), BorderLayout.EAST);
-
 	    wrapper.add(contentPanel);
-	   	    
-	    this.add(wrapper);
+	   	   
+	    setLayoutToRecordingMode(false);
 	    
+	    // start displaying View
+	    this.add(wrapper);
 	    this.setResizable(false);
 	    this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 	    this.setVisible(true);
-	    
 	    
 	    // key related
 	    wrapper.addKeyListener(this);
@@ -76,13 +84,49 @@ public class MainFrame extends JFrame implements KeyListener {
 	    
 	}
 	
+	public void setCurrentTrack(Track currentTrack) {
+		this.currentTrack = currentTrack;
+		
+		setLayoutToRecordingMode(false);	
+	}
+
+
+
 	public JPanel buildLeftContent(){
+		
+		// Panel
 		leftContent = new JPanel();
 	    leftContent.setBackground(Color.LIGHT_GRAY);
 	    leftContent.setPreferredSize(new Dimension(frameSize.width/6,frameSize.height)); // 1/6 der Frame Size
-
-	    leftContent.add(new JLabel("WEST"));
+	    
+	    // Record Button
+	    recordButton = new JButton("record");
+	    recordButton.setActionCommand("ButtonRecordClicked");
+	    leftContent.add(recordButton);
+	    
+	    // PlayButton
+	    playButton = new JButton("play");
+	    playButton.setActionCommand("ButtonPlayClicked");
+	    playButton.setEnabled(false);
+	    leftContent.add(playButton);
+	    
+	    
 	    return leftContent;
+	}
+	
+	public void setLayoutToRecordingMode(boolean recordingMode) {
+		if(recordingMode) {
+			recordButton.setEnabled(false);
+			playButton.setEnabled(false);
+		} else {
+			if(currentTrack != null && currentTrack.getStrokeSet() != null) {
+				recordButton.setEnabled(false);
+				playButton.setEnabled(true);
+			} else {
+				recordButton.setEnabled(true);
+				playButton.setEnabled(false);
+			}
+		}
 	}
 	
 	public JPanel buildRightContent(){
@@ -97,11 +141,17 @@ public class MainFrame extends JFrame implements KeyListener {
 		gameContent = new JPanel();
 	    gameContent.setBackground(Color.WHITE);
 	    gameContent.setPreferredSize(new Dimension(frameSize.width/6*4,frameSize.height)); // 4/6 der Frame Size
-	    gp = new GuitarPane();
-	    gp.setPreferredSize(gameContent.getPreferredSize());
-	    gp.render();
-	    gameContent.add(gp);
+	    guitarPane = new GuitarPane();
+	    guitarPane.setPreferredSize(gameContent.getPreferredSize());
+	    guitarPane.render();
+	    gameContent.add(guitarPane);
 	    return gameContent;
+	}
+	
+	// Button Actions
+	public void addActionListener(ActionListener controller){
+		recordButton.addActionListener(controller);	
+		playButton.addActionListener(controller);
 	}
 	
 	
