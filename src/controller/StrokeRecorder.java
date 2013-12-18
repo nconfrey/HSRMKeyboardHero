@@ -1,10 +1,13 @@
 package controller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.NavigableMap;
+import java.util.Set;
 
 import model.Stroke;
 import model.StrokeKey;
@@ -19,6 +22,7 @@ public class StrokeRecorder implements GuitarStringListener, MP3PlayerListener {
 	private Track track;
 	private MP3Player player;
 	private Map<StrokeKey, Stroke> strokes;
+	private List<StrokeKey> pressedKeys;
 	private int frame = 0;
 	private boolean isRecording = false;
 	
@@ -27,6 +31,7 @@ public class StrokeRecorder implements GuitarStringListener, MP3PlayerListener {
 		player.addListener(this);
 		
 		this.strokes = new HashMap<StrokeKey, Stroke>();
+		this.pressedKeys = new ArrayList<>();
 		setTrack(track);
 	}
 
@@ -53,49 +58,55 @@ public class StrokeRecorder implements GuitarStringListener, MP3PlayerListener {
 	public void guitarStringPressed(StrokeKey strokeKey) {
 		if(!isRecording) return;
 		
-		if(strokeKey.isGuitarString() && !strokes.containsKey(strokeKey)) {
-			strokes.put(strokeKey, new Stroke(strokeKey, 0, 0));
-		} else if(strokeKey == StrokeKey.ENTER) {
-			for(Stroke aStroke : strokes.values()) {
-				if(aStroke.getStartFrame() <= 0) {
-					aStroke.setStartFrame(frame);
-				}
+		// add key to currently pressed keys
+		if(strokeKey.isGuitarString() && !pressedKeys.contains(strokeKey)) {
+			pressedKeys.add(strokeKey);
+		}
+
+	}
+	
+	@Override
+    public void guitarStringReleased(StrokeKey strokeKey) {
+		if(!isRecording) return;
+		
+		// remove key from pressed keys
+		if(strokeKey.isGuitarString() && pressedKeys.contains(strokeKey)) {
+			pressedKeys.remove(strokeKey);
+		}
+		
+		finishKey(strokeKey);
+    }
+	
+	@Override
+	public void guitarStrokePressed(StrokeKey strokeKey) {
+		
+		for(StrokeKey aKey : pressedKeys) {
+			if(strokes.containsKey(aKey)) {
+				finishKey(aKey);
 			}
+			strokes.put(aKey, new Stroke(aKey, frame, 0));
 		}
 	}
 	
 	@Override
-    public void GuitarStringReleased(StrokeKey strokeKey) {
-		if(!isRecording) return;
-		
-		if(strokeKey.isGuitarString()) {
-			strokeKeyReleased(strokeKey, false);
-		} else if(strokeKey == StrokeKey.ENTER) {
-			for(StrokeKey singleStrokeKey : strokes.keySet()) {
-				// FIX: raises ConcurrentModificationException because this method removes items from "strokes"
-				strokeKeyReleased(singleStrokeKey, true);
-			}
-		}
+    public void guitarStrokeReleased(StrokeKey strokeKey) {
+    	
     }
 	
-	private void strokeKeyReleased(StrokeKey strokeKey, boolean becauseOfEnter) {
+	private void finishKey(StrokeKey strokeKey) {
 		if(strokes.containsKey(strokeKey)) {
-			
-			Stroke aStroke = strokes.remove(strokeKey);
-			
-			if(aStroke.getStartFrame() <= 0) return;
-			
+			Stroke aStroke = strokes.get(strokeKey);
 			int length = frame - aStroke.getStartFrame();
 			
 			if(length > 0) {
 				aStroke.setLength(length);
-				StrokeSet set = track.getStrokeSet();
-				set.set(aStroke);
+				
+				this.track.getStrokeSet().set(aStroke);
+				strokes.remove(strokeKey);
+				
 				System.out.println("played " + aStroke.getKey() + " for " + length + " frames");
-			}
-			
-			if(becauseOfEnter) {
-				strokes.put(strokeKey, new Stroke(strokeKey, 0, 0));
+			} else {
+				strokes.remove(strokeKey);
 			}
 		}
 	}

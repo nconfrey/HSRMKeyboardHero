@@ -118,18 +118,26 @@ public class MainFrame extends JFrame implements KeyListener {
 	
 	public void keyPressed(KeyEvent e) {
 		StrokeKey strokeKey = StrokeKey.keyForCode(e.getKeyCode());
-		if(strokeKey != StrokeKey.INVALID) {
+		if(strokeKey != StrokeKey.INVALID && strokeKey != StrokeKey.ENTER) {
 			for (GuitarStringListener guitarStringListener : this.guitarStringListener) {
 				guitarStringListener.guitarStringPressed(strokeKey);
+	        }
+		} else if(strokeKey == StrokeKey.ENTER) {
+			for (GuitarStringListener guitarStringListener : this.guitarStringListener) {
+				guitarStringListener.guitarStrokePressed(strokeKey);
 	        }
 		}
     }
 	
     public void keyReleased(KeyEvent e) {
     	StrokeKey strokeKey = StrokeKey.keyForCode(e.getKeyCode());
-		if(strokeKey != StrokeKey.INVALID) {
+		if(strokeKey != StrokeKey.INVALID && strokeKey != StrokeKey.ENTER) {
 			for (GuitarStringListener guitarStringListener : this.guitarStringListener) {
-				guitarStringListener.GuitarStringReleased(strokeKey);
+				guitarStringListener.guitarStringReleased(strokeKey);
+	        }
+		} else if(strokeKey == StrokeKey.ENTER) {
+			for (GuitarStringListener guitarStringListener : this.guitarStringListener) {
+				guitarStringListener.guitarStrokeReleased(strokeKey);
 	        }
 		}
     }
