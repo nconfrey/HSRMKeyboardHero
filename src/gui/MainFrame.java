@@ -147,7 +147,6 @@ public class MainFrame extends JFrame implements KeyListener {
 	    gameContent.setPreferredSize(new Dimension(frameSize.width/6*4,frameSize.height)); // 4/6 der Frame Size
 	    guitarPane = new GuitarPane();
 	    guitarPane.setPreferredSize(gameContent.getPreferredSize());
-	    guitarPane.render();
 	    gameContent.add(guitarPane);
 	    return gameContent;
 	}

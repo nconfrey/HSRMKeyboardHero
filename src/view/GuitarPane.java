@@ -1,38 +1,34 @@
 package view;
 
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.util.ArrayList;
+import java.awt.image.BufferedImage;
 import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
 
 import javax.swing.JPanel;
 
+import model.Stroke;
+import model.StrokeSet;
+import model.Track;
 import controller.player.MP3Player;
 import controller.player.MP3PlayerListener;
 import controller.player.Playlist;
-import model.Stroke;
-import model.StrokeKey;
-import model.StrokeSet;
-import model.Track;
 
 public class GuitarPane extends JPanel implements MP3PlayerListener{
 
-	private List<RenderBlock> blocks;
 	private Track track;
 	private MP3Player player;
 	private int frame;
+	BufferedImage buffer;
 
 	public GuitarPane() {
-		blocks = new ArrayList<>();
 		player = new MP3Player();
 		player.addListener(this);
 	}
 	
 	public void setTrack(Track track) {
 		this.track = track;
-		this.blocks.clear();
 		render();
 		Playlist currentPlaylist = player.getCurrentPlaylist();
 		if(currentPlaylist == null) {
@@ -44,6 +40,8 @@ public class GuitarPane extends JPanel implements MP3PlayerListener{
 	}
 	
 	public void play() {
+		buffer = null;
+		render();
 		player.play();
 	}
 	
@@ -57,50 +55,45 @@ public class GuitarPane extends JPanel implements MP3PlayerListener{
 	}
 	
 	public void render() {
-		
-	}
-	
-	private static final int RENDER_BUFFER = 300;
-	
-	public void renderIfNeeded() {
-		if (frame <= 2 || frame % Layouter.BLOCK_FRAME_COUNT == 0) {
-			synchronized (this) {
-				int renderFrame = frame + RENDER_BUFFER;
-				int renderWidth = (int) getPreferredSize().getWidth();
-				StrokeSet strokeSet = track.getStrokeSet();
-				List<Stroke> strokeList;
-				if (strokeSet != null) {
-					strokeList = strokeSet.getListForFrameInRange(
-							renderFrame, renderFrame + Layouter.BLOCK_FRAME_COUNT);
-				} else {
-					strokeList = new ArrayList<>();
+		if (buffer == null) {
+			int bufferWidth = getPreferredSize().width;
+			int bufferHeight = Layouter.getPixelForFrame(calculateBufferHeight(track.getStrokeSet()));
+			buffer = new BufferedImage(bufferWidth,bufferHeight,  BufferedImage.TYPE_INT_ARGB);
+			
+			Graphics g = buffer.getGraphics();
+			for (List<Stroke> strokeList : track.getStrokeSet().getStrokes().values()) {
+				for (Stroke stroke : strokeList) {
+					int x = (int)Layouter.getPixelForStroke(stroke.getKey());
+					int y = buffer.getHeight() - Layouter.getPixelForFrame(stroke.getStartFrame() + stroke.getLength());
+					int width = Layouter.STROKE_WIDTH;
+					int height = (int)Layouter.getPixelForFrame(stroke.getLength());
+					
+					g.fillRoundRect(x, y, width, height, 5, 5);
 				}
-				RenderBlock renderBLock = new RenderBlock(renderWidth, renderFrame, Layouter.BLOCK_FRAME_COUNT, 
-						strokeList);
-				renderBLock.render();
-				blocks.add(renderBLock);
 			}
 		}
+	}
+	
+	public int calculateBufferHeight(StrokeSet strokeSet) {
+		int maxFrame = 0;
+		for (List<Stroke> strokeList : strokeSet.getStrokes().values()) {
+			for (Stroke stroke : strokeList) {
+				maxFrame = Math.max(maxFrame, stroke.getStartFrame() + stroke.getLength());
+			}
+		}
+		return maxFrame;
 	}
 	
 	public void draw(Graphics2D g) {
-		synchronized (this) {
-			ArrayList<RenderBlock> toDelete = new ArrayList<RenderBlock>();
-			for (RenderBlock block : this.blocks) {
-				if (frame - block.getStartFrame() > 1500) {
-					toDelete.add(block);
-				} else {
-					int yTranslate = (int)Layouter.getPixelForFrame((frame - block.getStartFrame()));
-					g.translate(0, yTranslate);
-					block.drawBuffer(g);
-					g.translate(0, -yTranslate);
-				}
-			}
-			
-			g.drawString("" + frame, 20, 20);
-			
-			blocks.removeAll(toDelete);
+		if (buffer != null) {
+			g.drawImage(buffer, null, 0, (int)(Layouter.getPixelForFrame(frame) - buffer.getHeight()));
 		}
+		
+		g.setColor(new Color(0.5f, 0.5f, 0.5f, 0.2f));
+		g.fillRect(0, getPreferredSize().height / 2, getPreferredSize().width, 20);
+		
+		g.setColor(Color.black);
+		g.drawString("" + frame, 20, 20);
 	}
 
 	@Override
@@ -117,7 +110,6 @@ public class GuitarPane extends JPanel implements MP3PlayerListener{
 	@Override
 	public void playbackPlaying(MP3Player player, int frame) {
 		this.frame = frame;
-		renderIfNeeded();
         repaint();
 	}
 }
