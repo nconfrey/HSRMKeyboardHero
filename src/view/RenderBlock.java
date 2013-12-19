@@ -17,10 +17,12 @@ public class RenderBlock {
 	private BufferedImage buffer;
 	private int width;
 	private int startFrame;
+	private int defaultFrameCount;
 	
-	public RenderBlock(int width, int startFrame, List<Stroke> strokeBlocks) {
+	public RenderBlock(int width, int startFrame, int defaultFrameCount, List<Stroke> strokeBlocks) {
 		this.width = width;
 		this.startFrame = startFrame;
+		this.defaultFrameCount = defaultFrameCount;
 		this.strokes = strokeBlocks;
 	}
 	
@@ -31,9 +33,9 @@ public class RenderBlock {
 			Graphics2D g = (Graphics2D)buffer.getGraphics().create();
 			g.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING,
 		             RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
-			g.setColor(randomColor());
+			//g.setColor(randomColor());
 			g.fillRect(0, 0, this.buffer.getWidth(), this.buffer.getHeight());
-			g.translate(0, -startFrame);
+			g.translate(0, - Layouter.getPixelForFrame(startFrame));
 			for (Stroke stroke : strokes) {
 				StrokeBlock p = new StrokeBlock(stroke);
 				p.paintComponent(g);
@@ -52,7 +54,7 @@ public class RenderBlock {
 	}
 	
 	public int getStartFrame() {
-		return startFrame;
+		return startFrame - (getMaxFrame() - defaultFrameCount);
 	}
 
 	public void drawBuffer(Graphics2D g) {

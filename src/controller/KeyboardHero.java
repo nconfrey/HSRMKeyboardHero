@@ -44,6 +44,8 @@ public class KeyboardHero implements ActionListener, StrokeRecorderListener {
 	public void actionPerformed(ActionEvent e) {
 	    if ("ButtonRecordClicked".equals(e.getActionCommand())) {
 	    	recordButtonClicked();
+	    } else if ("ButtonPlayClicked".equals(e.getActionCommand())) {
+	    	playButtonClicked();
 	    }
 	}
 	
@@ -52,7 +54,7 @@ public class KeyboardHero implements ActionListener, StrokeRecorderListener {
 	}
 	
 	private void playButtonClicked() {
-		
+		mainFrame.play();
 	}
 
 	

@@ -2,6 +2,7 @@ package model;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.NavigableMap;
 import java.util.TreeMap;
 
@@ -46,5 +47,16 @@ public class StrokeSet {
 		ArrayList<Stroke> newList = new ArrayList<Stroke>();
 		this.strokes.put(frame, newList);
 		return newList;
+	}
+	
+	public List<Stroke> getListForFrameInRange(Integer fromFrame, Integer toFrame) {
+		Map<Integer, List<Stroke>> subMap = strokes.subMap(fromFrame, toFrame);
+		List<Stroke> strokeRangeList = new ArrayList<>();
+		
+		for (List<Stroke> strokeList : subMap.values()) {
+			strokeRangeList.addAll(strokeList);
+		}
+		
+		return strokeRangeList;
 	}
 }

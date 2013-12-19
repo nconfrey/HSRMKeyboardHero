@@ -87,10 +87,14 @@ public class MainFrame extends JFrame implements KeyListener {
 	public void setCurrentTrack(Track currentTrack) {
 		this.currentTrack = currentTrack;
 		
-		setLayoutToRecordingMode(false);	
+		setLayoutToRecordingMode(false);
+		guitarPane.setTrack(currentTrack);
 	}
 
-
+	public void play() {
+		guitarPane.play();
+		setLayoutToRecordingMode(false);
+	}
 
 	public JPanel buildLeftContent(){
 		

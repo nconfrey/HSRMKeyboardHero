@@ -9,21 +9,42 @@ import java.util.TimerTask;
 
 import javax.swing.JPanel;
 
+import controller.player.MP3Player;
 import controller.player.MP3PlayerListener;
+import controller.player.Playlist;
 import model.Stroke;
 import model.StrokeKey;
+import model.StrokeSet;
+import model.Track;
 
-public class GuitarPane extends JPanel{
+public class GuitarPane extends JPanel implements MP3PlayerListener{
 
 	private List<RenderBlock> blocks;
-	private Timer frameTimer;
-	private double frame;
-	private double endFrame;
-	
+	private Track track;
+	private MP3Player player;
+	private int frame;
+
 	public GuitarPane() {
 		blocks = new ArrayList<>();
-		
-		
+		player = new MP3Player();
+		player.addListener(this);
+	}
+	
+	public void setTrack(Track track) {
+		this.track = track;
+		this.blocks.clear();
+		render();
+		Playlist currentPlaylist = player.getCurrentPlaylist();
+		if(currentPlaylist == null) {
+			currentPlaylist = player.createPlayList("defaultPlaylist");
+		}
+		currentPlaylist.addTrack(track.getMp3());
+		player.selectPlaylist(0);
+		player.selectTrack(0);
+	}
+	
+	public void play() {
+		player.play();
 	}
 	
 	@Override
@@ -36,46 +57,67 @@ public class GuitarPane extends JPanel{
 	}
 	
 	public void render() {
-		this.frame = 0;
-		this.endFrame = Layouter.getFrameForPixel((int)getPreferredSize().getHeight());
 		
-		frameTimer = new Timer();
-        frameTimer.schedule(new TimerTask() {
-
-            @Override
-            public void run() {
-                frame += 0.5;
-                endFrame += 0.5;
-                renderIfNeeded();
-                repaint();
-            }
-        }, 0, 10);
 	}
 	
+	private static final int RENDER_BUFFER = 300;
+	
 	public void renderIfNeeded() {
-		if (endFrame % Layouter.BLOCK_FRAME_COUNT == 40) {
-			ArrayList<Stroke> strokes = new ArrayList<>();
-			strokes.add(new Stroke(StrokeKey.F1, (int)endFrame + 20, 60));
-			strokes.add(new Stroke(StrokeKey.F2, (int)endFrame + 10, 30));
-			
-			RenderBlock r = new RenderBlock((int)getPreferredSize().getWidth(), (int)endFrame+10, strokes);
-			r.render();
-			blocks.add(r);
+		if (frame <= 2 || frame % Layouter.BLOCK_FRAME_COUNT == 0) {
+			synchronized (this) {
+				int renderFrame = frame + RENDER_BUFFER;
+				int renderWidth = (int) getPreferredSize().getWidth();
+				StrokeSet strokeSet = track.getStrokeSet();
+				List<Stroke> strokeList;
+				if (strokeSet != null) {
+					strokeList = strokeSet.getListForFrameInRange(
+							renderFrame, renderFrame + Layouter.BLOCK_FRAME_COUNT);
+				} else {
+					strokeList = new ArrayList<>();
+				}
+				RenderBlock renderBLock = new RenderBlock(renderWidth, renderFrame, Layouter.BLOCK_FRAME_COUNT, 
+						strokeList);
+				renderBLock.render();
+				blocks.add(renderBLock);
+			}
 		}
 	}
 	
 	public void draw(Graphics2D g) {
-		ArrayList<RenderBlock> toDelete = new ArrayList<RenderBlock>();
-		for (RenderBlock block : this.blocks) {
-			if (block.getStartFrame() + block.getMaxFrame() < frame) {
-				toDelete.add(block);
-			} else {
-				int yTranslate = (int)Layouter.getPixelForFrame( (int)(block.getStartFrame() - frame));
-				g.translate(0, yTranslate);
-				block.drawBuffer(g);
-				g.translate(0, -yTranslate);
+		synchronized (this) {
+			ArrayList<RenderBlock> toDelete = new ArrayList<RenderBlock>();
+			for (RenderBlock block : this.blocks) {
+				if (frame - block.getStartFrame() > 1500) {
+					toDelete.add(block);
+				} else {
+					int yTranslate = (int)Layouter.getPixelForFrame((frame - block.getStartFrame()));
+					g.translate(0, yTranslate);
+					block.drawBuffer(g);
+					g.translate(0, -yTranslate);
+				}
 			}
+			
+			g.drawString("" + frame, 20, 20);
+			
+			blocks.removeAll(toDelete);
 		}
-		blocks.removeAll(toDelete);
+	}
+
+	@Override
+	public void playbackDidStart(MP3Player player) {
+		this.frame = 0;
+	}
+
+	@Override
+	public void playbackDidStop(MP3Player player) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void playbackPlaying(MP3Player player, int frame) {
+		this.frame = frame;
+		renderIfNeeded();
+        repaint();
 	}
 }

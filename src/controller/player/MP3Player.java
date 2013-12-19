@@ -25,11 +25,13 @@ public class MP3Player {
     private ArrayList<MP3PlayerListener> listeners;
     private boolean continues;
     private Timer frameTimer;
+    private int frame;
     private boolean playing;
 
     public MP3Player() {
         playlists = new ArrayList<>();
         listeners = new ArrayList<>();
+        frame = 0;
     }
 
     public Playlist createPlayList(String name) {
@@ -196,10 +198,10 @@ public class MP3Player {
                 @Override
                 public void run() {
                     for (MP3PlayerListener mP3PlayerListener : listeners) {
-                        mP3PlayerListener.playbackPlaying(finalThis, player.getPosition());
+                        mP3PlayerListener.playbackPlaying(finalThis, frame++);
                     }
                 }
-            }, 0, 100);
+            }, 0, 10);
         }
     }
 
@@ -207,6 +209,7 @@ public class MP3Player {
         if (isPlaying()) {
             playing = false;
             frameTimer.cancel();
+            frame = 0;
             for (MP3PlayerListener mP3PlayerListener : listeners) {
                 mP3PlayerListener.playbackDidStop(this);
             }
