@@ -27,7 +27,7 @@ import controller.player.MP3PlayerListener;
 import controller.recorder.StrokeRecorder;
 import controller.recorder.StrokeRecorderListener;
 
-public class GameFrame extends JFrame implements ActionListener, StrokeRecorderListener, KeyListener {
+public class GamePanel extends JPanel implements ActionListener, StrokeRecorderListener, KeyListener {
 		
 /**
 	 * 
@@ -36,71 +36,53 @@ public class GameFrame extends JFrame implements ActionListener, StrokeRecorderL
 	
 	
 	private StrokeRecorder recorder;
-	
-	private JPanel wrapper;			// background Panel
+	private GuitarPane guitarPane;
+
 	private JPanel contentPanel;	
 	private JPanel leftContent;		// sidepanel for scores, songtitle ...
 	private JPanel rightContent;	// sidepanel for scores, songtitle ...
 	private JPanel gameContent;		// main game content
-	private GuitarPane guitarPane;
 	private JButton recordButton;
 	private JButton playButton;
 	private JButton backToMenu;
 	
-	private final Dimension screenSize;
 	private final Dimension frameSize;
 	
 	private Track currentTrack;
 	private ArrayList<GuitarStringListener> guitarStringListener;
 	
-	public GameFrame(){
-		
+	public GamePanel(Dimension frameSize){
+			
+		this.frameSize = frameSize;
+			
+		// demo data
 		Track currentTrack = new Track("smoke_on_the_water_short.mp3");
 		recorder = new StrokeRecorder(currentTrack);
 		recorder.addStrokeRecorderListener(this);
-			
-		// Window
-		frameSize = new Dimension(800,600);
-		screenSize = this.getToolkit().getScreenSize(); 
-		this.setSize(frameSize);
-		this.setTitle("Keyboard Hero");
-		
-		// center mainframe
-	    this.setLocation((int) ((screenSize.getWidth() - this.getWidth()) / 2), (int) ((screenSize.getHeight() - this.getHeight()) / 2));
-		
-		wrapper = new JPanel();
-	    
-	    // ContentPanel
-	    contentPanel = new JPanel();
-	    contentPanel.setLayout(new BorderLayout());
-	    contentPanel.add(this.buildLeftContent(), BorderLayout.WEST);
-	    contentPanel.add(this.buildGameContent(), BorderLayout.CENTER);
-	    contentPanel.add(this.buildRightContent(), BorderLayout.EAST);
-	    wrapper.add(contentPanel);
-	   	   
+	   	
 	    setLayoutToRecordingMode(false);
+		
+		this.setCurrentTrack(currentTrack);
+		this.addGuitarStringListener(recorder);
+		this.addActionListener(this);
 	  
-	    
 	    // key related
 	    this.addKeyListener(this);
 	    this.setFocusable(true);
 	    guitarStringListener = new ArrayList<>();
 	    
-	    this.setCurrentTrack(currentTrack);
-		this.addGuitarStringListener(recorder);
-		this.addActionListener(this);
-		
-		// start displaying View
-	    this.add(wrapper);
-	    this.setResizable(false);
-	    this.setDefaultCloseOperation(EXIT_ON_CLOSE);
-	    this.setVisible(true);
-	    
+		  
+		 // ContentPanel
+	    contentPanel = new JPanel();
+	    contentPanel.setLayout(new BorderLayout());
+	    contentPanel.add(this.buildLeftContent(), BorderLayout.WEST);
+	    contentPanel.add(this.buildGameContent(), BorderLayout.CENTER);
+	    contentPanel.add(this.buildRightContent(), BorderLayout.EAST);
+	    this.add(contentPanel);
 	}
 	
 	public void setCurrentTrack(Track currentTrack) {
 		this.currentTrack = currentTrack;
-		
 		setLayoutToRecordingMode(false);
 		guitarPane.setTrack(currentTrack);
 	}
@@ -230,7 +212,7 @@ public class GameFrame extends JFrame implements ActionListener, StrokeRecorderL
 	    } else if ("ButtonPlayClicked".equals(e.getActionCommand())) {
 	    	playButtonClicked();
 	    } else if(e.getSource() == backToMenu){
-	    	new MenuFrame();
+	    	new MainFrame();
 	    	setVisible(false);
 	    }
 	    
