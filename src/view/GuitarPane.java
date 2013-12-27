@@ -1,5 +1,7 @@
 package view;
 
+import gui.PlayerController;
+
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -14,61 +16,45 @@ import model.Track;
 import controller.player.MP3Player;
 import controller.player.MP3PlayerListener;
 import controller.player.Playlist;
+import controller.recorder.StrokeRecorder;
+import controller.recorder.StrokeRecorderListener;
 
-public class GuitarPane extends JPanel implements MP3PlayerListener{
+public class GuitarPane extends JPanel implements MP3PlayerListener, StrokeRecorderListener{
 
-	private Track track;
-	private MP3Player player;
 	private int frame;
 	BufferedImage buffer;
 
 	public GuitarPane() {
-		player = new MP3Player();
-		player.addListener(this);
-	}
-	
-	public void setTrack(Track track) {
-		this.track = track;
-		render();
-		Playlist currentPlaylist = player.getCurrentPlaylist();
-		if(currentPlaylist == null) {
-			currentPlaylist = player.createPlayList("defaultPlaylist");
-		}
-		currentPlaylist.addTrack(track.getMp3());
-		player.selectPlaylist(0);
-		player.selectTrack(0);
-	}
-	
-	public void play() {
-		buffer = null;
-		render();
-		player.play();
+		PlayerController.getInstance().getPlayer().addListener(this);
+		PlayerController.getInstance().getRecorder().addStrokeRecorderListener(this);
 	}
 	
 	@Override
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		
-		final Graphics2D g2 = (Graphics2D)g.create();
+		Graphics2D g2 = (Graphics2D)g.create();
 		draw(g2);
 		g2.dispose();
 	}
 	
-	public void render() {
-		if (buffer == null) {
+	public void render(Track track) {
+		if (buffer == null && track.getStrokeSet() != null) {
 			int bufferWidth = getPreferredSize().width;
 			int bufferHeight = Layouter.getPixelForFrame(calculateBufferHeight(track.getStrokeSet()));
-			buffer = new BufferedImage(bufferWidth,bufferHeight,  BufferedImage.TYPE_INT_ARGB);
-			
-			Graphics g = buffer.getGraphics();
-			for (List<Stroke> strokeList : track.getStrokeSet().getStrokes().values()) {
-				for (Stroke stroke : strokeList) {
-					int x = (int)Layouter.getPixelForStroke(stroke.getKey());
-					int y = buffer.getHeight() - Layouter.getPixelForFrame(stroke.getStartFrame() + stroke.getLength());
-					int width = Layouter.STROKE_WIDTH;
-					int height = (int)Layouter.getPixelForFrame(stroke.getLength());
-					
-					g.fillRoundRect(x, y, width, height, 5, 5);
+			if (bufferHeight > 0) {
+				buffer = new BufferedImage(bufferWidth,bufferHeight,  BufferedImage.TYPE_INT_ARGB);
+				
+				Graphics g = buffer.getGraphics();
+				for (List<Stroke> strokeList : track.getStrokeSet().getStrokes().values()) {
+					for (Stroke stroke : strokeList) {
+						int x = (int)Layouter.getPixelForStroke(stroke.getKey());
+						int y = buffer.getHeight() - Layouter.getPixelForFrame(stroke.getStartFrame() + stroke.getLength());
+						int width = Layouter.STROKE_WIDTH;
+						int height = (int)Layouter.getPixelForFrame(stroke.getLength());
+						
+						g.fillRoundRect(x, y, width, height, 5, 5);
+					}
 				}
 			}
 		}
@@ -99,6 +85,7 @@ public class GuitarPane extends JPanel implements MP3PlayerListener{
 	@Override
 	public void playbackDidStart(MP3Player player) {
 		this.frame = 0;
+		render(PlayerController.getInstance().getTrack());
 	}
 
 	@Override
@@ -111,5 +98,17 @@ public class GuitarPane extends JPanel implements MP3PlayerListener{
 	public void playbackPlaying(MP3Player player, int frame) {
 		this.frame = frame;
         repaint();
+	}
+
+	@Override
+	public void redcorderDidOpenStroke(StrokeRecorder recorder, Stroke stroke) {
+		// TODO paint stroke
+		
+	}
+
+	@Override
+	public void redcorderDidCloseStroke(StrokeRecorder recorder, Stroke stroke) {
+		// TODO paint stroke
+		
 	}
 }

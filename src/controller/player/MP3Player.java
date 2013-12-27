@@ -9,6 +9,8 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import model.Track;
 import javazoom.jl.decoder.JavaLayerException;
 import javazoom.jl.player.*;
 
@@ -18,81 +20,25 @@ import javazoom.jl.player.*;
  */
 public class MP3Player {
 
-    private List<Playlist> playlists;
-    private Playlist currentPlaylist;
-    private int currentTrack;
+    private MP3PlayerTrack track;
     private Player player;
     private ArrayList<MP3PlayerListener> listeners;
-    private boolean continues;
     private Timer frameTimer;
     private int frame;
     private boolean playing;
 
     public MP3Player() {
-        playlists = new ArrayList<>();
         listeners = new ArrayList<>();
         frame = 0;
     }
 
-    public Playlist createPlayList(String name) {
-        Playlist newPlaylist = new Playlist(name);
-        playlists.add(newPlaylist);
-        return newPlaylist;
-    }
+    public MP3PlayerTrack getTrack() {
+		return track;
+	}
 
-    public void selectPlaylist(int number) {
-        if (number + 1 > playlists.size()) {
-            return;
-        }
-
-        this.currentPlaylist = this.playlists.get(number);
-        this.currentTrack = 0;
-    }
-
-    public boolean selectTrack(int number) {
-        if (number < 0) {
-            return false;
-        }
-        if (number + 1 > this.currentPlaylist.getTrackCount()) {
-            return false;
-        }
-
-        this.currentTrack = number;
-        return true;
-    }
-
-    public Playlist getCurrentPlaylist() {
-        return currentPlaylist;
-    }
-
-    public MP3PlayerTrack getCurrentTrack() {
-        if (!isPlaying()) {
-            return null;
-        }
-        return this.currentPlaylist.getTrack(currentTrack);
-    }
-
-    public void importTracksToCurrentPlaylist(final List<File> files) {
-        new Thread(new Runnable() {
-
-            @Override
-            public void run() {
-                for (File file : files) {
-                    TrackImporter importer = new TrackImporter(file, getCurrentPlaylist());
-                    importer.importTracks();
-                }
-            }
-        }).start();
-
-    }
-
-    public boolean isContinues() {
-        return continues;
-    }
-
-    public void setContinues(boolean continues) {
-        this.continues = continues;
-    }
+	public void setTrack(MP3PlayerTrack track) {
+		this.track = track;
+	}
 
     public synchronized void play() {
         new Thread(new Runnable() {
@@ -103,9 +49,8 @@ public class MP3Player {
                     stopAndWait();
                 }
 
-                MP3PlayerTrack t = currentPlaylist.getTrack(currentTrack);
-                if (t != null) {
-                    File f = t.getFile();
+                if (track != null) {
+                    File f = track.getFile();
                     try {
                         player = new Player(new FileInputStream(f));
 
@@ -116,11 +61,7 @@ public class MP3Player {
                             Logger.getLogger(MP3Player.class.getName()).log(Level.SEVERE, null, ex);
                         }
 
-                        if (continues) {
-                            skip();
-                        } else {
-                        	stopAndWait();
-                        }
+                        stopAndWait();
                     } catch (JavaLayerException ex) {
                         Logger.getLogger(MP3Player.class.getName()).log(Level.SEVERE, null, ex);
                     } catch (FileNotFoundException ex) {
@@ -150,29 +91,6 @@ public class MP3Player {
                 stopAndWait();
             }
         }).start();
-    }
-
-    public synchronized void skip() {
-        if (selectTrack(this.currentTrack + 1)) {
-            play();
-        } else {
-            stop();
-        }
-    }
-
-    public synchronized void skipBack() {
-        if (selectTrack(this.currentTrack - 1)) {
-            play();
-        } else {
-            stop();
-        }
-    }
-
-    public void play(int song) {
-        if (song >= 0 && song < this.currentPlaylist.getSize()) {
-            this.currentTrack = song;
-            play();
-        }
     }
 
     //listener

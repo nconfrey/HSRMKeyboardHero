@@ -1,10 +1,10 @@
 package controller.recorder;
 
-import model.Track;
+import model.Stroke;
 
 public interface StrokeRecorderListener {
 	
-	public void recorderDidStartRecording(StrokeRecorder recorder, Track track);
-	public void recorderDidStopRecording(StrokeRecorder recorder, Track track);
+	public void redcorderDidOpenStroke(StrokeRecorder recorder, Stroke stroke);
 	
+	public void redcorderDidCloseStroke(StrokeRecorder recorder, Stroke stroke);
 }

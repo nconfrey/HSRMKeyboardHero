@@ -5,37 +5,25 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.ArrayList;
 
-import javax.swing.AbstractAction;
-import javax.swing.Action;
-import javax.swing.InputMap;
 import javax.swing.JButton;
-import javax.swing.JComponent;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.KeyStroke;
 
-import view.GuitarPane;
 import model.StrokeKey;
 import model.Track;
-import controller.player.MP3PlayerListener;
-import controller.recorder.StrokeRecorder;
-import controller.recorder.StrokeRecorderListener;
+import view.GuitarPane;
 
-public class GameFrame extends JFrame implements ActionListener, StrokeRecorderListener, KeyListener {
+public class GameFrame extends JFrame implements ActionListener, KeyListener {
 		
 /**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 	
-	
-	private StrokeRecorder recorder;
 	
 	private JPanel wrapper;			// background Panel
 	private JPanel contentPanel;	
@@ -50,14 +38,12 @@ public class GameFrame extends JFrame implements ActionListener, StrokeRecorderL
 	private final Dimension screenSize;
 	private final Dimension frameSize;
 	
-	private Track currentTrack;
 	private ArrayList<GuitarStringListener> guitarStringListener;
 	
 	public GameFrame(){
 		
-		Track currentTrack = new Track("smoke_on_the_water_short.mp3");
-		recorder = new StrokeRecorder(currentTrack);
-		recorder.addStrokeRecorderListener(this);
+		// TODO: Move to a better position
+		PlayerController.getInstance().setTrack(new Track("smoke_on_the_water_short.mp3"));
 			
 		// Window
 		frameSize = new Dimension(800,600);
@@ -77,8 +63,6 @@ public class GameFrame extends JFrame implements ActionListener, StrokeRecorderL
 	    contentPanel.add(this.buildGameContent(), BorderLayout.CENTER);
 	    contentPanel.add(this.buildRightContent(), BorderLayout.EAST);
 	    wrapper.add(contentPanel);
-	   	   
-	    setLayoutToRecordingMode(false);
 	  
 	    
 	    // key related
@@ -86,8 +70,7 @@ public class GameFrame extends JFrame implements ActionListener, StrokeRecorderL
 	    this.setFocusable(true);
 	    guitarStringListener = new ArrayList<>();
 	    
-	    this.setCurrentTrack(currentTrack);
-		this.addGuitarStringListener(recorder);
+		this.addGuitarStringListener(PlayerController.getInstance().getRecorder());
 		this.addActionListener(this);
 		
 		// start displaying View
@@ -97,17 +80,9 @@ public class GameFrame extends JFrame implements ActionListener, StrokeRecorderL
 	    this.setVisible(true);
 	    
 	}
-	
-	public void setCurrentTrack(Track currentTrack) {
-		this.currentTrack = currentTrack;
-		
-		setLayoutToRecordingMode(false);
-		guitarPane.setTrack(currentTrack);
-	}
 
 	public void play() {
-		guitarPane.play();
-		setLayoutToRecordingMode(false);
+		PlayerController.getInstance().play();
 	}
 
 	public JPanel buildLeftContent(){
@@ -125,28 +100,12 @@ public class GameFrame extends JFrame implements ActionListener, StrokeRecorderL
 	    // PlayButton
 	    playButton = new JButton("play");
 	    playButton.setActionCommand("ButtonPlayClicked");
-	    playButton.setEnabled(false);
 	    leftContent.add(playButton);
 	    
 	    
 	    return leftContent;
 	}
-	
-	public void setLayoutToRecordingMode(boolean recordingMode) {
-		if(recordingMode) {
-			recordButton.setEnabled(false);
-			playButton.setEnabled(false);
-		} else {
-			if(currentTrack != null && currentTrack.getStrokeSet() != null) {
-				recordButton.setEnabled(false);
-				playButton.setEnabled(true);
-			} else {
-				recordButton.setEnabled(true);
-				playButton.setEnabled(false);
-			}
-		}
-	}
-	
+
 	public JPanel buildRightContent(){
 		backToMenu = new JButton("Menu");
 		backToMenu.addActionListener(this);
@@ -200,6 +159,7 @@ public class GameFrame extends JFrame implements ActionListener, StrokeRecorderL
     public void keyReleased(KeyEvent e) {
     	StrokeKey strokeKey = StrokeKey.keyForCode(e.getKeyCode());
 		if(strokeKey != StrokeKey.INVALID && strokeKey != StrokeKey.ENTER) {
+			
 			for (GuitarStringListener guitarStringListener : this.guitarStringListener) {
 				guitarStringListener.guitarStringReleased(strokeKey);
 	        }
@@ -213,16 +173,6 @@ public class GameFrame extends JFrame implements ActionListener, StrokeRecorderL
     public void keyTyped(KeyEvent e) {
         
     }
-    
-    @Override
-	public void recorderDidStartRecording(StrokeRecorder recorder, Track track) {
-		this.setLayoutToRecordingMode(true);
-	}
-
-	@Override
-	public void recorderDidStopRecording(StrokeRecorder recorder, Track track) {
-		this.setLayoutToRecordingMode(false);
-	}
 	
 	public void actionPerformed(ActionEvent e) {
 	    if ("ButtonRecordClicked".equals(e.getActionCommand())) {
@@ -237,7 +187,7 @@ public class GameFrame extends JFrame implements ActionListener, StrokeRecorderL
 	}
 	
 	private void recordButtonClicked() {
-		recorder.record();
+		PlayerController.getInstance().record();
 	}
 	
 	private void playButtonClicked() {

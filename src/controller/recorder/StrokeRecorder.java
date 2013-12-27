@@ -32,31 +32,17 @@ public class StrokeRecorder implements GuitarStringListener, MP3PlayerListener {
 	
 	private ArrayList<StrokeRecorderListener> strokeRecorderListener;
 	
-	public StrokeRecorder(Track track) {
-		this.player = new MP3Player();
+	public StrokeRecorder(MP3Player player) {
+		strokeRecorderListener = new ArrayList<>();
+		
+		this.player = player;
 		player.addListener(this);
-		
-		this.strokes = new HashMap<StrokeKey, Stroke>();
-		this.pressedKeys = new ArrayList<>();
-		this.strokeRecorderListener = new ArrayList<>();
-		
-		setTrack(track);
 	}
 	
 	// Getters, Setters
 
 	public void setTrack(Track track) {
 		this.track = track;
-		
-		// set track to player
-		Playlist currentPlaylist = player.getCurrentPlaylist();
-		if(currentPlaylist == null) {
-			currentPlaylist = player.createPlayList("defaultPlaylist");
-		}
-		currentPlaylist.addTrack(track.getMp3());
-		player.selectPlaylist(0);
-		player.selectTrack(0);
-		
 	}
 	
 	public void addStrokeRecorderListener(StrokeRecorderListener listener) {
@@ -66,21 +52,6 @@ public class StrokeRecorder implements GuitarStringListener, MP3PlayerListener {
     public void removeStrokeRecorderListener(StrokeRecorderListener listener) {
     	this.strokeRecorderListener.remove(listener);
     }
-    
-    // public methods
-
-	public void record() {
-		if(track.getStrokeSet() == null) {
-			track.setStrokeSet(new StrokeSet());
-		}
-		
-		player.play();
-		
-		for (StrokeRecorderListener listener : this.strokeRecorderListener) {
-			listener.recorderDidStartRecording(this, track);
-        }
-		
-	}
 	
 	// GuitarStringListener
 	@Override
@@ -108,12 +79,19 @@ public class StrokeRecorder implements GuitarStringListener, MP3PlayerListener {
 	
 	@Override
 	public void guitarStrokePressed(StrokeKey strokeKey) {
-		
+		if(!isRecording) return;
 		for(StrokeKey aKey : pressedKeys) {
 			if(strokes.containsKey(aKey)) {
 				finishKey(aKey);
 			}
-			strokes.put(aKey, new Stroke(aKey, frame, 0));
+			
+			Stroke newStroke = new Stroke(aKey, frame, 0); 
+			strokes.put(aKey, newStroke);
+			
+			// Notify listener
+			for (StrokeRecorderListener listener : this.strokeRecorderListener) {
+				listener.redcorderDidOpenStroke(this, newStroke);
+	        }
 		}
 	}
 	
@@ -130,13 +108,20 @@ public class StrokeRecorder implements GuitarStringListener, MP3PlayerListener {
 			if(length > 0) {
 				aStroke.setLength(length);
 				
-				this.track.getStrokeSet().set(aStroke);
+				if (track != null) {
+					track.getStrokeSet().set(aStroke);
+				}
 				strokes.remove(strokeKey);
 				
 				System.out.println("played " + aStroke.getKey() + " for " + length + " frames");
 			} else {
 				strokes.remove(strokeKey);
 			}
+			
+			// Notify listener
+			for (StrokeRecorderListener listener : this.strokeRecorderListener) {
+				listener.redcorderDidCloseStroke(this, aStroke);
+	        }
 		}
 	}
 
@@ -144,6 +129,14 @@ public class StrokeRecorder implements GuitarStringListener, MP3PlayerListener {
 	// MP3PlayerListener
 	@Override
 	public void playbackDidStart(MP3Player player) {
+		this.strokes = new HashMap<StrokeKey, Stroke>();
+		this.pressedKeys = new ArrayList<>();
+		this.strokeRecorderListener = new ArrayList<>();
+		
+		if(track != null && track.getStrokeSet() == null) {
+			track.setStrokeSet(new StrokeSet());
+		}
+		
 		frame = 0;
 		isRecording = true;
 	}
@@ -152,10 +145,6 @@ public class StrokeRecorder implements GuitarStringListener, MP3PlayerListener {
 	public void playbackDidStop(MP3Player player) {
 		frame = 0;
 		isRecording = false;
-		
-		for (StrokeRecorderListener listener : this.strokeRecorderListener) {
-			listener.recorderDidStopRecording(this, this.track);
-        }
 		
 		// recorded Keyset debug output
 		for (Map.Entry<Integer, List<Stroke>> entry : this.track.getStrokeSet().getStrokes().entrySet()) {
