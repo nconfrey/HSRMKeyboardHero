@@ -24,13 +24,18 @@ import view.GuitarPane;
 import model.StrokeKey;
 import model.Track;
 import controller.player.MP3PlayerListener;
+import controller.recorder.StrokeRecorder;
+import controller.recorder.StrokeRecorderListener;
 
-public class MainFrame extends JFrame implements KeyListener {
+public class GameFrame extends JFrame implements ActionListener, StrokeRecorderListener, KeyListener {
 		
-	/**
+/**
 	 * 
 	 */
-	private static final long serialVersionUID = 8845013593437103736L;
+	private static final long serialVersionUID = 1L;
+	
+	
+	private StrokeRecorder recorder;
 	
 	private JPanel wrapper;			// background Panel
 	private JPanel contentPanel;	
@@ -40,6 +45,7 @@ public class MainFrame extends JFrame implements KeyListener {
 	private GuitarPane guitarPane;
 	private JButton recordButton;
 	private JButton playButton;
+	private JButton backToMenu;
 	
 	private final Dimension screenSize;
 	private final Dimension frameSize;
@@ -47,19 +53,22 @@ public class MainFrame extends JFrame implements KeyListener {
 	private Track currentTrack;
 	private ArrayList<GuitarStringListener> guitarStringListener;
 	
-	public MainFrame(){
+	public GameFrame(){
 		
+		Track currentTrack = new Track("smoke_on_the_water_short.mp3");
+		recorder = new StrokeRecorder(currentTrack);
+		recorder.addStrokeRecorderListener(this);
+			
 		// Window
 		frameSize = new Dimension(800,600);
 		screenSize = this.getToolkit().getScreenSize(); 
 		this.setSize(frameSize);
-		this.setName("Keyboard Hero");
+		this.setTitle("Keyboard Hero");
 		
 		// center mainframe
 	    this.setLocation((int) ((screenSize.getWidth() - this.getWidth()) / 2), (int) ((screenSize.getHeight() - this.getHeight()) / 2));
 		
-	    // Wrapper
-	    wrapper = new JPanel();
+		wrapper = new JPanel();
 	    
 	    // ContentPanel
 	    contentPanel = new JPanel();
@@ -70,17 +79,22 @@ public class MainFrame extends JFrame implements KeyListener {
 	    wrapper.add(contentPanel);
 	   	   
 	    setLayoutToRecordingMode(false);
+	  
 	    
-	    // start displaying View
+	    // key related
+	    this.addKeyListener(this);
+	    this.setFocusable(true);
+	    guitarStringListener = new ArrayList<>();
+	    
+	    this.setCurrentTrack(currentTrack);
+		this.addGuitarStringListener(recorder);
+		this.addActionListener(this);
+		
+		// start displaying View
 	    this.add(wrapper);
 	    this.setResizable(false);
 	    this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 	    this.setVisible(true);
-	    
-	    // key related
-	    wrapper.addKeyListener(this);
-	    wrapper.setFocusable(true);
-	    guitarStringListener = new ArrayList<>();
 	    
 	}
 	
@@ -134,10 +148,12 @@ public class MainFrame extends JFrame implements KeyListener {
 	}
 	
 	public JPanel buildRightContent(){
+		backToMenu = new JButton("Menu");
+		backToMenu.addActionListener(this);
 		rightContent = new JPanel();
 	    rightContent.setBackground(Color.LIGHT_GRAY);
 	    rightContent.setPreferredSize(new Dimension(frameSize.width/6,frameSize.height)); // 1/6 der Frame Size
-	    rightContent.add(new JLabel("EAST"));
+	    rightContent.add(backToMenu);
 	    return rightContent;
 	}
 	
@@ -197,5 +213,34 @@ public class MainFrame extends JFrame implements KeyListener {
     public void keyTyped(KeyEvent e) {
         
     }
+    
+    @Override
+	public void recorderDidStartRecording(StrokeRecorder recorder, Track track) {
+		this.setLayoutToRecordingMode(true);
+	}
+
+	@Override
+	public void recorderDidStopRecording(StrokeRecorder recorder, Track track) {
+		this.setLayoutToRecordingMode(false);
+	}
 	
+	public void actionPerformed(ActionEvent e) {
+	    if ("ButtonRecordClicked".equals(e.getActionCommand())) {
+	    	recordButtonClicked();
+	    } else if ("ButtonPlayClicked".equals(e.getActionCommand())) {
+	    	playButtonClicked();
+	    } else if(e.getSource() == backToMenu){
+	    	new MenuFrame();
+	    	setVisible(false);
+	    }
+	    
+	}
+	
+	private void recordButtonClicked() {
+		recorder.record();
+	}
+	
+	private void playButtonClicked() {
+		this.play();
+	}
 }

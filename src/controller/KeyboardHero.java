@@ -1,7 +1,8 @@
 package controller;
 
 
-import gui.MainFrame;
+import gui.GameFrame;
+import gui.MenuFrame;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -19,15 +20,16 @@ import controller.recorder.StrokeRecorderListener;
 
 
 
-public class KeyboardHero implements ActionListener, StrokeRecorderListener {
+public class KeyboardHero /*implements ActionListener, StrokeRecorderListener*/ {
 	
-	private MainFrame mainFrame;
-	private StrokeRecorder recorder;
+//	private MainFrame mainFrame;
+//	private StrokeRecorder recorder;
 
 	public static void main(String[] args) {
-		KeyboardHero keyboardHero = new KeyboardHero();
-		keyboardHero.init();
+		new MenuFrame();
 	}
+
+/*	NOW IN "GamePanel"
 	
 	private void init() {
 		mainFrame = new MainFrame();
@@ -56,7 +58,7 @@ public class KeyboardHero implements ActionListener, StrokeRecorderListener {
 	private void playButtonClicked() {
 		mainFrame.play();
 	}
-
+	
 	
 	@Override
 	public void recorderDidStartRecording(StrokeRecorder recorder, Track track) {
@@ -67,5 +69,5 @@ public class KeyboardHero implements ActionListener, StrokeRecorderListener {
 	public void recorderDidStopRecording(StrokeRecorder recorder, Track track) {
 		mainFrame.setLayoutToRecordingMode(false);
 	}
-
+*/
 }
