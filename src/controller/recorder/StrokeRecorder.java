@@ -131,7 +131,6 @@ public class StrokeRecorder implements GuitarStringListener, MP3PlayerListener {
 	public void playbackDidStart(MP3Player player) {
 		this.strokes = new HashMap<StrokeKey, Stroke>();
 		this.pressedKeys = new ArrayList<>();
-		this.strokeRecorderListener = new ArrayList<>();
 		
 		if(track != null && track.getStrokeSet() == null) {
 			track.setStrokeSet(new StrokeSet());
@@ -146,15 +145,16 @@ public class StrokeRecorder implements GuitarStringListener, MP3PlayerListener {
 		frame = 0;
 		isRecording = false;
 		
-		// recorded Keyset debug output
-		for (Map.Entry<Integer, List<Stroke>> entry : this.track.getStrokeSet().getStrokes().entrySet()) {
-			String strokes = "";
-			for(Stroke aStroke : entry.getValue()) {
-				strokes += " " + aStroke.getKey() + " (l: " + aStroke.getLength() + "),";
+		if (this.track.getStrokeSet() != null) {
+			// recorded Keyset debug output
+			for (Map.Entry<Integer, List<Stroke>> entry : this.track.getStrokeSet().getStrokes().entrySet()) {
+				String strokes = "";
+				for(Stroke aStroke : entry.getValue()) {
+					strokes += " " + aStroke.getKey() + " (l: " + aStroke.getLength() + "),";
+				}
+			     System.out.println("on Frame: " + entry.getKey() + ". Keys: " + strokes);
 			}
-		     System.out.println("on Frame: " + entry.getKey() + ". Keys: " + strokes);
 		}
-		
 	}
 
 	@Override

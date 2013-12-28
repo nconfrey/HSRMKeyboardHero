@@ -34,6 +34,7 @@ public class PlayerController {
 	}
 	
 	public void record() {
+		recorder.setTrack(track);
 		player.play();
 	}
 

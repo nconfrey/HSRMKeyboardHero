@@ -6,6 +6,7 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JPanel;
@@ -60,6 +61,21 @@ public class GuitarPane extends JPanel implements MP3PlayerListener, StrokeRecor
 		}
 	}
 	
+	private void drawStroke(Graphics2D g, Stroke stroke) {
+		int height;
+		if (stroke.getLength() == 0) {
+			height = (int)Layouter.getPixelForFrame(frame - stroke.getStartFrame());
+		} else {
+			height = (int)Layouter.getPixelForFrame(stroke.getLength());
+		}
+		
+		int x = (int)Layouter.getPixelForStroke(stroke.getKey());
+		int y = (getPreferredSize().height / 2) - Layouter.getPixelForFrame(stroke.getStartFrame() - frame) - height;
+		int width = Layouter.STROKE_WIDTH;
+		
+		g.fillRoundRect(x, y, width, height, 5, 5);
+	}
+	
 	public int calculateBufferHeight(StrokeSet strokeSet) {
 		int maxFrame = 0;
 		for (List<Stroke> strokeList : strokeSet.getStrokes().values()) {
@@ -72,8 +88,15 @@ public class GuitarPane extends JPanel implements MP3PlayerListener, StrokeRecor
 	
 	public void draw(Graphics2D g) {
 		if (buffer != null) {
-			g.drawImage(buffer, null, 0, (int)(Layouter.getPixelForFrame(frame) - buffer.getHeight()));
+			g.drawImage(buffer, null, 0, (int)(Layouter.getPixelForFrame(frame) - buffer.getHeight() + (getPreferredSize().height / 2)));
 		}
+		
+		if (strokes != null) {
+			for (Stroke stroke : strokes) {
+				drawStroke(g, stroke);
+			}
+		}
+		
 		
 		g.setColor(new Color(0.5f, 0.5f, 0.5f, 0.2f));
 		g.fillRect(0, getPreferredSize().height / 2, getPreferredSize().width, 20);
@@ -85,6 +108,7 @@ public class GuitarPane extends JPanel implements MP3PlayerListener, StrokeRecor
 	@Override
 	public void playbackDidStart(MP3Player player) {
 		this.frame = 0;
+		strokes = new ArrayList<>();
 		render(PlayerController.getInstance().getTrack());
 	}
 
@@ -99,16 +123,17 @@ public class GuitarPane extends JPanel implements MP3PlayerListener, StrokeRecor
 		this.frame = frame;
         repaint();
 	}
+	
+	private List<Stroke> strokes;
 
 	@Override
 	public void redcorderDidOpenStroke(StrokeRecorder recorder, Stroke stroke) {
-		// TODO paint stroke
-		
+		System.out.println(stroke);
+		strokes.add(stroke);
 	}
 
 	@Override
 	public void redcorderDidCloseStroke(StrokeRecorder recorder, Stroke stroke) {
-		// TODO paint stroke
 		
 	}
 }
