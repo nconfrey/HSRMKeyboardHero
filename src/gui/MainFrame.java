@@ -12,72 +12,77 @@ import javax.sound.sampled.Line;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
 
-public class MenuFrame extends JFrame implements ActionListener{
+public class MainFrame extends JFrame implements ActionListener{
 	
 	private final Dimension screenSize;
 	private final Dimension frameSize;
 	
-	private JPanel wrapper;
 	private JPanel menuPanel;
+	
+	private JLayeredPane layeredPane = getLayeredPane();
 	
 	private JButton playButton;
 	private JButton recordButton;
 	private JButton highscoreButton;
 	private JButton creditsButton;
+	private GamePanel gamePanel;
 	
-	public MenuFrame(){
+	public MainFrame(){
 		// Window
-		frameSize = new Dimension(200,250);
+		frameSize = new Dimension(800,600);
 		screenSize = this.getToolkit().getScreenSize(); 
 		this.setSize(frameSize);
 		this.setTitle("Keyboard Hero");
-				
+		
 		// center mainframe
 		this.setLocation((int) ((screenSize.getWidth() - this.getWidth()) / 2), (int) ((screenSize.getHeight() - this.getHeight()) / 2));
 
+		
 		playButton = new JButton("Play");
-		recordButton = new JButton("Record");
-		highscoreButton = new JButton("Highscores");
-		creditsButton = new JButton("Credits");
-		
-		
 		playButton.addActionListener(this);
+		recordButton = new JButton("Record");
 		recordButton.addActionListener(this);
+		highscoreButton = new JButton("Highscores");
 		highscoreButton.addActionListener(this);
+		creditsButton = new JButton("Credits");
 		creditsButton.addActionListener(this);
 
+		layeredPane = new JLayeredPane();
+		layeredPane.setPreferredSize(frameSize);
 		
-		wrapper = new JPanel();
-		wrapper.setLayout(new BorderLayout());
 		menuPanel = new JPanel();
-		menuPanel.setLayout(new GridLayout(3,1));
+		menuPanel.setLayout(new GridLayout(4,1));
 		
 		menuPanel.add(playButton);
 		menuPanel.add(recordButton);
 		menuPanel.add(highscoreButton);
-	    menuPanel.setBackground(Color.LIGHT_GRAY);
-
+		menuPanel.add(creditsButton);
+	   
+		menuPanel.setBounds(frameSize.width/2-150,frameSize.height/2-100,300,200);
 		
-		wrapper.add(menuPanel, BorderLayout.NORTH);
-		wrapper.add(creditsButton, BorderLayout.SOUTH);
-		this.add(wrapper);
-		
-		
+		layeredPane.add(menuPanel, new Integer(100));
+		this.add(layeredPane);
 		
 		this.setResizable(false);
 	    this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 	    this.setVisible(true);
-	    
 	    
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource() == playButton){
-			new GameFrame();
-			setVisible(false);
+			gamePanel = new GamePanel(frameSize);
+			gamePanel.setBounds(frameSize.width, frameSize.height,0,0);
+			layeredPane.add(gamePanel, new Integer(200));
 		}
 	}
+
+	public Dimension getFrameSize() {
+		return frameSize;
+	}
+	
 }

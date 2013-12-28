@@ -17,7 +17,7 @@ import model.StrokeKey;
 import model.Track;
 import view.GuitarPane;
 
-public class GameFrame extends JFrame implements ActionListener, KeyListener {
+public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		
 /**
 	 * 
@@ -25,62 +25,43 @@ public class GameFrame extends JFrame implements ActionListener, KeyListener {
 	private static final long serialVersionUID = 1L;
 	
 	
-	private JPanel wrapper;			// background Panel
+	private GuitarPane guitarPane;
 	private JPanel contentPanel;	
 	private JPanel leftContent;		// sidepanel for scores, songtitle ...
 	private JPanel rightContent;	// sidepanel for scores, songtitle ...
 	private JPanel gameContent;		// main game content
-	private GuitarPane guitarPane;
 	private JButton recordButton;
 	private JButton playButton;
 	private JButton backToMenu;
 	
-	private final Dimension screenSize;
 	private final Dimension frameSize;
 	
 	private ArrayList<GuitarStringListener> guitarStringListener;
 	
-	public GameFrame(){
-		
+	public GamePanel(Dimension frameSize){
+			
+		this.frameSize = frameSize;
+			
 		// TODO: Move to a better position
 		PlayerController.getInstance().setTrack(new Track("smoke_on_the_water_short.mp3"));
-			
-		// Window
-		frameSize = new Dimension(800,600);
-		screenSize = this.getToolkit().getScreenSize(); 
-		this.setSize(frameSize);
-		this.setTitle("Keyboard Hero");
-		
-		// center mainframe
-	    this.setLocation((int) ((screenSize.getWidth() - this.getWidth()) / 2), (int) ((screenSize.getHeight() - this.getHeight()) / 2));
-		
-		wrapper = new JPanel();
-	    
-	    // ContentPanel
+	  
+	    // key related
+	    this.addKeyListener(this);
+	    this.setFocusable(true);
+	    guitarStringListener = new ArrayList<>();
+		  
+		 // ContentPanel
 	    contentPanel = new JPanel();
 	    contentPanel.setLayout(new BorderLayout());
 	    contentPanel.add(this.buildLeftContent(), BorderLayout.WEST);
 	    contentPanel.add(this.buildGameContent(), BorderLayout.CENTER);
 	    contentPanel.add(this.buildRightContent(), BorderLayout.EAST);
-	    wrapper.add(contentPanel);
-	  
+	    this.add(contentPanel);
 	    
-	    // key related
-	    this.addKeyListener(this);
-	    this.setFocusable(true);
-	    guitarStringListener = new ArrayList<>();
-	    
-		this.addGuitarStringListener(PlayerController.getInstance().getRecorder());
+	    this.addGuitarStringListener(PlayerController.getInstance().getRecorder());
 		this.addActionListener(this);
-		
-		// start displaying View
-	    this.add(wrapper);
-	    this.setResizable(false);
-	    this.setDefaultCloseOperation(EXIT_ON_CLOSE);
-	    this.setVisible(true);
-	    
 	}
-
+    
 	public void play() {
 		PlayerController.getInstance().play();
 	}
@@ -180,7 +161,7 @@ public class GameFrame extends JFrame implements ActionListener, KeyListener {
 	    } else if ("ButtonPlayClicked".equals(e.getActionCommand())) {
 	    	playButtonClicked();
 	    } else if(e.getSource() == backToMenu){
-	    	new MenuFrame();
+	    	new MainFrame();
 	    	setVisible(false);
 	    }
 	    
