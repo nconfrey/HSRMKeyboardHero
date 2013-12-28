@@ -1,6 +1,7 @@
 package gui;
 
 import model.Track;
+import controller.KeyController;
 import controller.player.MP3Player;
 import controller.recorder.StrokeRecorder;
 
@@ -8,6 +9,7 @@ public class PlayerController {
 
 	private MP3Player player;
 	private StrokeRecorder recorder;
+	private KeyController keyController;
 	private Track track;
 
 	private static PlayerController instance;
@@ -22,6 +24,8 @@ public class PlayerController {
 	public PlayerController() {
 		player = new MP3Player();
 		recorder = new StrokeRecorder(player);
+		keyController = new KeyController();
+		keyController.addGuitarStringListener(recorder);
 	}
 	
 	public void play() {

@@ -17,7 +17,7 @@ import model.StrokeKey;
 import model.Track;
 import view.GuitarPane;
 
-public class GamePanel extends JPanel implements ActionListener, KeyListener {
+public class GamePanel extends JPanel implements ActionListener {
 		
 /**
 	 * 
@@ -36,20 +36,14 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	
 	private final Dimension frameSize;
 	
-	private ArrayList<GuitarStringListener> guitarStringListener;
-	
 	public GamePanel(Dimension frameSize){
 			
 		this.frameSize = frameSize;
+		setFocusable(true);
 			
 		// TODO: Move to a better position
 		PlayerController.getInstance().setTrack(new Track("smoke_on_the_water_short.mp3"));
-	  
-	    // key related
-	    this.addKeyListener(this);
-	    this.setFocusable(true);
-	    guitarStringListener = new ArrayList<>();
-		  
+		
 		 // ContentPanel
 	    contentPanel = new JPanel();
 	    contentPanel.setLayout(new BorderLayout());
@@ -58,7 +52,6 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	    contentPanel.add(this.buildRightContent(), BorderLayout.EAST);
 	    this.add(contentPanel);
 	    
-	    this.addGuitarStringListener(PlayerController.getInstance().getRecorder());
 		this.addActionListener(this);
 	}
     
@@ -112,48 +105,6 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		recordButton.addActionListener(controller);	
 		playButton.addActionListener(controller);
 	}
-	
-	
-	// Key Handling
-	
-	public void addGuitarStringListener(GuitarStringListener listener) {
-        this.guitarStringListener.add(listener);
-    }
-
-    public void removeGuitarStringListener(GuitarStringListener listener) {
-    	this.guitarStringListener.remove(listener);
-    }
-	
-	public void keyPressed(KeyEvent e) {
-		StrokeKey strokeKey = StrokeKey.keyForCode(e.getKeyCode());
-		if(strokeKey != StrokeKey.INVALID && strokeKey != StrokeKey.ENTER) {
-			for (GuitarStringListener guitarStringListener : this.guitarStringListener) {
-				guitarStringListener.guitarStringPressed(strokeKey);
-	        }
-		} else if(strokeKey == StrokeKey.ENTER) {
-			for (GuitarStringListener guitarStringListener : this.guitarStringListener) {
-				guitarStringListener.guitarStrokePressed(strokeKey);
-	        }
-		}
-    }
-	
-    public void keyReleased(KeyEvent e) {
-    	StrokeKey strokeKey = StrokeKey.keyForCode(e.getKeyCode());
-		if(strokeKey != StrokeKey.INVALID && strokeKey != StrokeKey.ENTER) {
-			
-			for (GuitarStringListener guitarStringListener : this.guitarStringListener) {
-				guitarStringListener.guitarStringReleased(strokeKey);
-	        }
-		} else if(strokeKey == StrokeKey.ENTER) {
-			for (GuitarStringListener guitarStringListener : this.guitarStringListener) {
-				guitarStringListener.guitarStrokeReleased(strokeKey);
-	        }
-		}
-    }
-    
-    public void keyTyped(KeyEvent e) {
-        
-    }
 	
 	public void actionPerformed(ActionEvent e) {
 	    if ("ButtonRecordClicked".equals(e.getActionCommand())) {
