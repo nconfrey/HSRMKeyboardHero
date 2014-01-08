@@ -2,6 +2,7 @@ package gui;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.Rectangle;
@@ -65,7 +66,7 @@ public class MainFrame extends JFrame implements ActionListener{
 		
 		layeredPane.add(menuPanel, new Integer(100));
 		this.add(layeredPane);
-		
+		System.out.println("menu panel index: " + layeredPane.getIndexOf(gamePanel));
 		this.setResizable(false);
 	    this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 	    this.setVisible(true);
@@ -78,11 +79,15 @@ public class MainFrame extends JFrame implements ActionListener{
 			gamePanel = new GamePanel(frameSize);
 			gamePanel.setBounds(0, 0, frameSize.width, frameSize.height);
 			layeredPane.add(gamePanel, new Integer(200));
+			System.out.println("game panel index: " + layeredPane.getIndexOf(gamePanel));
 		}
 	}
-
+	
 	public Dimension getFrameSize() {
 		return frameSize;
 	}
 	
+	public void backToMenu(){
+		this.layeredPane.remove(gamePanel);
+	}
 }

@@ -82,7 +82,7 @@ public class GamePanel extends JPanel implements ActionListener {
 
 	public JPanel buildRightContent(){
 		backToMenu = new JButton("Menu");
-		backToMenu.addActionListener(this);
+	    backToMenu.setActionCommand("ButtonMenuClicked");
 		rightContent = new JPanel();
 	    rightContent.setBackground(Color.LIGHT_GRAY);
 	    rightContent.setPreferredSize(new Dimension(frameSize.width/6,frameSize.height)); // 1/6 der Frame Size
@@ -104,6 +104,7 @@ public class GamePanel extends JPanel implements ActionListener {
 	public void addActionListener(ActionListener controller){
 		recordButton.addActionListener(controller);	
 		playButton.addActionListener(controller);
+		backToMenu.addActionListener(controller);
 	}
 	
 	public void actionPerformed(ActionEvent e) {
@@ -111,11 +112,9 @@ public class GamePanel extends JPanel implements ActionListener {
 	    	recordButtonClicked();
 	    } else if ("ButtonPlayClicked".equals(e.getActionCommand())) {
 	    	playButtonClicked();
-	    } else if(e.getSource() == backToMenu){
-	    	new MainFrame();
-	    	setVisible(false);
+	    } else if ("ButtonMenuClicked".equals(e.getActionCommand())){
+	    	PlayerController.getInstance().getPlayer().stop();
 	    }
-	    
 	}
 	
 	private void recordButtonClicked() {
