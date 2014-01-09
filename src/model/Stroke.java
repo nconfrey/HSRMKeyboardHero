@@ -23,6 +23,10 @@ public class Stroke {
 	public int getStartFrame() {
 		return startFrame;
 	}
+	
+	public int getEndFrame() {
+		return startFrame + length;
+	}
 
 	public void setLength(int length) {
 		this.length = length;
@@ -30,6 +34,14 @@ public class Stroke {
 
 	public void setStartFrame(int startFrame) {
 		this.startFrame = startFrame;
+	}
+	
+	public boolean isOpen() {
+		return isEmpty();
+	}
+	
+	public boolean isEmpty() {
+		return this.length == 0;
 	}
 
 	@Override
@@ -55,6 +67,11 @@ public class Stroke {
 		if (startFrame != other.startFrame)
 			return false;
 		return true;
+	}
+	
+	@Override
+	public String toString() {
+		return "Stroke " + key + " <" + startFrame + "|" + length + ">";
 	}
 
 	
