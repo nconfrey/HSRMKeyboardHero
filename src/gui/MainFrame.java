@@ -76,7 +76,7 @@ public class MainFrame extends JFrame implements ActionListener{
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource() == playButton){
-			gamePanel = new GamePanel(frameSize);
+			gamePanel = new GamePanel(layeredPane.getSize());
 			gamePanel.setBounds(0, 0, frameSize.width, frameSize.height);
 			layeredPane.add(gamePanel, new Integer(200));
 			System.out.println("game panel index: " + layeredPane.getIndexOf(gamePanel));

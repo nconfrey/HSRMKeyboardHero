@@ -11,7 +11,9 @@ import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.border.Border;
 
 import model.StrokeKey;
 import model.Track;
@@ -33,6 +35,8 @@ public class GamePanel extends JPanel implements ActionListener {
 	private JButton recordButton;
 	private JButton playButton;
 	private JButton backToMenu;
+	private JPanel scoreContent;
+	private JLabel scoreLabel;
 	
 	private final Dimension frameSize;
 	
@@ -62,19 +66,29 @@ public class GamePanel extends JPanel implements ActionListener {
 	public JPanel buildLeftContent(){
 		
 		// Panel
-		leftContent = new JPanel();
+		leftContent = new JPanel(new BorderLayout());
 	    leftContent.setBackground(Color.LIGHT_GRAY);
 	    leftContent.setPreferredSize(new Dimension(frameSize.width/6,frameSize.height)); // 1/6 der Frame Size
 	    
 	    // Record Button
 	    recordButton = new JButton("record");
 	    recordButton.setActionCommand("ButtonRecordClicked");
-	    leftContent.add(recordButton);
+	    leftContent.add(recordButton, BorderLayout.NORTH);
 	    
 	    // PlayButton
 	    playButton = new JButton("play");
 	    playButton.setActionCommand("ButtonPlayClicked");
-	    leftContent.add(playButton);
+	    leftContent.add(playButton, BorderLayout.WEST);
+	    
+	    // Score
+	    scoreContent = new JPanel();
+	    leftContent.add(scoreContent, BorderLayout.SOUTH);
+	    scoreContent.setPreferredSize(new Dimension(100, 20));
+	    scoreLabel = new JLabel("Score");
+	    scoreContent.add(scoreLabel);
+	    
+	    scoreContent.setBackground(Color.cyan);
+	    
 	    
 	    
 	    return leftContent;
