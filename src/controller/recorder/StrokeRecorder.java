@@ -23,8 +23,6 @@ import controller.player.Playlist;
 public class StrokeRecorder implements GuitarStringListener, MP3PlayerListener {
 	
 	private Track track;
-	private MP3Player player;
-	
 	private Map<StrokeKey, Stroke> strokes;
 	private List<StrokeKey> pressedKeys;
 	
@@ -45,7 +43,6 @@ public class StrokeRecorder implements GuitarStringListener, MP3PlayerListener {
 	public StrokeRecorder(MP3Player player) {
 		strokeRecorderListener = new ArrayList<>();
 		
-		this.player = player;
 		player.addListener(this);
 	}
 	
