@@ -59,4 +59,18 @@ public class StrokeSet {
 		
 		return strokeRangeList;
 	}
+	
+	public List<Stroke> getListForFrameInRange(Integer fromFrame, Integer toFrame, StrokeKey key) {
+		Map<Integer, List<Stroke>> subMap = strokes.subMap(fromFrame, toFrame);
+		List<Stroke> strokeRangeList = new ArrayList<>();
+		
+		for (List<Stroke> strokeList : subMap.values()) {
+			for(Stroke stroke : strokeList) {
+				if(stroke.getKey() == key) {
+					strokeRangeList.add(stroke);
+				}
+			}
+		}
+		return strokeRangeList;
+	}
 }

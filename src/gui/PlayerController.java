@@ -1,7 +1,9 @@
 package gui;
 
+import model.Score;
 import model.Track;
 import controller.KeyController;
+import controller.ScoreController;
 import controller.player.MP3Player;
 import controller.recorder.StrokeRecorder;
 
@@ -11,6 +13,8 @@ public class PlayerController {
 	private StrokeRecorder recorder;
 	private KeyController keyController;
 	private Track track;
+	private ScoreController scoreController;
+	private boolean isRecording;
 
 	private static PlayerController instance;
 	
@@ -25,17 +29,31 @@ public class PlayerController {
 		player = new MP3Player();
 		recorder = new StrokeRecorder(player);
 		keyController = new KeyController();
+		//scoreController = new ScoreController();
+		
 		keyController.addGuitarStringListener(recorder);
+		//player.addListener(scoreController);
+		//recorder.addStrokeRecorderListener(scoreController);
+		
+		isRecording = false;
 	}
 	
 	public void play() {
-		recorder.setTrack(null);
+		recorder.setTrack(track);
+		recorder.setRecordingMode(false);
+		isRecording = false;
 		player.play();
 	}
 	
 	public void record() {
 		recorder.setTrack(track);
+		recorder.setRecordingMode(true);
+		isRecording = true;
 		player.play();
+	}
+
+	public boolean isRecording() {
+		return isRecording;
 	}
 
 	public MP3Player getPlayer() {

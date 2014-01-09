@@ -1,5 +1,6 @@
 package controller.recorder;
 
+import gui.GamePanel;
 import gui.GuitarStringListener;
 
 import java.util.ArrayList;
@@ -29,7 +30,16 @@ public class StrokeRecorder implements GuitarStringListener, MP3PlayerListener {
 	
 	private int frame = 0;
 	private boolean isRecording = false;
+	private boolean isRecordingMode = false;
 	
+	public boolean isRecordingMode() {
+		return isRecordingMode;
+	}
+
+	public void setRecordingMode(boolean isRecordingMode) {
+		this.isRecordingMode = isRecordingMode;
+	}
+
 	private ArrayList<StrokeRecorderListener> strokeRecorderListener;
 	
 	public StrokeRecorder(MP3Player player) {
@@ -85,7 +95,17 @@ public class StrokeRecorder implements GuitarStringListener, MP3PlayerListener {
 				finishKey(aKey);
 			}
 			
-			Stroke newStroke = new Stroke(aKey, frame, 0); 
+			int startFrame = frame;
+			
+			if(!isRecordingMode) {
+				StrokeSet gamingStrokeSet = this.track.getStrokeSet();
+				List<Stroke> strokeList = gamingStrokeSet.getListForFrameInRange(frame - 50, frame + 50, aKey);
+				if(strokeList.size() > 0) {
+					startFrame = strokeList.get(0).getStartFrame();
+				}
+			}
+			
+			Stroke newStroke = new Stroke(aKey, startFrame, 0); 
 			strokes.put(aKey, newStroke);
 			
 			// Notify listener
@@ -108,7 +128,7 @@ public class StrokeRecorder implements GuitarStringListener, MP3PlayerListener {
 			if(length > 0) {
 				aStroke.setLength(length);
 				
-				if (track != null) {
+				if (isRecordingMode) {
 					track.getStrokeSet().set(aStroke);
 				}
 				strokes.remove(strokeKey);
@@ -132,7 +152,7 @@ public class StrokeRecorder implements GuitarStringListener, MP3PlayerListener {
 		this.strokes = new HashMap<StrokeKey, Stroke>();
 		this.pressedKeys = new ArrayList<>();
 		
-		if(track != null && track.getStrokeSet() == null) {
+		if(isRecordingMode) {
 			track.setStrokeSet(new StrokeSet());
 		}
 		
