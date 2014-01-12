@@ -1,11 +1,12 @@
 package model;
 
 import java.io.File;
+import java.io.Serializable;
 
 import controller.KeyboardHero;
 import controller.player.MP3PlayerTrack;
 
-public class Track {
+public class Track implements Serializable{
 
 	private StrokeSet strokeSet;
 	private MP3PlayerTrack mp3;
@@ -14,7 +15,7 @@ public class Track {
 		this.mp3 = mp3;
 	}
 	
-	public Track (String mp3Name) {
+	public Track(String mp3Name) {
 		File mp3File = null;
 		try {
 			mp3File = new File(KeyboardHero.class.getResource("/"+mp3Name).toURI());
@@ -39,5 +40,4 @@ public class Track {
 	public void setMp3(MP3PlayerTrack mp3) {
 		this.mp3 = mp3;
 	}
-	
 }

@@ -10,6 +10,7 @@ import java.io.File;
 import java.net.URI;
 import java.net.URISyntaxException;
 
+import model.PersistenceHandler;
 import model.Score;
 import model.Track;
 import controller.player.MP3Player;

@@ -1,20 +1,24 @@
 package controller.player;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
 import javax.swing.AbstractListModel;
+
+import model.Track;
 
 /**
  *
  * @author sseye001
  */
-public class Playlist extends AbstractListModel<MP3PlayerTrack>{
+public class Playlist extends AbstractListModel<Track> implements Serializable{
     
     private long id;
     private String name;
     private Date creationDate;
-    private List<MP3PlayerTrack> tracks;
+    private List<Track> tracks;
 
     public Playlist(String name) {
         tracks = new ArrayList<>();
@@ -39,11 +43,11 @@ public class Playlist extends AbstractListModel<MP3PlayerTrack>{
         return tracks.size();
     }
     
-    public MP3PlayerTrack getTrack(int number){
+    public Track getTrack(int number){
         return tracks.get(number);
     }
     
-    public void addTrack(MP3PlayerTrack track){
+    public void addTrack(Track track){
         this.tracks.add(track);
         fireContentsChanged(track, this.tracks.size()-1,  this.tracks.size()-1);
     }
@@ -54,7 +58,7 @@ public class Playlist extends AbstractListModel<MP3PlayerTrack>{
     }
 
     @Override
-    public MP3PlayerTrack getElementAt(int index) {
+    public Track getElementAt(int index) {
         return tracks.get(index);
     }
 }

@@ -49,7 +49,7 @@ public class TrackImporter {
         } else {
             if (file.getName().endsWith(".mp3")) {
                 MP3PlayerTrack track = loadTrack(file);
-                playlist.addTrack(track);
+                //playlist.addTrack(track);
             }
         }
     }

@@ -1,12 +1,13 @@
 package controller.player;
 
 import java.io.File;
+import java.io.Serializable;
 
 /**
  *
  * @author sseye001
  */
-public class MP3PlayerTrack {
+public class MP3PlayerTrack implements Serializable{
 
     private long id;
     private String title;

@@ -15,6 +15,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.Border;
 
+import controller.player.Playlist;
+import model.PersistenceHandler;
 import model.StrokeKey;
 import model.Track;
 import view.GuitarPane;
@@ -34,9 +36,12 @@ public class GamePanel extends JPanel implements ActionListener {
 	private JPanel gameContent;		// main game content
 	private JButton recordButton;
 	private JButton playButton;
+	private JButton savePlButton;
 	private JButton backToMenu;
 	private JPanel scoreContent;
 	private JLabel scoreLabel;
+	
+	Playlist samplePlaylist;
 	
 	private final Dimension frameSize;
 	
@@ -46,7 +51,13 @@ public class GamePanel extends JPanel implements ActionListener {
 		setFocusable(true);
 			
 		// TODO: Move to a better position
-		PlayerController.getInstance().setTrack(new Track("smoke_on_the_water_short.mp3"));
+		samplePlaylist = PersistenceHandler.loadPlaylist();
+		if(samplePlaylist == null){
+			samplePlaylist = new Playlist("Sample Playlist");
+			Track sampleTrack = new Track("smoke_on_the_water_short.mp3");
+			samplePlaylist.addTrack(sampleTrack);
+		}
+		PlayerController.getInstance().setTrack(samplePlaylist.getTrack(0));
 		
 		 // ContentPanel
 	    contentPanel = new JPanel();
@@ -75,7 +86,7 @@ public class GamePanel extends JPanel implements ActionListener {
 	    recordButton.setActionCommand("ButtonRecordClicked");
 	    leftContent.add(recordButton, BorderLayout.NORTH);
 	    
-	    // PlayButton
+	    // Play Button
 	    playButton = new JButton("play");
 	    playButton.setActionCommand("ButtonPlayClicked");
 	    leftContent.add(playButton, BorderLayout.WEST);
@@ -89,6 +100,11 @@ public class GamePanel extends JPanel implements ActionListener {
 	    
 	    scoreContent.setBackground(Color.cyan);
 	    
+	    
+	    // Save Playlist Button
+	    savePlButton = new JButton("save");
+	    savePlButton.setActionCommand("ButtonSaveClicked");
+	    leftContent.add(savePlButton);
 	    
 	    
 	    return leftContent;
@@ -118,6 +134,7 @@ public class GamePanel extends JPanel implements ActionListener {
 	public void addActionListener(ActionListener controller){
 		recordButton.addActionListener(controller);	
 		playButton.addActionListener(controller);
+		savePlButton.addActionListener(controller);
 		backToMenu.addActionListener(controller);
 	}
 	
@@ -126,6 +143,8 @@ public class GamePanel extends JPanel implements ActionListener {
 	    	recordButtonClicked();
 	    } else if ("ButtonPlayClicked".equals(e.getActionCommand())) {
 	    	playButtonClicked();
+	    } else if ("ButtonSaveClicked".equals(e.getActionCommand())){
+	    	PersistenceHandler.savePlaylist(samplePlaylist);
 	    } else if ("ButtonMenuClicked".equals(e.getActionCommand())){
 	    	PlayerController.getInstance().getPlayer().stop();
 	    }

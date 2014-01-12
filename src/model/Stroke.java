@@ -1,6 +1,8 @@
 package model;
 
-public class Stroke {
+import java.io.Serializable;
+
+public class Stroke implements Serializable{
 	
 	private StrokeKey key;
 	private int length;
