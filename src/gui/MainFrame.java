@@ -63,7 +63,6 @@ public class MainFrame extends JFrame implements ActionListener{
 		menuPanel.add(recordButton);
 		menuPanel.add(highscoreButton);
 		menuPanel.add(creditsButton);
-		menuPanel.add(sv.getSonglist());
 	   
 		menuPanel.setBounds(frameSize.width/2-150,frameSize.height/2-100,300,200);
 		

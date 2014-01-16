@@ -42,6 +42,6 @@ public class Track implements Serializable{
 	}
 	
 	public String toString(){
-		return mp3.getTitle();
+		return mp3.toString();
 	}
 }
