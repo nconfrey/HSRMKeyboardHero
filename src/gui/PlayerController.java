@@ -29,31 +29,41 @@ public class PlayerController {
 		player = new MP3Player();
 		recorder = new StrokeRecorder(player);
 		keyController = new KeyController();
-		//scoreController = new ScoreController();
+		scoreController = new ScoreController();
 		
 		keyController.addGuitarStringListener(recorder);
-		//player.addListener(scoreController);
-		//recorder.addStrokeRecorderListener(scoreController);
+		player.addListener(scoreController);
+		recorder.addStrokeRecorderListener(scoreController);
 		
-		isRecording = false;
+		setRecording(false);
 	}
 	
 	public void play() {
 		recorder.setTrack(track);
-		recorder.setRecordingMode(false);
-		isRecording = false;
+		setRecording(false);
 		player.play();
 	}
 	
 	public void record() {
 		recorder.setTrack(track);
-		recorder.setRecordingMode(true);
-		isRecording = true;
+		setRecording(true);
 		player.play();
 	}
 
 	public boolean isRecording() {
 		return isRecording;
+	}
+	
+	public void setRecording(boolean isRecording) {
+		this.isRecording = isRecording;
+		
+		if(scoreController != null) {
+			scoreController.setRecording(isRecording);
+		}
+		
+		if(recorder != null) {
+			recorder.setRecordingMode(isRecording);
+		}
 	}
 
 	public MP3Player getPlayer() {

@@ -10,9 +10,11 @@ import controller.recorder.StrokeRecorderListener;
 public class ScoreController implements MP3PlayerListener, StrokeRecorderListener {
 	
 	private MP3Player player;
+	private boolean isRecording;
 	
 	public ScoreController() {
 		player = null;
+		isRecording = false;
 	}
 	
 	@Override
@@ -20,6 +22,10 @@ public class ScoreController implements MP3PlayerListener, StrokeRecorderListene
 		if (!PlayerController.getInstance().isRecording()) {
 			this.player = player;
 		}
+	}
+
+	public void setRecording(boolean isRecording) {
+		this.isRecording = isRecording;
 	}
 
 	@Override
