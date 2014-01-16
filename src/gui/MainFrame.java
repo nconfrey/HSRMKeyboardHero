@@ -30,6 +30,7 @@ public class MainFrame extends JFrame implements ActionListener{
 	private JButton highscoreButton;
 	private JButton creditsButton;
 	private GamePanel gamePanel;
+	private SongViewer sv;
 	
 	public MainFrame(){
 		// Window
@@ -41,6 +42,7 @@ public class MainFrame extends JFrame implements ActionListener{
 		// center mainframe
 		this.setLocation((int) ((screenSize.getWidth() - this.getWidth()) / 2), (int) ((screenSize.getHeight() - this.getHeight()) / 2));
 
+		sv = new SongViewer("PLAY");
 		
 		playButton = new JButton("Play");
 		playButton.addActionListener(this);
@@ -61,6 +63,7 @@ public class MainFrame extends JFrame implements ActionListener{
 		menuPanel.add(recordButton);
 		menuPanel.add(highscoreButton);
 		menuPanel.add(creditsButton);
+		menuPanel.add(sv.getSonglist());
 	   
 		menuPanel.setBounds(frameSize.width/2-150,frameSize.height/2-100,300,200);
 		

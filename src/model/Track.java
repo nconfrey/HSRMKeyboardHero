@@ -40,4 +40,8 @@ public class Track implements Serializable{
 	public void setMp3(MP3PlayerTrack mp3) {
 		this.mp3 = mp3;
 	}
+	
+	public String toString(){
+		return mp3.getTitle();
+	}
 }

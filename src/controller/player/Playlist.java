@@ -56,8 +56,17 @@ public class Playlist extends AbstractListModel<Track> implements Serializable{
     public int getSize() {
         return tracks.size();
     }
+    
+    public List<Track> getTracks() {
+		return tracks;
+	}
+    
+	public void setTracks(List<Track> tracks) {
+		this.tracks = tracks;
+	}
 
-    @Override
+
+	@Override
     public Track getElementAt(int index) {
         return tracks.get(index);
     }
