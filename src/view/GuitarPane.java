@@ -84,6 +84,7 @@ public class GuitarPane extends JPanel implements MP3PlayerListener,
 				for (List<Stroke> strokeList : track.getStrokeSet()
 						.getStrokes().values()) {
 					for (Stroke stroke : strokeList) {
+						g.translate(0, Layouter.getPixelForFrame(stroke.getStartFrame()));
 						g.fill(getStrokeRect(stroke));
 					}
 				}
