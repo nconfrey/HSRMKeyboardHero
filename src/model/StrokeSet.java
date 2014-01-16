@@ -22,6 +22,16 @@ public class StrokeSet implements Serializable{
 		return strokes;
 	}
 	
+	public Stroke getStrokeForStroke(Stroke recordedStroke) {
+		ArrayList<Stroke> frameList = getListForFrame(recordedStroke.getStartFrame());
+		for (Stroke stroke : frameList) {
+			if(stroke.equals(recordedStroke)) {
+				return stroke;
+			}
+		}
+		return null;
+	}
+	
 	public boolean containsStroke(Stroke aStroke) {
 		ArrayList<Stroke> frameList = getListForFrame(aStroke.getStartFrame());
 		return frameList.contains(aStroke);

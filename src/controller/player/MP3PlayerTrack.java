@@ -35,10 +35,16 @@ public class MP3PlayerTrack implements Serializable{
 				f = AudioFileIO.read(file);
 				Tag tag = f.getTag();
 				AudioHeader header = f.getAudioHeader();
-	   			this.artist = tag.getFirst(FieldKey.ARTIST);
-	   			this.title = tag.getFirst(FieldKey.TITLE);
-	   			this.length = header.getTrackLength();
-	   			this.albumTitle = tag.getFirst(FieldKey.ALBUM);
+				this.length = header.getTrackLength();
+				
+				if(tag != null) {
+					this.artist = tag.getFirst(FieldKey.ARTIST);
+		   			this.title = tag.getFirst(FieldKey.TITLE);
+		   			this.albumTitle = tag.getFirst(FieldKey.ALBUM);
+				} else {
+					this.title = extractTitleFromFileName(file.toString());
+				}
+	   			
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -87,4 +93,8 @@ public class MP3PlayerTrack implements Serializable{
     public String toString() {
         return getArtist() + " - " + getTitle();
     }
+    
+    private String extractTitleFromFileName(String fileName) {
+		return fileName.substring(fileName.lastIndexOf('/')+1).replace(".mp3", "");
+	}
 }

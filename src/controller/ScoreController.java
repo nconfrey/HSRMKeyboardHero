@@ -5,6 +5,7 @@ import java.util.Map;
 import java.util.TreeMap;
 
 import gui.PlayerController;
+import model.Score;
 import model.Stroke;
 import model.StrokeKey;
 import model.StrokeSet;
@@ -18,11 +19,13 @@ public class ScoreController implements MP3PlayerListener, StrokeRecorderListene
 	private MP3Player player;
 	private boolean isRecording;
 	private Map<StrokeKey, Stroke> currentPlayedStrokes;
+	private Score score;
 	
 	public ScoreController() {
 		player = null;
 		isRecording = false;
 		currentPlayedStrokes = new HashMap<StrokeKey, Stroke>();
+		score = new Score();
 	}
 	
 	@Override
@@ -44,7 +47,21 @@ public class ScoreController implements MP3PlayerListener, StrokeRecorderListene
 	@Override
 	public void playbackPlaying(MP3Player player, int frame) {
 		// TODO Auto-generated method stub
-		
+		for (StrokeKey key : currentPlayedStrokes.keySet()) {
+			
+			StrokeSet strokeSet = PlayerController.getInstance().getTrack().getStrokeSet();
+			Stroke recordedStroke = currentPlayedStrokes.get(key);
+			Stroke playedStroke = strokeSet.getStrokeForStroke(recordedStroke);
+			if(playedStroke != null && playedStroke.getEndFrame() >= frame) {
+				score.raise();
+				System.out.println(score);
+			}
+			
+		}
+	}
+
+	public Score getScore() {
+		return score;
 	}
 
 	@Override
