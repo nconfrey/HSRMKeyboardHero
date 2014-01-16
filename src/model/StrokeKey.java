@@ -1,5 +1,6 @@
 package model;
 
+import java.awt.Color;
 import java.awt.event.KeyEvent;
 
 public enum StrokeKey {
@@ -36,6 +37,21 @@ public enum StrokeKey {
 			return 4;
 		}
 		return -1;
+	}
+	
+	public Color getColor() {
+		if(this == StrokeKey.F1) {
+			return new Color(0x66FF33);
+		} else if(this == StrokeKey.F2) {
+			return new Color(0xF5B800);
+		} else if(this == StrokeKey.F3) {
+			return new Color(0x3366FF);
+		} else if(this == StrokeKey.F4) {
+			return new Color(0xFF6633);
+		} else if(this == StrokeKey.F5) {
+			return new Color(0x33CCFF);
+		}
+		return Color.white;
 	}
 	
 	public boolean isGuitarString() {

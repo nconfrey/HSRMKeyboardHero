@@ -2,11 +2,12 @@ package view;
 
 import gui.PlayerController;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.geom.Rectangle2D;
+import java.awt.geom.RoundRectangle2D;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -29,11 +30,12 @@ public class GuitarPane extends JPanel implements MP3PlayerListener,
 	private static final int CLEAN_INTERVAL = 100;
 
 	private int middleLineY;
+	private GuitarPaneLayout layout;
 
 	private int frame;
 	private int drawCounter;
 	BufferedImage buffer;
-	private Map<Stroke, Rectangle2D> strokeRects;
+	private Map<Stroke, RoundRectangle2D> strokeRects;
 
 	public GuitarPane() {
 		strokeRects = new HashMap<>();
@@ -41,6 +43,10 @@ public class GuitarPane extends JPanel implements MP3PlayerListener,
 		PlayerController.getInstance().getPlayer().addListener(this);
 		PlayerController.getInstance().getRecorder()
 				.addStrokeRecorderListener(this);
+		
+		setOpaque(false);
+		
+		layout = new GuitarPaneLayout(getWidth());
 	}
 
 	@Override
@@ -77,15 +83,23 @@ public class GuitarPane extends JPanel implements MP3PlayerListener,
 					.getPixelForFrame(calculateBufferHeight(track
 							.getStrokeSet()));
 			if (bufferHeight > 0) {
+				layout.setWidth(getWidth());
+				
 				buffer = new BufferedImage(bufferWidth, bufferHeight,
 						BufferedImage.TYPE_INT_ARGB);
 
 				Graphics2D g = (Graphics2D) buffer.getGraphics();
 				g.translate(0, bufferHeight);
+				g.setStroke(new BasicStroke(2));
 				for (List<Stroke> strokeList : track.getStrokeSet()
 						.getStrokes().values()) {
 					for (Stroke stroke : strokeList) {
-						g.fill(getStrokeRect(stroke));
+						RoundRectangle2D rect = getStrokeRect(stroke);
+						g.setColor(new Color(0xBABABA));
+						g.fill(rect);
+						g.setColor(stroke.getKey().getColor());
+						
+						g.draw(getStrokeRect(stroke));
 					}
 				}
 			}
@@ -111,13 +125,14 @@ public class GuitarPane extends JPanel implements MP3PlayerListener,
 		}
 	}
 
-	private Rectangle2D getStrokeRect(Stroke stroke) {
-		int height = Layouter.getPixelForFrame(getStrokeLength(stroke));
-		int x = Layouter.getPixelForStroke(stroke.getKey());
-		int y = -Layouter.getPixelForFrame(stroke.getStartFrame()) - height;
+	private RoundRectangle2D getStrokeRect(Stroke stroke) {
 		int width = Layouter.STROKE_WIDTH;
+		int height = Layouter.getPixelForFrame(getStrokeLength(stroke));
+		int x = layout.getPositionForKey(stroke.getKey()) - width/2;
+		int y = -Layouter.getPixelForFrame(stroke.getStartFrame()) - height;
+		
 
-		return new Rectangle2D.Float(x, y, width, height);
+		return new RoundRectangle2D.Float(x, y, width, height,10,10);
 	}
 
 	public void draw(Graphics2D g) {
@@ -141,10 +156,12 @@ public class GuitarPane extends JPanel implements MP3PlayerListener,
 		}
 
 		if (strokeRects != null) {
-			for (Map.Entry<Stroke, Rectangle2D> stroke : strokeRects.entrySet()) {
+			layout.setWidth(getWidth());
+			for (Map.Entry<Stroke, RoundRectangle2D> stroke : strokeRects.entrySet()) {
 				if (stroke.getKey().isOpen()) {
 					updateStroke(stroke.getKey());
 				}
+				g.setColor(stroke.getKey().getKey().getColor());
 				g.fill(stroke.getValue());
 			}
 		}
@@ -189,7 +206,7 @@ public class GuitarPane extends JPanel implements MP3PlayerListener,
 
 	private void cleanStrokeList() {
 		List<Stroke> toRemove = new ArrayList<Stroke>();
-		for (Map.Entry<Stroke, Rectangle2D> stroke : strokeRects.entrySet()) {
+		for (Map.Entry<Stroke, RoundRectangle2D> stroke : strokeRects.entrySet()) {
 			//TODO
 			if (stroke.getValue().getY() > getPreferredSize().getHeight()) {
 				System.out.println("Removed " + stroke);
