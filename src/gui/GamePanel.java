@@ -19,9 +19,10 @@ import controller.player.Playlist;
 import model.PersistenceHandler;
 import model.StrokeKey;
 import model.Track;
+import view.GuitarBackgroundPane;
 import view.GuitarPane;
 
-public class GamePanel extends JPanel implements ActionListener {
+public class GamePanel extends GHPanel implements ActionListener {
 		
 /**
 	 * 
@@ -79,9 +80,14 @@ public class GamePanel extends JPanel implements ActionListener {
 		gameContent = new JPanel(null);
 	    gameContent.setBackground(Color.BLUE);
 	    gameContent.setPreferredSize(getSize());
+
+	    GuitarBackgroundPane bgPane = new GuitarBackgroundPane();
+	    bgPane.setPreferredSize(gameContent.getPreferredSize());
+	    gameContent.add(bgPane);
+	    
 	    guitarPane = new GuitarPane();
 	    guitarPane.setPreferredSize(gameContent.getPreferredSize());
-	    gameContent.add(guitarPane);
+	    bgPane.add(guitarPane);
 	    return gameContent;
 	}
 	

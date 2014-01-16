@@ -169,7 +169,7 @@ public class StrokeRecorder implements GuitarStringListener, MP3PlayerListener {
 				for(Stroke aStroke : entry.getValue()) {
 					strokes += " " + aStroke.getKey() + " (l: " + aStroke.getLength() + "),";
 				}
-			     System.out.println("on Frame: " + entry.getKey() + ". Keys: " + strokes);
+			     //System.out.println("on Frame: " + entry.getKey() + ". Keys: " + strokes);
 			}
 		}
 	}
