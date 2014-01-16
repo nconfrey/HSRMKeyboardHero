@@ -21,7 +21,11 @@ public class StrokeSet implements Serializable{
 	public NavigableMap<Integer, List<Stroke>> getStrokes() {
 		return strokes;
 	}
-
+	
+	public boolean containsStroke(Stroke aStroke) {
+		ArrayList<Stroke> frameList = getListForFrame(aStroke.getStartFrame());
+		return frameList.contains(aStroke);
+	}
 
 	public Stroke set(Integer frame, StrokeKey key, Integer length) {
 		Stroke stroke = new Stroke(key, frame, 0);

@@ -1,7 +1,13 @@
 package controller;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.TreeMap;
+
 import gui.PlayerController;
 import model.Stroke;
+import model.StrokeKey;
+import model.StrokeSet;
 import controller.player.MP3Player;
 import controller.player.MP3PlayerListener;
 import controller.recorder.StrokeRecorder;
@@ -11,10 +17,12 @@ public class ScoreController implements MP3PlayerListener, StrokeRecorderListene
 	
 	private MP3Player player;
 	private boolean isRecording;
+	private Map<StrokeKey, Stroke> currentPlayedStrokes;
 	
 	public ScoreController() {
 		player = null;
 		isRecording = false;
+		currentPlayedStrokes = new HashMap<StrokeKey, Stroke>();
 	}
 	
 	@Override
@@ -41,13 +49,29 @@ public class ScoreController implements MP3PlayerListener, StrokeRecorderListene
 
 	@Override
 	public void redcorderDidOpenStroke(StrokeRecorder recorder, Stroke stroke) {
-		// TODO Auto-generated method stub
+		// just score in playing mode
+		if(isRecording) return;
+		
+		// already added
+		if(currentPlayedStrokes.containsKey(stroke.getKey())) return;
+		
+		StrokeSet strokeSet = PlayerController.getInstance().getTrack().getStrokeSet();
+		if(strokeSet != null && strokeSet.containsStroke(stroke)) {
+			currentPlayedStrokes.put(stroke.getKey(), stroke);
+			System.out.println("added stroke");
+		}
 		
 	}
 
 	@Override
 	public void redcorderDidCloseStroke(StrokeRecorder recorder, Stroke stroke) {
-		// TODO Auto-generated method stub
+		// just score in playing mode
+		if(isRecording) return;
+		
+		if(currentPlayedStrokes.containsKey(stroke.getKey())) {
+			currentPlayedStrokes.remove(stroke.getKey());
+			System.out.println("finished");
+		}
 		
 	}
 
