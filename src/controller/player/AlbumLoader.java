@@ -13,7 +13,7 @@ import javax.imageio.ImageIO;
  * @author privat
  */
 public class AlbumLoader {
-
+	// das ist mist
     public static BufferedImage loadCover(MP3PlayerTrack track) {
         /* API Key: 61047b4acdccb090ea7a05ac7e5602f8
            Secret: is 54452eda42c6f50c9305a86573acaafb */
