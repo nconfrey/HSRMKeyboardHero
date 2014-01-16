@@ -22,7 +22,7 @@ import model.Track;
 import view.GuitarBackgroundPane;
 import view.GuitarPane;
 
-public class GamePanel extends JPanel implements ActionListener {
+public class GamePanel extends GHPanel implements ActionListener {
 		
 /**
 	 * 

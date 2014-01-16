@@ -1,8 +1,11 @@
 package controller;
 
 
+import gui.BaseFrame;
 import gui.GamePanel;
 import gui.MainFrame;
+import gui.MenuPanel;
+import gui.NavigationController;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -22,8 +25,11 @@ import controller.recorder.StrokeRecorderListener;
 
 
 public class KeyboardHero {
-	
+		
 	public static void main(String[] args) {
-		new MainFrame();
+		BaseFrame baseFrame = new BaseFrame();
+		NavigationController navCon = new NavigationController(baseFrame);
+		MenuPanel menu = new MenuPanel();
+		navCon.pushPanel(menu);
 	}
 }
