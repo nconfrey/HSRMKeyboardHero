@@ -53,6 +53,7 @@ public class MainFrame extends JFrame implements ActionListener{
 
 		layeredPane = new JLayeredPane();
 		layeredPane.setPreferredSize(frameSize);
+
 		
 		menuPanel = new JPanel();
 		menuPanel.setLayout(new GridLayout(4,1));
@@ -77,7 +78,7 @@ public class MainFrame extends JFrame implements ActionListener{
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource() == playButton){
 			gamePanel = new GamePanel(layeredPane.getSize());
-			gamePanel.setBounds(0, 0, frameSize.width, frameSize.height);
+			//gamePanel.setBounds(0, 0, frameSize.width, frameSize.height);
 			layeredPane.add(gamePanel, new Integer(200));
 			System.out.println("game panel index: " + layeredPane.getIndexOf(gamePanel));
 		}

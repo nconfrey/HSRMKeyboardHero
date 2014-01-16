@@ -30,24 +30,16 @@ public class GamePanel extends JPanel implements ActionListener {
 	
 	
 	private GuitarPane guitarPane;
-	private JPanel contentPanel;	
+	
 	private JPanel leftContent;		// sidepanel for scores, songtitle ...
-	private JPanel rightContent;	// sidepanel for scores, songtitle ...
 	private JPanel gameContent;		// main game content
-	private JButton recordButton;
-	private JButton playButton;
-	private JButton savePlButton;
-	private JButton backToMenu;
-	private JPanel scoreContent;
-	private JLabel scoreLabel;
+	private ScorePanel scoreContent;
+	
 	
 	Playlist samplePlaylist;
 	
-	private final Dimension frameSize;
-	
 	public GamePanel(Dimension frameSize){
-			
-		this.frameSize = frameSize;
+		setSize(frameSize);
 		setFocusable(true);
 			
 		// TODO: Move to a better position
@@ -60,14 +52,12 @@ public class GamePanel extends JPanel implements ActionListener {
 		PlayerController.getInstance().setTrack(samplePlaylist.getTrack(0));
 		
 		 // ContentPanel
-	    contentPanel = new JPanel();
-	    contentPanel.setLayout(new BorderLayout());
-	    contentPanel.add(this.buildLeftContent(), BorderLayout.WEST);
-	    contentPanel.add(this.buildGameContent(), BorderLayout.CENTER);
-	    contentPanel.add(this.buildRightContent(), BorderLayout.EAST);
-	    this.add(contentPanel);
+	    this.setLayout(new BorderLayout());
+	    this.add(this.buildLeftContent(), BorderLayout.WEST);
+	    this.add(this.buildGameContent(), BorderLayout.EAST);
+	   
 	    
-		this.addActionListener(this);
+		
 	}
     
 	public void play() {
@@ -78,65 +68,23 @@ public class GamePanel extends JPanel implements ActionListener {
 		
 		// Panel
 		leftContent = new JPanel(new BorderLayout());
-	    leftContent.setBackground(Color.LIGHT_GRAY);
-	    leftContent.setPreferredSize(new Dimension(frameSize.width/6,frameSize.height)); // 1/6 der Frame Size
-	    
-	    // Record Button
-	    recordButton = new JButton("record");
-	    recordButton.setActionCommand("ButtonRecordClicked");
-	    leftContent.add(recordButton, BorderLayout.NORTH);
-	    
-	    // Play Button
-	    playButton = new JButton("play");
-	    playButton.setActionCommand("ButtonPlayClicked");
-	    leftContent.add(playButton, BorderLayout.WEST);
-	    
-	    // Score
-	    scoreContent = new JPanel();
-	    leftContent.add(scoreContent, BorderLayout.SOUTH);
-	    scoreContent.setPreferredSize(new Dimension(100, 20));
-	    scoreLabel = new JLabel("Score");
-	    scoreContent.add(scoreLabel);
-	    
-	    scoreContent.setBackground(Color.cyan);
-	    
-	    
-	    // Save Playlist Button
-	    savePlButton = new JButton("save");
-	    savePlButton.setActionCommand("ButtonSaveClicked");
-	    leftContent.add(savePlButton);
-	    
-	    
+	    leftContent.setBackground(Color.CYAN);
+	    leftContent.setPreferredSize(new Dimension(getSize().width/4,getSize().height)); // 1/6 der Frame Size
+
 	    return leftContent;
 	}
 
-	public JPanel buildRightContent(){
-		backToMenu = new JButton("Menu");
-	    backToMenu.setActionCommand("ButtonMenuClicked");
-		rightContent = new JPanel();
-	    rightContent.setBackground(Color.LIGHT_GRAY);
-	    rightContent.setPreferredSize(new Dimension(frameSize.width/6,frameSize.height)); // 1/6 der Frame Size
-	    rightContent.add(backToMenu);
-	    return rightContent;
-	}
 	
 	public JPanel buildGameContent(){
-		gameContent = new JPanel();
-	    gameContent.setBackground(Color.WHITE);
-	    gameContent.setPreferredSize(new Dimension(frameSize.width/6*4,frameSize.height)); // 4/6 der Frame Size
+		gameContent = new JPanel(null);
+	    gameContent.setBackground(Color.BLUE);
+	    gameContent.setPreferredSize(getSize());
 	    guitarPane = new GuitarPane();
 	    guitarPane.setPreferredSize(gameContent.getPreferredSize());
 	    gameContent.add(guitarPane);
 	    return gameContent;
 	}
 	
-	// Button Actions
-	public void addActionListener(ActionListener controller){
-		recordButton.addActionListener(controller);	
-		playButton.addActionListener(controller);
-		savePlButton.addActionListener(controller);
-		backToMenu.addActionListener(controller);
-	}
 	
 	public void actionPerformed(ActionEvent e) {
 	    if ("ButtonRecordClicked".equals(e.getActionCommand())) {
