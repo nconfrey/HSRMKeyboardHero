@@ -81,10 +81,10 @@ public class GuitarPane extends JPanel implements MP3PlayerListener,
 						BufferedImage.TYPE_INT_ARGB);
 
 				Graphics2D g = (Graphics2D) buffer.getGraphics();
+				g.translate(0, bufferHeight);
 				for (List<Stroke> strokeList : track.getStrokeSet()
 						.getStrokes().values()) {
 					for (Stroke stroke : strokeList) {
-						g.translate(0, Layouter.getPixelForFrame(stroke.getStartFrame()));
 						g.fill(getStrokeRect(stroke));
 					}
 				}
