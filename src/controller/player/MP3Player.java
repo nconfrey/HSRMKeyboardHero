@@ -78,9 +78,11 @@ public class MP3Player {
     }
 
     private void stopAndWait() {
-        player.close();
-        player = null;
-        firePlaybackStopped();
+    	if (player != null) {
+    		player.close();
+            player = null;
+            firePlaybackStopped();
+    	}
     }
 
     public synchronized void stop() {

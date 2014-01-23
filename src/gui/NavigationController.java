@@ -20,13 +20,13 @@ public class NavigationController {
 			baseFrame.remove(stack.peek());
 		}
 		stack.push(panel);
-		this.addPanelToBaseFrame(stack.peek());
+		baseFrame.display(stack.peek());
 	}
 	
 	public void popPanel(){
 		if(stack.size() > 1){
 			baseFrame.getContentPane().remove(stack.pop());
-			this.addPanelToBaseFrame(stack.peek());
+			baseFrame.display(stack.peek());
 		}
 		else{
 			System.out.println("Can't remove root panel");
@@ -34,17 +34,13 @@ public class NavigationController {
 	}
 	
 	public void popToRootPanel(){
-		baseFrame.getContentPane().remove(stack.peek());
-		while(stack.size() > 1) {
-			stack.pop();
+		if(stack.size() > 1){
+			baseFrame.getContentPane().remove(stack.pop());
+			while(stack.size() > 1) {
+				stack.pop();
+			}
+			baseFrame.display(stack.peek());
 		}
-		addPanelToBaseFrame(stack.peek());
-	}
-	
-	public void addPanelToBaseFrame(GHPanel panel){
-		baseFrame.getContentPane().add(panel);
-		baseFrame.getContentPane().revalidate();
-		baseFrame.getContentPane().repaint();
 	}
 	
 }

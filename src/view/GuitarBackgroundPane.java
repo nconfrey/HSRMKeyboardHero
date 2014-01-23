@@ -1,37 +1,33 @@
 package view;
 
-import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 
-import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
 public class GuitarBackgroundPane extends JPanel {
-
-	private GuitarPaneLayout layout;
+	
+	private static final int GUITAR_WIDTH = 300;
 	
 	public GuitarBackgroundPane() {
-		layout = new GuitarPaneLayout(getWidth());
-	}
-	
-	@Override
-	protected void paintComponent(Graphics g) {
-		super.paintComponent(g);
+		super();
 		
-		layout.setWidth(getWidth());
-	
-		g.setColor(new Color(0xDDDDDD));
-		g.fillRect(layout.getGuitarOffset(), 0, layout.getGuitarWidth(), getHeight());
+		GridBagLayout layout = new GridBagLayout();
 		
-		g.setColor(new Color(0xC0C0C0));
-		for (int i = 0; i < 5; i++) {
-			int x = layout.getPositionForLine(i);
-			g.drawLine(x, 0, x, getHeight());
-		}
+		setLayout(layout);
+		setOpaque(false);
+		
+		GridBagConstraints c = new GridBagConstraints();
+		c.gridx = 0;
+		c.gridy = 0;
+		c.fill = GridBagConstraints.VERTICAL;
+		c.anchor = GridBagConstraints.CENTER;
+		c.weighty = 1.0;
+		
+		GuitarPane p = new GuitarPane();
+		p.setPreferredSize(new Dimension(GUITAR_WIDTH, 0));
+		
+		add(p, c);
 	}
-	
 }

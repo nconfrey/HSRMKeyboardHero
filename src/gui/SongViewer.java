@@ -9,6 +9,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.Vector;
 
+import javax.swing.AbstractAction;
 import javax.swing.JButton;
 import javax.swing.JList;
 import javax.swing.JPanel;
@@ -18,71 +19,44 @@ import model.PersistenceHandler;
 import model.Track;
 import controller.player.Playlist;
 
-public class SongViewer extends GHPanel implements MouseListener{
-	
+public class SongViewer extends GHPanel {
+
 	private Playlist playlist;
-	private JList songlist;
-	private JScrollPane sp;	
+	private JList<Track> songlist;
 	private JButton backToMenu;
-	
-	public SongViewer(String fillmode){
-		
+	private ListAction selectAction;
+
+	public SongViewer() {
+
 		this.setLayout(new BorderLayout());
-		
+
 		playlist = PersistenceHandler.loadPlaylist();
-		if(playlist == null){
-			playlist = new Playlist("KeyboardHero Playlist");
-			Track sampleTrack = new Track("smoke_on_the_water_short.mp3");
-			playlist.addTrack(sampleTrack);
-		}
-		PlayerController.getInstance().setTrack(playlist.getTrack(0));
-		
-		songlist = new JList(playlist);
-		sp = new JScrollPane(songlist);
-		
-		songlist.addMouseListener(this);
+		songlist = new JList<Track>(playlist);
+
+		selectAction = new ListAction(songlist, new AbstractAction() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if (songlist.getSelectedValue() != null) {
+					PlayerController.getInstance().setTrack(
+							songlist.getSelectedValue());
+					GamePanel gameFrame = new GamePanel();
+					getNavigationController().pushPanel(gameFrame);
+				}
+			}
+		});
+
 		backToMenu = new JButton("Back to menu");
 		backToMenu.addActionListener(new ActionListener() {
-			
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				getNavigationController().popPanel();
-				
 			}
 		});
-		
-		this.add(songlist, BorderLayout.NORTH);
+
+		this.add(songlist, BorderLayout.CENTER);
 		this.add(backToMenu, BorderLayout.SOUTH);
 
 	}
-	
-	public JList getSonglist(){
-		return songlist;
-	}
-
-	@Override
-	public void mouseClicked(MouseEvent e) {
-		if(e.getClickCount() == 2){
-	    	int index = songlist.getSelectedIndex();
-	    	GamePanel gameFrame = new GamePanel(new Dimension(800,600/*, playlist.getTrack(index)*/));
-			this.getNavigationController().pushPanel(gameFrame);
-	    }
-	}
-
-	@Override
-	public void mousePressed(MouseEvent e) {	
-	}
-
-	@Override
-	public void mouseReleased(MouseEvent e) {	
-	}
-
-	@Override
-	public void mouseEntered(MouseEvent e) {
-	}
-
-	@Override
-	public void mouseExited(MouseEvent e) {
-	}
-	
 }
