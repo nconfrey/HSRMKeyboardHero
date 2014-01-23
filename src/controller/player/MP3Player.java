@@ -121,7 +121,7 @@ public class MP3Player {
                         mP3PlayerListener.playbackPlaying(finalThis, frame++);
                     }
                 }
-            }, 0, 10);
+            }, 0, 50);
         }
     }
 
