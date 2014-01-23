@@ -112,8 +112,8 @@ public class MP3Player {
             }
             final MP3Player finalThis = this;
 
-            frameTimer = new Timer();
-            frameTimer.schedule(new TimerTask() {
+			frameTimer = new Timer();
+            frameTimer.scheduleAtFixedRate(new TimerTask() {
 
                 @Override
                 public void run() {
