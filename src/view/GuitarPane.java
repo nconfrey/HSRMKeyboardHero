@@ -7,6 +7,8 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.geom.Line2D;
+import java.awt.geom.Rectangle2D;
 import java.awt.geom.RoundRectangle2D;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
@@ -17,6 +19,7 @@ import java.util.Map;
 import javax.swing.JPanel;
 
 import model.Stroke;
+import model.StrokeKey;
 import model.StrokeSet;
 import model.Track;
 import controller.player.MP3Player;
@@ -29,12 +32,11 @@ public class GuitarPane extends JPanel implements MP3PlayerListener,
 
 	private static final int CLEAN_INTERVAL = 100;
 
-	private int middleLineY;
-	private GuitarPaneLayout layout;
-
+	private static final int STROKE_WIDTH = 30;
+	
 	private int frame;
 	private int drawCounter;
-	BufferedImage buffer;
+	private BufferedImage buffer;
 	private Map<Stroke, RoundRectangle2D> strokeRects;
 
 	public GuitarPane() {
@@ -45,14 +47,6 @@ public class GuitarPane extends JPanel implements MP3PlayerListener,
 				.addStrokeRecorderListener(this);
 		
 		setOpaque(false);
-		
-		layout = new GuitarPaneLayout(getWidth());
-	}
-
-	@Override
-	public void setPreferredSize(Dimension preferredSize) {
-		super.setPreferredSize(preferredSize);
-		middleLineY = getPreferredSize().height / 2;
 	}
 
 	@Override
@@ -79,12 +73,9 @@ public class GuitarPane extends JPanel implements MP3PlayerListener,
 	public void render(Track track) {
 		if (buffer == null && track.getStrokeSet() != null) {
 			int bufferWidth = getPreferredSize().width;
-			int bufferHeight = Layouter
-					.getPixelForFrame(calculateBufferHeight(track
+			int bufferHeight = getPixelForFrame(calculateBufferHeight(track
 							.getStrokeSet()));
 			if (bufferHeight > 0) {
-				layout.setWidth(getWidth());
-				
 				buffer = new BufferedImage(bufferWidth, bufferHeight,
 						BufferedImage.TYPE_INT_ARGB);
 
@@ -126,25 +117,35 @@ public class GuitarPane extends JPanel implements MP3PlayerListener,
 	}
 
 	private RoundRectangle2D getStrokeRect(Stroke stroke) {
-		int width = Layouter.STROKE_WIDTH;
-		int height = Layouter.getPixelForFrame(getStrokeLength(stroke));
-		int x = layout.getPositionForKey(stroke.getKey()) - width/2;
-		int y = -Layouter.getPixelForFrame(stroke.getStartFrame()) - height;
+		float width = STROKE_WIDTH;
+		float height = getPixelForFrame(getStrokeLength(stroke));
+		float x = getPositionForKey(stroke.getKey()) - width/2;
+		float y = -getPixelForFrame(stroke.getStartFrame()) - height;
 		
 
 		return new RoundRectangle2D.Float(x, y, width, height,10,10);
 	}
 
 	public void draw(Graphics2D g) {
-		// Draw middle line
-		g.setColor(new Color(0.5f, 0.5f, 0.5f, 0.2f));
-		g.fillRect(0, middleLineY, getPreferredSize().width, 20);
-
+		// Draw background
+		g.setColor(new Color(0xF1DDDDDD, true));
+		g.fillRect(0, 0, getWidth(), getHeight());
+		
+		g.setColor(new Color(0xAAAAAAAA, true));
+		g.fill(new Rectangle2D.Float(0, getVerticalOffset(), getWidth(), 30));
+		
+		g.setColor(new Color(0xC0C0C0));
+		g.setStroke(new BasicStroke(1.5f));
+		for (int i = 0; i < 5; i++) {
+			float x = getPositionForLine(i);
+			g.draw(new Line2D.Float(x, 0, x, getHeight()));
+		}
+		
 		// Draw current frame
 		g.setColor(Color.black);
-		g.drawString("" + frame, 20, 20);
+		g.drawString("" + frame, 10, 20);
 
-		g.translate(0, Layouter.getPixelForFrame(frame) + middleLineY);
+		g.translate(0, getPixelForFrame(frame) + getVerticalOffset());
 
 		if (buffer != null) {
 			g.drawImage(buffer, null, 0, -buffer.getHeight());
@@ -156,7 +157,6 @@ public class GuitarPane extends JPanel implements MP3PlayerListener,
 		}
 
 		if (strokeRects != null) {
-			layout.setWidth(getWidth());
 			for (Map.Entry<Stroke, RoundRectangle2D> stroke : strokeRects.entrySet()) {
 				if (stroke.getKey().isOpen()) {
 					updateStroke(stroke.getKey());
@@ -167,6 +167,22 @@ public class GuitarPane extends JPanel implements MP3PlayerListener,
 		}
 
 		drawCounter++;
+	}
+	
+	private float getVerticalOffset() {
+		return (getHeight() - 30) / 1.5f;
+	}
+	
+	private float getPositionForLine(int line)  {
+		return (line + 1) * (getWidth() / 6.0f) ;
+	}
+	
+	private float getPositionForKey(StrokeKey key) {
+		return getPositionForLine(key.getPosition());
+	}
+	
+	public static int getPixelForFrame(int frame) {
+		return frame * 1;
 	}
 
 	// MP3Player Listener

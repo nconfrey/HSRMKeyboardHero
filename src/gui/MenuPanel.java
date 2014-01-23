@@ -1,12 +1,10 @@
 package gui;
 
-import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
-import javax.swing.JPanel;
 
 public class MenuPanel extends GHPanel implements ActionListener{
 	
@@ -38,11 +36,10 @@ public class MenuPanel extends GHPanel implements ActionListener{
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		if(e.getSource() == playButton){
-			SongViewer songViewer = new SongViewer("TEST");
+		if(e.getSource() == playButton || e.getSource() == recordButton){
+			PlayerController.getInstance().setRecording(e.getSource() == recordButton);
+			SongViewer songViewer = new SongViewer();
 			this.getNavigationController().pushPanel(songViewer);
-		}
-		if(e.getSource() == recordButton){
 		}
 		if(e.getSource() == highscoreButton){
 		}

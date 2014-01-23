@@ -1,114 +1,79 @@
 package gui;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.event.ActionEvent;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.KeyEventDispatcher;
+import java.awt.KeyboardFocusManager;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import java.util.ArrayList;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
 
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
+import javax.imageio.ImageIO;
 import javax.swing.JPanel;
-import javax.swing.border.Border;
 
-import controller.player.Playlist;
-import model.PersistenceHandler;
-import model.StrokeKey;
-import model.Track;
 import view.GuitarBackgroundPane;
-import view.GuitarPane;
+import controller.player.Playlist;
 
-public class GamePanel extends GHPanel implements ActionListener {
-		
-/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	
-	
-	private GuitarPane guitarPane;
+public class GamePanel extends GHPanel {
 	
 	private JPanel leftContent;		// sidepanel for scores, songtitle ...
-	private JPanel gameContent;		// main game content
 	private ScorePanel scoreContent;
 	
+	private BufferedImage image;
 	
 	Playlist samplePlaylist;
 	
-	public GamePanel(Dimension frameSize){
-		setSize(frameSize);
+	public GamePanel(){
 		setFocusable(true);
-			
-		// TODO: Move to a better position
-		samplePlaylist = PersistenceHandler.loadPlaylist();
-		if(samplePlaylist == null){
-			samplePlaylist = new Playlist("Sample Playlist");
-			Track sampleTrack = new Track("smoke_on_the_water_short.mp3");
-			samplePlaylist.addTrack(sampleTrack);
-		}
-		PlayerController.getInstance().setTrack(samplePlaylist.getTrack(0));
 		
 		 // ContentPanel
 	    this.setLayout(new BorderLayout());
 	    this.add(this.buildLeftContent(), BorderLayout.WEST);
-	    this.add(this.buildGameContent(), BorderLayout.EAST);
+	    this.add(new GuitarBackgroundPane(), BorderLayout.CENTER);
 	   
-	    
+	    try {
+			image = ImageIO.read(getClass().getResourceAsStream("/background.jpg"));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
-	}
-    
-	public void play() {
-		PlayerController.getInstance().play();
+	    KeyboardFocusManager manager = KeyboardFocusManager
+				.getCurrentKeyboardFocusManager();
+		manager.addKeyEventDispatcher(new KeyEventDispatcher() {
+			
+			@Override
+			public boolean dispatchKeyEvent(KeyEvent e) {
+				if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
+	    			PlayerController.getInstance().stop();
+	    			getNavigationController().popToRootPanel();
+	    			return true;
+	    		}
+				return false;
+			}
+		});
+	    
+	    PlayerController.getInstance().play();
 	}
 
 	public JPanel buildLeftContent(){
 		
 		// Panel
 		leftContent = new JPanel(new BorderLayout());
-	    leftContent.setBackground(Color.CYAN);
-	    leftContent.setPreferredSize(new Dimension(getSize().width/4,getSize().height)); // 1/6 der Frame Size
 
 	    return leftContent;
 	}
-
 	
-	public JPanel buildGameContent(){
-		gameContent = new JPanel(null);
-	    gameContent.setBackground(Color.BLUE);
-	    gameContent.setPreferredSize(getSize());
-
-	    GuitarBackgroundPane bgPane = new GuitarBackgroundPane();
-	    bgPane.setPreferredSize(gameContent.getPreferredSize());
-	    gameContent.add(bgPane);
-	    
-	    guitarPane = new GuitarPane();
-	    guitarPane.setPreferredSize(gameContent.getPreferredSize());
-	    bgPane.add(guitarPane);
-	    return gameContent;
-	}
-	
-	
-	public void actionPerformed(ActionEvent e) {
-	    if ("ButtonRecordClicked".equals(e.getActionCommand())) {
-	    	recordButtonClicked();
-	    } else if ("ButtonPlayClicked".equals(e.getActionCommand())) {
-	    	playButtonClicked();
-	    } else if ("ButtonSaveClicked".equals(e.getActionCommand())){
-	    	PersistenceHandler.savePlaylist(samplePlaylist);
-	    } else if ("ButtonMenuClicked".equals(e.getActionCommand())){
-	    	PlayerController.getInstance().getPlayer().stop();
-	    }
-	}
-	
-	private void recordButtonClicked() {
-		PlayerController.getInstance().record();
-	}
-	
-	private void playButtonClicked() {
-		this.play();
-	}
+	@Override
+		protected void paintComponent(Graphics g) {
+			super.paintComponent(g);
+			
+			if (this.image != null) {
+				Graphics2D g2 = (Graphics2D)g;
+				g2.drawImage(this.image, null, 0, 0);
+			}
+		}
 }

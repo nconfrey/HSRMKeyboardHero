@@ -17,6 +17,8 @@ import controller.player.Playlist;
  */
 
 public class PersistenceHandler {
+	
+	private static Playlist playlist;
 
     //private static final String FILE_PATH = KeyboardHero.class.getResource("/"+mp3Name).toURI();
 	private static final File playlistFile = new File(System.getProperty("user.home") + File.separator + "playlist.mpl");
@@ -25,7 +27,11 @@ public class PersistenceHandler {
      *
      * @param playlist the playlist to save
      */
-    public static void savePlaylist(Playlist playlist) {
+    public static void savePlaylist() {
+    	if (playlist == null) {
+    		return;
+    	}
+
         try (FileOutputStream fileOut = new FileOutputStream(playlistFile);
              ObjectOutputStream out = new ObjectOutputStream(fileOut)) {
             out.writeObject(playlist);
@@ -41,7 +47,9 @@ public class PersistenceHandler {
      * @return the loaded playlist
      */
     public static Playlist loadPlaylist() {
-        Playlist playlist = null;
+    	if (playlist != null) {
+    		return playlist;
+    	}
 
         try (FileInputStream fileIn = new FileInputStream(playlistFile);
              ObjectInputStream in = new ObjectInputStream(fileIn)) {
@@ -57,7 +65,19 @@ public class PersistenceHandler {
             System.out.println("Playlist class not found");
             c.printStackTrace();
         }
+        
+        if (playlist == null) {
+        	playlist = loadDefaultPlaylist();
+        }
+        
         return playlist;
+    }
+    
+    private static Playlist loadDefaultPlaylist() {
+    	Playlist playlist = new Playlist("KeyboardHero Playlist");
+		Track sampleTrack = new Track("smoke_on_the_water_short.mp3");
+		playlist.addTrack(sampleTrack);
+		return playlist;
     }
 
 }
