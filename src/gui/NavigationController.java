@@ -25,7 +25,7 @@ public class NavigationController {
 	
 	public void popPanel(){
 		if(stack.size() > 1){
-			baseFrame.remove(stack.pop());
+			baseFrame.getContentPane().remove(stack.pop());
 			this.addPanelToBaseFrame(stack.peek());
 		}
 		else{
@@ -34,6 +34,7 @@ public class NavigationController {
 	}
 	
 	public void popToRootPanel(){
+		baseFrame.getContentPane().remove(stack.peek());
 		while(stack.size() > 1) {
 			stack.pop();
 		}
