@@ -182,7 +182,7 @@ public class GuitarPane extends JPanel implements MP3PlayerListener,
 	}
 	
 	public static int getPixelForFrame(int frame) {
-		return frame * 1;
+		return (int)(frame * 0.3);
 	}
 
 	// MP3Player Listener
