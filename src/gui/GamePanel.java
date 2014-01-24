@@ -2,8 +2,10 @@ package gui;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Image;
 import java.awt.KeyEventDispatcher;
 import java.awt.KeyboardFocusManager;
 import java.awt.TextField;
@@ -16,19 +18,18 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
-
+import javax.swing.SwingUtilities;
 
 
 import view.GuitarBackgroundPane;
+import controller.player.AlbumLoader;
 import controller.player.Playlist;
+import model.Track;
 
 public class GamePanel extends GHPanel {
 	
 	private JPanel leftContent;		// sidepanel for scores, songtitle ...
-	
-	private BufferedImage image;
-	
-	Playlist samplePlaylist;
+	private BufferedImage coverImage;
 	
 	public GamePanel(){
 		setFocusable(true);
@@ -38,12 +39,7 @@ public class GamePanel extends GHPanel {
 	    this.add(this.buildLeftContent(), BorderLayout.WEST);
 	    this.add(new GuitarBackgroundPane(), BorderLayout.CENTER);
 	   
-	    try {
-			image = ImageIO.read(getClass().getResourceAsStream("/background.jpg"));
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+	    loadBackgroundCover();
 		
 	    KeyboardFocusManager manager = KeyboardFocusManager
 				.getCurrentKeyboardFocusManager();
@@ -81,15 +77,71 @@ public class GamePanel extends GHPanel {
 	    return leftContent;
 	}
 	
+	private void loadBackgroundCover() {
+		
+		try {
+			coverImage = ImageIO.read(getClass().getResourceAsStream("/background.jpg"));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		final Track currentTrack = PlayerController.getInstance().getTrack();
+		new Thread() {
+		    public void run() {
+		    	final BufferedImage bandImage = AlbumLoader.loadCover(currentTrack);
+		    	if(bandImage != null) {
+		    		coverImage = bandImage;
+		    		repaint();
+		    		
+			    }
+		    }
+		}.start();
+	}
+	
 	@Override
 		protected void paintComponent(Graphics g) {
 			super.paintComponent(g);
 			
-			if (this.image != null) {
-				Graphics2D g2 = (Graphics2D)g;
-				g2.drawImage(this.image, null, 0, 0);
-			}
+			if(this.coverImage == null) return;
+
+		    double scaleFactor = Math.max(1d, getScaleFactorToFill(new Dimension(coverImage.getWidth(), coverImage.getHeight()), getSize()));
+
+		    int scaleWidth = (int) Math.round(coverImage.getWidth() * scaleFactor);
+		    int scaleHeight = (int) Math.round(coverImage.getHeight() * scaleFactor);
+
+		    Image scaled = coverImage.getScaledInstance(scaleWidth, scaleHeight, Image.SCALE_FAST);
+
+		    int width = getWidth() - 1;
+		    int height = getHeight() - 1;
+
+		    int x = (width - scaled.getWidth(this)) / 2;
+		    int y = (height - scaled.getHeight(this)) / 2;
+
+		    g.drawImage(scaled, x, y, this);
 		}
+	
+	private double getScaleFactor(int iMasterSize, int iTargetSize) {
+
+	    double dScale = 1;
+	    if (iMasterSize > iTargetSize) {
+	        dScale = (double) iTargetSize / (double) iMasterSize;
+	    } else {
+	        dScale = (double) iTargetSize / (double) iMasterSize;
+	    }
+
+	    return dScale;
+	}
+
+	private double getScaleFactorToFill(Dimension masterSize, Dimension targetSize) {
+
+	    double dScaleWidth = getScaleFactor(masterSize.width, targetSize.width);
+	    double dScaleHeight = getScaleFactor(masterSize.height, targetSize.height);
+
+	    double dScale = Math.max(dScaleHeight, dScaleWidth);
+
+	    return dScale;
+
+	}
 }
 
 

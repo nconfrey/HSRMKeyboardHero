@@ -18,7 +18,7 @@ public class Track implements Serializable{
 	public Track(String mp3Name) {
 		File mp3File = null;
 		try {
-			mp3File = new File(KeyboardHero.class.getResource("/"+mp3Name).toURI());
+			mp3File = new File(mp3Name);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

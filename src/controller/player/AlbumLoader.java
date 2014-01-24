@@ -2,11 +2,15 @@ package controller.player;
 
 import de.umass.lastfm.Album;
 import de.umass.lastfm.ImageSize;
+
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.net.URL;
+
 import javax.imageio.ImageIO;
+
+import model.Track;
 
 /**
  *
@@ -14,11 +18,15 @@ import javax.imageio.ImageIO;
  */
 public class AlbumLoader {
 
-    public static BufferedImage loadCover(MP3PlayerTrack track) {
+    public static BufferedImage loadCover(Track track) {
         /* API Key: 61047b4acdccb090ea7a05ac7e5602f8
            Secret: is 54452eda42c6f50c9305a86573acaafb */
+    	
+    	MP3PlayerTrack mp3Track = track.getMp3();
+    	
+    	
         Album album = Album.getInfo(
-                track.getArtist(), track.getAlbumTitle(),
+        		mp3Track.getArtist(), mp3Track.getAlbumTitle(),
                 "61047b4acdccb090ea7a05ac7e5602f8"
         );
         String imageURL = album.getImageURL(ImageSize.MEGA);

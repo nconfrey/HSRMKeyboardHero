@@ -3,16 +3,13 @@ package controller.player;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
-import model.Track;
-import javazoom.jl.decoder.JavaLayerException;
-import javazoom.jl.player.*;
+import ddf.minim.AudioPlayer;
+import ddf.minim.Minim;
 
 /**
  *
@@ -21,7 +18,8 @@ import javazoom.jl.player.*;
 public class MP3Player {
 
     private MP3PlayerTrack track;
-    private Player player;
+    private Minim minim;
+    private AudioPlayer player;
     private ArrayList<MP3PlayerListener> listeners;
     private Timer frameTimer;
     private int frame;
@@ -30,6 +28,7 @@ public class MP3Player {
     public MP3Player() {
         listeners = new ArrayList<>();
         frame = 0;
+        minim = new Minim(this);
     }
 
     public MP3PlayerTrack getTrack() {
@@ -41,36 +40,17 @@ public class MP3Player {
 	}
 
     public synchronized void play() {
-        new Thread(new Runnable() {
+    	if (isPlaying()) {
+            stopAndWait();
+        }
 
-            @Override
-            public void run() {
-                if (isPlaying()) {
-                    stopAndWait();
-                }
-
-                if (track != null) {
-                    File f = track.getFile();
-                    try {
-                        player = new Player(new FileInputStream(f));
-
-                        firePlaybackStarted();
-                        try {
-                            player.play();
-                        } catch (JavaLayerException ex) {
-                            Logger.getLogger(MP3Player.class.getName()).log(Level.SEVERE, null, ex);
-                        }
-
-                        stopAndWait();
-                    } catch (JavaLayerException ex) {
-                        Logger.getLogger(MP3Player.class.getName()).log(Level.SEVERE, null, ex);
-                    } catch (FileNotFoundException ex) {
-                        Logger.getLogger(MP3Player.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-                }
-
-            }
-        }).start();
+        if (track != null) {
+            File f = track.getFile();
+            player = minim.loadFile(f.getAbsolutePath());
+            firePlaybackStarted();
+            player.play();
+            //stopAndWait();
+        }
     }
 
     public boolean isPlaying() {
@@ -79,7 +59,8 @@ public class MP3Player {
 
     private void stopAndWait() {
     	if (player != null) {
-    		player.close();
+    		player.pause();
+    		minim.stop();
             player = null;
             firePlaybackStopped();
     	}
@@ -118,7 +99,8 @@ public class MP3Player {
                 @Override
                 public void run() {
                     for (MP3PlayerListener mP3PlayerListener : listeners) {
-                        mP3PlayerListener.playbackPlaying(finalThis, frame++);
+                    	frame = player.position();
+                        mP3PlayerListener.playbackPlaying(finalThis, frame);
                     }
                 }
             }, 0, 50);
@@ -135,4 +117,17 @@ public class MP3Player {
             }
         }
     }
+    
+    public String sketchPath(String fileName) {
+    	return "";
+    }
+    
+    public InputStream createInput(String fileName) {
+    	try {
+			return new FileInputStream(fileName);
+		} catch (FileNotFoundException e) {
+			return null;
+		}
+    }
+
 }
