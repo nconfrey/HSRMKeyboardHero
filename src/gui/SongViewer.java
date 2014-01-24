@@ -10,6 +10,7 @@ import java.awt.event.MouseListener;
 import java.util.Vector;
 
 import javax.swing.AbstractAction;
+import javax.swing.DropMode;
 import javax.swing.JButton;
 import javax.swing.JList;
 import javax.swing.JPanel;
@@ -25,11 +26,13 @@ public class SongViewer extends GHPanel {
 	private JList<Track> songlist;
 	private JButton backToMenu;
 	private ListAction selectAction;
+	private PlaylistTransferHandler transferHandler;
 
 	public SongViewer() {
 
 		this.setLayout(new BorderLayout());
 		this.fillPlaylist();
+		
 		selectAction = new ListAction(songlist, new AbstractAction() {
 
 			@Override
@@ -61,6 +64,9 @@ public class SongViewer extends GHPanel {
 		playlist = PersistenceHandler.loadPlaylist();
 		if(PlayerController.getInstance().isRecording()){
 			songlist = new JList<Track>(playlist);
+			transferHandler = new PlaylistTransferHandler(playlist);
+			songlist.setDropMode(DropMode.ON);
+			songlist.setTransferHandler(transferHandler);
 		}
 		else{
 			Playlist gamePlaylist = new Playlist("Game Playlist");
@@ -69,7 +75,8 @@ public class SongViewer extends GHPanel {
 					gamePlaylist.addTrack(track);
 				}
 			}
-			songlist = new JList<Track>(gamePlaylist);
+			playlist = gamePlaylist;
+			songlist = new JList<Track>(playlist);
 		}
 			
 	}
