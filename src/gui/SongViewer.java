@@ -29,10 +29,7 @@ public class SongViewer extends GHPanel {
 	public SongViewer() {
 
 		this.setLayout(new BorderLayout());
-
-		playlist = PersistenceHandler.loadPlaylist();
-		songlist = new JList<Track>(playlist);
-
+		this.fillPlaylist();
 		selectAction = new ListAction(songlist, new AbstractAction() {
 
 			@Override
@@ -58,5 +55,22 @@ public class SongViewer extends GHPanel {
 		this.add(songlist, BorderLayout.CENTER);
 		this.add(backToMenu, BorderLayout.SOUTH);
 
+	}
+	
+	public void fillPlaylist(){
+		playlist = PersistenceHandler.loadPlaylist();
+		if(PlayerController.getInstance().isRecording()){
+			songlist = new JList<Track>(playlist);
+		}
+		else{
+			Playlist gamePlaylist = new Playlist("Game Playlist");
+			for(Track track: playlist.getTracks()){
+				if(track.getStrokeSet() != null){
+					gamePlaylist.addTrack(track);
+				}
+			}
+			songlist = new JList<Track>(gamePlaylist);
+		}
+			
 	}
 }
