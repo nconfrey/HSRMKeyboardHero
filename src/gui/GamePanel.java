@@ -1,10 +1,12 @@
 package gui;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.KeyEventDispatcher;
 import java.awt.KeyboardFocusManager;
+import java.awt.TextField;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -14,13 +16,13 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
+
 import view.GuitarBackgroundPane;
 import controller.player.Playlist;
 
 public class GamePanel extends GHPanel {
 	
 	private JPanel leftContent;		// sidepanel for scores, songtitle ...
-	private ScorePanel scoreContent;
 	
 	private BufferedImage image;
 	
@@ -63,7 +65,11 @@ public class GamePanel extends GHPanel {
 		
 		// Panel
 		leftContent = new JPanel(new BorderLayout());
-
+		ScorePanel scorePanel = new ScorePanel();
+		leftContent.add(scorePanel, BorderLayout.SOUTH);
+		scorePanel.setBackground(Color.PINK);
+		
+		
 	    return leftContent;
 	}
 	
