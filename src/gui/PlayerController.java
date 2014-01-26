@@ -1,5 +1,6 @@
 package gui;
 
+import model.Score;
 import model.Track;
 import controller.KeyController;
 import controller.ScoreController;
@@ -78,5 +79,8 @@ public class PlayerController {
 		this.track = track;
 		player.setTrack(track.getMp3());
 		recorder.setTrack(track);
+	}
+	public ScoreController getScoreController() {
+		return scoreController;
 	}
 }

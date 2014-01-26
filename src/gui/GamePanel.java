@@ -16,8 +16,10 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
+import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
+
 
 import view.GuitarBackgroundPane;
 import controller.player.AlbumLoader;
@@ -61,9 +63,15 @@ public class GamePanel extends GHPanel {
 		
 		// Panel
 		leftContent = new JPanel(new BorderLayout());
-		ScorePanel scorePanel = new ScorePanel();
+		leftContent.setOpaque(false);
+		JPanel scorePanel = new JPanel();
 		leftContent.add(scorePanel, BorderLayout.SOUTH);
-		scorePanel.setBackground(Color.PINK);
+		scorePanel.setBorder(BorderFactory.createEmptyBorder(0, 100, 30, 0));
+		ScorePanel secondScorePanel = new ScorePanel();
+		scorePanel.add(secondScorePanel);
+		secondScorePanel.setBackground(Color.BLACK);
+		scorePanel.setOpaque(false);
+		
 		
 		
 	    return leftContent;
@@ -135,3 +143,5 @@ public class GamePanel extends GHPanel {
 
 	}
 }
+
+
