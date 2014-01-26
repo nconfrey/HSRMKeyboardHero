@@ -19,6 +19,7 @@ import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
+import net.miginfocom.swing.MigLayout;
 import view.GuitarBackgroundPane;
 import controller.player.AlbumLoader;
 import controller.player.Playlist;
@@ -33,14 +34,14 @@ public class GamePanel extends GHPanel {
 	public GamePanel() {
 		setFocusable(true);
 
-		// ContentPanel
-		this.setLayout(new BorderLayout());
-		this.add(this.buildLeftContent(), BorderLayout.WEST);
-		this.add(new GuitarBackgroundPane(), BorderLayout.CENTER);
-
-		loadBackgroundCover();
-
-		KeyboardFocusManager manager = KeyboardFocusManager
+		 // ContentPanel
+	    this.setLayout(new MigLayout("fill"));
+	    this.add(this.buildLeftContent(), "gapleft 30, gaptop  30, west, width 250:350:350");
+	    this.add(new GuitarBackgroundPane(), "center, growy");
+	   
+	    loadBackgroundCover();
+		
+	    KeyboardFocusManager manager = KeyboardFocusManager
 				.getCurrentKeyboardFocusManager();
 		manager.addKeyEventDispatcher(new KeyEventDispatcher() {
 
@@ -72,17 +73,19 @@ public class GamePanel extends GHPanel {
 	public JPanel buildLeftContent() {
 
 		// Panel
-		leftContent = new JPanel(new BorderLayout());
-		leftContent.setOpaque(false);
-		JPanel scorePanel = new JPanel();
-		leftContent.add(scorePanel, BorderLayout.SOUTH);
-		scorePanel.setBorder(BorderFactory.createEmptyBorder(0, 100, 30, 0));
-		ScorePanel secondScorePanel = new ScorePanel();
-		scorePanel.add(secondScorePanel);
-		secondScorePanel.setBackground(Color.BLACK);
-		scorePanel.setOpaque(false);
-
-		return leftContent;
+		leftContent = new JPanel(new MigLayout("fillx", "", "[]30[]"));
+		leftContent.setOpaque(false);		
+		ScorePanel scorePanel = new ScorePanel();
+		TitlePanel titlePanel = new TitlePanel();
+		
+		leftContent.add(titlePanel, "wrap, growx");
+		leftContent.add(scorePanel, "wrap, growx");
+		
+		
+		titlePanel.setBackground(Color.WHITE);
+		scorePanel.setBackground(Color.WHITE);
+		
+	    return leftContent;
 	}
 
 	private void loadBackgroundCover() {

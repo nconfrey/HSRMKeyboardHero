@@ -24,6 +24,7 @@ public class Track implements Serializable{
 		}
 		this.mp3 = new MP3PlayerTrack(mp3File);
 	}
+	
 
 	public StrokeSet getStrokeSet() {
 		return strokeSet;
