@@ -4,9 +4,12 @@ import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
-import view.ImagePanel;
+import javax.swing.SwingConstants;
+import view.KeyboardHeroConstants;
 import view.MenuButton;
+import model.KeyboardHeroFontModel;
 import net.miginfocom.swing.MigLayout;
 
 public class MenuPanel extends GHPanel implements ActionListener{
@@ -19,9 +22,13 @@ public class MenuPanel extends GHPanel implements ActionListener{
 	public MenuPanel(){
 		
 		this.setBackground(Color.WHITE);
-		this.setLayout(new MigLayout("insets 60 0 0 0, fillx"));
+		this.setLayout(new MigLayout("insets 50 0 0 0, fillx"));
 		
-		this.add(new ImagePanel("logo.png", ImagePanel.SIZE_FIXED), "wrap, grow, height 157!");
+		JLabel titleLabel = new JLabel("Keyboard Hero");
+		titleLabel.setFont(KeyboardHeroFontModel.getInstance().getFont(KeyboardHeroFontModel.FONT_NIGHTMARE).deriveFont(82f));
+		titleLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		titleLabel.setForeground(new Color(KeyboardHeroConstants.FONT_COLOR_PRIMARY));
+		this.add(titleLabel, "wrap, grow");
 		
 		playButton = new MenuButton("Play");
 		playButton.addActionListener(this);
@@ -48,7 +55,7 @@ public class MenuPanel extends GHPanel implements ActionListener{
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource() == playButton || e.getSource() == recordButton){
 			PlayerController.getInstance().setRecording(e.getSource() == recordButton);
-			SongViewer songViewer = new SongViewer();
+			SongListPanel songViewer = new SongListPanel();
 			this.getNavigationController().pushPanel(songViewer);
 		}
 		if(e.getSource() == highscoreButton){

@@ -8,6 +8,8 @@ import javax.swing.DefaultListCellRenderer;
 import javax.swing.JList;
 import javax.swing.ListModel;
 
+import view.KeyboardHeroConstants;
+
 public class MenuSongList<E> extends JList<E> {
 	
 	public MenuSongList(ListModel<E> dataModel) {
@@ -29,7 +31,7 @@ public class MenuSongList<E> extends JList<E> {
             	Component c = super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
                 
                 
-                c.setBackground(new Color(0x148296));
+                c.setBackground(new Color(KeyboardHeroConstants.FONT_COLOR_PRIMARY));
                 c.setForeground(Color.WHITE);
         		c.setFont(new Font("SansSerif", Font.BOLD, 14));
         		

@@ -11,6 +11,7 @@ import model.PersistenceHandler;
 public class KeyboardHero {
 		
 	public static void main(String[] args) {
+		
 		BaseFrame baseFrame = new BaseFrame();
 		NavigationController navCon = new NavigationController(baseFrame);
 		MenuPanel menu = new MenuPanel();
@@ -22,5 +23,6 @@ public class KeyboardHero {
                 PersistenceHandler.savePlaylist();
             }
         });
+		
 	}
 }

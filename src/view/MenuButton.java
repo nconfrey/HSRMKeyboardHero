@@ -11,13 +11,13 @@ public class MenuButton extends JButton {
 	
 	public MenuButton() {
 		super();
-		backgroundColor = new Color(0x148296);
+		backgroundColor = new Color(KeyboardHeroConstants.FONT_COLOR_PRIMARY);
 		setDefaultParams();
 	}
 	
 	public MenuButton(String text) {
 		super(text);
-		backgroundColor = new Color(0x148296);
+		backgroundColor = new Color(KeyboardHeroConstants.FONT_COLOR_PRIMARY);
 		setDefaultParams();
 	}
 	
