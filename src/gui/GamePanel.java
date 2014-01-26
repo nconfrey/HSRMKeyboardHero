@@ -17,9 +17,9 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
-
 
 import view.GuitarBackgroundPane;
 import controller.player.AlbumLoader;
@@ -47,10 +47,21 @@ public class GamePanel extends GHPanel {
 			
 			@Override
 			public boolean dispatchKeyEvent(KeyEvent e) {
-				if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
-	    			PlayerController.getInstance().stop();
-	    			getNavigationController().popToRootPanel();
-	    			return true;
+				if (e.getKeyCode() == KeyEvent.VK_ESCAPE && e.getID() == KeyEvent.KEY_PRESSED) {
+					PlayerController.getInstance().pauseResume();
+					
+					int d = JOptionPane.showOptionDialog(null, "Game Paused","Keyboard Hero",
+			                JOptionPane.YES_NO_OPTION,
+			                JOptionPane.PLAIN_MESSAGE, null, 
+			                new String[]{"Back to menu", "Resume"}, "Resume");
+					
+					if (d == JOptionPane.YES_OPTION){
+						getNavigationController().popToRootPanel();
+					}
+					if (d == JOptionPane.NO_OPTION){
+						PlayerController.getInstance().pauseResume();
+					}
+					return true;
 	    		}
 				return false;
 			}
