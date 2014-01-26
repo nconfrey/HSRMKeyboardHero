@@ -3,9 +3,12 @@ package gui;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.KeyEventDispatcher;
+import java.awt.KeyboardFocusManager;
 import java.awt.ScrollPane;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.Vector;
@@ -16,6 +19,7 @@ import javax.swing.DropMode;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.SwingConstants;
@@ -36,6 +40,7 @@ public class SongListPanel extends GHPanel {
 	private ListAction selectAction;
 	private PlaylistTransferHandler transferHandler;
 	private JScrollPane scrollPane;
+	private KeyEventDispatcher keyEventDispatcher;
 
 	public SongListPanel() {
 
@@ -49,6 +54,19 @@ public class SongListPanel extends GHPanel {
 		this.add(titleLabel, "wrap, grow");
 		
 		this.fillPlaylist();
+		
+		keyEventDispatcher = new KeyEventDispatcher() {
+
+			@Override
+			public boolean dispatchKeyEvent(KeyEvent e) {
+				if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
+					getNavigationController().popToRootPanel();
+					return true;
+	    		}
+				return false;
+			}
+		};
+		
 		
 		selectAction = new ListAction(songlist, new AbstractAction() {
 
@@ -102,5 +120,17 @@ public class SongListPanel extends GHPanel {
 		scrollPane = new JScrollPane(songlist);
 		scrollPane.setBorder(BorderFactory.createEmptyBorder(0,0,0,0));
 			
+	}
+
+	@Override
+	public void panelWillAppear() {
+		KeyboardFocusManager manager = KeyboardFocusManager.getCurrentKeyboardFocusManager();
+		manager.addKeyEventDispatcher(keyEventDispatcher);
+	}
+
+	@Override
+	public void panelWillDisappear() {
+		KeyboardFocusManager manager = KeyboardFocusManager.getCurrentKeyboardFocusManager();
+		manager.removeKeyEventDispatcher(keyEventDispatcher);
 	}
 }

@@ -13,4 +13,8 @@ public abstract class GHPanel extends JPanel{
 		this.navigationController = navigationController;
 	}
 	
+	public abstract void panelWillAppear();
+	
+	public abstract void panelWillDisappear();
+
 }
