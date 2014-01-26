@@ -5,6 +5,10 @@ import gui.BaseFrame;
 import gui.MenuPanel;
 import gui.NavigationController;
 
+import java.awt.Font;
+import java.awt.FontFormatException;
+import java.io.IOException;
+import java.io.InputStream;
 import java.lang.instrument.Instrumentation;
 
 import model.PersistenceHandler;
@@ -14,6 +18,7 @@ import model.PersistenceHandler;
 public class KeyboardHero {
 		
 	public static void main(String[] args) {
+		
 		BaseFrame baseFrame = new BaseFrame();
 		NavigationController navCon = new NavigationController(baseFrame);
 		MenuPanel menu = new MenuPanel();
@@ -25,5 +30,6 @@ public class KeyboardHero {
                 PersistenceHandler.savePlaylist();
             }
         });
+		
 	}
 }

@@ -18,14 +18,17 @@ import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.SwingConstants;
 
+import view.KeyboardHeroConstants;
 import view.MenuButton;
 import net.miginfocom.swing.MigLayout;
+import model.KeyboardHeroFontModel;
 import model.PersistenceHandler;
 import model.Track;
 import controller.player.Playlist;
 
-public class SongViewer extends GHPanel {
+public class SongListPanel extends GHPanel {
 
 	private Playlist playlist;
 	private JList<Track> songlist;
@@ -34,10 +37,17 @@ public class SongViewer extends GHPanel {
 	private PlaylistTransferHandler transferHandler;
 	private JScrollPane scrollPane;
 
-	public SongViewer() {
+	public SongListPanel() {
 
 		this.setLayout(new MigLayout("insets 50 200 50 200, fill"));
 		this.setBackground(Color.WHITE);
+		
+		JLabel titleLabel = new JLabel("Select a Track");
+		titleLabel.setFont(KeyboardHeroFontModel.getInstance().getFont(KeyboardHeroFontModel.FONT_NIGHTMARE).deriveFont(82f));
+		titleLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		titleLabel.setForeground(new Color(KeyboardHeroConstants.FONT_COLOR_PRIMARY));
+		this.add(titleLabel, "wrap, grow");
+		
 		this.fillPlaylist();
 		
 		selectAction = new ListAction(songlist, new AbstractAction() {
@@ -53,7 +63,7 @@ public class SongViewer extends GHPanel {
 			}
 		});
 
-		mainMenuButton = new MenuButton("Back to menu", new Color(0xC92607));
+		mainMenuButton = new MenuButton("Back to menu", new Color(KeyboardHeroConstants.FONT_COLOR_SECONDARY));
 		mainMenuButton.addActionListener(new ActionListener() {
 
 			@Override
