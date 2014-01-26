@@ -2,7 +2,9 @@ package controller;
 
 import gui.PlayerController;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.WeakHashMap;
 
@@ -45,6 +47,8 @@ public class ScoreController implements MP3PlayerListener, StrokeRecorderListene
 	public void playbackPlaying(MP3Player player, int frame) {
 		// TODO Auto-generated method stub
 		StrokeSet strokeSet = PlayerController.getInstance().getTrack().getStrokeSet();
+		
+		List<StrokeKey> toRemove = new ArrayList<>();
 		for (StrokeKey key : currentPlayedStrokes.keySet()) {
 			Stroke recordedStroke = currentPlayedStrokes.get(key);
 			Stroke playedStroke = strokeSet.getStrokeForStroke(recordedStroke);
@@ -52,11 +56,14 @@ public class ScoreController implements MP3PlayerListener, StrokeRecorderListene
 				score.raise();
 			} else {
 				if(playedStroke != null) {
-					currentPlayedStrokes.remove(playedStroke.getKey());
-					fireScoringDidEnd(playedStroke.getKey());
+					toRemove.add(key);
 				}
 			}
-			
+		}
+		
+		for (StrokeKey key : toRemove) {
+			currentPlayedStrokes.remove(key);
+			fireScoringDidEnd(key);
 		}
 	}
 
