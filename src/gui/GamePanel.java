@@ -91,8 +91,12 @@ public class GamePanel extends GHPanel {
 		    	final BufferedImage bandImage = AlbumLoader.loadCover(currentTrack);
 		    	if(bandImage != null) {
 		    		coverImage = bandImage;
-		    		repaint();
-		    		
+		    		SwingUtilities.invokeLater(new Runnable() {
+						@Override
+						public void run() {
+							repaint();
+						}
+					});
 			    }
 		    }
 		}.start();

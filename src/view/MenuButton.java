@@ -7,13 +7,23 @@ import javax.swing.JButton;
 
 public class MenuButton extends JButton {
 	
+	private Color backgroundColor;
+	
 	public MenuButton() {
 		super();
+		backgroundColor = new Color(0x148296);
 		setDefaultParams();
 	}
 	
-	public MenuButton(String content) {
-		super(content);
+	public MenuButton(String text) {
+		super(text);
+		backgroundColor = new Color(0x148296);
+		setDefaultParams();
+	}
+	
+	public MenuButton(String text, Color backgroundColor) {
+		super(text);
+		this.backgroundColor = backgroundColor;
 		setDefaultParams();
 	}
 	
@@ -21,7 +31,7 @@ public class MenuButton extends JButton {
 		this.setBorderPainted(false);
 		this.setFocusPainted(false);
 		this.setContentAreaFilled(false);
-		this.setBackground(new Color(0x148296));
+		this.setBackground(backgroundColor);
 		this.setOpaque(true);
 		this.setForeground(Color.WHITE);
 		this.setFont(new Font("SansSerif", Font.BOLD, 14));

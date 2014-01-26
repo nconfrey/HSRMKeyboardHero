@@ -1,6 +1,7 @@
 package gui;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.ScrollPane;
 import java.awt.event.ActionEvent;
@@ -10,12 +11,16 @@ import java.awt.event.MouseListener;
 import java.util.Vector;
 
 import javax.swing.AbstractAction;
+import javax.swing.BorderFactory;
 import javax.swing.DropMode;
 import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
+import view.MenuButton;
+import net.miginfocom.swing.MigLayout;
 import model.PersistenceHandler;
 import model.Track;
 import controller.player.Playlist;
@@ -24,13 +29,15 @@ public class SongViewer extends GHPanel {
 
 	private Playlist playlist;
 	private JList<Track> songlist;
-	private JButton backToMenu;
+	private JButton mainMenuButton;
 	private ListAction selectAction;
 	private PlaylistTransferHandler transferHandler;
+	private JScrollPane scrollPane;
 
 	public SongViewer() {
 
-		this.setLayout(new BorderLayout());
+		this.setLayout(new MigLayout("insets 50 200 50 200, fill"));
+		this.setBackground(Color.WHITE);
 		this.fillPlaylist();
 		
 		selectAction = new ListAction(songlist, new AbstractAction() {
@@ -46,24 +53,26 @@ public class SongViewer extends GHPanel {
 			}
 		});
 
-		backToMenu = new JButton("Back to menu");
-		backToMenu.addActionListener(new ActionListener() {
+		mainMenuButton = new MenuButton("Back to menu", new Color(0xC92607));
+		mainMenuButton.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				getNavigationController().popPanel();
 			}
 		});
-
-		this.add(songlist, BorderLayout.CENTER);
-		this.add(backToMenu, BorderLayout.SOUTH);
+		
+		this.add(scrollPane, "wrap, growx, pushy, growy");
+		
+		this.add(mainMenuButton, "growx, height 60!");
 
 	}
 	
 	public void fillPlaylist(){
 		playlist = PersistenceHandler.loadPlaylist();
+
 		if(PlayerController.getInstance().isRecording()){
-			songlist = new JList<Track>(playlist);
+			songlist = new MenuSongList<Track>(playlist);
 			transferHandler = new PlaylistTransferHandler(playlist);
 			songlist.setDropMode(DropMode.ON);
 			songlist.setTransferHandler(transferHandler);
@@ -76,8 +85,12 @@ public class SongViewer extends GHPanel {
 				}
 			}
 			playlist = gamePlaylist;
-			songlist = new JList<Track>(playlist);
+			songlist = new MenuSongList<Track>(playlist);
 		}
+		
+		songlist.setBorder(BorderFactory.createEmptyBorder(0,0,0,0));
+		scrollPane = new JScrollPane(songlist);
+		scrollPane.setBorder(BorderFactory.createEmptyBorder(0,0,0,0));
 			
 	}
 }

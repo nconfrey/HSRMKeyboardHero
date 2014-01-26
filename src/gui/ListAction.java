@@ -65,7 +65,7 @@ public class ListAction extends MouseAdapter {
     @Override
     public void mouseClicked(MouseEvent e) {
         // Only recognize double clicks, single clicks are normal selection
-        if (e.getClickCount() >= 2) {
+        if (e.getClickCount() >= 1) {
             Action action = list.getActionMap().get(keyStroke);
 
             if (action != null) {
