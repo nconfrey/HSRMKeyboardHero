@@ -37,12 +37,26 @@ public class SongViewer extends GHPanel {
 	private ListAction selectAction;
 	private PlaylistTransferHandler transferHandler;
 	private JScrollPane scrollPane;
+	private KeyEventDispatcher keyEventDispatcher;
 
 	public SongViewer() {
 
 		this.setLayout(new MigLayout("insets 50 200 50 200, fill"));
 		this.setBackground(Color.WHITE);
 		this.fillPlaylist();
+		
+		keyEventDispatcher = new KeyEventDispatcher() {
+
+			@Override
+			public boolean dispatchKeyEvent(KeyEvent e) {
+				if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
+					getNavigationController().popToRootPanel();
+					return true;
+	    		}
+				return false;
+			}
+		};
+		
 		
 		selectAction = new ListAction(songlist, new AbstractAction() {
 
@@ -63,21 +77,6 @@ public class SongViewer extends GHPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				getNavigationController().popPanel();
-			}
-		});
-		
-		KeyboardFocusManager manager = KeyboardFocusManager.getCurrentKeyboardFocusManager();
-		manager.addKeyEventDispatcher(new KeyEventDispatcher() {
-
-			@Override
-			public boolean dispatchKeyEvent(KeyEvent e) {
-				if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
-					KeyboardFocusManager manager = KeyboardFocusManager.getCurrentKeyboardFocusManager();
-					manager.removeKeyEventDispatcher(this);
-					getNavigationController().popToRootPanel();
-					return true;
-	    		}
-				return false;
 			}
 		});
 		
@@ -111,5 +110,17 @@ public class SongViewer extends GHPanel {
 		scrollPane = new JScrollPane(songlist);
 		scrollPane.setBorder(BorderFactory.createEmptyBorder(0,0,0,0));
 			
+	}
+
+	@Override
+	public void panelWillAppear() {
+		KeyboardFocusManager manager = KeyboardFocusManager.getCurrentKeyboardFocusManager();
+		manager.addKeyEventDispatcher(keyEventDispatcher);
+	}
+
+	@Override
+	public void panelWillDisappear() {
+		KeyboardFocusManager manager = KeyboardFocusManager.getCurrentKeyboardFocusManager();
+		manager.removeKeyEventDispatcher(keyEventDispatcher);
 	}
 }

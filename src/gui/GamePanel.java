@@ -33,6 +33,7 @@ public class GamePanel extends GHPanel {
 	private BufferedImage coverImage;
 	private Image coverImageBuffer;
 	private boolean paused;
+	private KeyEventDispatcher keyEventDispatcher;
 
 	public GamePanel() {
 		setFocusable(true);
@@ -44,9 +45,7 @@ public class GamePanel extends GHPanel {
 	   
 	    loadBackgroundCover();
 		
-	    KeyboardFocusManager manager = KeyboardFocusManager
-				.getCurrentKeyboardFocusManager();
-		manager.addKeyEventDispatcher(new KeyEventDispatcher() {
+	    keyEventDispatcher = new KeyEventDispatcher() {
 
 			@Override
 			public boolean dispatchKeyEvent(KeyEvent e) {
@@ -54,16 +53,13 @@ public class GamePanel extends GHPanel {
 					PlayerController.getInstance().pauseResume();
 					paused = true;
 					
-					int d = JOptionPane.showOptionDialog(null, "Game Paused","Keyboard Hero",
+					int d = JOptionPane.showOptionDialog(getParent(), "Game Paused","Keyboard Hero",
 			                JOptionPane.YES_NO_OPTION,
 			                JOptionPane.PLAIN_MESSAGE, null, 
 			                new String[]{"Back to menu", "Resume"}, "Resume");
 					
 					if (d == JOptionPane.YES_OPTION){
 						PlayerController.getInstance().stop();
-						KeyboardFocusManager manager = KeyboardFocusManager
-								.getCurrentKeyboardFocusManager();
-						manager.removeKeyEventDispatcher(this);
 						getNavigationController().popToRootPanel();
 					}
 					if (d == JOptionPane.NO_OPTION || d == JOptionPane.CLOSED_OPTION){
@@ -75,8 +71,10 @@ public class GamePanel extends GHPanel {
 	    		}
 				return false;
 			}
-		});
-		
+		};
+	    
+	    
+	    
 		addComponentListener(new ComponentAdapter() {
 			@Override
 			public void componentResized(ComponentEvent e) {
@@ -185,5 +183,17 @@ public class GamePanel extends GHPanel {
 
 		return dScale;
 
+	}
+
+	@Override
+	public void panelWillAppear() {
+		KeyboardFocusManager manager = KeyboardFocusManager.getCurrentKeyboardFocusManager();
+		manager.addKeyEventDispatcher(keyEventDispatcher);
+	}
+
+	@Override
+	public void panelWillDisappear() {
+		KeyboardFocusManager manager = KeyboardFocusManager.getCurrentKeyboardFocusManager();
+		manager.removeKeyEventDispatcher(keyEventDispatcher);
 	}
 }

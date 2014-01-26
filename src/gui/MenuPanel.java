@@ -59,4 +59,14 @@ public class MenuPanel extends GHPanel implements ActionListener{
 		if(e.getSource() == creditsButton){
 		}
 	}
+
+	@Override
+	public void panelWillAppear() {
+		// TODO Auto-generated method stub
+	}
+
+	@Override
+	public void panelWillDisappear() {
+		// TODO Auto-generated method stub
+	}
 }
