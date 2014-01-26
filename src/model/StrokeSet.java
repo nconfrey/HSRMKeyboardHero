@@ -11,20 +11,20 @@ import java.util.TreeSet;
 public class StrokeSet implements Serializable{
 	
 	private NavigableMap<Integer, List<Stroke>> strokes;
-	private TreeSet<Highscore> highscores;
+	private HighscoreSet highscores;
 	
 	public StrokeSet() {
 		this.strokes = new TreeMap<>();
-		this.highscores = new TreeSet<>();
+		this.highscores = new HighscoreSet();
 	}
 	
-	public TreeSet<Highscore> getHighscores() {
+	public HighscoreSet getHighscores() {
 		return highscores;
 	}
 
 	public void addHighscore(int score, String name) {
 		Highscore highscore = new Highscore(score, name);
-		this.highscores.add(highscore);
+		this.highscores.addHighScore(highscore);
 	}
 
 	public NavigableMap<Integer, List<Stroke>> getStrokes() {

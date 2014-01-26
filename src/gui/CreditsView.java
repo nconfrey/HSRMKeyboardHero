@@ -95,18 +95,6 @@ public class CreditsView extends GHPanel {
 		
 	}
 
-	@Override
-	public void panelWillDisappear() {
-		KeyboardFocusManager manager = KeyboardFocusManager.getCurrentKeyboardFocusManager();
-		manager.removeKeyEventDispatcher(keyEventDispatcher);
-		
-	}
-
-	@Override
-	public void panelWillAppear() {
-		// TODO Auto-generated method stub
-		
-	}
 
 	@Override
 	public void panelWillDisappear() {

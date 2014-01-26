@@ -54,8 +54,7 @@ public class SongListPanel extends GHPanel {
 		this.setBackground(Color.WHITE);
 
 		JLabel titleLabel = new JLabel("Select a Track");
-		titleLabel.setFont(KeyboardHeroFontModel.getInstance()
-				.getFont(KeyboardHeroFontModel.FONT_NIGHTMARE).deriveFont(82f));
+		titleLabel.setFont(KeyboardHeroFontModel.getInstance().getFont(KeyboardHeroFontModel.FONT_NIGHTMARE).deriveFont(82f));
 		titleLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		titleLabel.setForeground(new Color(
 				KeyboardHeroConstants.FONT_COLOR_PRIMARY));

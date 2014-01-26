@@ -62,6 +62,8 @@ public class MenuPanel extends GHPanel implements ActionListener{
 			SongListPanel songListPanel = new SongListPanel(SongListPanel.MODE_HIGHSCORE);
 			this.getNavigationController().pushPanel(songListPanel);
 		} else if(e.getSource() == creditsButton){
+			CreditsView creditPanel = new CreditsView();
+			this.getNavigationController().pushPanel(creditPanel);
 		}
 	}
 

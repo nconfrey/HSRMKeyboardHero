@@ -1,6 +1,8 @@
 package model;
 
-public class Highscore implements Comparable<Highscore> {
+import java.io.Serializable;
+
+public class Highscore implements Comparable<Highscore>, Serializable {
 	
 	private String name;
 	private int score;
@@ -20,7 +22,11 @@ public class Highscore implements Comparable<Highscore> {
 
 	@Override
 	public int compareTo(Highscore o) {
-		return getScore() - o.getScore();
+		return o.getScore() - getScore();
+	}
+	
+	public String toString() {
+		return getScore() + " - " + getName();
 	}
 
 }
