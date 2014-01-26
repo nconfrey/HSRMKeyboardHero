@@ -1,7 +1,6 @@
 package gui;
 
 import java.awt.Color;
-import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -10,11 +9,10 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
-import view.ImagePanel;
-import view.KeyboardHeroConstants;
-import view.MenuButton;
 import model.KeyboardHeroFontModel;
 import net.miginfocom.swing.MigLayout;
+import view.KeyboardHeroConstants;
+import view.MenuButton;
 
 public class MenuPanel extends GHPanel implements ActionListener{
 	
@@ -59,12 +57,13 @@ public class MenuPanel extends GHPanel implements ActionListener{
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource() == playButton || e.getSource() == recordButton){
 			PlayerController.getInstance().setRecording(e.getSource() == recordButton);
-			SongListPanel songViewer = new SongListPanel();
-			this.getNavigationController().pushPanel(songViewer);
-		}
-		if(e.getSource() == highscoreButton){
-		}
-		if(e.getSource() == creditsButton){
+			int mode = (e.getSource() == recordButton) ? SongListPanel.MODE_RECORD : SongListPanel.MODE_PLAY;
+			SongListPanel songListPanel = new SongListPanel(mode);
+			this.getNavigationController().pushPanel(songListPanel);
+		} else if(e.getSource() == highscoreButton){
+			SongListPanel songListPanel = new SongListPanel(SongListPanel.MODE_HIGHSCORE);
+			this.getNavigationController().pushPanel(songListPanel);
+		} else if(e.getSource() == creditsButton){
 		}
 	}
 

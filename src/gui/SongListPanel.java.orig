@@ -33,10 +33,6 @@ import model.Track;
 import controller.player.Playlist;
 
 public class SongListPanel extends GHPanel {
-	
-	public static final int MODE_PLAY = 0;
-	public static final int MODE_RECORD = 1;
-	public static final int MODE_HIGHSCORE = 2;
 
 	private Playlist playlist;
 	private JList<Track> songlist;
@@ -45,19 +41,9 @@ public class SongListPanel extends GHPanel {
 	private PlaylistTransferHandler transferHandler;
 	private JScrollPane scrollPane;
 	private KeyEventDispatcher keyEventDispatcher;
-	private int mode;
-	
+
 	public SongListPanel() {
-		this.mode = MODE_PLAY;
-		init();
-	}
 
-	public SongListPanel(int mode) {
-		this.mode = mode;
-		init();
-	}
-
-	public void init() {
 		this.setLayout(new MigLayout("insets 50 200 50 200, fill"));
 		this.setBackground(Color.WHITE);
 		
@@ -87,19 +73,20 @@ public class SongListPanel extends GHPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				if (songlist.getSelectedValue() != null) {
-					if(mode == MODE_PLAY || mode == MODE_RECORD) {
-						PlayerController.getInstance().setTrack(songlist.getSelectedValue());
-						GamePanel gameFrame = new GamePanel();
-						getNavigationController().pushPanel(gameFrame);
-					} else if(mode == MODE_HIGHSCORE) {
-						HighscorePanel highscorePanel = new HighscorePanel(songlist.getSelectedValue());
-						getNavigationController().pushPanel(highscorePanel);
-					}
+					PlayerController.getInstance().setTrack(
+							songlist.getSelectedValue());
+					GamePanel gameFrame = new GamePanel();
+					getNavigationController().pushPanel(gameFrame);
 				}
 			}
 		});
+<<<<<<< HEAD:src/gui/SongListPanel.java
 
 		mainMenuButton = new MenuButton("Back to menu", new Color(KeyboardHeroConstants.FONT_COLOR_SECONDARY));
+=======
+		
+		mainMenuButton = new MenuButton("Back to menu", new Color(0xC92607));
+>>>>>>> 75a38d12e24e9fff62b6895dfd0073ecf49a50f8:src/gui/SongViewer.java
 		mainMenuButton.addActionListener(new ActionListener() {
 
 			@Override
@@ -117,7 +104,7 @@ public class SongListPanel extends GHPanel {
 	public void fillPlaylist(){
 		playlist = PersistenceHandler.loadPlaylist();
 
-		if(mode == MODE_RECORD){
+		if(PlayerController.getInstance().isRecording()){
 			songlist = new MenuSongList<Track>(playlist);
 			transferHandler = new PlaylistTransferHandler(playlist);
 			songlist.setDropMode(DropMode.ON);

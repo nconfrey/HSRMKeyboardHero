@@ -49,7 +49,7 @@ public class GuitarPane extends JPanel implements MP3PlayerListener,
 		strokeRects = new ArrayList<>();
 		openStrokeRects = new ArrayList<>();
 
-		PlayerController.getInstance().getPlayer().addListener(this);
+		PlayerController.getInstance().getPlayer().addPlayerListener(this);
 		PlayerController.getInstance().getRecorder()
 				.addStrokeRecorderListener(this);
 		
