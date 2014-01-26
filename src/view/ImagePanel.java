@@ -5,8 +5,6 @@ import javax.swing.JPanel;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.*;
-import java.util.logging.*;
-
 import javax.imageio.*;
 
 public class ImagePanel extends JPanel {

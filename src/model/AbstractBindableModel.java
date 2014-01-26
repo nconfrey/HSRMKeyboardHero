@@ -17,7 +17,7 @@ abstract class AbstractBindableModel {
 	/**
 	 * Adds a property change listener.
 	 * 
-	 * @param listener The property change listeter
+	 * @param listener The property change listener
 	 */
 	public void addPropertyChangeListener(final PropertyChangeListener listener) {
 		propertyChangeSupport.addPropertyChangeListener(listener);

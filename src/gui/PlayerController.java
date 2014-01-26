@@ -1,6 +1,5 @@
 package gui;
 
-import model.Score;
 import model.Track;
 import controller.KeyController;
 import controller.ScoreController;
@@ -45,6 +44,10 @@ public class PlayerController {
 	
 	public void stop() {
 		player.stop();
+	}
+	
+	public void pauseResume() {
+		player.pauseResume();
 	}
 
 	public boolean isRecording() {

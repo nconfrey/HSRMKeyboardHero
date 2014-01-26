@@ -2,8 +2,6 @@ package model;
 
 import java.io.File;
 import java.io.Serializable;
-
-import controller.KeyboardHero;
 import controller.player.MP3PlayerTrack;
 
 public class Track implements Serializable{

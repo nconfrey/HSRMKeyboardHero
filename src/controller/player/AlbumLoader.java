@@ -2,14 +2,10 @@ package controller.player;
 
 import de.umass.lastfm.Album;
 import de.umass.lastfm.ImageSize;
-
-import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.net.URL;
-
 import javax.imageio.ImageIO;
-
 import model.Track;
 
 /**

@@ -1,10 +1,8 @@
 package gui;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
-import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.KeyEventDispatcher;
 import java.awt.KeyboardFocusManager;
@@ -13,16 +11,13 @@ import java.awt.event.ComponentEvent;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-
 import javax.imageio.ImageIO;
-import javax.swing.BorderFactory;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
-
 import net.miginfocom.swing.MigLayout;
 import view.GuitarBackgroundPane;
 import controller.player.AlbumLoader;
-import controller.player.Playlist;
 import model.Track;
 
 public class GamePanel extends GHPanel {
@@ -30,6 +25,8 @@ public class GamePanel extends GHPanel {
 	private JPanel leftContent; // sidepanel for scores, songtitle ...
 	private BufferedImage coverImage;
 	private Image coverImageBuffer;
+	private boolean paused;
+	private KeyEventDispatcher keyEventDispatcher;
 
 	public GamePanel() {
 		setFocusable(true);
@@ -41,24 +38,36 @@ public class GamePanel extends GHPanel {
 	   
 	    loadBackgroundCover();
 		
-	    KeyboardFocusManager manager = KeyboardFocusManager
-				.getCurrentKeyboardFocusManager();
-		manager.addKeyEventDispatcher(new KeyEventDispatcher() {
+	    keyEventDispatcher = new KeyEventDispatcher() {
 
 			@Override
 			public boolean dispatchKeyEvent(KeyEvent e) {
-				if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
-					KeyboardFocusManager manager = KeyboardFocusManager
-							.getCurrentKeyboardFocusManager();
-					manager.removeKeyEventDispatcher(this);
-					PlayerController.getInstance().stop();
-					getNavigationController().popToRootPanel();
+				if (e.getKeyCode() == KeyEvent.VK_ESCAPE && e.getID() == KeyEvent.KEY_PRESSED && !paused) {
+					PlayerController.getInstance().pauseResume();
+					paused = true;
+					
+					int d = JOptionPane.showOptionDialog(getParent(), "Game Paused","Keyboard Hero",
+			                JOptionPane.YES_NO_OPTION,
+			                JOptionPane.PLAIN_MESSAGE, null, 
+			                new String[]{"Back to menu", "Resume"}, "Resume");
+					
+					if (d == JOptionPane.YES_OPTION){
+						PlayerController.getInstance().stop();
+						getNavigationController().popToRootPanel();
+					}
+					if (d == JOptionPane.NO_OPTION || d == JOptionPane.CLOSED_OPTION){
+						paused = false;
+						PlayerController.getInstance().pauseResume();
+					}
+
 					return true;
-				}
+	    		}
 				return false;
 			}
-		});
-		
+		};
+	    
+	    
+	    
 		addComponentListener(new ComponentAdapter() {
 			@Override
 			public void componentResized(ComponentEvent e) {
@@ -79,11 +88,12 @@ public class GamePanel extends GHPanel {
 		TitlePanel titlePanel = new TitlePanel();
 		
 		leftContent.add(titlePanel, "wrap, growx");
-		leftContent.add(scorePanel, "wrap, growx");
-		
+		if(!PlayerController.getInstance().isRecording()){
+			leftContent.add(scorePanel, "wrap, growx");
+			scorePanel.setBackground(Color.WHITE);
+		}
 		
 		titlePanel.setBackground(Color.WHITE);
-		scorePanel.setBackground(Color.WHITE);
 		
 	    return leftContent;
 	}
@@ -100,11 +110,15 @@ public class GamePanel extends GHPanel {
 		final Track currentTrack = PlayerController.getInstance().getTrack();
 		new Thread() {
 			public void run() {
-				final BufferedImage bandImage = AlbumLoader
-						.loadCover(currentTrack);
-				if (bandImage != null) {
-					setCoverImage(bandImage);
-				}
+				final BufferedImage bandImage = AlbumLoader.loadCover(currentTrack);
+		    		SwingUtilities.invokeLater(new Runnable() {
+						@Override
+						public void run() {
+							if (bandImage != null) {
+								setCoverImage(bandImage);
+							}
+						}
+					});
 			}
 		}.start();
 	}
@@ -163,5 +177,17 @@ public class GamePanel extends GHPanel {
 
 		return dScale;
 
+	}
+
+	@Override
+	public void panelWillAppear() {
+		KeyboardFocusManager manager = KeyboardFocusManager.getCurrentKeyboardFocusManager();
+		manager.addKeyEventDispatcher(keyEventDispatcher);
+	}
+
+	@Override
+	public void panelWillDisappear() {
+		KeyboardFocusManager manager = KeyboardFocusManager.getCurrentKeyboardFocusManager();
+		manager.removeKeyEventDispatcher(keyEventDispatcher);
 	}
 }

@@ -24,6 +24,7 @@ public class MP3Player {
     private Timer frameTimer;
     private int frame;
     private boolean playing;
+    private boolean paused;
 
     public MP3Player() {
         listeners = new WeakHashMap<>();
@@ -48,6 +49,7 @@ public class MP3Player {
             File f = track.getFile();
             player = minim.loadFile(f.getAbsolutePath());
             firePlaybackStarted();
+            paused = false;
             player.play();
             //stopAndWait();
         }
@@ -74,6 +76,19 @@ public class MP3Player {
                 stopAndWait();
             }
         }).start();
+    }
+    
+    public synchronized void pauseResume() {
+    	if (!paused) {
+    		paused = true;
+    		player.pause();
+    		System.out.println("Pause");
+    	}
+    	else if (paused){
+    		paused = false;
+    		player.play();
+    		System.out.println("Resume");
+    	}
     }
 
     //listener
