@@ -102,4 +102,16 @@ public class CreditsView extends GHPanel {
 		
 	}
 
+	@Override
+	public void panelWillAppear() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void panelWillDisappear() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

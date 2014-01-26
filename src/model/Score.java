@@ -47,6 +47,7 @@ public class Score extends AbstractBindableModel  {
 		return score;
 	}
 	
+	@Override
 	public String toString() {
 		return "" + score;
 	}

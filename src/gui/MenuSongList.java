@@ -3,6 +3,7 @@ package gui;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Font;
+
 import javax.swing.BorderFactory;
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.JList;
@@ -41,7 +42,8 @@ public class MenuSongList<E> extends JList<E> {
                 return c;
             }
             
-            public int getHorizontalAlignment() {
+            @Override
+			public int getHorizontalAlignment() {
                 return CENTER;
             }
 
