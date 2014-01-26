@@ -8,11 +8,13 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 
+import net.miginfocom.swing.MigLayout;
 import model.Score;
 
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.SecondaryLoop;
 import java.beans.PropertyChangeEvent;
@@ -24,24 +26,23 @@ public class ScorePanel extends TransparentPanel implements PropertyChangeListen
 
 	JLabel scoreTitleLabel;
 	JLabel scoreLabel;
-	private PropertyChangeSupport propertyChangeSupport;
 	Score score;
 	
 	
 
 	public ScorePanel(){
-		setLayout(new GridLayout(2,1));
-		this.scoreTitleLabel = new JLabel("Score" , SwingConstants.CENTER);
-		this.add(this.scoreTitleLabel);
-		this.scoreLabel = new JLabel("", SwingConstants.CENTER);
+		
+		setLayout(new MigLayout());
+		
+		this.scoreTitleLabel = new JLabel("Score");
+		this.scoreTitleLabel.setFont(new Font("sanserif", Font.BOLD, 19));
+		this.add(this.scoreTitleLabel, "wrap");
+		
+		this.scoreLabel = new JLabel("0");
+		this.scoreLabel.setFont(new Font("sanserif", Font.BOLD, 15));
 		this.add(this.scoreLabel);
-		//scoreTitleLabel.setPreferredSize(new Dimension(100,100));
-		//scoreLabel.setPreferredSize(new Dimension(100,100));
-		scoreTitleLabel.setVerticalAlignment(SwingConstants.TOP);
-		scoreTitleLabel.setFont (scoreTitleLabel.getFont ().deriveFont (20.0f));
-		propertyChangeSupport = new PropertyChangeSupport(this);
-		scoreTitleLabel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
-		scoreLabel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+	
+		
 		
 		
 		PlayerController.getInstance().getScoreController().getScore().addPropertyChangeListener(this);

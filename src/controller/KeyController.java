@@ -12,10 +12,12 @@ import model.StrokeKey;
 public class KeyController implements KeyEventDispatcher {
 
 	private ArrayList<GuitarStringListener> guitarStringListener;
+	private boolean isEnterPressed;
 
 	public KeyController() {
 		guitarStringListener = new ArrayList<>();
 
+		isEnterPressed = false;
 		KeyboardFocusManager manager = KeyboardFocusManager
 				.getCurrentKeyboardFocusManager();
 		manager.addKeyEventDispatcher(this);
@@ -38,9 +40,12 @@ public class KeyController implements KeyEventDispatcher {
 				guitarStringListener.guitarStringPressed(strokeKey);
 	        }
 		} else if(strokeKey == StrokeKey.ENTER) {
-			for (GuitarStringListener guitarStringListener : this.guitarStringListener) {
-				guitarStringListener.guitarStrokePressed(strokeKey);
-	        }
+			if (!isEnterPressed) {
+				isEnterPressed = true;
+				for (GuitarStringListener guitarStringListener : this.guitarStringListener) {
+					guitarStringListener.guitarStrokePressed(strokeKey);
+		        }
+			}
 		}
     }
 	
@@ -52,6 +57,7 @@ public class KeyController implements KeyEventDispatcher {
 				guitarStringListener.guitarStringReleased(strokeKey);
 	        }
 		} else if(strokeKey == StrokeKey.ENTER) {
+			isEnterPressed = false;
 			for (GuitarStringListener guitarStringListener : this.guitarStringListener) {
 				guitarStringListener.guitarStrokeReleased(strokeKey);
 	        }

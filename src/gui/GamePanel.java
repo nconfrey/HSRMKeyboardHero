@@ -8,144 +8,182 @@ import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.KeyEventDispatcher;
 import java.awt.KeyboardFocusManager;
-import java.awt.TextField;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyAdapter;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
 
+import net.miginfocom.swing.MigLayout;
 import view.GuitarBackgroundPane;
 import controller.player.AlbumLoader;
 import controller.player.Playlist;
 import model.Track;
 
 public class GamePanel extends GHPanel {
-	
-	private JPanel leftContent;		// sidepanel for scores, songtitle ...
+
+	private JPanel leftContent; // sidepanel for scores, songtitle ...
 	private BufferedImage coverImage;
-	
-	public GamePanel(){
+	private Image coverImageBuffer;
+	private boolean paused;
+
+	public GamePanel() {
 		setFocusable(true);
-		
+
 		 // ContentPanel
-	    this.setLayout(new BorderLayout());
-	    this.add(this.buildLeftContent(), BorderLayout.WEST);
-	    this.add(new GuitarBackgroundPane(), BorderLayout.CENTER);
+	    this.setLayout(new MigLayout("fill"));
+	    this.add(this.buildLeftContent(), "gapleft 30, gaptop  30, west, width 250:350:350");
+	    this.add(new GuitarBackgroundPane(), "center, growy");
 	   
 	    loadBackgroundCover();
 		
 	    KeyboardFocusManager manager = KeyboardFocusManager
 				.getCurrentKeyboardFocusManager();
 		manager.addKeyEventDispatcher(new KeyEventDispatcher() {
-			
+
 			@Override
 			public boolean dispatchKeyEvent(KeyEvent e) {
-				if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
-	    			PlayerController.getInstance().stop();
-	    			getNavigationController().popToRootPanel();
-	    			return true;
+				if (e.getKeyCode() == KeyEvent.VK_ESCAPE && e.getID() == KeyEvent.KEY_PRESSED && !paused) {
+					PlayerController.getInstance().pauseResume();
+					paused = true;
+					
+					int d = JOptionPane.showOptionDialog(null, "Game Paused","Keyboard Hero",
+			                JOptionPane.YES_NO_OPTION,
+			                JOptionPane.PLAIN_MESSAGE, null, 
+			                new String[]{"Back to menu", "Resume"}, "Resume");
+					
+					if (d == JOptionPane.YES_OPTION){
+						PlayerController.getInstance().stop();
+						KeyboardFocusManager manager = KeyboardFocusManager
+								.getCurrentKeyboardFocusManager();
+						manager.removeKeyEventDispatcher(this);
+						getNavigationController().popToRootPanel();
+					}
+					if (d == JOptionPane.NO_OPTION || d == JOptionPane.CLOSED_OPTION){
+						paused = false;
+						PlayerController.getInstance().pauseResume();
+					}
+
+					return true;
 	    		}
 				return false;
 			}
 		});
-	    
-	    PlayerController.getInstance().play();
+		
+		addComponentListener(new ComponentAdapter() {
+			@Override
+			public void componentResized(ComponentEvent e) {
+				super.componentResized(e);
+				bufferImage();
+			}
+		});
+
+		PlayerController.getInstance().play();
 	}
 
-	public JPanel buildLeftContent(){
-		
+	public JPanel buildLeftContent() {
+
 		// Panel
-		leftContent = new JPanel(new BorderLayout());
-		leftContent.setOpaque(false);
-		JPanel scorePanel = new JPanel();
-		leftContent.add(scorePanel, BorderLayout.SOUTH);
-		scorePanel.setBorder(BorderFactory.createEmptyBorder(0, 100, 30, 0));
-		ScorePanel secondScorePanel = new ScorePanel();
-		scorePanel.add(secondScorePanel);
-		secondScorePanel.setBackground(Color.BLACK);
-		scorePanel.setOpaque(false);
+		leftContent = new JPanel(new MigLayout("fillx", "", "[]30[]"));
+		leftContent.setOpaque(false);		
+		ScorePanel scorePanel = new ScorePanel();
+		TitlePanel titlePanel = new TitlePanel();
+		
+		leftContent.add(titlePanel, "wrap, growx");
+		leftContent.add(scorePanel, "wrap, growx");
 		
 		
+		titlePanel.setBackground(Color.WHITE);
+		scorePanel.setBackground(Color.WHITE);
 		
 	    return leftContent;
 	}
-	
+
 	private void loadBackgroundCover() {
-		
+
 		try {
-			coverImage = ImageIO.read(getClass().getResourceAsStream("/background.jpg"));
+			setCoverImage(ImageIO.read(getClass().getResourceAsStream(
+					"/background.jpg")));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
+
 		final Track currentTrack = PlayerController.getInstance().getTrack();
 		new Thread() {
-		    public void run() {
-		    	final BufferedImage bandImage = AlbumLoader.loadCover(currentTrack);
-		    	if(bandImage != null) {
-		    		coverImage = bandImage;
+			public void run() {
+				final BufferedImage bandImage = AlbumLoader.loadCover(currentTrack);
 		    		SwingUtilities.invokeLater(new Runnable() {
 						@Override
 						public void run() {
-							repaint();
+							if (bandImage != null) {
+								setCoverImage(bandImage);
+							}
 						}
 					});
-			    }
-		    }
+			}
 		}.start();
 	}
-	
+
 	@Override
-		protected void paintComponent(Graphics g) {
-			super.paintComponent(g);
-			
-			if(this.coverImage == null) return;
+	protected void paintComponent(Graphics g) {
+		super.paintComponent(g);
 
-		    double scaleFactor = Math.max(1d, getScaleFactorToFill(new Dimension(coverImage.getWidth(), coverImage.getHeight()), getSize()));
+		if (this.coverImageBuffer == null)
+			return;
 
-		    int scaleWidth = (int) Math.round(coverImage.getWidth() * scaleFactor);
-		    int scaleHeight = (int) Math.round(coverImage.getHeight() * scaleFactor);
+		int width = getWidth() - 1;
+		int height = getHeight() - 1;
 
-		    Image scaled = coverImage.getScaledInstance(scaleWidth, scaleHeight, Image.SCALE_FAST);
+		int x = (width - coverImageBuffer.getWidth(this)) / 2;
+		int y = (height - coverImageBuffer.getHeight(this)) / 2;
 
-		    int width = getWidth() - 1;
-		    int height = getHeight() - 1;
-
-		    int x = (width - scaled.getWidth(this)) / 2;
-		    int y = (height - scaled.getHeight(this)) / 2;
-
-		    g.drawImage(scaled, x, y, this);
-		}
+		g.drawImage(coverImageBuffer, x, y, this);
+	}
 	
-	private double getScaleFactor(int iMasterSize, int iTargetSize) {
+	public void setCoverImage(BufferedImage coverImage) {
+		this.coverImage = coverImage;
+		bufferImage();
+		repaint();
+	}
+	
+	private void bufferImage() {
+		double scaleFactor = Math.max(1d, getScaleFactorToFill(new Dimension(coverImage.getWidth(), coverImage.getHeight()), getSize()));
 
-	    double dScale = 1;
-	    if (iMasterSize > iTargetSize) {
-	        dScale = (double) iTargetSize / (double) iMasterSize;
-	    } else {
-	        dScale = (double) iTargetSize / (double) iMasterSize;
-	    }
+	    int scaleWidth = (int) Math.round(coverImage.getWidth() * scaleFactor);
+	    int scaleHeight = (int) Math.round(coverImage.getHeight() * scaleFactor);
 
-	    return dScale;
+	    coverImageBuffer = coverImage.getScaledInstance(scaleWidth, scaleHeight, Image.SCALE_FAST);
 	}
 
-	private double getScaleFactorToFill(Dimension masterSize, Dimension targetSize) {
+	private double getScaleFactor(int iMasterSize, int iTargetSize) {
 
-	    double dScaleWidth = getScaleFactor(masterSize.width, targetSize.width);
-	    double dScaleHeight = getScaleFactor(masterSize.height, targetSize.height);
+		double dScale = 1;
+		if (iMasterSize > iTargetSize) {
+			dScale = (double) iTargetSize / (double) iMasterSize;
+		} else {
+			dScale = (double) iTargetSize / (double) iMasterSize;
+		}
 
-	    double dScale = Math.max(dScaleHeight, dScaleWidth);
+		return dScale;
+	}
 
-	    return dScale;
+	private double getScaleFactorToFill(Dimension masterSize,
+			Dimension targetSize) {
+
+		double dScaleWidth = getScaleFactor(masterSize.width, targetSize.width);
+		double dScaleHeight = getScaleFactor(masterSize.height,
+				targetSize.height);
+
+		double dScale = Math.max(dScaleHeight, dScaleWidth);
+
+		return dScale;
 
 	}
 }
-
-
