@@ -10,11 +10,16 @@ import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
+import java.awt.image.ConvolveOp;
+import java.awt.image.Kernel;
+import java.io.File;
 import java.io.IOException;
+
 import javax.imageio.ImageIO;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
+
 import net.miginfocom.swing.MigLayout;
 import view.GuitarBackgroundPane;
 import controller.player.AlbumLoader;
@@ -111,11 +116,21 @@ public class GamePanel extends GHPanel {
 		new Thread() {
 			public void run() {
 				final BufferedImage bandImage = AlbumLoader.loadCover(currentTrack);
+				float[] data = new float[25];
+				for(int i=0; i<25; i++){
+					data[i] = 1.0f/25.0f;
+				}
+				ConvolveOp bio = new ConvolveOp(new Kernel(5,5, data), ConvolveOp.EDGE_ZERO_FILL, null);
+				BufferedImage blurred = bio.filter(bandImage, null);
+				for (int i=0; i<14; i++){
+					blurred = bio.filter(blurred, null);
+				}
+				final BufferedImage blurredFinal = blurred;
 		    		SwingUtilities.invokeLater(new Runnable() {
 						@Override
 						public void run() {
-							if (bandImage != null) {
-								setCoverImage(bandImage);
+							if (blurredFinal != null) {
+								setCoverImage(blurredFinal);
 							}
 						}
 					});
