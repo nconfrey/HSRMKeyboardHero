@@ -8,6 +8,7 @@ import java.awt.KeyEventDispatcher;
 import java.awt.KeyboardFocusManager;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import java.awt.event.ComponentListener;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.awt.image.ConvolveOp;
@@ -34,6 +35,7 @@ public class GamePanel extends GHPanel implements MP3PlayerListener {
 	private Image coverImageBuffer;
 	private boolean paused;
 	private KeyEventDispatcher keyEventDispatcher;
+	private ComponentListener componentListener;
 	private GameResultsPanel resultsPanel;
 
 	public GamePanel() {
@@ -82,15 +84,13 @@ public class GamePanel extends GHPanel implements MP3PlayerListener {
 	    
 	    
 	    
-		addComponentListener(new ComponentAdapter() {
+		componentListener = new ComponentAdapter() {
 			@Override
 			public void componentResized(ComponentEvent e) {
 				super.componentResized(e);
 				bufferImage();
 			}
-		});
-
-		PlayerController.getInstance().play();
+		};
 	}
 
 	public JPanel buildLeftContent() {
@@ -221,6 +221,7 @@ public class GamePanel extends GHPanel implements MP3PlayerListener {
 		
 		// Game Results
 		PlayerController.getInstance().getPlayer().addPlayerListener(this);
+		addComponentListener(componentListener);
 		
 	}
 
@@ -230,6 +231,7 @@ public class GamePanel extends GHPanel implements MP3PlayerListener {
 		// ESC Menu
 		KeyboardFocusManager manager = KeyboardFocusManager.getCurrentKeyboardFocusManager();
 		manager.removeKeyEventDispatcher(keyEventDispatcher);
+		removeComponentListener(componentListener);
 	}
 
 	@Override
@@ -239,7 +241,6 @@ public class GamePanel extends GHPanel implements MP3PlayerListener {
 
 	@Override
 	public void playbackDidStop(MP3Player player) {
-		
 		SwingUtilities.invokeLater(new Runnable() {
 			
 			@Override
