@@ -4,9 +4,9 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
-import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.WeakHashMap;
 
 import ddf.minim.AudioPlayer;
 import ddf.minim.Minim;
@@ -20,14 +20,14 @@ public class MP3Player {
     private MP3PlayerTrack track;
     private Minim minim;
     private AudioPlayer player;
-    private ArrayList<MP3PlayerListener> listeners;
+    private WeakHashMap<MP3PlayerListener, Void> listeners;
     private Timer frameTimer;
     private int frame;
     private boolean playing;
     private boolean paused;
 
     public MP3Player() {
-        listeners = new ArrayList<>();
+        listeners = new WeakHashMap<>();
         frame = 0;
         minim = new Minim(this);
     }
@@ -93,7 +93,7 @@ public class MP3Player {
 
     //listener
     public void addListener(MP3PlayerListener listener) {
-        listeners.add(listener);
+        listeners.put(listener, null);
     }
 
     public void removeListener(MP3PlayerListener listener) {
@@ -103,7 +103,7 @@ public class MP3Player {
     private void firePlaybackStarted() {
         if (!isPlaying()) {
             playing = true;
-            for (MP3PlayerListener mP3PlayerListener : listeners) {
+            for (MP3PlayerListener mP3PlayerListener : listeners.keySet()) {
                 mP3PlayerListener.playbackDidStart(this);
             }
             final MP3Player finalThis = this;
@@ -113,7 +113,7 @@ public class MP3Player {
 
                 @Override
                 public void run() {
-                    for (MP3PlayerListener mP3PlayerListener : listeners) {
+                    for (MP3PlayerListener mP3PlayerListener : listeners.keySet()) {
                     	frame = player.position();
                         mP3PlayerListener.playbackPlaying(finalThis, frame);
                     }
@@ -127,7 +127,7 @@ public class MP3Player {
             playing = false;
             frameTimer.cancel();
             frame = 0;
-            for (MP3PlayerListener mP3PlayerListener : listeners) {
+            for (MP3PlayerListener mP3PlayerListener : listeners.keySet()) {
                 mP3PlayerListener.playbackDidStop(this);
             }
         }
