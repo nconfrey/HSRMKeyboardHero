@@ -11,6 +11,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.NavigableMap;
 import java.util.Set;
+import java.util.WeakHashMap;
 
 import model.Stroke;
 import model.StrokeKey;
@@ -38,10 +39,10 @@ public class StrokeRecorder implements GuitarStringListener, MP3PlayerListener {
 		this.isRecordingMode = isRecordingMode;
 	}
 
-	private ArrayList<StrokeRecorderListener> strokeRecorderListener;
+	private WeakHashMap<StrokeRecorderListener, Void> strokeRecorderListener;
 	
 	public StrokeRecorder(MP3Player player) {
-		strokeRecorderListener = new ArrayList<>();
+		strokeRecorderListener = new WeakHashMap<>();
 		
 		player.addListener(this);
 	}
@@ -53,7 +54,7 @@ public class StrokeRecorder implements GuitarStringListener, MP3PlayerListener {
 	}
 	
 	public void addStrokeRecorderListener(StrokeRecorderListener listener) {
-        this.strokeRecorderListener.add(listener);
+        this.strokeRecorderListener.put(listener, null);
     }
 
     public void removeStrokeRecorderListener(StrokeRecorderListener listener) {
@@ -106,7 +107,7 @@ public class StrokeRecorder implements GuitarStringListener, MP3PlayerListener {
 			strokes.put(aKey, newStroke);
 			
 			// Notify listener
-			for (StrokeRecorderListener listener : this.strokeRecorderListener) {
+			for (StrokeRecorderListener listener : this.strokeRecorderListener.keySet()) {
 				listener.redcorderDidOpenStroke(this, newStroke);
 	        }
 		}
@@ -136,7 +137,7 @@ public class StrokeRecorder implements GuitarStringListener, MP3PlayerListener {
 			}
 			
 			// Notify listener
-			for (StrokeRecorderListener listener : this.strokeRecorderListener) {
+			for (StrokeRecorderListener listener : this.strokeRecorderListener.keySet()) {
 				listener.redcorderDidCloseStroke(this, aStroke);
 	        }
 		}

@@ -8,9 +8,6 @@ import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.KeyEventDispatcher;
 import java.awt.KeyboardFocusManager;
-import java.awt.TextField;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -19,7 +16,6 @@ import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
-
 
 import view.GuitarBackgroundPane;
 import controller.player.AlbumLoader;
@@ -48,6 +44,9 @@ public class GamePanel extends GHPanel {
 			@Override
 			public boolean dispatchKeyEvent(KeyEvent e) {
 				if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
+					 KeyboardFocusManager manager = KeyboardFocusManager
+								.getCurrentKeyboardFocusManager();
+					manager.removeKeyEventDispatcher(this);
 	    			PlayerController.getInstance().stop();
 	    			getNavigationController().popToRootPanel();
 	    			return true;
