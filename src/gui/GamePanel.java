@@ -109,6 +109,7 @@ public class GamePanel extends GHPanel {
 
 		final Track currentTrack = PlayerController.getInstance().getTrack();
 		new Thread() {
+			@Override
 			public void run() {
 				final BufferedImage bandImage = AlbumLoader.loadCover(currentTrack);
 		    		SwingUtilities.invokeLater(new Runnable() {

@@ -8,7 +8,7 @@ import javax.swing.JPanel;
 
 public class GuitarBackgroundPane extends JPanel {
 	
-	private static final int GUITAR_WIDTH = 300;
+	private static final int GUITAR_WIDTH = 350;
 	
 	public GuitarBackgroundPane() {
 		super();

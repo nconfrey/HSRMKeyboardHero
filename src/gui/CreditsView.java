@@ -20,7 +20,7 @@ public class CreditsView extends GHPanel {
 		hsrmTitle = new JLabel("Hochschule RheinMain");
 		creditText = new JLabel();
 		creditText.setText("<html><body>Keyboard Hero Version 1.0<br> <br>Ein EIBO Projekt von:<br> <br>"
-				+ " Simon Seyer <br> Moritz Möller <br> Martin Juhasz <br> Julia Kraft <br> <br> </body></html>");
+				+ " Simon Seyer <br> Moritz Moeller <br> Martin Juhasz <br> Julia Kraft <br> <br> </body></html>");
 		
 		
 		this.setLayout(new MigLayout("insets 0 200 20 200, fillx","[][]20[]", "[]20[]"));
@@ -31,6 +31,18 @@ public class CreditsView extends GHPanel {
 		
 		
 		this.setBackground(Color.WHITE);
+		
+	}
+
+	@Override
+	public void panelWillAppear() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void panelWillDisappear() {
+		// TODO Auto-generated method stub
 		
 	}
 

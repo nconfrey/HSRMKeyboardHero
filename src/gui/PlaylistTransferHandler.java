@@ -19,6 +19,7 @@ public class PlaylistTransferHandler extends TransferHandler {
 		this.playlist = playlist;
 	}
 	
+	@Override
 	public boolean importData(TransferSupport info) {
 		
 		if(!canImport(info)) {
@@ -41,6 +42,7 @@ public class PlaylistTransferHandler extends TransferHandler {
 		
 	}
 	
+	@Override
 	public boolean canImport(TransferSupport info) {
 		boolean copySupported;
 		
