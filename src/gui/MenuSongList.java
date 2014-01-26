@@ -4,12 +4,10 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Font;
 
-import javax.annotation.Resources;
 import javax.swing.BorderFactory;
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.JList;
 import javax.swing.ListModel;
-import javax.swing.border.EmptyBorder;
 
 import view.KeyboardHeroConstants;
 
@@ -44,7 +42,8 @@ public class MenuSongList<E> extends JList<E> {
                 return c;
             }
             
-            public int getHorizontalAlignment() {
+            @Override
+			public int getHorizontalAlignment() {
                 return CENTER;
             }
 

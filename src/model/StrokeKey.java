@@ -4,7 +4,22 @@ import java.awt.Color;
 import java.awt.event.KeyEvent;
 
 public enum StrokeKey {
-	F1,F2,F3,F4,F5,ENTER, INVALID;
+	F1(0, new Color(0x66FF33)),
+	F2(1, new Color(0xF5B800)),
+	F3(2, new Color(0x3366FF)),
+	F4(3,new Color(0xFF6633)),
+	F5(4, new Color(0x33CCFF)),
+	ENTER(-1, null), 
+	INVALID(-1, null);
+	
+	public static final int STROKE_COUNT = 5;
+	private int value;
+	private Color color;
+	
+	private StrokeKey(int value, Color color) {
+		this.value = value;
+		this.color = color;
+	}
 	
 	public static StrokeKey keyForCode(int keyCode) {
 		if(keyCode == KeyEvent.VK_F1) {
@@ -24,34 +39,16 @@ public enum StrokeKey {
 		}
 	}
 	
+	public static StrokeKey keyForPosition(int position) {
+		return values()[position];
+	}
+	
 	public int getPosition() {
-		if(this == StrokeKey.F1) {
-			return 0;
-		} else if(this == StrokeKey.F2) {
-			return 1;
-		} else if(this == StrokeKey.F3) {
-			return 2;
-		} else if(this == StrokeKey.F4) {
-			return 3;
-		} else if(this == StrokeKey.F5) {
-			return 4;
-		}
-		return -1;
+		return value;
 	}
 	
 	public Color getColor() {
-		if(this == StrokeKey.F1) {
-			return new Color(0x66FF33);
-		} else if(this == StrokeKey.F2) {
-			return new Color(0xF5B800);
-		} else if(this == StrokeKey.F3) {
-			return new Color(0x3366FF);
-		} else if(this == StrokeKey.F4) {
-			return new Color(0xFF6633);
-		} else if(this == StrokeKey.F5) {
-			return new Color(0x33CCFF);
-		}
-		return Color.white;
+		return color;
 	}
 	
 	public boolean isGuitarString() {

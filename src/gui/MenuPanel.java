@@ -3,16 +3,14 @@ package gui;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
-
-import model.KeyboardHeroFontModel;
-import net.miginfocom.swing.MigLayout;
 import view.KeyboardHeroConstants;
 import view.MenuButton;
+import model.KeyboardHeroFontModel;
+import net.miginfocom.swing.MigLayout;
 
 public class MenuPanel extends GHPanel implements ActionListener{
 	

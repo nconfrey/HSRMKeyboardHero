@@ -3,7 +3,6 @@ package model;
 import java.io.File;
 import java.io.Serializable;
 
-import controller.KeyboardHero;
 import controller.player.MP3PlayerTrack;
 
 public class Track implements Serializable{
@@ -42,6 +41,7 @@ public class Track implements Serializable{
 		this.mp3 = mp3;
 	}
 	
+	@Override
 	public String toString(){
 		return mp3.toString();
 	}

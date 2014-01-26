@@ -1,10 +1,11 @@
 package controller;
 
+import gui.PlayerController;
+
 import java.util.HashMap;
 import java.util.Map;
-import java.util.TreeMap;
+import java.util.WeakHashMap;
 
-import gui.PlayerController;
 import model.Score;
 import model.Stroke;
 import model.StrokeKey;
@@ -16,23 +17,20 @@ import controller.recorder.StrokeRecorderListener;
 
 public class ScoreController implements MP3PlayerListener, StrokeRecorderListener {
 	
-	private MP3Player player;
 	private boolean isRecording;
 	private Map<StrokeKey, Stroke> currentPlayedStrokes;
 	private Score score;
+	private WeakHashMap<ScoreListener, Void> listeners;
 	
 	public ScoreController() {
-		player = null;
 		isRecording = false;
 		currentPlayedStrokes = new HashMap<StrokeKey, Stroke>();
+		listeners = new WeakHashMap<>();
 		score = new Score();
 	}
 	
 	@Override
 	public void playbackDidStart(MP3Player player) {
-		if (!PlayerController.getInstance().isRecording()) {
-			this.player = player;
-		}
 	}
 
 	public void setRecording(boolean isRecording) {
@@ -41,20 +39,22 @@ public class ScoreController implements MP3PlayerListener, StrokeRecorderListene
 
 	@Override
 	public void playbackDidStop(MP3Player player) {
-		this.player = null;
 	}
 
 	@Override
 	public void playbackPlaying(MP3Player player, int frame) {
 		// TODO Auto-generated method stub
+		StrokeSet strokeSet = PlayerController.getInstance().getTrack().getStrokeSet();
 		for (StrokeKey key : currentPlayedStrokes.keySet()) {
-			
-			StrokeSet strokeSet = PlayerController.getInstance().getTrack().getStrokeSet();
 			Stroke recordedStroke = currentPlayedStrokes.get(key);
 			Stroke playedStroke = strokeSet.getStrokeForStroke(recordedStroke);
 			if(playedStroke != null && playedStroke.getEndFrame() >= frame) {
 				score.raise();
-				System.out.println(score);
+			} else {
+				if(playedStroke != null) {
+					currentPlayedStrokes.remove(playedStroke.getKey());
+					fireScoringDidEnd(playedStroke.getKey());
+				}
 			}
 			
 		}
@@ -75,7 +75,7 @@ public class ScoreController implements MP3PlayerListener, StrokeRecorderListene
 		StrokeSet strokeSet = PlayerController.getInstance().getTrack().getStrokeSet();
 		if(strokeSet != null && strokeSet.containsStroke(stroke)) {
 			currentPlayedStrokes.put(stroke.getKey(), stroke);
-			System.out.println("added stroke");
+			fireScoringDidStart(stroke.getKey());
 		}
 		
 	}
@@ -87,9 +87,28 @@ public class ScoreController implements MP3PlayerListener, StrokeRecorderListene
 		
 		if(currentPlayedStrokes.containsKey(stroke.getKey())) {
 			currentPlayedStrokes.remove(stroke.getKey());
-			System.out.println("finished");
+			fireScoringDidEnd(stroke.getKey());
 		}
 		
 	}
+	
+	public void addListener(ScoreListener listener){
+		this.listeners.put(listener, null);
+	}
 
+	public void removeListener(ScoreListener listener){
+		this.listeners.remove(listener);
+	}
+	
+	private void fireScoringDidStart(StrokeKey key) {
+		for (ScoreListener listener : listeners.keySet()) {
+			listener.scoringDidStart(key);
+		}
+	}
+	
+	private void fireScoringDidEnd(StrokeKey key) {
+		for (ScoreListener listener : listeners.keySet()) {
+			listener.scoringDidEnd(key);
+		}
+	}
 }

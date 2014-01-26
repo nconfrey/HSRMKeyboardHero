@@ -1,25 +1,17 @@
 package controller.recorder;
 
-import gui.GamePanel;
 import gui.GuitarStringListener;
-
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
-import java.util.NavigableMap;
-import java.util.Set;
 import java.util.WeakHashMap;
-
 import model.Stroke;
 import model.StrokeKey;
 import model.StrokeSet;
 import model.Track;
 import controller.player.MP3Player;
 import controller.player.MP3PlayerListener;
-import controller.player.Playlist;
 
 public class StrokeRecorder implements GuitarStringListener, MP3PlayerListener {
 	

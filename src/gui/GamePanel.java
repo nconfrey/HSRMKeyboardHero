@@ -11,7 +11,6 @@ import java.awt.event.ComponentEvent;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-
 import javax.imageio.ImageIO;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -99,11 +98,12 @@ public class GamePanel extends GHPanel implements MP3PlayerListener {
 		TitlePanel titlePanel = new TitlePanel();
 		
 		leftContent.add(titlePanel, "wrap, growx");
-		leftContent.add(scorePanel, "wrap, growx");
-		
+		if(!PlayerController.getInstance().isRecording()){
+			leftContent.add(scorePanel, "wrap, growx");
+			scorePanel.setBackground(Color.WHITE);
+		}
 		
 		titlePanel.setBackground(Color.WHITE);
-		scorePanel.setBackground(Color.WHITE);
 		
 	    return leftContent;
 	}
@@ -111,6 +111,7 @@ public class GamePanel extends GHPanel implements MP3PlayerListener {
 	private void loadBackgroundCover() {
 		
 		new Thread() {
+			@Override
 			public void run() {
 				
 				try {
