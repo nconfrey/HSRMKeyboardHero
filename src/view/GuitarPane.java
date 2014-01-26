@@ -33,17 +33,20 @@ public class GuitarPane extends JPanel implements MP3PlayerListener,
 	private static final int CLEAN_INTERVAL = 50;
 	private static final float RENDER_FACTOR = 2f;
 	
-	private static final int STROKE_WIDTH = 30;
+	private static final float STROKE_WIDTH = 30;
+	
+	private static final int STYLE_PRESET = 0;
+	private static final int STYLE_LIVE = 1;
 	
 	private int frame;
 	private int maxLoadedFrame;
 	private int drawCounter;
 	private BufferedImage buffer;
-	private Map<Stroke, RoundRectangle2D> strokeRects;
-	private List<Stroke> openStrokeRects;
+	private List<StrokeView> strokeRects;
+	private List<StrokeView> openStrokeRects;
 
 	public GuitarPane() {
-		strokeRects = new HashMap<>();
+		strokeRects = new ArrayList<>();
 		openStrokeRects = new ArrayList<>();
 
 		PlayerController.getInstance().getPlayer().addListener(this);
@@ -62,37 +65,19 @@ public class GuitarPane extends JPanel implements MP3PlayerListener,
 		g2.dispose();
 	}
 
-	private void addStroke(Stroke stroke) {
-		strokeRects.put(stroke, getStrokeRect(stroke));
+	private void addStroke(Stroke stroke, int style) {
+		StrokeView strokeView = new StrokeView(stroke, style);
+		updateStrokeRect(strokeView);
+		strokeRects.add(strokeView);
 		if (stroke.isOpen() && !openStrokeRects.contains(stroke)) {
-			openStrokeRects.add(stroke);
+			openStrokeRects.add(strokeView);
 		}
 	}
 	
-	private void addStrokes(List<Stroke> strokes) {
+	private void addStrokes(List<Stroke> strokes, int style) {
 		for (Stroke stroke : strokes) {
-			addStroke(stroke);
+			addStroke(stroke, style);
 		}
-	}
-
-	private void updateStroke(Stroke stroke) {
-		addStroke(stroke);
-	}
-	
-	private void removeStroke(Stroke stroke) {
-		strokeRects.remove(stroke);
-		openStrokeRects.remove(stroke);
-	}
-
-	public int calculateBufferHeight(StrokeSet strokeSet) {
-		int maxFrame = 0;
-		for (List<Stroke> strokeList : strokeSet.getStrokes().values()) {
-			for (Stroke stroke : strokeList) {
-				maxFrame = Math.max(maxFrame,
-						stroke.getStartFrame() + stroke.getLength());
-			}
-		}
-		return maxFrame;
 	}
 
 	private int getStrokeLength(Stroke stroke) {
@@ -102,15 +87,14 @@ public class GuitarPane extends JPanel implements MP3PlayerListener,
 			return stroke.getLength();
 		}
 	}
-
-	private RoundRectangle2D getStrokeRect(Stroke stroke) {
+	
+	private void updateStrokeRect(StrokeView strokeView) {
 		float width = STROKE_WIDTH;
-		float height = getPixelForFrame(getStrokeLength(stroke));
-		float x = getPositionForKey(stroke.getKey()) - width/2;
-		float y = -getPixelForFrame(stroke.getStartFrame()) - height;
+		float height = getPixelForFrame(getStrokeLength(strokeView.getStroke()));
+		float x = getPositionForKey(strokeView.getStroke().getKey()) - width/2;
+		float y = -getPixelForFrame(strokeView.getStroke().getStartFrame()) - height;
 		
-
-		return new RoundRectangle2D.Float(x, y, width, height,10,10);
+		strokeView.setRect(new RoundRectangle2D.Float(x, y, width, height,10,10));
 	}
 
 	public void draw(Graphics2D g) {
@@ -149,15 +133,16 @@ public class GuitarPane extends JPanel implements MP3PlayerListener,
 			cleanStrokeList(getPixelForFrame(frame) - getHeight());
 		}
 
-		for (Stroke stroke : openStrokeRects) {
-			updateStroke(stroke);
+		for (StrokeView strokeView : openStrokeRects) {
+			updateStrokeRect(strokeView);
 		}
 		
-		if (strokeRects != null) {
-			//System.out.println(frame);
-			for (Map.Entry<Stroke, RoundRectangle2D> stroke : strokeRects.entrySet()) {
-				g.setColor(stroke.getKey().getKey().getColor());
-				g.fill(stroke.getValue());
+		for (StrokeView strokeView : strokeRects) {
+			g.setColor(strokeView.getStroke().getKey().getColor());
+			if (strokeView.getStyle() == STYLE_LIVE) {
+				g.fill(strokeView.getRect());
+			} else {
+				g.draw(strokeView.getRect());
 			}
 		}
 
@@ -171,7 +156,7 @@ public class GuitarPane extends JPanel implements MP3PlayerListener,
 		List<Stroke> strokes = track.getStrokeSet().getListForFrameInRange(maxLoadedFrame, maxLoadedFrame + toFrame);
 		//System.out.print(frame + "(" + maxLoadedFrame + ", " + (maxLoadedFrame + toFrame) + "): ");
 		//System.out.println(strokes);
-		addStrokes(strokes);
+		addStrokes(strokes, STYLE_PRESET);
 		maxLoadedFrame = maxLoadedFrame + toFrame;
 	}
 	
@@ -187,12 +172,12 @@ public class GuitarPane extends JPanel implements MP3PlayerListener,
 		return getPositionForLine(key.getPosition());
 	}
 	
-	public static int getPixelForFrame(int frame) {
-		return (int)(frame * 0.3);
+	public float getPixelForFrame(int frame) {
+		return frame * 0.3f;
 	}
 	
-	public static int getFrameForPixel(int pixel) {
-		return (int)( pixel / 0.3);
+	public int getFrameForPixel(float pixel) {
+		return (int)( pixel / 0.3f);
 	}
 
 	// MP3Player Listener
@@ -220,25 +205,22 @@ public class GuitarPane extends JPanel implements MP3PlayerListener,
 
 	@Override
 	public void redcorderDidOpenStroke(StrokeRecorder recorder, Stroke stroke) {
-		addStroke(stroke);
+		addStroke(stroke, STYLE_LIVE);
 	}
 
 	@Override
 	public void redcorderDidCloseStroke(StrokeRecorder recorder, Stroke stroke) {
-		if (stroke.isEmpty()) {
-			removeStroke(stroke);
-		}
 	}
 
-	private void cleanStrokeList(int treshold) {
-		List<Stroke> toRemove = new ArrayList<Stroke>();
-		for (Map.Entry<Stroke, RoundRectangle2D> stroke : strokeRects.entrySet()) {
-			if (stroke.getValue().getY() + treshold > 0) {
+	private void cleanStrokeList(float treshold) {
+		List<StrokeView> toRemove = new ArrayList<>();
+		for (StrokeView strokeView : strokeRects) {
+			if (strokeView.getRect().getY() + treshold > 0) {
 			//	System.out.println("Removed " + stroke);
-				toRemove.add(stroke.getKey());
+				toRemove.add(strokeView);
 			}
 		}
-		strokeRects.keySet().removeAll(toRemove);
+		strokeRects.removeAll(toRemove);
 		openStrokeRects.removeAll(toRemove);
 	}
 }
