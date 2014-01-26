@@ -119,7 +119,7 @@ public class GuitarPane extends JPanel implements MP3PlayerListener,
 		g.fillRect(0, 0, getWidth(), getHeight());
 		
 		g.setColor(new Color(0xAAAAAAAA, true));
-		g.fill(new Rectangle2D.Float(0, getVerticalOffset(), getWidth(), 30));
+		g.fill(new Rectangle2D.Float(0, getVerticalOffset() - 15, getWidth(), 30));
 		
 		g.setColor(new Color(0xC0C0C0));
 		g.setStroke(new BasicStroke(1.5f));
