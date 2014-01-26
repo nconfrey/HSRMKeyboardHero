@@ -32,6 +32,7 @@ public class GamePanel extends GHPanel {
 	private JPanel leftContent; // sidepanel for scores, songtitle ...
 	private BufferedImage coverImage;
 	private Image coverImageBuffer;
+	private boolean paused;
 
 	public GamePanel() {
 		setFocusable(true);
@@ -49,8 +50,9 @@ public class GamePanel extends GHPanel {
 
 			@Override
 			public boolean dispatchKeyEvent(KeyEvent e) {
-				if (e.getKeyCode() == KeyEvent.VK_ESCAPE && e.getID() == KeyEvent.KEY_PRESSED) {
+				if (e.getKeyCode() == KeyEvent.VK_ESCAPE && e.getID() == KeyEvent.KEY_PRESSED && !paused) {
 					PlayerController.getInstance().pauseResume();
+					paused = true;
 					
 					int d = JOptionPane.showOptionDialog(null, "Game Paused","Keyboard Hero",
 			                JOptionPane.YES_NO_OPTION,
@@ -64,9 +66,11 @@ public class GamePanel extends GHPanel {
 						manager.removeKeyEventDispatcher(this);
 						getNavigationController().popToRootPanel();
 					}
-					if (d == JOptionPane.NO_OPTION){
+					if (d == JOptionPane.NO_OPTION || d == JOptionPane.CLOSED_OPTION){
+						paused = false;
 						PlayerController.getInstance().pauseResume();
 					}
+
 					return true;
 	    		}
 				return false;
