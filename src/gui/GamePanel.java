@@ -1,10 +1,8 @@
 package gui;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
-import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.KeyEventDispatcher;
 import java.awt.KeyboardFocusManager;
@@ -13,18 +11,13 @@ import java.awt.event.ComponentEvent;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-
 import javax.imageio.ImageIO;
-import javax.swing.BorderFactory;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
-
-
 import net.miginfocom.swing.MigLayout;
 import view.GuitarBackgroundPane;
 import controller.player.AlbumLoader;
-import controller.player.Playlist;
 import model.Track;
 
 public class GamePanel extends GHPanel {
@@ -95,11 +88,12 @@ public class GamePanel extends GHPanel {
 		TitlePanel titlePanel = new TitlePanel();
 		
 		leftContent.add(titlePanel, "wrap, growx");
-		leftContent.add(scorePanel, "wrap, growx");
-		
+		if(!PlayerController.getInstance().isRecording()){
+			leftContent.add(scorePanel, "wrap, growx");
+			scorePanel.setBackground(Color.WHITE);
+		}
 		
 		titlePanel.setBackground(Color.WHITE);
-		scorePanel.setBackground(Color.WHITE);
 		
 	    return leftContent;
 	}

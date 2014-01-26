@@ -4,7 +4,6 @@ import gui.PlayerController;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.geom.Line2D;
@@ -12,15 +11,10 @@ import java.awt.geom.Rectangle2D;
 import java.awt.geom.RoundRectangle2D;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-
 import javax.swing.JPanel;
-
 import model.Stroke;
 import model.StrokeKey;
-import model.StrokeSet;
 import model.Track;
 import controller.player.MP3Player;
 import controller.player.MP3PlayerListener;

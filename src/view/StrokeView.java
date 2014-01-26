@@ -1,7 +1,6 @@
 package view;
 
 import java.awt.geom.RoundRectangle2D;
-
 import model.Stroke;
 
 public class StrokeView {

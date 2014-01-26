@@ -1,6 +1,5 @@
 package gui;
 
-import model.Score;
 import model.Track;
 import controller.KeyController;
 import controller.ScoreController;

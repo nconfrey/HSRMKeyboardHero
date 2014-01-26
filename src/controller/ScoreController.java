@@ -2,8 +2,6 @@ package controller;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.TreeMap;
-
 import gui.PlayerController;
 import model.Score;
 import model.Stroke;
