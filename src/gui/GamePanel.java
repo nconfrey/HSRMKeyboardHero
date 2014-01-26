@@ -15,27 +15,37 @@ import javax.imageio.ImageIO;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
+
+import model.Track;
 import net.miginfocom.swing.MigLayout;
 import view.GuitarBackgroundPane;
 import controller.player.AlbumLoader;
-import model.Track;
+import controller.player.MP3Player;
+import controller.player.MP3PlayerListener;
 
-public class GamePanel extends GHPanel {
+public class GamePanel extends GHPanel implements MP3PlayerListener {
 
 	private JPanel leftContent; // sidepanel for scores, songtitle ...
 	private BufferedImage coverImage;
 	private Image coverImageBuffer;
 	private boolean paused;
 	private KeyEventDispatcher keyEventDispatcher;
+	private GameResultsPanel resultsPanel;
 
 	public GamePanel() {
 		setFocusable(true);
 
 		 // ContentPanel
 	    this.setLayout(new MigLayout("fill"));
+	    
+	    resultsPanel = new GameResultsPanel();
+	    resultsPanel.setVisible(false);
+	    resultsPanel.setOpaque(false);
+	    this.add(resultsPanel, "pos 0 0 container.w container.h");
+	    
 	    this.add(this.buildLeftContent(), "gapleft 30, gaptop  30, west, width 250:350:350");
 	    this.add(new GuitarBackgroundPane(), "center, growy");
-	   
+	    
 	    loadBackgroundCover();
 		
 	    keyEventDispatcher = new KeyEventDispatcher() {
@@ -99,27 +109,24 @@ public class GamePanel extends GHPanel {
 	}
 
 	private void loadBackgroundCover() {
-
-		try {
-			setCoverImage(ImageIO.read(getClass().getResourceAsStream(
-					"/background.jpg")));
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-
-		final Track currentTrack = PlayerController.getInstance().getTrack();
+		
 		new Thread() {
 			@Override
 			public void run() {
+				
+				try {
+					setCoverImage(ImageIO.read(getClass().getResourceAsStream(
+							"/background.jpg")));
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+
+				final Track currentTrack = PlayerController.getInstance().getTrack();
+				
 				final BufferedImage bandImage = AlbumLoader.loadCover(currentTrack);
-		    		SwingUtilities.invokeLater(new Runnable() {
-						@Override
-						public void run() {
-							if (bandImage != null) {
-								setCoverImage(bandImage);
-							}
-						}
-					});
+				if (bandImage != null) {
+					setCoverImage(bandImage);
+				}
 			}
 		}.start();
 	}
@@ -143,7 +150,13 @@ public class GamePanel extends GHPanel {
 	public void setCoverImage(BufferedImage coverImage) {
 		this.coverImage = coverImage;
 		bufferImage();
-		repaint();
+		
+		SwingUtilities.invokeLater(new Runnable() {
+			@Override
+			public void run() {
+				repaint();
+			}
+		});
 	}
 	
 	private void bufferImage() {
@@ -182,13 +195,43 @@ public class GamePanel extends GHPanel {
 
 	@Override
 	public void panelWillAppear() {
+		
+		// ESC Menu
 		KeyboardFocusManager manager = KeyboardFocusManager.getCurrentKeyboardFocusManager();
 		manager.addKeyEventDispatcher(keyEventDispatcher);
+		
+		// Game Results
+		PlayerController.getInstance().getPlayer().addPlayerListener(this);
+		
 	}
 
 	@Override
 	public void panelWillDisappear() {
+		
+		// ESC Menu
 		KeyboardFocusManager manager = KeyboardFocusManager.getCurrentKeyboardFocusManager();
 		manager.removeKeyEventDispatcher(keyEventDispatcher);
+	}
+
+	@Override
+	public void playbackDidStart(MP3Player player) {
+		
+	}
+
+	@Override
+	public void playbackDidStop(MP3Player player) {
+		
+		SwingUtilities.invokeLater(new Runnable() {
+			
+			@Override
+			public void run() {
+				resultsPanel.setVisible(true);
+			}
+		});
+	}
+
+	@Override
+	public void playbackPlaying(MP3Player player, int frame) {
+		
 	}
 }

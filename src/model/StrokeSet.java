@@ -6,18 +6,27 @@ import java.util.List;
 import java.util.Map;
 import java.util.NavigableMap;
 import java.util.TreeMap;
-
-import model.StrokeKey;
+import java.util.TreeSet;
 
 public class StrokeSet implements Serializable{
 	
 	private NavigableMap<Integer, List<Stroke>> strokes;
+	private TreeSet<Highscore> highscores;
 	
 	public StrokeSet() {
 		this.strokes = new TreeMap<>();
+		this.highscores = new TreeSet<>();
+	}
+	
+	public TreeSet<Highscore> getHighscores() {
+		return highscores;
 	}
 
-	
+	public void addHighscore(int score, String name) {
+		Highscore highscore = new Highscore(score, name);
+		this.highscores.add(highscore);
+	}
+
 	public NavigableMap<Integer, List<Stroke>> getStrokes() {
 		return strokes;
 	}
