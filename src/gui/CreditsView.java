@@ -7,12 +7,9 @@ import java.awt.KeyboardFocusManager;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
-import java.nio.ByteBuffer;
 
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
-import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
 import view.ImagePanel;
@@ -29,7 +26,7 @@ public class CreditsView extends GHPanel {
 	public CreditsView(){
 		
 		// General
-		this.setLayout(new MigLayout("insets 50 200 20 200, fillx","[][]20[]", "[]20[]"));
+		this.setLayout(new MigLayout("insets 50 200 50 200, fillx"));
 		this.setBackground(Color.WHITE);
 		
 		// Title
@@ -44,12 +41,14 @@ public class CreditsView extends GHPanel {
 		JLabel hsrmTitle = new JLabel("Hochschule RheinMain");
 		JLabel creditText = new JLabel();
 		hsrmTitle.setFont(new Font("sanserif", Font.BOLD, 15));
-		creditText.setFont(new Font("sanserif", Font.BOLD, 15));
+		creditText.setFont(new Font("sanserif", Font.PLAIN, 15));
+		creditText.setHorizontalAlignment(SwingConstants.CENTER);
+		hsrmTitle.setHorizontalAlignment(SwingConstants.CENTER);
 		
 		
 		
-		creditText.setText("<html><body>Keyboard Hero Version 1.0<br> <br>Ein EIBO Projekt von:<br> <br>"
-				+ " Simon Seyer <br> Moritz Moeller <br> Martin Juhasz <br> Julia Kraft <br> <br> </body></html>");
+		creditText.setText("<html><body>Keyboard Hero Version 1.0<br> <br><b>Ein EIBO Projekt von:</b><br>"
+				+ " Simon Seyer <br> Moritz Moeller <br> Martin Juhasz <br> Julia Kraft <br> </body></html>");
 		
 		
 		
@@ -59,7 +58,7 @@ public class CreditsView extends GHPanel {
 		
 		
 		ImagePanel hsrmPanel = new ImagePanel("HSRM.png", ImagePanel.SIZE_FIXED);
-		this.add(hsrmPanel,"wrap, grow, height 200!");
+		this.add(hsrmPanel,"wrap,grow, height 100!");
 		
 		mainMenuButton = new MenuButton("Back to menu", new Color(KeyboardHeroConstants.FONT_COLOR_SECONDARY));
 		mainMenuButton.addActionListener(new ActionListener() {
@@ -95,11 +94,12 @@ public class CreditsView extends GHPanel {
 		
 	}
 
-
 	@Override
 	public void panelWillDisappear() {
-		// TODO Auto-generated method stub
+		KeyboardFocusManager manager = KeyboardFocusManager.getCurrentKeyboardFocusManager();
+		manager.removeKeyEventDispatcher(keyEventDispatcher);
 		
 	}
+
 
 }
