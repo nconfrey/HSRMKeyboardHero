@@ -57,6 +57,8 @@ public class MenuPanel extends GHPanel implements ActionListener{
 		if(e.getSource() == highscoreButton){
 		}
 		if(e.getSource() == creditsButton){
+			CreditsView creditPanel = new CreditsView();
+			this.getNavigationController().pushPanel(creditPanel);
 		}
 	}
 }
