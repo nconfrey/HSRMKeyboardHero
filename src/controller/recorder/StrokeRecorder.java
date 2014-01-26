@@ -36,7 +36,7 @@ public class StrokeRecorder implements GuitarStringListener, MP3PlayerListener {
 	public StrokeRecorder(MP3Player player) {
 		strokeRecorderListener = new WeakHashMap<>();
 		
-		player.addListener(this);
+		player.addPlayerListener(this);
 	}
 	
 	// Getters, Setters

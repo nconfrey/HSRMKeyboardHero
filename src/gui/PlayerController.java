@@ -31,7 +31,7 @@ public class PlayerController {
 		scoreController = new ScoreController();
 		
 		keyController.addGuitarStringListener(recorder);
-		player.addListener(scoreController);
+		player.addPlayerListener(scoreController);
 		recorder.addStrokeRecorderListener(scoreController);
 		
 		setRecording(false);

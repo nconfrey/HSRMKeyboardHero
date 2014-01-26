@@ -2,13 +2,15 @@ package gui;
 
 
 
-import javax.swing.JLabel;
-import javax.swing.SwingUtilities;
-import net.miginfocom.swing.MigLayout;
-import model.Score;
 import java.awt.Font;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+
+import javax.swing.JLabel;
+import javax.swing.SwingUtilities;
+
+import model.Score;
+import net.miginfocom.swing.MigLayout;
 
 
 public class ScorePanel extends TransparentPanel implements PropertyChangeListener {

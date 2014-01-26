@@ -48,10 +48,11 @@ public class MP3Player {
         if (track != null) {
             File f = track.getFile();
             player = minim.loadFile(f.getAbsolutePath());
-            firePlaybackStarted();
             paused = false;
             player.play();
-            //stopAndWait();
+            
+            firePlaybackStarted();
+            
         }
     }
 
@@ -92,11 +93,11 @@ public class MP3Player {
     }
 
     //listener
-    public void addListener(MP3PlayerListener listener) {
+    public void addPlayerListener(MP3PlayerListener listener) {
         listeners.put(listener, null);
     }
 
-    public void removeListener(MP3PlayerListener listener) {
+    public void removePlayerListener(MP3PlayerListener listener) {
         listeners.remove(listener);
     }
 
@@ -113,6 +114,12 @@ public class MP3Player {
 
                 @Override
                 public void run() {
+                	
+                	if(!player.isPlaying() && !paused) {
+                		stopAndWait();
+                		return;
+                	}
+                	
                     for (MP3PlayerListener mP3PlayerListener : listeners.keySet()) {
                     	frame = player.position();
                         mP3PlayerListener.playbackPlaying(finalThis, frame);

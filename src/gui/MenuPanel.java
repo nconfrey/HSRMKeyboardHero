@@ -55,12 +55,13 @@ public class MenuPanel extends GHPanel implements ActionListener{
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource() == playButton || e.getSource() == recordButton){
 			PlayerController.getInstance().setRecording(e.getSource() == recordButton);
-			SongListPanel songViewer = new SongListPanel();
-			this.getNavigationController().pushPanel(songViewer);
-		}
-		if(e.getSource() == highscoreButton){
-		}
-		if(e.getSource() == creditsButton){
+			int mode = (e.getSource() == recordButton) ? SongListPanel.MODE_RECORD : SongListPanel.MODE_PLAY;
+			SongListPanel songListPanel = new SongListPanel(mode);
+			this.getNavigationController().pushPanel(songListPanel);
+		} else if(e.getSource() == highscoreButton){
+			SongListPanel songListPanel = new SongListPanel(SongListPanel.MODE_HIGHSCORE);
+			this.getNavigationController().pushPanel(songListPanel);
+		} else if(e.getSource() == creditsButton){
 		}
 	}
 
