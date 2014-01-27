@@ -128,6 +128,7 @@ public class GamePanel extends GHPanel implements MP3PlayerListener {
 				final Track currentTrack = PlayerController.getInstance().getTrack();
 				
 				final BufferedImage bandImage = AlbumLoader.loadCover(currentTrack);
+				
 				float[] data = new float[25];
 				for(int i=0; i<25; i++){
 					data[i] = 1.0f/25.0f;
