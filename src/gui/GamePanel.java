@@ -179,12 +179,14 @@ public class GamePanel extends GHPanel implements MP3PlayerListener {
 	}
 	
 	private void bufferImage() {
-		double scaleFactor = Math.max(1d, getScaleFactorToFill(new Dimension(coverImage.getWidth(), coverImage.getHeight()), getSize()));
+		if (coverImage != null) {
+			double scaleFactor = Math.max(1d, getScaleFactorToFill(new Dimension(coverImage.getWidth(), coverImage.getHeight()), getSize()));
 
-	    int scaleWidth = (int) Math.round(coverImage.getWidth() * scaleFactor);
-	    int scaleHeight = (int) Math.round(coverImage.getHeight() * scaleFactor);
+		    int scaleWidth = (int) Math.round(coverImage.getWidth() * scaleFactor);
+		    int scaleHeight = (int) Math.round(coverImage.getHeight() * scaleFactor);
 
-	    coverImageBuffer = coverImage.getScaledInstance(scaleWidth, scaleHeight, Image.SCALE_FAST);
+		    coverImageBuffer = coverImage.getScaledInstance(scaleWidth, scaleHeight, Image.SCALE_FAST);
+		}
 	}
 
 	private double getScaleFactor(int iMasterSize, int iTargetSize) {

@@ -24,6 +24,7 @@ public class MP3PlayerRemoteTrack implements MP3PlayerTrack {
 	private String artist;
 	private String url;
 	private transient String streamUrl;
+	private String artworkUrl;
 
 	public MP3PlayerRemoteTrack(JSONObject data) {
 		title = data.getString("title");
@@ -31,6 +32,9 @@ public class MP3PlayerRemoteTrack implements MP3PlayerTrack {
 			albumTitle = "Genre: " + data.getString("genre");
 		} else {
 			albumTitle = "";
+		}
+		if (!data.isNull("artwork_url")) {
+			artworkUrl = data.getString("artwork_url");
 		}
 		artist = data.getJSONObject("user").getString("username");
 		url = data.getString("stream_url");
@@ -65,6 +69,10 @@ public class MP3PlayerRemoteTrack implements MP3PlayerTrack {
 			}
 		}
 		return streamUrl;
+	}
+	
+	public String getArtworkUrl() {
+		return artworkUrl;
 	}
 
 	@Override
