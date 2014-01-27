@@ -14,7 +14,9 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JScrollPane;
+import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
 
 import model.KeyboardHeroFontModel;
 import model.PersistenceHandler;
@@ -38,6 +40,8 @@ public class SongListPanel extends GHPanel {
 	private JScrollPane scrollPane;
 	private KeyEventDispatcher keyEventDispatcher;
 	private int mode;
+	private JTextField searchField;
+	private JButton button;
 	
 	public SongListPanel() {
 		this.mode = MODE_PLAY;
@@ -60,6 +64,32 @@ public class SongListPanel extends GHPanel {
 				KeyboardHeroConstants.FONT_COLOR_PRIMARY));
 		this.add(titleLabel, "wrap, grow");
 
+		searchField = new JTextField();
+		add(searchField, "wrap, grow");
+		button = new JButton("search");
+		button.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				new Thread(new Runnable() {
+					
+					@Override
+					public void run() {
+						final Playlist list = PlayerController.getInstance().getSoundCloud().search(searchField.getText());
+						SwingUtilities.invokeLater(new Runnable() {
+							
+							@Override
+							public void run() {
+								songlist.setModel(list);
+							}
+						});
+					}
+				}).start();
+				
+			}
+		});
+		add(button, "wrap, grow");
+		
 		this.fillPlaylist();
 
 		keyEventDispatcher = new KeyEventDispatcher() {
