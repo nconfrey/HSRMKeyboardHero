@@ -1,5 +1,6 @@
 package gui;
 
+import model.SoundCloud;
 import model.Track;
 import controller.KeyController;
 import controller.ScoreController;
@@ -9,6 +10,7 @@ import controller.recorder.StrokeRecorder;
 public class PlayerController {
 
 	private MP3Player player;
+	private SoundCloud soundCloud;
 	private StrokeRecorder recorder;
 	private KeyController keyController;
 	private Track track;
@@ -26,6 +28,7 @@ public class PlayerController {
 	
 	public PlayerController() {
 		player = new MP3Player();
+		soundCloud = new SoundCloud();
 		recorder = new StrokeRecorder(player);
 		keyController = new KeyController();
 		scoreController = new ScoreController();
@@ -68,6 +71,10 @@ public class PlayerController {
 
 	public MP3Player getPlayer() {
 		return player;
+	}
+	
+	public SoundCloud getSoundCloud() {
+		return soundCloud;
 	}
 
 	public StrokeRecorder getRecorder() {

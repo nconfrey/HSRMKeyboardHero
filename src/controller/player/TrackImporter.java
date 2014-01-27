@@ -54,7 +54,7 @@ public class TrackImporter {
     }
 
     private MP3PlayerTrack loadTrack(File file) {
-        MP3PlayerTrack track = new MP3PlayerTrack(file);
+        MP3PlayerLocalTrack track = new MP3PlayerLocalTrack(file);
         try {
             MP3File mp3File = new MP3File(file);
             

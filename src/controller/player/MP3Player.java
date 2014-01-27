@@ -46,8 +46,7 @@ public class MP3Player {
         }
 
         if (track != null) {
-            File f = track.getFile();
-            player = minim.loadFile(f.getAbsolutePath());
+            player = minim.loadFile(track.getPath());
             paused = false;
             player.play();
             

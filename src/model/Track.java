@@ -3,6 +3,7 @@ package model;
 import java.io.File;
 import java.io.Serializable;
 
+import controller.player.MP3PlayerLocalTrack;
 import controller.player.MP3PlayerTrack;
 
 public class Track implements Serializable{
@@ -21,7 +22,7 @@ public class Track implements Serializable{
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		this.mp3 = new MP3PlayerTrack(mp3File);
+		this.mp3 = new MP3PlayerLocalTrack(mp3File);
 	}
 	
 
