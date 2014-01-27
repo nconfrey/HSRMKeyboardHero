@@ -28,7 +28,7 @@ public class SoundCloud {
 		try {
 			HttpResponse searchResp;
 			synchronized(wrapper){
-				searchResp = wrapper.get(Request.to("/tracks").with("q", searchText).with("license", "cc-by-sa"));
+				searchResp = wrapper.get(Request.to("/tracks").with("q", searchText).with("license", "cc-by"));
 			}
 			
 			JSONObject json = new JSONObject("{elements:" + Http.getString(searchResp) + "}");
