@@ -48,8 +48,10 @@ public class Playlist extends AbstractListModel<Track> implements Serializable{
     }
     
     public void addTrack(Track track){
-        this.tracks.add(track);
-        fireContentsChanged(track, this.tracks.size()-1,  this.tracks.size()-1);
+    	if (!tracks.contains(track)) {
+    		this.tracks.add(track);
+            fireContentsChanged(track, this.tracks.size()-1,  this.tracks.size()-1);
+    	}
     }
 
     @Override

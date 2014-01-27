@@ -110,7 +110,11 @@ public class SongListPanel extends GHPanel {
 			public void actionPerformed(ActionEvent e) {
 				if (songlist.getSelectedValue() != null) {
 					if(mode == MODE_PLAY || mode == MODE_RECORD) {
-						PlayerController.getInstance().setTrack(songlist.getSelectedValue());
+						Track selectedTrack = songlist.getSelectedValue();
+						Playlist playlist = PersistenceHandler.loadPlaylist();
+						//TODO: wrong location to do this
+						playlist.addTrack(selectedTrack);
+						PlayerController.getInstance().setTrack(selectedTrack);
 						GamePanel gameFrame = new GamePanel();
 						getNavigationController().pushPanel(gameFrame);
 					} else if(mode == MODE_HIGHSCORE) {
