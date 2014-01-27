@@ -64,6 +64,8 @@ public class PlayerController {
 		if(recorder != null) {
 			recorder.setRecordingMode(isRecording);
 		}
+		
+		
 	}
 
 	public MP3Player getPlayer() {
@@ -80,8 +82,15 @@ public class PlayerController {
 	
 	public void setTrack(Track track) {
 		this.track = track;
-		player.setTrack(track.getMp3());
+		
+		if(isRecording){
+			track.setStrokeSet(null);
+			System.out.println("New stroke set will be recorded");
+		}
+		
 		recorder.setTrack(track);
+		player.setTrack(track.getMp3());
+		
 	}
 	public ScoreController getScoreController() {
 		return scoreController;
