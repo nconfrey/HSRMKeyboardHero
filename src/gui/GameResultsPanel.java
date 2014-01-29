@@ -72,7 +72,12 @@ public class GameResultsPanel extends JPanel {
 		infoPanel.add(pushPanel, "grow, pushy, span");
 		
 		
-		JButton playButton = new MenuButton("play again", new Color(KeyboardHeroConstants.FONT_COLOR_SECONDARY));
+		String playButtonText = "play again";
+		if(PlayerController.getInstance().isRecording()){
+			playButtonText = "record again";
+		}
+		
+		JButton playButton = new MenuButton(playButtonText, new Color(KeyboardHeroConstants.FONT_COLOR_SECONDARY));
 		playButton.addActionListener(new ActionListener() {
 			
 			@Override

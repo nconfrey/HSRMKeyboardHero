@@ -102,26 +102,29 @@ public class GamePanel extends GHPanel implements MP3PlayerListener, GameResults
 
 				final BufferedImage bandImage = AlbumLoader
 						.loadCover(currentTrack);
-
-				float[] data = new float[25];
-				for (int i = 0; i < 25; i++) {
-					data[i] = 1.0f / 25.0f;
-				}
-				ConvolveOp bio = new ConvolveOp(new Kernel(5, 5, data),
-						ConvolveOp.EDGE_ZERO_FILL, null);
-				BufferedImage blurred = bio.filter(bandImage, null);
-				for (int i = 0; i < 49; i++) {
-					blurred = bio.filter(blurred, null);
-				}
-				final BufferedImage blurredFinal = blurred;
-				SwingUtilities.invokeLater(new Runnable() {
-					@Override
-					public void run() {
-						if (blurredFinal != null) {
-							setCoverImage(blurredFinal);
-						}
+				
+				if(bandImage != null) {
+					float[] data = new float[25];
+					for (int i = 0; i < 25; i++) {
+						data[i] = 1.0f / 25.0f;
 					}
-				});
+					ConvolveOp bio = new ConvolveOp(new Kernel(5, 5, data),
+							ConvolveOp.EDGE_ZERO_FILL, null);
+					BufferedImage blurred = bio.filter(bandImage, null);
+					for (int i = 0; i < 49; i++) {
+						blurred = bio.filter(blurred, null);
+					}
+					final BufferedImage blurredFinal = blurred;
+					SwingUtilities.invokeLater(new Runnable() {
+						@Override
+						public void run() {
+							if (blurredFinal != null) {
+								setCoverImage(blurredFinal);
+							}
+						}
+					});
+				}
+				
 			}
 		}.start();
 	}
@@ -273,6 +276,7 @@ public class GamePanel extends GHPanel implements MP3PlayerListener, GameResults
 			@Override
 			public void run() {
 				PlayerController.getInstance().stop();
+				PlayerController.getInstance().reset();
 				GamePanel gameFrame = new GamePanel();
 				getNavigationController().replacePanel(gameFrame);
 			}

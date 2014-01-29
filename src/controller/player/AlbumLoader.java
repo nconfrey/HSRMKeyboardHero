@@ -29,7 +29,9 @@ public class AlbumLoader {
 			Album album = Album.getInfo(mp3Track.getArtist(),
 					mp3Track.getAlbumTitle(),
 					"61047b4acdccb090ea7a05ac7e5602f8");
-			imageURL = album.getImageURL(ImageSize.MEGA);
+			if(album != null) {
+				imageURL = album.getImageURL(ImageSize.MEGA);
+			}
 		} else if (mp3Track instanceof MP3PlayerRemoteTrack) {
 			MP3PlayerRemoteTrack remoteTrack = (MP3PlayerRemoteTrack) mp3Track;
 			imageURL = remoteTrack.getArtworkUrl();
