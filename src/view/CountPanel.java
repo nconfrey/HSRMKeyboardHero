@@ -23,6 +23,7 @@ public class CountPanel extends JPanel {
 	private int timeLeft;
 	private CountListener listener;
 	private JLabel label;
+	private boolean paused;
 	
 	public interface CountListener {
 		public void countdownDidEnd();
@@ -42,7 +43,13 @@ public class CountPanel extends JPanel {
 	}
 	
 	public void startTimer() {
+		paused = false;
 		timeLeft = COUNTDOWN_TIME * 1000;
+		createTimer();
+	}
+	
+	private void createTimer() {
+		stopTimer();
 		timer = new Timer();
 		timer.scheduleAtFixedRate(new TimerTask() {
 			
@@ -50,7 +57,7 @@ public class CountPanel extends JPanel {
 			public void run() {
 				timeLeft -= REFRESH_INTERVAL;
 				if (timeLeft <= 0) {
-					timer.cancel();
+					stopTimer();
 					listener.countdownDidEnd();
 				} else {
 					SwingUtilities.invokeLater(new Runnable() {
@@ -63,7 +70,25 @@ public class CountPanel extends JPanel {
 				}
 			}
 		}, 0, REFRESH_INTERVAL);
-		
+	}
+	
+	private void stopTimer() {
+		if (timer != null) {
+			timer.cancel();
+			timer = null;
+		}
+	}
+	
+	public void pauseOrResume() {
+		if (timeLeft > 0) {
+			if (paused) {
+				paused = false;
+				createTimer();
+			} else {
+				paused = true;
+				stopTimer();
+			}
+		}
 	}
 
 	@Override

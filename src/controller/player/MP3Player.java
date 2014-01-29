@@ -86,15 +86,17 @@ public class MP3Player {
     }
     
     public synchronized void pauseResume() {
-    	if (!paused) {
-    		paused = true;
-    		player.pause();
-    		System.out.println("Pause");
-    	}
-    	else if (paused){
-    		paused = false;
-    		player.play();
-    		System.out.println("Resume");
+    	if (player != null) {
+    		if (!paused) {
+        		paused = true;
+        		player.pause();
+        		System.out.println("Pause");
+        	}
+        	else if (paused){
+        		paused = false;
+        		player.play();
+        		System.out.println("Resume");
+        	}
     	}
     }
 
