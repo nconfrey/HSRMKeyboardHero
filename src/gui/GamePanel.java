@@ -242,7 +242,21 @@ public class GamePanel extends GHPanel implements MP3PlayerListener, GameResults
 
 			@Override
 			public void run() {
+				PlayerController.getInstance().stop();
 				getNavigationController().popToRootPanel();
+			}
+		});
+	}
+
+	@Override
+	public void resultPanelDidSelectReplay() {
+		SwingUtilities.invokeLater(new Runnable() {
+
+			@Override
+			public void run() {
+				PlayerController.getInstance().stop();
+				GamePanel gameFrame = new GamePanel();
+				getNavigationController().replacePanel(gameFrame);
 			}
 		});
 	}

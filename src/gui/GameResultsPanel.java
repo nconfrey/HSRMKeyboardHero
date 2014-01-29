@@ -22,6 +22,7 @@ public class GameResultsPanel extends JPanel {
 	
 	public interface ResultListener {
 		public void resultPanelShouldClose();
+		public void resultPanelDidSelectReplay();
 	}
 	
 	public GameResultsPanel(ResultListener aListener) {
@@ -68,6 +69,13 @@ public class GameResultsPanel extends JPanel {
 		
 		
 		JButton playButton = new JButton("play again");
+		playButton.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				listener.resultPanelDidSelectReplay();
+			}
+		});
 		infoPanel.add(playButton);
 		
 		JButton closeButton = new JButton("close");
