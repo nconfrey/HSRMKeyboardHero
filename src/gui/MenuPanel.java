@@ -4,14 +4,19 @@ import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+import java.io.File;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import model.Track;
 import net.miginfocom.swing.MigLayout;
 import view.MenuButton;
 import view.TitleLabel;
+import controller.player.MP3PlayerLocalTrack;
+
+
 
 public class MenuPanel extends GHPanel implements ActionListener{
 	
@@ -46,7 +51,7 @@ public class MenuPanel extends GHPanel implements ActionListener{
 		buttonPanel.add(creditsButton, "wrap, grow, height 60");
 		
 		this.add(buttonPanel, "wrap, grow");
-		
+		loadIntro();
 	}
 
 	@Override
@@ -65,6 +70,13 @@ public class MenuPanel extends GHPanel implements ActionListener{
 		}
 	}
 
+	public void loadIntro(){
+		MP3PlayerLocalTrack mp3 = new MP3PlayerLocalTrack(new File("music/back_in_black.mp3"));
+		Track intro = new Track(mp3);
+		PlayerController.getInstance().setTrack(intro);
+		PlayerController.getInstance().loop();
+	}
+	
 	@Override
 	public void didPressBack(KeyEvent e) {
 		getNavigationController().getBaseFrame().dispose();
