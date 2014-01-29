@@ -81,7 +81,7 @@ public class GamePanel extends GHPanel implements MP3PlayerListener, GameResults
 		
 		JPanel coverWrapperPanel = new JPanel(new MigLayout("fill, insets 3"));
 		coverWrapperPanel.setBackground(Color.WHITE);
-		miniCoverPanel = new ImagePanel("cover.jpg",ImagePanel.SIZE_FILL);
+		miniCoverPanel = new ImagePanel("cover.png",ImagePanel.SIZE_FILL);
 		coverWrapperPanel.add(miniCoverPanel, "grow");
 		leftContent.add(coverWrapperPanel, "h 300!,wrap, growx");
 		
