@@ -1,7 +1,6 @@
 package controller.player;
 
 import java.io.File;
-import java.io.Serializable;
 
 import org.jaudiotagger.audio.AudioFile;
 import org.jaudiotagger.audio.AudioFileIO;

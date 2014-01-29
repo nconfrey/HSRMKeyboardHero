@@ -1,8 +1,6 @@
 package gui;
 
 import java.awt.Color;
-import java.awt.KeyEventDispatcher;
-import java.awt.KeyboardFocusManager;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -15,15 +13,14 @@ import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
-import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 
-import model.KeyboardHeroFontModel;
 import model.PersistenceHandler;
 import model.Track;
 import net.miginfocom.swing.MigLayout;
 import view.KeyboardHeroConstants;
 import view.MenuButton;
+import view.TitleLabel;
 import controller.player.Playlist;
 
 public class SongListPanel extends GHPanel {
@@ -38,7 +35,6 @@ public class SongListPanel extends GHPanel {
 	private ListAction selectAction;
 	private PlaylistTransferHandler transferHandler;
 	private JScrollPane scrollPane;
-	private KeyEventDispatcher keyEventDispatcher;
 	private int mode;
 	private JTextField searchField;
 	private JButton button;
@@ -57,11 +53,7 @@ public class SongListPanel extends GHPanel {
 		this.setLayout(new MigLayout("insets 50 200 50 200, fill"));
 		this.setBackground(Color.WHITE);
 
-		JLabel titleLabel = new JLabel("Select a Track");
-		titleLabel.setFont(KeyboardHeroFontModel.getInstance().getFont(KeyboardHeroFontModel.FONT_NIGHTMARE).deriveFont(82f));
-		titleLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		titleLabel.setForeground(new Color(
-				KeyboardHeroConstants.FONT_COLOR_PRIMARY));
+		JLabel titleLabel = new TitleLabel("Select a Track");
 		this.add(titleLabel, "wrap, grow");
 
 		searchField = new JTextField();
@@ -91,18 +83,6 @@ public class SongListPanel extends GHPanel {
 		add(button, "wrap, grow");
 		
 		this.fillPlaylist();
-
-		keyEventDispatcher = new KeyEventDispatcher() {
-
-			@Override
-			public boolean dispatchKeyEvent(KeyEvent e) {
-				if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
-					getNavigationController().popToRootPanel();
-					return true;
-				}
-				return false;
-			}
-		};
 
 		selectAction = new ListAction(songlist, new AbstractAction() {
 
@@ -165,18 +145,9 @@ public class SongListPanel extends GHPanel {
 		scrollPane.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
 
 	}
-
+	
 	@Override
-	public void panelWillAppear() {
-		KeyboardFocusManager manager = KeyboardFocusManager
-				.getCurrentKeyboardFocusManager();
-		manager.addKeyEventDispatcher(keyEventDispatcher);
-	}
-
-	@Override
-	public void panelWillDisappear() {
-		KeyboardFocusManager manager = KeyboardFocusManager
-				.getCurrentKeyboardFocusManager();
-		manager.removeKeyEventDispatcher(keyEventDispatcher);
+	public void didPressBack(KeyEvent e) {
+		getNavigationController().popToRootPanel();
 	}
 }

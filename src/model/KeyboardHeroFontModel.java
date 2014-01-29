@@ -4,13 +4,10 @@ import java.awt.Font;
 import java.awt.FontFormatException;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.List;
 import java.util.Map;
-import java.util.NavigableMap;
 import java.util.TreeMap;
 
 import controller.KeyboardHero;
-import gui.PlayerController;
 
 
 public class KeyboardHeroFontModel {

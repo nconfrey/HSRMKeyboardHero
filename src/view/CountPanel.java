@@ -1,21 +1,18 @@
 package view;
 
-import gui.PlayerController;
-
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
 import net.miginfocom.swing.MigLayout;
-
-import java.util.Timer;
-import java.util.TimerTask;
 
 public class CountPanel extends JPanel {
 	

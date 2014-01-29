@@ -1,11 +1,13 @@
 package controller.recorder;
 
 import gui.GuitarStringListener;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.WeakHashMap;
+
 import model.Stroke;
 import model.StrokeKey;
 import model.StrokeSet;

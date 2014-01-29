@@ -3,19 +3,19 @@ package gui;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 
 import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JScrollPane;
-import javax.swing.SwingConstants;
 
+import model.Highscore;
+import model.Track;
+import net.miginfocom.swing.MigLayout;
 import view.KeyboardHeroConstants;
 import view.MenuButton;
-import net.miginfocom.swing.MigLayout;
-import model.Highscore;
-import model.KeyboardHeroFontModel;
-import model.Track;
+import view.TitleLabel;
 
 public class HighscorePanel extends GHPanel {
 
@@ -31,11 +31,7 @@ public class HighscorePanel extends GHPanel {
 		this.setLayout(new MigLayout("insets 50 200 50 200, fill"));
 		this.setBackground(Color.WHITE);
 
-		JLabel titleLabel = new JLabel("Highscores");
-		titleLabel.setFont(KeyboardHeroFontModel.getInstance().getFont(KeyboardHeroFontModel.FONT_NIGHTMARE).deriveFont(82f));
-		titleLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		titleLabel.setForeground(new Color(
-				KeyboardHeroConstants.FONT_COLOR_PRIMARY));
+		JLabel titleLabel = new TitleLabel("Highscores");
 		this.add(titleLabel, "wrap, grow");
 		
 		
@@ -51,23 +47,16 @@ public class HighscorePanel extends GHPanel {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				getNavigationController().popPanel();
+				didPressBack(null);
 			}
 		});
 		this.add(mainMenuButton, "growx, height 60!");
 		
 	}
-	
-	@Override
-	public void panelWillAppear() {
-		// TODO Auto-generated method stub
-		
-	}
 
 	@Override
-	public void panelWillDisappear() {
-		// TODO Auto-generated method stub
-		
+	public void didPressBack(KeyEvent e) {
+		getNavigationController().popPanel();
 	}
 
 }

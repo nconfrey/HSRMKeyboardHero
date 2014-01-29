@@ -1,5 +1,7 @@
 package gui;
 
+import java.awt.event.KeyEvent;
+
 import javax.swing.JPanel;
 
 public abstract class GHPanel extends JPanel{
@@ -13,8 +15,16 @@ public abstract class GHPanel extends JPanel{
 		this.navigationController = navigationController;
 	}
 	
-	public abstract void panelWillAppear();
+	public void panelWillAppear(){
+		// Stub implementation
+	}
 	
-	public abstract void panelWillDisappear();
+	public void panelWillDisappear() {
+		// Stub implementation
+	}
+	
+	public void didPressBack(KeyEvent e) {
+		// Stub implementation
+	}
 
 }

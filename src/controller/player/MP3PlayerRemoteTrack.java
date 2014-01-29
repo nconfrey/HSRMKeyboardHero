@@ -2,16 +2,9 @@ package controller.player;
 
 import gui.PlayerController;
 
-import java.io.File;
 import java.io.IOException;
 
-import model.SoundCloud;
-
-import org.apache.http.HttpResponse;
 import org.json.JSONObject;
-
-import com.soundcloud.api.Http;
-import com.soundcloud.api.Request;
 
 /**
  * 

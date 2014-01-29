@@ -14,7 +14,7 @@ import model.Score;
 import model.StrokeSet;
 import net.miginfocom.swing.MigLayout;
 
-public class GameResultsPanel extends GHPanel {
+public class GameResultsPanel extends JPanel {
 	
 	private JTextField highscoreNameField;
 	JButton highscoreSubmitButton;
@@ -65,18 +65,6 @@ public class GameResultsPanel extends GHPanel {
 		
 		JButton closeButton = new JButton("close");
 		infoPanel.add(closeButton);
-		
-	}
-
-	@Override
-	public void panelWillAppear() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void panelWillDisappear() {
-		// TODO Auto-generated method stub
 		
 	}
 	

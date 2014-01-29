@@ -2,8 +2,6 @@ package gui;
 
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.KeyEventDispatcher;
-import java.awt.KeyboardFocusManager;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -12,15 +10,14 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 
+import net.miginfocom.swing.MigLayout;
 import view.ImagePanel;
 import view.KeyboardHeroConstants;
 import view.MenuButton;
-import model.KeyboardHeroFontModel;
-import net.miginfocom.swing.MigLayout;
+import view.TitleLabel;
 
 public class CreditsView extends GHPanel {
 	
-	private KeyEventDispatcher keyEventDispatcher;
 	private JButton mainMenuButton; 
 	
 	public CreditsView(){
@@ -30,10 +27,7 @@ public class CreditsView extends GHPanel {
 		this.setBackground(Color.WHITE);
 		
 		// Title
-		JLabel titleLabel = new JLabel("Credits");
-		titleLabel.setFont(KeyboardHeroFontModel.getInstance().getFont(KeyboardHeroFontModel.FONT_NIGHTMARE).deriveFont(82f));
-		titleLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		titleLabel.setForeground(new Color(KeyboardHeroConstants.FONT_COLOR_PRIMARY));
+		JLabel titleLabel = new TitleLabel("Credits");
 		this.add(titleLabel, "wrap, grow");
 		
 		
@@ -69,36 +63,14 @@ public class CreditsView extends GHPanel {
 			}
 		});
 		this.add(mainMenuButton, "growx, height 60!");
-		
-		
-		keyEventDispatcher = new KeyEventDispatcher() {
-
-		@Override
-		public boolean dispatchKeyEvent(KeyEvent e) {
-			if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
-				getNavigationController().popToRootPanel();
-				return true;
-    		}
-			return false;
-		}
-	};
 	}
 	public void actionPerformed(ActionEvent e) {
 		getNavigationController().popPanel();
 	};
-
+	
 	@Override
-	public void panelWillAppear() {
-		KeyboardFocusManager manager = KeyboardFocusManager.getCurrentKeyboardFocusManager();
-		manager.addKeyEventDispatcher(keyEventDispatcher);
-		
-	}
-
-	@Override
-	public void panelWillDisappear() {
-		KeyboardFocusManager manager = KeyboardFocusManager.getCurrentKeyboardFocusManager();
-		manager.removeKeyEventDispatcher(keyEventDispatcher);
-		
+	public void didPressBack(KeyEvent e) {
+		getNavigationController().popToRootPanel();
 	}
 
 

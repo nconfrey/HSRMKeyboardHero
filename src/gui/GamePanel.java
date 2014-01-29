@@ -4,8 +4,6 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Image;
-import java.awt.KeyEventDispatcher;
-import java.awt.KeyboardFocusManager;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
@@ -13,7 +11,6 @@ import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.awt.image.ConvolveOp;
 import java.awt.image.Kernel;
-import java.io.File;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
@@ -34,7 +31,6 @@ public class GamePanel extends GHPanel implements MP3PlayerListener {
 	private BufferedImage coverImage;
 	private Image coverImageBuffer;
 	private boolean paused;
-	private KeyEventDispatcher keyEventDispatcher;
 	private ComponentListener componentListener;
 	private GameResultsPanel resultsPanel;
 
@@ -53,35 +49,6 @@ public class GamePanel extends GHPanel implements MP3PlayerListener {
 	    this.add(new GuitarBackgroundPane(), "center, growy");
 	    
 	    loadBackgroundCover();
-		
-	    keyEventDispatcher = new KeyEventDispatcher() {
-
-			@Override
-			public boolean dispatchKeyEvent(KeyEvent e) {
-				if (e.getKeyCode() == KeyEvent.VK_ESCAPE && e.getID() == KeyEvent.KEY_PRESSED && !paused) {
-					PlayerController.getInstance().pauseResume();
-					paused = true;
-					
-					int d = JOptionPane.showOptionDialog(getParent(), "Game Paused","Keyboard Hero",
-			                JOptionPane.YES_NO_OPTION,
-			                JOptionPane.PLAIN_MESSAGE, null, 
-			                new String[]{"Back to menu", "Resume"}, "Resume");
-					
-					if (d == JOptionPane.YES_OPTION){
-						PlayerController.getInstance().stop();
-						getNavigationController().popToRootPanel();
-					}
-					if (d == JOptionPane.NO_OPTION || d == JOptionPane.CLOSED_OPTION){
-						paused = false;
-						PlayerController.getInstance().pauseResume();
-					}
-
-					return true;
-	    		}
-				return false;
-			}
-		};
-	    
 	    
 	    
 		componentListener = new ComponentAdapter() {
@@ -217,23 +184,13 @@ public class GamePanel extends GHPanel implements MP3PlayerListener {
 
 	@Override
 	public void panelWillAppear() {
-		
-		// ESC Menu
-		KeyboardFocusManager manager = KeyboardFocusManager.getCurrentKeyboardFocusManager();
-		manager.addKeyEventDispatcher(keyEventDispatcher);
-		
 		// Game Results
 		PlayerController.getInstance().getPlayer().addPlayerListener(this);
 		addComponentListener(componentListener);
-		
 	}
 
 	@Override
 	public void panelWillDisappear() {
-		
-		// ESC Menu
-		KeyboardFocusManager manager = KeyboardFocusManager.getCurrentKeyboardFocusManager();
-		manager.removeKeyEventDispatcher(keyEventDispatcher);
 		removeComponentListener(componentListener);
 	}
 
@@ -256,5 +213,27 @@ public class GamePanel extends GHPanel implements MP3PlayerListener {
 	@Override
 	public void playbackPlaying(MP3Player player, int frame) {
 		
+	}
+
+	@Override
+	public void didPressBack(KeyEvent e) {
+		if (!paused) {
+			PlayerController.getInstance().pauseResume();
+			paused = true;
+			
+			int d = JOptionPane.showOptionDialog(getParent(), "Game Paused","Keyboard Hero",
+	                JOptionPane.YES_NO_OPTION,
+	                JOptionPane.PLAIN_MESSAGE, null, 
+	                new String[]{"Back to menu", "Resume"}, "Resume");
+			
+			if (d == JOptionPane.YES_OPTION){
+				PlayerController.getInstance().stop();
+				getNavigationController().popToRootPanel();
+			}
+			if (d == JOptionPane.NO_OPTION || d == JOptionPane.CLOSED_OPTION){
+				paused = false;
+				PlayerController.getInstance().pauseResume();
+			}
+		}
 	}
 }

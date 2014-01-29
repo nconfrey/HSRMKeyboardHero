@@ -1,7 +1,14 @@
 package gui;
 
-import java.awt.event.*;
-import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+
+import javax.swing.Action;
+import javax.swing.InputMap;
+import javax.swing.JList;
+import javax.swing.KeyStroke;
 
 /**
  * A handler for keyboard and mouse actions on a list.

@@ -3,14 +3,15 @@ package gui;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.SwingConstants;
-import view.KeyboardHeroConstants;
-import view.MenuButton;
-import model.KeyboardHeroFontModel;
+
 import net.miginfocom.swing.MigLayout;
+import view.MenuButton;
+import view.TitleLabel;
 
 public class MenuPanel extends GHPanel implements ActionListener{
 	
@@ -24,10 +25,7 @@ public class MenuPanel extends GHPanel implements ActionListener{
 		this.setBackground(Color.WHITE);
 		this.setLayout(new MigLayout("insets 50 0 0 0, fillx"));
 		
-		JLabel titleLabel = new JLabel("Keyboard Hero");
-		titleLabel.setFont(KeyboardHeroFontModel.getInstance().getFont(KeyboardHeroFontModel.FONT_NIGHTMARE).deriveFont(82f));
-		titleLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		titleLabel.setForeground(new Color(KeyboardHeroConstants.FONT_COLOR_PRIMARY));
+		JLabel titleLabel = new TitleLabel("Keyboard Hero");
 		this.add(titleLabel, "wrap, grow");
 		
 		playButton = new MenuButton("Play");
@@ -68,12 +66,7 @@ public class MenuPanel extends GHPanel implements ActionListener{
 	}
 
 	@Override
-	public void panelWillAppear() {
-		// TODO Auto-generated method stub
-	}
-
-	@Override
-	public void panelWillDisappear() {
-		// TODO Auto-generated method stub
+	public void didPressBack(KeyEvent e) {
+		getNavigationController().getBaseFrame().dispose();
 	}
 }
