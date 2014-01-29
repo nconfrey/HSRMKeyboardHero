@@ -19,6 +19,11 @@ public class HighscoreSet extends AbstractListModel<Highscore>  {
 		Collections.sort(highscores);
 	}
 	
+	public Highscore getBestScore() {
+		if(this.highscores.size() <= 0) return null;
+		return this.highscores.get(0);
+	}
+	
 	@Override
 	public int getSize() {
 		return highscores.size();

@@ -33,6 +33,11 @@ public class MP3PlayerLocalTrack implements MP3PlayerTrack {
 				this.artist = tag.getFirst(FieldKey.ARTIST);
 				this.title = tag.getFirst(FieldKey.TITLE);
 				this.albumTitle = tag.getFirst(FieldKey.ALBUM);
+				
+				if (this.title.trim().length() <= 0) {
+					this.title = extractTitleFromFileName(file.toString());
+				}
+				
 			} else {
 				this.title = extractTitleFromFileName(file.toString());
 			}
