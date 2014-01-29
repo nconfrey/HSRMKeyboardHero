@@ -62,6 +62,13 @@ public class PlayerController {
 		return isRecording;
 	}
 	
+	public void reset() {
+		scoreController.resetScore();
+		if(isRecording){
+			track.setStrokeSet(null);
+		}
+	}
+	
 	public void setRecording(boolean isRecording) {
 		this.isRecording = isRecording;
 		
@@ -94,7 +101,6 @@ public class PlayerController {
 	
 	public void setTrack(Track track) {
 		this.track = track;
-		
 		if(isRecording){
 			track.setStrokeSet(null);
 			System.out.println("New stroke set will be recorded");
