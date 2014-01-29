@@ -25,7 +25,7 @@ import controller.player.AlbumLoader;
 import controller.player.MP3Player;
 import controller.player.MP3PlayerListener;
 
-public class GamePanel extends GHPanel implements MP3PlayerListener {
+public class GamePanel extends GHPanel implements MP3PlayerListener, GameResultsPanel.ResultListener {
 
 	private JPanel leftContent; // sidepanel for scores, songtitle ...
 	private BufferedImage coverImage;
@@ -40,7 +40,7 @@ public class GamePanel extends GHPanel implements MP3PlayerListener {
 		 // ContentPanel
 	    this.setLayout(new MigLayout("fill"));
 	    
-	    resultsPanel = new GameResultsPanel();
+	    resultsPanel = new GameResultsPanel(this);
 	    resultsPanel.setVisible(false);
 	    resultsPanel.setOpaque(false);
 	    this.add(resultsPanel, "pos 0 0 container.w container.h");
@@ -235,5 +235,15 @@ public class GamePanel extends GHPanel implements MP3PlayerListener {
 				PlayerController.getInstance().pauseResume();
 			}
 		}
+	}
+	
+	public void resultPanelShouldClose() {
+		SwingUtilities.invokeLater(new Runnable() {
+
+			@Override
+			public void run() {
+				getNavigationController().popToRootPanel();
+			}
+		});
 	}
 }

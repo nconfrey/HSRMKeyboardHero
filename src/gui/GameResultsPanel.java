@@ -18,8 +18,15 @@ public class GameResultsPanel extends JPanel {
 	
 	private JTextField highscoreNameField;
 	JButton highscoreSubmitButton;
+	private ResultListener listener;
 	
-	public GameResultsPanel() {
+	public interface ResultListener {
+		public void resultPanelShouldClose();
+	}
+	
+	public GameResultsPanel(ResultListener aListener) {
+		
+		this.listener = aListener;
 		
 		this.setBackground(new Color(0,0,0, 170));
 		this.setLayout(new MigLayout("insets 50 200 50 200, fill"));
@@ -64,6 +71,13 @@ public class GameResultsPanel extends JPanel {
 		infoPanel.add(playButton);
 		
 		JButton closeButton = new JButton("close");
+		closeButton.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				listener.resultPanelShouldClose();
+			}
+		});
 		infoPanel.add(closeButton);
 		
 	}
