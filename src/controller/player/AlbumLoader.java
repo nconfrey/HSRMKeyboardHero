@@ -11,11 +11,24 @@ import de.umass.lastfm.Album;
 import de.umass.lastfm.ImageSize;
 
 /**
+ * Loads album artworks from last.fm using the last.fm java API
  * 
- * @author privat
- */
+ * @author Simon Seyer
+ * @author Martin Juhasz
+ * @author Julia Kraft
+ * @author Moritz Moeller
+ * 
+ **/
 public class AlbumLoader {
 
+	/**
+	 * Gets the mp3file from the Track object and uses the id3 tags to search in
+	 * the last.fm database for the album artwork
+	 * 
+	 * @param track holds the id3 tags which are needed to find the album
+	 *            artwork
+	 * @return the album artwork
+	 */
 	public static BufferedImage loadCover(Track track) {
 		/*
 		 * API Key: 61047b4acdccb090ea7a05ac7e5602f8 Secret: is

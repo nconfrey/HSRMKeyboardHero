@@ -8,10 +8,6 @@ import org.jaudiotagger.audio.AudioHeader;
 import org.jaudiotagger.tag.FieldKey;
 import org.jaudiotagger.tag.Tag;
 
-/**
- * 
- * @author sseye001
- */
 public class MP3PlayerLocalTrack implements MP3PlayerTrack {
 
 	private String title;

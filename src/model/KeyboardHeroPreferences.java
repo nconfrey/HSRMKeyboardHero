@@ -9,13 +9,14 @@ import java.util.prefs.Preferences;
  * @author Simon Seyer
  * @author Martin Juhasz
  * @author Julia Kraft
- * @author Moritz Möller
+ * @author Moritz Moeller
  * 
  **/
 public class KeyboardHeroPreferences {
 	private Preferences prefs;
 	private static final String PREF_NAME = "keyboardhero.pref";
-	private static final String FULL_SCREEN = "fullscreen";
+	private static final String SCREEN_WIDTH = "screenwidth";
+	private static final String SCREEN_HEIGHT = "screenheight";
 
 	/**
 	 * Sets the path for the preferences file
@@ -26,22 +27,31 @@ public class KeyboardHeroPreferences {
 
 	/**
 	 * 
-	 * @return the preference for fullscreen
+	 * @return the saved screen witdth (default 800)
 	 */
-	public boolean getFullScreen() {
-		return prefs.getBoolean(FULL_SCREEN, false);
+	public int getScreenWidth() {
+		return prefs.getInt(SCREEN_WIDTH, 1000);
+	}
+	
+	/**
+	 * 
+	 * @return the saved screen height (default 600)
+	 */
+	public int getScreenHeight() {
+		return prefs.getInt(SCREEN_HEIGHT, 800);
 	}
 
 	/**
+	 * Saves user set screensize
 	 * 
-	 * @param fs sets the frame size to fullscreen if true
+	 * @param width sets the preference for screen width
+	 * @param height sets the preference for screen height
 	 */
-	public void setFullScree(boolean fs) {
-		prefs.putBoolean(FULL_SCREEN, fs);
-		try {
-			prefs.sync();
-		} catch (BackingStoreException e) {
-		}
+	public void setScreenSize(int width, int height) {
+		prefs.putInt(SCREEN_WIDTH, width);
+		System.out.println(width);
+		prefs.putInt(SCREEN_HEIGHT, height);
+		System.out.println(height);
 	}
 
 }
