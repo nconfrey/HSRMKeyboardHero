@@ -45,6 +45,10 @@ public class PlayerController {
 		player.play();
 	}
 	
+	public void loop() {
+		player.loop();
+	}
+	
 	public void stop() {
 		player.stop();
 	}

@@ -54,6 +54,14 @@ public class MP3Player {
             
         }
     }
+    
+    public synchronized void loop() { 
+    	if (track != null) {
+            player = minim.loadFile(track.getPath());
+            paused = false;
+            player.loop();            
+        }
+    }
 
     public boolean isPlaying() {
         return playing;

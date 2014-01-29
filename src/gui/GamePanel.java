@@ -135,7 +135,7 @@ public class GamePanel extends GHPanel implements MP3PlayerListener {
 				}
 				ConvolveOp bio = new ConvolveOp(new Kernel(5,5, data), ConvolveOp.EDGE_ZERO_FILL, null);
 				BufferedImage blurred = bio.filter(bandImage, null);
-				for (int i=0; i<14; i++){
+				for (int i=0; i<49; i++){
 					blurred = bio.filter(blurred, null);
 				}
 				final BufferedImage blurredFinal = blurred;

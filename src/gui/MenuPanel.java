@@ -3,14 +3,20 @@ package gui;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
+
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
+
+import model.KeyboardHeroFontModel;
+import model.Track;
+import net.miginfocom.swing.MigLayout;
 import view.KeyboardHeroConstants;
 import view.MenuButton;
-import model.KeyboardHeroFontModel;
-import net.miginfocom.swing.MigLayout;
+import controller.player.MP3PlayerLocalTrack;
+import controller.player.MP3PlayerTrack;
 
 public class MenuPanel extends GHPanel implements ActionListener{
 	
@@ -48,7 +54,7 @@ public class MenuPanel extends GHPanel implements ActionListener{
 		buttonPanel.add(creditsButton, "wrap, grow, height 60");
 		
 		this.add(buttonPanel, "wrap, grow");
-		
+		loadIntro();
 	}
 
 	@Override
@@ -67,6 +73,13 @@ public class MenuPanel extends GHPanel implements ActionListener{
 		}
 	}
 
+	public void loadIntro(){
+		MP3PlayerLocalTrack mp3 = new MP3PlayerLocalTrack(new File("music/back_in_black.mp3"));
+		Track intro = new Track(mp3);
+		PlayerController.getInstance().setTrack(intro);
+		PlayerController.getInstance().loop();
+	}
+	
 	@Override
 	public void panelWillAppear() {
 		// TODO Auto-generated method stub

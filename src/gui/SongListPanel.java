@@ -47,7 +47,7 @@ public class SongListPanel extends GHPanel {
 		this.mode = MODE_PLAY;
 		init();
 	}
-
+	
 	public SongListPanel(int mode) {
 		this.mode = mode;
 		init();
@@ -108,6 +108,7 @@ public class SongListPanel extends GHPanel {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				PlayerController.getInstance().stop();
 				if (songlist.getSelectedValue() != null) {
 					if(mode == MODE_PLAY || mode == MODE_RECORD) {
 						Track selectedTrack = songlist.getSelectedValue();
