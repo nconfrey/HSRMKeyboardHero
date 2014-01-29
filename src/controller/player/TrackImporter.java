@@ -47,7 +47,7 @@ public class TrackImporter {
         if (file.isDirectory()) {
             importTracks(file);
         } else {
-            if (file.getName().endsWith(".mp3")) {
+            if (file.getName().endsWith(".mp3" ) || file.getName().endsWith(".MP3")) {
                 MP3PlayerTrack track = loadTrack(file);
                 //playlist.addTrack(track);
             }
