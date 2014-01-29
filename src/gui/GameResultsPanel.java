@@ -72,9 +72,9 @@ public class GameResultsPanel extends JPanel {
 		infoPanel.add(pushPanel, "grow, pushy, span");
 		
 		
-		String playButtonText = "play again";
+		String playButtonText = KeyboardHeroConstants.getString("play_again");
 		if(PlayerController.getInstance().isRecording()){
-			playButtonText = "record again";
+			playButtonText = KeyboardHeroConstants.getString("record_again");
 		}
 		
 		JButton playButton = new MenuButton(playButtonText, new Color(KeyboardHeroConstants.FONT_COLOR_SECONDARY));
@@ -87,7 +87,7 @@ public class GameResultsPanel extends JPanel {
 		});
 		infoPanel.add(playButton, "w 45%");
 		
-		JButton closeButton = new MenuButton("close", new Color(KeyboardHeroConstants.FONT_COLOR_SECONDARY));
+		JButton closeButton = new MenuButton(KeyboardHeroConstants.getString("back_to_menu"), new Color(KeyboardHeroConstants.FONT_COLOR_SECONDARY));
 		closeButton.addActionListener(new ActionListener() {
 			
 			@Override
@@ -100,18 +100,18 @@ public class GameResultsPanel extends JPanel {
 	}
 	
 	private void setupViewForRecording() {
-		JLabel textLabel = new JLabel("Your recording was saved successfully");
+		JLabel textLabel = new JLabel(KeyboardHeroConstants.getString("recording_successfull"));
 		textLabel.setFont(new Font("sanserif", Font.BOLD, 16));
 		textLabel.setVerticalAlignment(SwingConstants.CENTER);
 		infoPanel.add(textLabel, "span, wrap");
 	}
 	
 	private void setupViewsForPlaying() {
-		JLabel scoreTitleLabel = new JLabel("Your Score");
+		JLabel scoreTitleLabel = new JLabel(KeyboardHeroConstants.getString("your_score_label"));
 		scoreTitleLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		infoPanel.add(scoreTitleLabel, "w 45%");
 		
-		JLabel bestScoreTitleLabel = new JLabel("Best Score");
+		JLabel bestScoreTitleLabel = new JLabel(KeyboardHeroConstants.getString("best_score_label"));
 		bestScoreTitleLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		infoPanel.add(bestScoreTitleLabel, "w 45%, wrap");
 
@@ -138,13 +138,13 @@ public class GameResultsPanel extends JPanel {
 		bestScoreLabel.setFont(new Font("sanserif", Font.BOLD, 27));
 		infoPanel.add(bestScoreLabel, "w 45%, h 100!, wrap");
 		
-		highscoreTitleLabel = new JLabel("Enter your Name and submit your highscore:");
+		highscoreTitleLabel = new JLabel(KeyboardHeroConstants.getString("submit_highscore_label"));
 		infoPanel.add(highscoreTitleLabel, "gapy 30,span, wrap");
 		
 		highscoreNameField = new JTextField();
 		infoPanel.add(highscoreNameField, "w 45%");
 		
-		highscoreSubmitButton = new MenuButton("Submit");
+		highscoreSubmitButton = new MenuButton(KeyboardHeroConstants.getString("submit_highscore"));
 		infoPanel.add(highscoreSubmitButton, "w 45%, wrap");
 		highscoreSubmitButton.addActionListener(new ActionListener() {
 			@Override
@@ -161,7 +161,7 @@ public class GameResultsPanel extends JPanel {
 				highscoreSubmitButton.setVisible(false);
 				highscoreNameField.setEditable(false);
 				highscoreSubmitButton.setEnabled(false);
-				highscoreTitleLabel.setText("Your Score was submitted successfully");
+				highscoreTitleLabel.setText(KeyboardHeroConstants.getString("submit_highscore_successfull"));
 				
 			}
 		});

@@ -1,6 +1,7 @@
 package gui;
 
 import java.awt.Color;
+import java.awt.RenderingHints.Key;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -12,6 +13,7 @@ import javax.swing.JPanel;
 
 import model.Track;
 import net.miginfocom.swing.MigLayout;
+import view.KeyboardHeroConstants;
 import view.MenuButton;
 import view.TitleLabel;
 import controller.player.MP3PlayerLocalTrack;
@@ -42,16 +44,16 @@ public class MenuPanel extends GHPanel implements ActionListener {
 		this.setBackground(Color.WHITE);
 		this.setLayout(new MigLayout("insets 50 0 0 0, fillx"));
 
-		JLabel titleLabel = new TitleLabel("Keyboard Hero");
+		JLabel titleLabel = new TitleLabel(KeyboardHeroConstants.getString("game_title"));
 		this.add(titleLabel, "wrap, grow");
 
-		playButton = new MenuButton("Play");
+		playButton = new MenuButton(KeyboardHeroConstants.getString("start_game"));
 		playButton.addActionListener(this);
-		recordButton = new MenuButton("Record");
+		recordButton = new MenuButton(KeyboardHeroConstants.getString("start_recording"));
 		recordButton.addActionListener(this);
-		highscoreButton = new MenuButton("Highscores");
+		highscoreButton = new MenuButton(KeyboardHeroConstants.getString("show_highscore"));
 		highscoreButton.addActionListener(this);
-		creditsButton = new MenuButton("Credits");
+		creditsButton = new MenuButton(KeyboardHeroConstants.getString("show_credits"));
 		creditsButton.addActionListener(this);
 
 		JPanel buttonPanel = new JPanel(new MigLayout(

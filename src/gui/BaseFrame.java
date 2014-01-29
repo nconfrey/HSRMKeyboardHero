@@ -5,11 +5,13 @@ import java.awt.Dimension;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
+import java.util.ResourceBundle;
 
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
+import view.KeyboardHeroConstants;
 import model.KeyboardHeroPreferences;
 
 /**
@@ -46,7 +48,7 @@ public class BaseFrame extends JFrame {
 			}
 		};
 		this.addWindowListener(exitListener);
-		this.setTitle("Keyboard Hero");
+		this.setTitle(KeyboardHeroConstants.getString("game_title"));
 		this.setLocationRelativeTo(null);
 		this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 		this.setVisible(true);

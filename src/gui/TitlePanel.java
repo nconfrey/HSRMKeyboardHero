@@ -5,6 +5,7 @@ import java.awt.Font;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import view.KeyboardHeroConstants;
 import net.miginfocom.swing.MigLayout;
 
 /**
@@ -29,11 +30,11 @@ public class TitlePanel extends JPanel {
 
 		this.setLayout(new MigLayout());
 
-		this.artistLabel = new JLabel("Artist");
+		this.artistLabel = new JLabel(KeyboardHeroConstants.getString("artist_label"));
 		this.artistLabel.setFont(new Font("sanserif", Font.BOLD, 19));
 		this.add(this.artistLabel, "wrap");
 
-		this.songLabel = new JLabel("Title");
+		this.songLabel = new JLabel(KeyboardHeroConstants.getString("title_label"));
 		this.songLabel.setFont(new Font("sanserif", Font.BOLD, 15));
 		this.add(this.songLabel);
 

@@ -4,6 +4,7 @@ import gui.TextPrompt.Show;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.RenderingHints.Key;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -44,7 +45,6 @@ public class SongListPanel extends GHPanel {
 	private JTextField searchField;
 	private JButton button;
 	private TextPrompt textPrompt;
-	private TextPrompt loadingPrompt;
 
 	public SongListPanel() {
 		this.mode = MODE_PLAY;
@@ -60,14 +60,15 @@ public class SongListPanel extends GHPanel {
 		this.setLayout(new MigLayout("insets 50 200 50 200, fill"));
 		this.setBackground(Color.WHITE);
 
-		JLabel titleLabel = new TitleLabel("Select a Track");
+		JLabel titleLabel = new TitleLabel(
+				KeyboardHeroConstants.getString("select_track"));
 		this.add(titleLabel, "wrap, grow");
 
 		if (mode == MODE_RECORD) {
 			initSearchField();
 		}
 		initPlaylist();
-		
+
 		selectAction = new ListAction(songlist, new AbstractAction() {
 
 			@Override
@@ -91,8 +92,9 @@ public class SongListPanel extends GHPanel {
 			}
 		});
 
-		mainMenuButton = new MenuButton("Back to menu", new Color(
-				KeyboardHeroConstants.FONT_COLOR_SECONDARY));
+		mainMenuButton = new MenuButton(
+				KeyboardHeroConstants.getString("back_to_menu"), new Color(
+						KeyboardHeroConstants.FONT_COLOR_SECONDARY));
 		mainMenuButton.addActionListener(new ActionListener() {
 
 			@Override
@@ -106,7 +108,7 @@ public class SongListPanel extends GHPanel {
 	public void initPlaylist() {
 		songlist = new MenuSongList<Track>(mode == MODE_RECORD);
 		songlist.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
-		
+
 		playlist = PersistenceHandler.loadPlaylist();
 		if (mode == MODE_RECORD) {
 			songlist.setModel(playlist);
@@ -116,7 +118,7 @@ public class SongListPanel extends GHPanel {
 		} else {
 			songlist.setModel(playlist.getPlaylistWithPlayableTracks());
 		}
-		
+
 		scrollPane = new JScrollPane(songlist);
 		scrollPane.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
 		add(scrollPane, "wrap, growx, pushy, growy");
@@ -135,8 +137,9 @@ public class SongListPanel extends GHPanel {
 						8, 8, 8, 8)));
 
 		// Placeholder
-		textPrompt = new TextPrompt("Search on SoundCloud", searchField,
-				Show.FOCUS_LOST);
+		textPrompt = new TextPrompt(
+				KeyboardHeroConstants.getString("search_sound_cloud"),
+				searchField, Show.FOCUS_LOST);
 		textPrompt.setBorder(null);
 
 		searchField.addActionListener(new ActionListener() {
@@ -146,7 +149,8 @@ public class SongListPanel extends GHPanel {
 				final String search = searchField.getText();
 				searchField.setText("");
 				songlist.requestFocus();
-				textPrompt.setText("Loading '" + search + "'");
+				textPrompt.setText(KeyboardHeroConstants.getString("loading")
+						+ " '" + search + "'");
 				textPrompt.setHorizontalAlignment(JLabel.CENTER);
 				new Thread(new Runnable() {
 
@@ -159,7 +163,8 @@ public class SongListPanel extends GHPanel {
 							@Override
 							public void run() {
 								songlist.setModel(list);
-								textPrompt.setText("Search in SoundCloud");
+								textPrompt.setText(KeyboardHeroConstants
+										.getString("search_sound_cloud"));
 								textPrompt.setHorizontalAlignment(JLabel.LEFT);
 								searchField.requestFocus();
 							}

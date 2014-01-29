@@ -7,6 +7,7 @@ import java.beans.PropertyChangeListener;
 import javax.swing.JLabel;
 import javax.swing.SwingUtilities;
 
+import view.KeyboardHeroConstants;
 import model.Score;
 import net.miginfocom.swing.MigLayout;
 
@@ -34,7 +35,7 @@ public class ScorePanel extends TransparentPanel implements
 
 		setLayout(new MigLayout());
 
-		this.scoreTitleLabel = new JLabel("Score");
+		this.scoreTitleLabel = new JLabel(KeyboardHeroConstants.getString("score_title"));
 		this.scoreTitleLabel.setFont(new Font("sanserif", Font.BOLD, 19));
 		this.add(this.scoreTitleLabel, "wrap");
 

@@ -6,6 +6,8 @@ import model.SoundCloud;
 
 import org.json.JSONObject;
 
+import view.KeyboardHeroConstants;
+
 /**
  * 
  * @author sseye001
@@ -25,7 +27,7 @@ public class MP3PlayerRemoteTrack implements MP3PlayerTrack {
 		this.soundCloud = soundCloud;
 		title = data.getString("title");
 		if (!data.isNull("genre")) {
-			albumTitle = "Genre: " + data.getString("genre");
+			albumTitle = KeyboardHeroConstants.getString("remote_album_prefix") + " " + data.getString("genre");
 		} else {
 			albumTitle = "";
 		}

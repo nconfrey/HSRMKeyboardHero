@@ -103,7 +103,6 @@ public class PlayerController {
 		this.track = track;
 		if(isRecording){
 			track.setStrokeSet(null);
-			System.out.println("New stroke set will be recorded");
 		}
 		
 		recorder.setTrack(track);
