@@ -9,6 +9,7 @@ import javax.swing.JPanel;
 public class GuitarBackgroundPane extends JPanel {
 	
 	private static final int GUITAR_WIDTH = 350;
+	private GuitarPane guitarPane;
 	
 	public GuitarBackgroundPane() {
 		super();
@@ -25,9 +26,13 @@ public class GuitarBackgroundPane extends JPanel {
 		c.anchor = GridBagConstraints.CENTER;
 		c.weighty = 1.0;
 		
-		GuitarPane p = new GuitarPane();
-		p.setPreferredSize(new Dimension(GUITAR_WIDTH, 0));
+		guitarPane = new GuitarPane();
+		guitarPane.setPreferredSize(new Dimension(GUITAR_WIDTH, 0));
 		
-		add(p, c);
+		add(guitarPane, c);
+	}
+	
+	public GuitarPane getGuitarPane() {
+		return guitarPane;
 	}
 }

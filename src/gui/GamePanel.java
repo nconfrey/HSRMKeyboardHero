@@ -21,6 +21,7 @@ import javax.swing.SwingUtilities;
 import model.Track;
 import net.miginfocom.swing.MigLayout;
 import view.GuitarBackgroundPane;
+import view.GuitarPane;
 import controller.player.AlbumLoader;
 import controller.player.MP3Player;
 import controller.player.MP3PlayerListener;
@@ -33,6 +34,7 @@ public class GamePanel extends GHPanel implements MP3PlayerListener, GameResults
 	private boolean paused;
 	private ComponentListener componentListener;
 	private GameResultsPanel resultsPanel;
+	private GuitarPane guitarPane;
 
 	public GamePanel() {
 		setFocusable(true);
@@ -45,13 +47,16 @@ public class GamePanel extends GHPanel implements MP3PlayerListener, GameResults
 	    resultsPanel.setOpaque(false);
 	    this.add(resultsPanel, "pos 0 0 container.w container.h");
 	    
-	    this.add(this.buildLeftContent(), "gapleft 30, gaptop  30, west, width 250:350:350");
-	    this.add(new GuitarBackgroundPane(), "center, growy");
+	    this.add(this.buildLeftContent(),
+				"gapleft 30, gaptop  30, west, width 250:350:350");
+		GuitarBackgroundPane backgroundPane = new GuitarBackgroundPane();
+		this.add(backgroundPane, "center, growy");
+		guitarPane = backgroundPane.getGuitarPane();
+		guitarPane.start();
 	    
 	    loadBackgroundCover();
 	    
-	    
-		componentListener = new ComponentAdapter() {
+	    componentListener = new ComponentAdapter() {
 			@Override
 			public void componentResized(ComponentEvent e) {
 				super.componentResized(e);
@@ -64,27 +69,27 @@ public class GamePanel extends GHPanel implements MP3PlayerListener, GameResults
 
 		// Panel
 		leftContent = new JPanel(new MigLayout("fillx", "", "[]30[]"));
-		leftContent.setOpaque(false);		
+		leftContent.setOpaque(false);
 		ScorePanel scorePanel = new ScorePanel();
 		TitlePanel titlePanel = new TitlePanel();
-		
+
 		leftContent.add(titlePanel, "wrap, growx");
-		if(!PlayerController.getInstance().isRecording()){
+		if (!PlayerController.getInstance().isRecording()) {
 			leftContent.add(scorePanel, "wrap, growx");
 			scorePanel.setBackground(Color.WHITE);
 		}
-		
+
 		titlePanel.setBackground(Color.WHITE);
-		
-	    return leftContent;
+
+		return leftContent;
 	}
 
 	private void loadBackgroundCover() {
-		
+
 		new Thread() {
 			@Override
 			public void run() {
-				
+
 				try {
 					setCoverImage(ImageIO.read(getClass().getResourceAsStream(
 							"/background.jpg")));
@@ -92,28 +97,31 @@ public class GamePanel extends GHPanel implements MP3PlayerListener, GameResults
 					e.printStackTrace();
 				}
 
-				final Track currentTrack = PlayerController.getInstance().getTrack();
-				
-				final BufferedImage bandImage = AlbumLoader.loadCover(currentTrack);
-				
+				final Track currentTrack = PlayerController.getInstance()
+						.getTrack();
+
+				final BufferedImage bandImage = AlbumLoader
+						.loadCover(currentTrack);
+
 				float[] data = new float[25];
-				for(int i=0; i<25; i++){
-					data[i] = 1.0f/25.0f;
+				for (int i = 0; i < 25; i++) {
+					data[i] = 1.0f / 25.0f;
 				}
-				ConvolveOp bio = new ConvolveOp(new Kernel(5,5, data), ConvolveOp.EDGE_ZERO_FILL, null);
+				ConvolveOp bio = new ConvolveOp(new Kernel(5, 5, data),
+						ConvolveOp.EDGE_ZERO_FILL, null);
 				BufferedImage blurred = bio.filter(bandImage, null);
-				for (int i=0; i<49; i++){
+				for (int i = 0; i < 49; i++) {
 					blurred = bio.filter(blurred, null);
 				}
 				final BufferedImage blurredFinal = blurred;
-		    		SwingUtilities.invokeLater(new Runnable() {
-						@Override
-						public void run() {
-							if (blurredFinal != null) {
-								setCoverImage(blurredFinal);
-							}
+				SwingUtilities.invokeLater(new Runnable() {
+					@Override
+					public void run() {
+						if (blurredFinal != null) {
+							setCoverImage(blurredFinal);
 						}
-					});
+					}
+				});
 			}
 		}.start();
 	}
@@ -133,11 +141,11 @@ public class GamePanel extends GHPanel implements MP3PlayerListener, GameResults
 
 		g.drawImage(coverImageBuffer, x, y, this);
 	}
-	
+
 	public void setCoverImage(BufferedImage coverImage) {
 		this.coverImage = coverImage;
 		bufferImage();
-		
+
 		SwingUtilities.invokeLater(new Runnable() {
 			@Override
 			public void run() {
@@ -145,15 +153,21 @@ public class GamePanel extends GHPanel implements MP3PlayerListener, GameResults
 			}
 		});
 	}
-	
+
 	private void bufferImage() {
 		if (coverImage != null) {
-			double scaleFactor = Math.max(1d, getScaleFactorToFill(new Dimension(coverImage.getWidth(), coverImage.getHeight()), getSize()));
+			double scaleFactor = Math.max(
+					1d,
+					getScaleFactorToFill(new Dimension(coverImage.getWidth(),
+							coverImage.getHeight()), getSize()));
 
-		    int scaleWidth = (int) Math.round(coverImage.getWidth() * scaleFactor);
-		    int scaleHeight = (int) Math.round(coverImage.getHeight() * scaleFactor);
+			int scaleWidth = (int) Math.round(coverImage.getWidth()
+					* scaleFactor);
+			int scaleHeight = (int) Math.round(coverImage.getHeight()
+					* scaleFactor);
 
-		    coverImageBuffer = coverImage.getScaledInstance(scaleWidth, scaleHeight, Image.SCALE_FAST);
+			coverImageBuffer = coverImage.getScaledInstance(scaleWidth,
+					scaleHeight, Image.SCALE_FAST);
 		}
 	}
 
@@ -196,43 +210,47 @@ public class GamePanel extends GHPanel implements MP3PlayerListener, GameResults
 
 	@Override
 	public void playbackDidStart(MP3Player player) {
-		
+
 	}
 
 	@Override
 	public void playbackDidStop(MP3Player player) {
-		SwingUtilities.invokeLater(new Runnable() {
-			
-			@Override
-			public void run() {
-				resultsPanel.setVisible(true);
-			}
-		});
+		if (!paused) {
+			SwingUtilities.invokeLater(new Runnable() {
+
+				@Override
+				public void run() {
+					resultsPanel.setVisible(true);
+				}
+			});
+		}
 	}
 
 	@Override
 	public void playbackPlaying(MP3Player player, int frame) {
-		
+
 	}
 
 	@Override
 	public void didPressBack(KeyEvent e) {
 		if (!paused) {
-			PlayerController.getInstance().pauseResume();
 			paused = true;
-			
-			int d = JOptionPane.showOptionDialog(getParent(), "Game Paused","Keyboard Hero",
-	                JOptionPane.YES_NO_OPTION,
-	                JOptionPane.PLAIN_MESSAGE, null, 
-	                new String[]{"Back to menu", "Resume"}, "Resume");
-			
-			if (d == JOptionPane.YES_OPTION){
+			PlayerController.getInstance().pauseResume();
+			guitarPane.pauseOrResume();
+
+			int d = JOptionPane.showOptionDialog(getParent(), "Game Paused",
+					"Keyboard Hero", JOptionPane.YES_NO_OPTION,
+					JOptionPane.PLAIN_MESSAGE, null, new String[] {
+							"Back to menu", "Resume" }, "Resume");
+
+			if (d == JOptionPane.YES_OPTION) {
 				PlayerController.getInstance().stop();
 				getNavigationController().popToRootPanel();
 			}
-			if (d == JOptionPane.NO_OPTION || d == JOptionPane.CLOSED_OPTION){
+			if (d == JOptionPane.NO_OPTION || d == JOptionPane.CLOSED_OPTION) {
 				paused = false;
 				PlayerController.getInstance().pauseResume();
+				guitarPane.pauseOrResume();
 			}
 		}
 	}

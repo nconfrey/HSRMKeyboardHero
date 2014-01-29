@@ -12,6 +12,7 @@ import java.awt.geom.Rectangle2D;
 import java.awt.geom.RoundRectangle2D;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -46,7 +47,6 @@ public class GuitarPane extends JPanel implements MP3PlayerListener,
 	private Timer strokeOffsetTimer;
 	private int maxLoadedFrame;
 	private int drawCounter;
-	private BufferedImage buffer;
 	private List<StrokeView> strokeRects;
 	private List<StrokeView> openStrokeRects;
 	private List<StrokeView> toRemove;
@@ -65,14 +65,23 @@ public class GuitarPane extends JPanel implements MP3PlayerListener,
 		PlayerController.getInstance().getScoreController().addListener(this);
 
 		countPanel = new CountPanel(this);
-		countPanel.startTimer();
-
+		
 		setLayout(new MigLayout("fill", "[center]", "[center]"));
 		add(countPanel, "width 100!, height 100!");
 
 		setOpaque(false);
 	}
-
+	
+	public void start() {
+		reset();
+		countPanel.setVisible(true);
+		countPanel.startTimer();
+	}
+	
+	public void pauseOrResume() {
+		countPanel.pauseOrResume();
+	}
+	
 	@Override
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
@@ -147,10 +156,6 @@ public class GuitarPane extends JPanel implements MP3PlayerListener,
 
 		float translateY = frameOffset + getVerticalOffset() + strokeOffset;
 		g.translate(0, translateY);
-
-		if (buffer != null) {
-			g.drawImage(buffer, null, 0, -buffer.getHeight());
-		}
 
 		boolean render = maxLoadedFrame < frame
 				+ getFrameForPixel((int) (RENDER_FACTOR * getVerticalOffset()));
@@ -255,6 +260,18 @@ public class GuitarPane extends JPanel implements MP3PlayerListener,
 
 			}
 		}, 0, 50);
+	}
+	
+	private void reset() {
+		frame = 0;
+		maxLoadedFrame = 0;
+		drawCounter = 0;
+		strokeRects.clear();
+		openStrokeRects.clear();
+		toRemove.clear();
+		for (int i = 0; i < scoringKeys.length; i++) {
+			scoringKeys[i] = false;
+		}
 	}
 
 	@Override
