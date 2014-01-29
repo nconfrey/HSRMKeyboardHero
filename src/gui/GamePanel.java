@@ -69,25 +69,27 @@ public class GamePanel extends GHPanel implements MP3PlayerListener, GameResults
 	}
 
 	public JPanel buildLeftContent() {
-
+		Color backgroundColor = new Color(0xEEDDDDDD, true);
+		
 		// Panel
 		leftContent = new JPanel(new MigLayout("fillx", "", "[]30[]"));
 		leftContent.setOpaque(false);
 		ScorePanel scorePanel = new ScorePanel();
 		
 		TitlePanel titlePanel = new TitlePanel();
-		titlePanel.setBackground(Color.WHITE);
+		titlePanel.setBackground(backgroundColor);
 		leftContent.add(titlePanel, "wrap, growx");
 		
 		JPanel coverWrapperPanel = new JPanel(new MigLayout("fill, insets 3"));
-		coverWrapperPanel.setBackground(Color.WHITE);
+		coverWrapperPanel.setBackground(backgroundColor);
 		miniCoverPanel = new ImagePanel("cover.png",ImagePanel.SIZE_FILL);
+		miniCoverPanel.setOpaque(false);
 		coverWrapperPanel.add(miniCoverPanel, "grow");
 		leftContent.add(coverWrapperPanel, "h 300!,wrap, growx");
 		
 		if(!PlayerController.getInstance().isRecording()){
 			leftContent.add(scorePanel, "wrap, growx");
-			scorePanel.setBackground(Color.WHITE);
+			scorePanel.setBackground(backgroundColor);
 		}
 		
 		return leftContent;
