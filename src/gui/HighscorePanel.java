@@ -35,7 +35,7 @@ public class HighscorePanel extends GHPanel {
 		this.add(titleLabel, "wrap, grow");
 		
 		
-		this.scoreList = new MenuSongList<Highscore>(this.track.getStrokeSet().getHighscores());
+		this.scoreList = new MenuSongList<Highscore>(this.track.getStrokeSet().getHighscores(), false);
 		this.scoreList.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
 		this.scrollPane = new  JScrollPane(this.scoreList);
 		this.scrollPane.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));

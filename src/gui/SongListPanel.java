@@ -66,8 +66,7 @@ public class SongListPanel extends GHPanel {
 		if (mode == MODE_RECORD) {
 			initSearchField();
 		}
-
-		this.fillPlaylist();
+		initPlaylist();
 		
 		selectAction = new ListAction(songlist, new AbstractAction() {
 
@@ -101,36 +100,26 @@ public class SongListPanel extends GHPanel {
 				getNavigationController().popPanel();
 			}
 		});
-
-		this.add(scrollPane, "wrap, growx, pushy, growy");
-
-		this.add(mainMenuButton, "growx, height 60!");
-
+		add(mainMenuButton, "growx, height 60!");
 	}
 
-	public void fillPlaylist() {
+	public void initPlaylist() {
+		songlist = new MenuSongList<Track>(mode == MODE_RECORD);
+		songlist.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
+		
 		playlist = PersistenceHandler.loadPlaylist();
-
 		if (mode == MODE_RECORD) {
-			songlist = new MenuSongList<Track>(playlist);
+			songlist.setModel(playlist);
 			transferHandler = new PlaylistTransferHandler(playlist);
 			songlist.setDropMode(DropMode.ON);
 			songlist.setTransferHandler(transferHandler);
 		} else {
-			Playlist gamePlaylist = new Playlist();
-			for (Track track : playlist.getTracks()) {
-				if (track.getStrokeSet() != null) {
-					gamePlaylist.addTrack(track);
-				}
-			}
-			playlist = gamePlaylist;
-			songlist = new MenuSongList<Track>(playlist);
+			songlist.setModel(playlist.getPlaylistWithPlayableTracks());
 		}
-
-		songlist.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
+		
 		scrollPane = new JScrollPane(songlist);
 		scrollPane.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
-
+		add(scrollPane, "wrap, growx, pushy, growy");
 	}
 
 	private void initSearchField() {

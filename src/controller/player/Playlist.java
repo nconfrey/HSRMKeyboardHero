@@ -2,9 +2,11 @@ package controller.player;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
+import javax.sql.rowset.Predicate;
 import javax.swing.AbstractListModel;
 
 import model.Track;
@@ -79,5 +81,15 @@ public class Playlist extends AbstractListModel<Track> implements Serializable {
 	@Override
 	public Track getElementAt(int index) {
 		return tracks.get(index);
+	}
+	
+	public Playlist getPlaylistWithPlayableTracks() {
+		Playlist gamePlaylist = new Playlist();
+		for (Track track : getTracks()) {
+			if (track.getStrokeSet() != null) {
+				gamePlaylist.addTrack(track);
+			}
+		}
+		return gamePlaylist;
 	}
 }

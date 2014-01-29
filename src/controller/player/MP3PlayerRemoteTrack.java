@@ -1,8 +1,8 @@
 package controller.player;
 
-import gui.PlayerController;
-
 import java.io.IOException;
+
+import model.SoundCloud;
 
 import org.json.JSONObject;
 
@@ -17,9 +17,12 @@ public class MP3PlayerRemoteTrack implements MP3PlayerTrack {
 	private String artist;
 	private String url;
 	private transient String streamUrl;
+	private transient SoundCloud soundCloud;
 	private String artworkUrl;
+	
 
-	public MP3PlayerRemoteTrack(JSONObject data) {
+	public MP3PlayerRemoteTrack(JSONObject data, SoundCloud soundCloud) {
+		this.soundCloud = soundCloud;
 		title = data.getString("title");
 		if (!data.isNull("genre")) {
 			albumTitle = "Genre: " + data.getString("genre");
@@ -56,7 +59,7 @@ public class MP3PlayerRemoteTrack implements MP3PlayerTrack {
 	public synchronized String getPath() {
 		if (streamUrl == null) {
 			try {
-				streamUrl = PlayerController.getInstance().getSoundCloud().loadStreamUrl(url);
+				streamUrl = soundCloud.loadStreamUrl(url);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}

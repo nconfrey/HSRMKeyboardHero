@@ -36,7 +36,7 @@ public class SoundCloud {
 	    	for (int i = 0; i < elements.length(); i++) {
 	    		JSONObject track = elements.getJSONObject(i);
 	    		if (track.getBoolean("streamable"))  {
-	    			playlist.addTrack((new Track(new MP3PlayerRemoteTrack(track))));
+	    			playlist.addTrack((new Track(new MP3PlayerRemoteTrack(track, this))));
 	    		}
 			}
 		} catch (IOException e) {
