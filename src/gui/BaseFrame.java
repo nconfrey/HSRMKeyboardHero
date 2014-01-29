@@ -6,13 +6,18 @@ import java.awt.Dimension;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 
+import model.KeyboardHeroPreferences;
+
 public class BaseFrame extends JFrame {
 	
 	private Dimension frameSize;
 	public NavigationController navigationController;
+	private KeyboardHeroPreferences prefs;
 	
 
 	public BaseFrame(){
+		prefs = new KeyboardHeroPreferences();
+		prefs.setPreferences();
 		frameSize = new Dimension(800,600);
 		setLayout(new BorderLayout());
 		this.setSize(frameSize);
