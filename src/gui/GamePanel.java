@@ -21,6 +21,7 @@ import javax.swing.SwingUtilities;
 import model.Track;
 import net.miginfocom.swing.MigLayout;
 import view.GuitarBackgroundPane;
+import view.ImagePanel;
 import controller.player.AlbumLoader;
 import controller.player.MP3Player;
 import controller.player.MP3PlayerListener;
@@ -29,10 +30,12 @@ public class GamePanel extends GHPanel implements MP3PlayerListener, GameResults
 
 	private JPanel leftContent; // sidepanel for scores, songtitle ...
 	private BufferedImage coverImage;
-	private Image coverImageBuffer;
+	private BufferedImage blurredBackgroundImage;
+	private Image blurredScaledBackgroundImage;
 	private boolean paused;
 	private ComponentListener componentListener;
 	private GameResultsPanel resultsPanel;
+	private ImagePanel miniCoverPanel;
 
 	public GamePanel() {
 		setFocusable(true);
@@ -66,13 +69,21 @@ public class GamePanel extends GHPanel implements MP3PlayerListener, GameResults
 		leftContent = new JPanel(new MigLayout("fillx", "", "[]30[]"));
 		leftContent.setOpaque(false);		
 		ScorePanel scorePanel = new ScorePanel();
-		TitlePanel titlePanel = new TitlePanel();
 		
+		TitlePanel titlePanel = new TitlePanel();
 		leftContent.add(titlePanel, "wrap, growx");
+		
+		JPanel coverWrapperPanel = new JPanel(new MigLayout("fill, insets 3"));
+		coverWrapperPanel.setBackground(Color.WHITE);
+		miniCoverPanel = new ImagePanel("cover.jpg",ImagePanel.SIZE_FILL);
+		coverWrapperPanel.add(miniCoverPanel, "grow");
+		leftContent.add(coverWrapperPanel, "h 300!,wrap, growx");
+		
 		if(!PlayerController.getInstance().isRecording()){
 			leftContent.add(scorePanel, "wrap, growx");
 			scorePanel.setBackground(Color.WHITE);
 		}
+		
 		
 		titlePanel.setBackground(Color.WHITE);
 		
@@ -86,7 +97,7 @@ public class GamePanel extends GHPanel implements MP3PlayerListener, GameResults
 			public void run() {
 				
 				try {
-					setCoverImage(ImageIO.read(getClass().getResourceAsStream(
+					setBackgroundCoverImage(ImageIO.read(getClass().getResourceAsStream(
 							"/background.jpg")));
 				} catch (IOException e) {
 					e.printStackTrace();
@@ -95,6 +106,10 @@ public class GamePanel extends GHPanel implements MP3PlayerListener, GameResults
 				final Track currentTrack = PlayerController.getInstance().getTrack();
 				
 				final BufferedImage bandImage = AlbumLoader.loadCover(currentTrack);
+				
+				if(bandImage != null) {
+					setCoverImage(bandImage);
+				}
 				
 				float[] data = new float[25];
 				for(int i=0; i<25; i++){
@@ -110,7 +125,7 @@ public class GamePanel extends GHPanel implements MP3PlayerListener, GameResults
 						@Override
 						public void run() {
 							if (blurredFinal != null) {
-								setCoverImage(blurredFinal);
+								setBackgroundCoverImage(blurredFinal);
 							}
 						}
 					});
@@ -122,20 +137,30 @@ public class GamePanel extends GHPanel implements MP3PlayerListener, GameResults
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
 
-		if (this.coverImageBuffer == null)
+		if (this.blurredScaledBackgroundImage == null)
 			return;
 
 		int width = getWidth() - 1;
 		int height = getHeight() - 1;
 
-		int x = (width - coverImageBuffer.getWidth(this)) / 2;
-		int y = (height - coverImageBuffer.getHeight(this)) / 2;
+		int x = (width - blurredScaledBackgroundImage.getWidth(this)) / 2;
+		int y = (height - blurredScaledBackgroundImage.getHeight(this)) / 2;
 
-		g.drawImage(coverImageBuffer, x, y, this);
+		g.drawImage(blurredScaledBackgroundImage, x, y, this);
 	}
 	
-	public void setCoverImage(BufferedImage coverImage) {
-		this.coverImage = coverImage;
+	private void setCoverImage(BufferedImage image) {
+		this.coverImage = image;
+		SwingUtilities.invokeLater(new Runnable() {
+			@Override
+			public void run() {
+				miniCoverPanel.setCoverImage(coverImage);
+			}
+		});
+	}
+	
+	public void setBackgroundCoverImage(BufferedImage coverImage) {
+		this.blurredBackgroundImage = coverImage;
 		bufferImage();
 		
 		SwingUtilities.invokeLater(new Runnable() {
@@ -147,13 +172,13 @@ public class GamePanel extends GHPanel implements MP3PlayerListener, GameResults
 	}
 	
 	private void bufferImage() {
-		if (coverImage != null) {
-			double scaleFactor = Math.max(1d, getScaleFactorToFill(new Dimension(coverImage.getWidth(), coverImage.getHeight()), getSize()));
+		if (blurredBackgroundImage != null) {
+			double scaleFactor = Math.max(1d, getScaleFactorToFill(new Dimension(blurredBackgroundImage.getWidth(), blurredBackgroundImage.getHeight()), getSize()));
 
-		    int scaleWidth = (int) Math.round(coverImage.getWidth() * scaleFactor);
-		    int scaleHeight = (int) Math.round(coverImage.getHeight() * scaleFactor);
+		    int scaleWidth = (int) Math.round(blurredBackgroundImage.getWidth() * scaleFactor);
+		    int scaleHeight = (int) Math.round(blurredBackgroundImage.getHeight() * scaleFactor);
 
-		    coverImageBuffer = coverImage.getScaledInstance(scaleWidth, scaleHeight, Image.SCALE_FAST);
+		    blurredScaledBackgroundImage = blurredBackgroundImage.getScaledInstance(scaleWidth, scaleHeight, Image.SCALE_FAST);
 		}
 	}
 
