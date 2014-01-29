@@ -49,9 +49,7 @@ public class KeyboardHeroPreferences {
 	 */
 	public void setScreenSize(int width, int height) {
 		prefs.putInt(SCREEN_WIDTH, width);
-		System.out.println(width);
 		prefs.putInt(SCREEN_HEIGHT, height);
-		System.out.println(height);
 	}
 
 }

@@ -24,7 +24,7 @@ public class SoundCloud {
 	}
 	
 	public Playlist search(String searchText) {
-		Playlist playlist = new Playlist("SoundCloud");
+		Playlist playlist = new Playlist();
 		try {
 			HttpResponse searchResp;
 			synchronized(wrapper){

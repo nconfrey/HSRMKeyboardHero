@@ -71,7 +71,7 @@ public class PersistenceHandler {
     }
     
     private static Playlist loadDefaultPlaylist() {
-    	Playlist playlist = new Playlist("KeyboardHero Playlist");
+    	Playlist playlist = new Playlist();
     	Track sampleTrack = new Track("music/smoke_on_the_water_short.mp3");
     	playlist.addTrack(sampleTrack);
     	return playlist;

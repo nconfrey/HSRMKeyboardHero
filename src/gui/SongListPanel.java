@@ -131,7 +131,7 @@ public class SongListPanel extends GHPanel {
 			songlist.setDropMode(DropMode.ON);
 			songlist.setTransferHandler(transferHandler);
 		} else {
-			Playlist gamePlaylist = new Playlist("Game Playlist");
+			Playlist gamePlaylist = new Playlist();
 			for (Track track : playlist.getTracks()) {
 				if (track.getStrokeSet() != null) {
 					gamePlaylist.addTrack(track);

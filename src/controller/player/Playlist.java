@@ -10,66 +10,74 @@ import javax.swing.AbstractListModel;
 import model.Track;
 
 /**
- *
- * @author sseye001
- */
-public class Playlist extends AbstractListModel<Track> implements Serializable{
-    
-    private long id;
-    private String name;
-    private Date creationDate;
-    private List<Track> tracks;
+ * MP3 Player playlist which saves Track objects in a ArrayList
+ * 
+ * @author Simon Seyer
+ * @author Martin Juhasz
+ * @author Julia Kraft
+ * @author Moritz Moeller
+ * 
+ **/
+public class Playlist extends AbstractListModel<Track> implements Serializable {
 
-    public Playlist(String name) {
-        tracks = new ArrayList<>();
+	private List<Track> tracks;
 
-        this.name = name;
-    }   
-    
+	/**
+	 * Creates an empty playlist and instantiates an empty ArrayList for track
+	 * objects
+	 * 
+	 */
+	public Playlist() {
+		tracks = new ArrayList<>();
+	}
 
-    public long getId() {
-        return id;
-    }
+	/**
+	 * Adds track to the tracklist and fires content change method
+	 * 
+	 * @param track will be added to the tracklist
+	 */
+	public void addTrack(Track track) {
+		if (!tracks.contains(track)) {
+			this.tracks.add(track);
+			fireContentsChanged(track, this.tracks.size() - 1,
+					this.tracks.size() - 1);
+		}
+	}
 
-    public String getName() {
-        return name;
-    }
+	/**
+	 * 
+	 * @return size of the tracklist
+	 */
+	@Override
+	public int getSize() {
+		return tracks.size();
+	}
 
-    public Date getCreationDate() {
-        return creationDate;
-    }
-    
-    public int getTrackCount(){
-        return tracks.size();
-    }
-    
-    public Track getTrack(int number){
-        return tracks.get(number);
-    }
-    
-    public void addTrack(Track track){
-    	if (!tracks.contains(track)) {
-    		this.tracks.add(track);
-            fireContentsChanged(track, this.tracks.size()-1,  this.tracks.size()-1);
-    	}
-    }
-
-    @Override
-    public int getSize() {
-        return tracks.size();
-    }
-    
-    public List<Track> getTracks() {
+	/**
+	 * 
+	 * @return whole tracklist
+	 */
+	public List<Track> getTracks() {
 		return tracks;
 	}
-    
+
+	/**
+	 * Takes a list of tracks and replaces the old tracklist
+	 * 
+	 * @param tracks tracklist which replaces the old tracklist
+	 */
 	public void setTracks(List<Track> tracks) {
 		this.tracks = tracks;
 	}
 
-
+	/**
+	 * Returns a track from tracklist
+	 * 
+	 * @param index position of Track object in the playlist
+	 * @return track from requested position
+	 */
 	@Override
-    public Track getElementAt(int index) {
-        return tracks.get(index);
-    }
+	public Track getElementAt(int index) {
+		return tracks.get(index);
+	}
 }
