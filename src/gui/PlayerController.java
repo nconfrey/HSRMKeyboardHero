@@ -42,6 +42,7 @@ public class PlayerController {
 	
 	public void play() {
 		recorder.setTrack(track);
+		scoreController.resetScore();
 		player.play();
 	}
 	

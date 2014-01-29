@@ -27,6 +27,15 @@ public class NavigationController implements KeyEventDispatcher{
 		stack.push(panel);
 		show(stack.peek());
 	}
+	
+	public void replacePanel(GHPanel panel) {
+		panel.setNavigationController(this);
+		if (!stack.isEmpty()) {
+			hide(stack.pop());
+		}
+		stack.push(panel);
+		show(stack.peek());
+	}
 
 	public void popPanel() {
 		if (stack.size() > 1) {

@@ -26,7 +26,7 @@ import controller.player.AlbumLoader;
 import controller.player.MP3Player;
 import controller.player.MP3PlayerListener;
 
-public class GamePanel extends GHPanel implements MP3PlayerListener {
+public class GamePanel extends GHPanel implements MP3PlayerListener, GameResultsPanel.ResultListener {
 
 	private JPanel leftContent; // sidepanel for scores, songtitle ...
 	private BufferedImage coverImage;
@@ -39,24 +39,24 @@ public class GamePanel extends GHPanel implements MP3PlayerListener {
 	public GamePanel() {
 		setFocusable(true);
 
-		// ContentPanel
-		this.setLayout(new MigLayout("fill"));
-
-		resultsPanel = new GameResultsPanel();
-		resultsPanel.setVisible(false);
-		resultsPanel.setOpaque(false);
-		this.add(resultsPanel, "pos 0 0 container.w container.h");
-
-		this.add(this.buildLeftContent(),
+		 // ContentPanel
+	    this.setLayout(new MigLayout("fill"));
+	    
+	    resultsPanel = new GameResultsPanel(this);
+	    resultsPanel.setVisible(false);
+	    resultsPanel.setOpaque(false);
+	    this.add(resultsPanel, "pos 0 0 container.w container.h");
+	    
+	    this.add(this.buildLeftContent(),
 				"gapleft 30, gaptop  30, west, width 250:350:350");
 		GuitarBackgroundPane backgroundPane = new GuitarBackgroundPane();
 		this.add(backgroundPane, "center, growy");
 		guitarPane = backgroundPane.getGuitarPane();
 		guitarPane.start();
-
-		loadBackgroundCover();
-
-		componentListener = new ComponentAdapter() {
+	    
+	    loadBackgroundCover();
+	    
+	    componentListener = new ComponentAdapter() {
 			@Override
 			public void componentResized(ComponentEvent e) {
 				super.componentResized(e);
@@ -253,5 +253,29 @@ public class GamePanel extends GHPanel implements MP3PlayerListener {
 				guitarPane.pauseOrResume();
 			}
 		}
+	}
+	
+	public void resultPanelShouldClose() {
+		SwingUtilities.invokeLater(new Runnable() {
+
+			@Override
+			public void run() {
+				PlayerController.getInstance().stop();
+				getNavigationController().popToRootPanel();
+			}
+		});
+	}
+
+	@Override
+	public void resultPanelDidSelectReplay() {
+		SwingUtilities.invokeLater(new Runnable() {
+
+			@Override
+			public void run() {
+				PlayerController.getInstance().stop();
+				GamePanel gameFrame = new GamePanel();
+				getNavigationController().replacePanel(gameFrame);
+			}
+		});
 	}
 }

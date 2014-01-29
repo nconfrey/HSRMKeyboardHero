@@ -31,6 +31,10 @@ public class ScoreController implements MP3PlayerListener, StrokeRecorderListene
 		score = new Score();
 	}
 	
+	public void resetScore() {
+		score.reset();
+	}
+	
 	@Override
 	public void playbackDidStart(MP3Player player) {
 	}

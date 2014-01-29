@@ -29,6 +29,12 @@ public class Score extends AbstractBindableModel  {
 		return score;
 	}
 	
+	public void reset() {
+		long oldScore = score;
+		score = 0;
+		firePropertyChange("score", oldScore, score);
+	}
+	
 	public long decrease(){
 		long oldScore = score;
 		combo = 0;
