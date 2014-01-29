@@ -4,20 +4,22 @@ import java.awt.Color;
 import java.awt.event.KeyEvent;
 
 public enum StrokeKey {
-	F1(0, new Color(0x66FF33)),
-	F2(1, new Color(0xF5B800)),
-	F3(2, new Color(0x3366FF)),
-	F4(3,new Color(0xFF6633)),
-	F5(4, new Color(0x33CCFF)),
-	ENTER(-1, null), 
-	INVALID(-1, null);
+	F1(0, "F1", new Color(0x66FF33)),
+	F2(1, "F2", new Color(0xF5B800)),
+	F3(2, "F3", new Color(0x3366FF)),
+	F4(3, "F4",new Color(0xFF6633)),
+	F5(4, "F5", new Color(0x33CCFF)),
+	ENTER(-1, "ENTER", null), 
+	INVALID(-1, "INVALID", null);
 	
 	public static final int STROKE_COUNT = 5;
 	private int value;
+	private String text;
 	private Color color;
 	
-	private StrokeKey(int value, Color color) {
+	private StrokeKey(int value, String text, Color color) {
 		this.value = value;
+		this.text = text;
 		this.color = color;
 	}
 	
@@ -49,6 +51,11 @@ public enum StrokeKey {
 	
 	public Color getColor() {
 		return color;
+	}
+	
+	@Override
+	public String toString() {
+		return text;
 	}
 	
 	public boolean isGuitarString() {

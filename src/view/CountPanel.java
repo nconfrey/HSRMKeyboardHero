@@ -1,20 +1,11 @@
 package view;
 
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.RenderingHints;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import javax.swing.JLabel;
-import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
-import net.miginfocom.swing.MigLayout;
-
-public class CountPanel extends JPanel {
+public class CountPanel extends InfoPanel {
 	
 	private final int COUNTDOWN_TIME = 6;
 	private final int REFRESH_INTERVAL = 50;
@@ -22,7 +13,6 @@ public class CountPanel extends JPanel {
 	private Timer timer;
 	private int timeLeft;
 	private CountListener listener;
-	private JLabel label;
 	private boolean paused;
 	
 	public interface CountListener {
@@ -31,15 +21,6 @@ public class CountPanel extends JPanel {
 	
 	public CountPanel(CountListener listener) {
 		this.listener = listener;
-		
-		setOpaque(false);
-		setBackground(new Color(50,50,50,180));
-		setLayout(new MigLayout("fill", "[center]", "[center]"));
-		
-		label = new JLabel();
-		label.setFont(new Font("sanserif", Font.BOLD, 40));
-		label.setForeground(Color.white);
-		add(label);
 	}
 	
 	public void startTimer() {
@@ -64,7 +45,7 @@ public class CountPanel extends JPanel {
 						
 						@Override
 						public void run() {
-							label.setText(String.valueOf((int)timeLeft / 1000));
+							setText(String.valueOf((int)timeLeft / 1000));
 						}
 					});
 				}
@@ -90,15 +71,4 @@ public class CountPanel extends JPanel {
 			}
 		}
 	}
-
-	@Override
-	protected void paintComponent(Graphics g) {
-		Graphics2D g2 = (Graphics2D)g;
-		g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-		
-		g2.setColor(getBackground());
-		g2.fillRoundRect(0, 0, getWidth(), getHeight(), 20, 20);
-        super.paintComponent(g);
-	}
-	
 }

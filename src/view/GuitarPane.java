@@ -10,9 +10,7 @@ import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.geom.RoundRectangle2D;
-import java.awt.image.BufferedImage;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -20,10 +18,10 @@ import java.util.TimerTask;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
-import net.miginfocom.swing.MigLayout;
 import model.Stroke;
 import model.StrokeKey;
 import model.Track;
+import net.miginfocom.swing.MigLayout;
 import controller.ScoreListener;
 import controller.player.MP3Player;
 import controller.player.MP3PlayerListener;
@@ -52,6 +50,7 @@ public class GuitarPane extends JPanel implements MP3PlayerListener,
 	private List<StrokeView> toRemove;
 	private boolean[] scoringKeys;
 	private CountPanel countPanel;
+	private InfoPanel[] infoPanels;
 
 	public GuitarPane() {
 		strokeRects = new ArrayList<>();
@@ -68,6 +67,22 @@ public class GuitarPane extends JPanel implements MP3PlayerListener,
 		
 		setLayout(new MigLayout("fill", "[center]", "[center]"));
 		add(countPanel, "width 100!, height 100!");
+		
+		infoPanels = new InfoPanel[StrokeKey.STROKE_COUNT + 1];
+		for (int i = 0; i < infoPanels.length - 1; i++) {
+			InfoPanel infoPanel = new InfoPanel();
+			infoPanel.setText(StrokeKey.keyForPosition(i).toString());
+			infoPanel.setFontSize(16);
+			infoPanels[i] = infoPanel;
+			add(infoPanel, "pos (" + (i+1) + " * container.w / 6 - 25px) (container.h - 90)");
+		}
+		InfoPanel infoPanel = new InfoPanel();
+		infoPanel.setText(StrokeKey.ENTER.toString());
+		infoPanel.setFontSize(16);
+		infoPanels[infoPanels.length - 1] = infoPanel;
+		add(infoPanel, "pos 30 (container.h - 175) (container.w - 30)");
+		
+		
 
 		setOpaque(false);
 	}
@@ -75,6 +90,9 @@ public class GuitarPane extends JPanel implements MP3PlayerListener,
 	public void start() {
 		reset();
 		countPanel.setVisible(true);
+		for (int i = 0; i < infoPanels.length; i++) {
+			infoPanels[i].setVisible(true);
+		}
 		countPanel.startTimer();
 	}
 	
@@ -217,7 +235,7 @@ public class GuitarPane extends JPanel implements MP3PlayerListener,
 	}
 
 	private float getVerticalOffset() {
-		return (getHeight() - 30) / 1.2f;
+		return getHeight() - 150;
 	}
 
 	private float getPositionForLine(int line) {
@@ -325,6 +343,9 @@ public class GuitarPane extends JPanel implements MP3PlayerListener,
 			@Override
 			public void run() {
 				countPanel.setVisible(false);
+				for (int i = 0; i < infoPanels.length; i++) {
+					infoPanels[i].setVisible(false);
+				}
 			}
 		});
 		PlayerController.getInstance().play();
