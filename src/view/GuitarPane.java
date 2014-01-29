@@ -160,11 +160,16 @@ public class GuitarPane extends JPanel implements MP3PlayerListener,
 			Line2D line = new Line2D.Float(leftP, rightP);
 			g.draw(line);
 		}
-
-		g.setColor(new Color(0xC0C0C0));
-		g.setStroke(new BasicStroke(1.5f));
+		
 		for (int i = 0; i < StrokeKey.STROKE_COUNT; i++) {
 			float x = getPositionForLine(i);
+			if (scoringKeys[i]) {
+				g.setStroke(new BasicStroke(3));
+				g.setColor(StrokeKey.keyForPosition(i).getColor());
+			} else {
+				g.setStroke(new BasicStroke(1.5f));
+				g.setColor(new Color(0xC0C0C0));
+			}
 			g.draw(new Line2D.Float(x, 0, x, getHeight()));
 		}
 
@@ -198,7 +203,7 @@ public class GuitarPane extends JPanel implements MP3PlayerListener,
 			Color c = strokeView.getStroke().getKey().getColor();
 			if (strokeView.getStyle() == STYLE_PRESET) {
 				c = c.brighter();
-				c = new Color(c.getRed(), c.getGreen(), c.getBlue(), 180);
+				c = new Color(c.getRed(), c.getGreen(), c.getBlue(), 150);
 			}
 			g.setColor(c);
 			g.fill(strokeView.getRect());
@@ -211,7 +216,7 @@ public class GuitarPane extends JPanel implements MP3PlayerListener,
 			c = new Color(c.getRed(), c.getGreen(), c.getBlue(), 180);
 
 			float x = getPositionForLine(i);
-			int size = scoringKeys[i] ? 40 : 30;
+			int size = 30;
 
 			g.setColor(c);
 			g.fill(new Rectangle2D.Float(x - size / 2f, getVerticalOffset()
