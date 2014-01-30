@@ -17,6 +17,8 @@ import controller.player.MP3PlayerListener;
 
 public class StrokeRecorder implements GuitarStringListener, MP3PlayerListener {
 	
+	private final static int RECORDING_TOLERANCE = 100;
+	
 	private Track track;
 	private Map<StrokeKey, Stroke> strokes;
 	private List<StrokeKey> pressedKeys;
@@ -91,7 +93,7 @@ public class StrokeRecorder implements GuitarStringListener, MP3PlayerListener {
 			
 			if(!isRecordingMode) {
 				StrokeSet gamingStrokeSet = this.track.getStrokeSet();
-				List<Stroke> strokeList = gamingStrokeSet.getListForFrameInRange(frame - 50, frame + 50, aKey);
+				List<Stroke> strokeList = gamingStrokeSet.getListForFrameInRange(frame - RECORDING_TOLERANCE, frame + RECORDING_TOLERANCE, aKey);
 				if(strokeList.size() > 0) {
 					startFrame = strokeList.get(0).getStartFrame();
 				}

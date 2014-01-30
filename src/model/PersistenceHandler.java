@@ -57,7 +57,8 @@ public class PersistenceHandler {
             // playlist.checkConsistency();
             
         } catch (IOException i) {
-            System.out.println("Playlist could not be loaded");
+            System.out.println("Playlist could not be loaded ");
+            i.printStackTrace();
         } catch (ClassNotFoundException c) {
             System.out.println("Playlist class not found");
             c.printStackTrace();
