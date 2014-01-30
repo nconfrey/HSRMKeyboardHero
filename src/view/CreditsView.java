@@ -58,7 +58,7 @@ public class CreditsView extends GHPanel {
 
 		mainMenuButton = new MenuButton(
 				KeyboardHeroConstants.getString("back_to_menu"), new Color(
-						KeyboardHeroConstants.FONT_COLOR_SECONDARY));
+						KeyboardHeroConstants.COLOR_SECONDARY));
 		mainMenuButton.addActionListener(new ActionListener() {
 
 			@Override

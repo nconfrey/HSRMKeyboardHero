@@ -56,7 +56,7 @@ public class HighscorePanel extends GHPanel {
 		this.add(scrollPane, "wrap, growx, pushy, growy");
 		
 		MenuButton mainMenuButton = new MenuButton(KeyboardHeroConstants.getString("back_to_tracklist"), new Color(
-				KeyboardHeroConstants.FONT_COLOR_SECONDARY));
+				KeyboardHeroConstants.COLOR_SECONDARY));
 		mainMenuButton.addActionListener(new ActionListener() {
 
 			@Override

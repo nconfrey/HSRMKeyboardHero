@@ -122,6 +122,9 @@ public class ScoreController implements MP3PlayerListener, StrokeRecorderListene
 		if(strokeSet != null && strokeSet.containsStroke(stroke)) {
 			currentPlayedStrokes.put(stroke.getKey(), stroke);
 			fireScoringDidStart(stroke.getKey());
+		} else if (strokeSet != null){
+			score.comboReset();
+			PlayerController.getInstance().getPlayer().volumeControl();
 		}
 		
 	}

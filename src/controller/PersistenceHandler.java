@@ -1,7 +1,7 @@
 /**
  * 
  * 
- * @author Simon Seyer
+++3 * @author Simon Seyer
  * @author Martin Juhasz
  * @author Julia Kraft
  * @author Moritz Moeller
@@ -88,8 +88,8 @@ public class PersistenceHandler {
      */
     private static Playlist loadDefaultPlaylist() {
     	Playlist playlist = new Playlist();
-    	Track sampleTrack = new Track("music/smoke_on_the_water_short.mp3");
-    	playlist.addTrack(sampleTrack);
+//    	Track sampleTrack = new Track("music/smoke_on_the_water_short.mp3");
+//    	playlist.addTrack(sampleTrack);
     	return playlist;
     	}
 }

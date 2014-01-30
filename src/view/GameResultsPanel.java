@@ -108,7 +108,7 @@ public class GameResultsPanel extends JPanel {
 		}
 
 		JButton playButton = new MenuButton(playButtonText, new Color(
-				KeyboardHeroConstants.FONT_COLOR_SECONDARY));
+				KeyboardHeroConstants.COLOR_SECONDARY));
 		playButton.addActionListener(new ActionListener() {
 
 			@Override
@@ -120,7 +120,7 @@ public class GameResultsPanel extends JPanel {
 
 		JButton closeButton = new MenuButton(
 				KeyboardHeroConstants.getString("back_to_menu"), new Color(
-						KeyboardHeroConstants.FONT_COLOR_SECONDARY));
+						KeyboardHeroConstants.COLOR_SECONDARY));
 		closeButton.addActionListener(new ActionListener() {
 
 			@Override
@@ -160,7 +160,7 @@ public class GameResultsPanel extends JPanel {
 		scoreLabel = new JLabel("0");
 		scoreLabel.setOpaque(true);
 		scoreLabel.setBackground(new Color(
-				KeyboardHeroConstants.FONT_COLOR_PRIMARY));
+				KeyboardHeroConstants.COLOR_PRIMARY));
 		scoreLabel.setForeground(Color.WHITE);
 		scoreLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		scoreLabel.setFont(new Font("sanserif", Font.BOLD, 27));
@@ -178,7 +178,7 @@ public class GameResultsPanel extends JPanel {
 		JLabel bestScoreLabel = new JLabel(bestScore);
 		bestScoreLabel.setOpaque(true);
 		bestScoreLabel.setBackground(new Color(
-				KeyboardHeroConstants.FONT_COLOR_PRIMARY));
+				KeyboardHeroConstants.COLOR_PRIMARY));
 		bestScoreLabel.setForeground(Color.WHITE);
 		bestScoreLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		bestScoreLabel.setFont(new Font("sanserif", Font.BOLD, 27));

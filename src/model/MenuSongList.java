@@ -95,7 +95,7 @@ public class MenuSongList<E> extends JList<E> {
 					}
 				}
 				c.setBackground(new Color(
-						KeyboardHeroConstants.FONT_COLOR_PRIMARY));
+						KeyboardHeroConstants.COLOR_PRIMARY));
 				c.setForeground(Color.WHITE);
 				c.setFont(new Font("SansSerif", Font.BOLD, 14));
 

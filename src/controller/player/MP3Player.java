@@ -15,6 +15,8 @@ import java.io.InputStream;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.WeakHashMap;
+import java.util.logging.Handler;
+import java.util.logging.LogRecord;
 
 import ddf.minim.AudioPlayer;
 import ddf.minim.Minim;
@@ -33,6 +35,10 @@ public class MP3Player {
     private int frame;
     private boolean playing;
     private boolean paused;
+    private boolean volumeIsDecreased;
+    private static final int GAIN_REDUCE = 7;
+    private static final long REDUCE_TIME = 500;
+
 
     /**
      * Instantiates a new m p3 player.
@@ -228,6 +234,29 @@ public class MP3Player {
 		} catch (FileNotFoundException e) {
 			return null;
 		}
+    }
+    
+    /**
+     * Reduces the volume for 0.5 seconds
+     */
+    public void volumeControl(){
+    	final Timer volumeTimer = new Timer();
+    	
+    	if(!volumeIsDecreased){
+    		player.setGain(-GAIN_REDUCE);
+    		volumeIsDecreased = true;
+    	}
+    	
+    	volumeTimer.scheduleAtFixedRate(new TimerTask() {
+			
+			@Override
+			public void run() {
+				player.setGain(GAIN_REDUCE);
+				volumeTimer.cancel();
+				volumeIsDecreased = false;
+			}
+		}, REDUCE_TIME, REDUCE_TIME);
+    	
     }
 
 }

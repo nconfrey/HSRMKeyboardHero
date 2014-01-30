@@ -12,8 +12,11 @@ package helper;
 import java.util.ResourceBundle;
 
 public class KeyboardHeroConstants {
-	public static final int FONT_COLOR_PRIMARY = 0x148296;
-	public static final int FONT_COLOR_SECONDARY = 0xC92607;
+	public static final int COLOR_PRIMARY = 0x148296;
+	public static final int COLOR_SECONDARY = 0xC92607;
+	public static final int COLOR_GOLD = 0xE5C100;
+	public static final int COLOR_SILVER = 0xC0C0C0;
+	public static final int COLOR_BRONZE = 0xCD7F32;
 	public static final ResourceBundle BUNDLE_RESOURCE = ResourceBundle.getBundle("KeyboardHero");
 	
 	/**

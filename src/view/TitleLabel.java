@@ -26,7 +26,7 @@ public class TitleLabel extends JLabel {
 	public TitleLabel() {
 		setFont(KeyboardHeroFontModel.getInstance().getFont(KeyboardHeroFontModel.FONT_NIGHTMARE).deriveFont(82f));
 		setHorizontalAlignment(SwingConstants.CENTER);
-		setForeground(new Color(KeyboardHeroConstants.FONT_COLOR_PRIMARY));
+		setForeground(new Color(KeyboardHeroConstants.COLOR_PRIMARY));
 	}
 	
 	/**

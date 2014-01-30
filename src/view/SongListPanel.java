@@ -115,7 +115,7 @@ public class SongListPanel extends GHPanel {
 
 		mainMenuButton = new MenuButton(
 				KeyboardHeroConstants.getString("back_to_menu"), new Color(
-						KeyboardHeroConstants.FONT_COLOR_SECONDARY));
+						KeyboardHeroConstants.COLOR_SECONDARY));
 		mainMenuButton.addActionListener(new ActionListener() {
 
 			@Override
@@ -157,7 +157,7 @@ public class SongListPanel extends GHPanel {
 		searchField.setCaretColor(Color.white);
 		searchField.setFont(new Font("SansSerif", Font.BOLD, 14));
 		Color searchFieldColor = new Color(
-				KeyboardHeroConstants.FONT_COLOR_PRIMARY);
+				KeyboardHeroConstants.COLOR_PRIMARY);
 		searchField.setBackground(searchFieldColor);
 		searchField.setBorder(BorderFactory.createCompoundBorder(
 				new LineBorder(searchFieldColor.darker(), 2), new EmptyBorder(
