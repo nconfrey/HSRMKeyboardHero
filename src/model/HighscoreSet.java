@@ -17,6 +17,7 @@ import javax.swing.AbstractListModel;
 
 public class HighscoreSet extends AbstractListModel<Highscore> {
 
+	private static final long serialVersionUID = -6204551776079832861L;
 	private List<Highscore> highscores;
 
 	/**

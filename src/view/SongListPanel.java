@@ -58,9 +58,7 @@ public class SongListPanel extends GHPanel {
 	 * @param playerController the player controller
 	 */
 	public SongListPanel(PlayerController playerController) {
-		this.playerController = playerController;
-		this.mode = MODE_PLAY;
-		init();
+		this(playerController, MODE_PLAY);
 	}
 
 	/**
@@ -69,8 +67,9 @@ public class SongListPanel extends GHPanel {
 	 * @param mode the mode
 	 */
 	public SongListPanel(PlayerController playerController, int mode) {
-		this(playerController);
+		this.playerController = playerController;
 		this.mode = mode;
+		init();
 	}
 
 	/**

@@ -13,6 +13,7 @@ import java.io.Serializable;
 
 public class Highscore implements Comparable<Highscore>, Serializable {
 
+	private static final long serialVersionUID = -3955711964526156861L;
 	private String name;
 	private int score;
 

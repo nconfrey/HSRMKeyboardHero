@@ -26,7 +26,9 @@ import javax.swing.AbstractListModel;
  **/
 public class Playlist extends AbstractListModel<Track> implements Serializable {
 
+	private static final long serialVersionUID = -909941238215193625L;
 	private List<Track> tracks;
+	
 
 	/**
 	 * Creates an empty playlist and instantiates an empty ArrayList for track

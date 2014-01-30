@@ -18,6 +18,7 @@ import java.util.TreeMap;
 
 public class StrokeSet implements Serializable {
 
+	private static final long serialVersionUID = 7800898096075391569L;
 	private NavigableMap<Integer, List<Stroke>> strokes;
 	private HighscoreSet highscores;
 

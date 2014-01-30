@@ -19,6 +19,7 @@ import org.jaudiotagger.tag.Tag;
 
 public class MP3PlayerLocalTrack implements MP3PlayerTrack {
 
+	private static final long serialVersionUID = 1990723577239567262L;
 	private String title;
 	private int length;
 	private String albumTitle;

@@ -14,6 +14,7 @@ import java.io.Serializable;
 
 public class Track implements Serializable {
 
+	private static final long serialVersionUID = 7876085004865638208L;
 	private StrokeSet strokeSet;
 	private MP3PlayerTrack mp3;
 

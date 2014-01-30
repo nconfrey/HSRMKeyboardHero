@@ -13,6 +13,7 @@ import java.io.Serializable;
 
 public class Stroke implements Serializable {
 
+	private static final long serialVersionUID = 3344807030757232975L;
 	private StrokeKey key;
 	private int length;
 	private int startFrame;

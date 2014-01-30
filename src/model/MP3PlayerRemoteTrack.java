@@ -23,6 +23,7 @@ import controller.SoundCloud;
  */
 public class MP3PlayerRemoteTrack implements MP3PlayerTrack {
 
+	private static final long serialVersionUID = -1307265295302017540L;
 	private String title;
 	private String albumTitle;
 	private String artist;
