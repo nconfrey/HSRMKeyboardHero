@@ -1,8 +1,10 @@
-package gui;
+package view;
 
 import java.awt.event.KeyEvent;
 
 import javax.swing.JPanel;
+
+import controller.NavigationController;
 
 /**
  * Standard panel used for the different views ingame

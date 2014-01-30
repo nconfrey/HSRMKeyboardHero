@@ -1,4 +1,6 @@
-package gui;
+package view;
+
+import helper.KeyboardHeroConstants;
 
 import java.awt.Font;
 import java.beans.PropertyChangeEvent;
@@ -7,7 +9,7 @@ import java.beans.PropertyChangeListener;
 import javax.swing.JLabel;
 import javax.swing.SwingUtilities;
 
-import view.KeyboardHeroConstants;
+import controller.PlayerController;
 import model.Score;
 import net.miginfocom.swing.MigLayout;
 

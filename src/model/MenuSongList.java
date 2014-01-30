@@ -1,4 +1,6 @@
-package gui;
+package model;
+
+import helper.KeyboardHeroConstants;
 
 import java.awt.Color;
 import java.awt.Component;
@@ -13,8 +15,6 @@ import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.ListModel;
 
-import model.Track;
-import view.KeyboardHeroConstants;
 import controller.player.MP3PlayerRemoteTrack;
 
 public class MenuSongList<E> extends JList<E> {

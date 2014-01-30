@@ -1,4 +1,4 @@
-package view;
+package helper;
 
 import java.util.ResourceBundle;
 

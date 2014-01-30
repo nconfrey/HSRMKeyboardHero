@@ -1,4 +1,6 @@
-package gui;
+package view;
+
+import helper.KeyboardHeroConstants;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -13,12 +15,11 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
+import controller.PlayerController;
 import model.Highscore;
 import model.Score;
 import model.StrokeSet;
 import net.miginfocom.swing.MigLayout;
-import view.KeyboardHeroConstants;
-import view.MenuButton;
 
 public class GameResultsPanel extends JPanel {
 

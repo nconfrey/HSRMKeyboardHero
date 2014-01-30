@@ -1,4 +1,4 @@
-package gui;
+package controller;
 
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;

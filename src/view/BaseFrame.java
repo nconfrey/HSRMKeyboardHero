@@ -1,4 +1,6 @@
-package gui;
+package view;
+
+import helper.KeyboardHeroConstants;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -11,9 +13,9 @@ import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
-import view.KeyboardHeroConstants;
+import controller.NavigationController;
+import controller.PersistenceHandler;
 import model.KeyboardHeroPreferences;
-import model.PersistenceHandler;
 
 /**
  * The base frame where the whole gamecontent is build in

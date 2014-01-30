@@ -1,4 +1,6 @@
-package gui;
+package view;
+
+import helper.KeyboardHeroConstants;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -11,10 +13,6 @@ import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 
 import net.miginfocom.swing.MigLayout;
-import view.ImagePanel;
-import view.KeyboardHeroConstants;
-import view.MenuButton;
-import view.TitleLabel;
 
 public class CreditsView extends GHPanel {
 

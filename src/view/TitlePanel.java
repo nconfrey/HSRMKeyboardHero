@@ -1,11 +1,13 @@
-package gui;
+package view;
+
+import helper.KeyboardHeroConstants;
 
 import java.awt.Font;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import view.KeyboardHeroConstants;
+import controller.PlayerController;
 import net.miginfocom.swing.MigLayout;
 
 /**
