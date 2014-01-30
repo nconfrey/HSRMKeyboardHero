@@ -31,7 +31,8 @@ public class PersistenceHandler {
 			+ File.separator + ".keyboardHero";
 	private static final String PLAYLIST_FILE_NAME = "playlist.mpl";
 	private static final String[] filesToCopy = new String[] { "playlist.mpl",
-			"smoke_on_the_water_short.mp3",
+			"highway_to_hell.mp3",
+			"smoke_on_the_water.mp3",
 			"back_in_black.mp3" };
 
 	/**
