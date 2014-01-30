@@ -13,8 +13,10 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.ObjectInputStream.GetField;
 
 import model.Playlist;
 
@@ -25,14 +27,14 @@ import model.Playlist;
 
 public class PersistenceHandler {
 
-    //private static final String FILE_PATH = KeyboardHero.class.getResource("/"+mp3Name).toURI();
-	private static final File playlistFile = new File(System.getProperty("user.home") + File.separator + "playlist.mpl");
-    
+	private static final String PLAYLIST_PATH = System.getProperty("user.home") + File.separator + "playlist.mpl";
+	private static final String DEFAULT_PLAYLIST_PATH = "playlist.mpl";
+	
     /**
      * Save a playlist to disk.
      */
     public static void savePlaylist(Playlist playlist) {
-        try (FileOutputStream fileOut = new FileOutputStream(playlistFile);
+        try (FileOutputStream fileOut = new FileOutputStream(new File(PLAYLIST_PATH));
              ObjectOutputStream out = new ObjectOutputStream(fileOut)) {
             out.writeObject(playlist);
             System.out.printf("Serialized data is saved");
@@ -49,10 +51,10 @@ public class PersistenceHandler {
     public static Playlist loadPlaylist() {
     	Playlist playlist = null;
 
-		try (FileInputStream fileIn = new FileInputStream(playlistFile);
-				ObjectInputStream in = new ObjectInputStream(fileIn)) {
-			playlist = (Playlist) in.readObject();
-			System.out.println("Playlist: loaded");
+        try (FileInputStream fileIn = new FileInputStream(new File(PLAYLIST_PATH));
+             ObjectInputStream in = new ObjectInputStream(fileIn)) {
+            playlist = (Playlist) in.readObject();
+            System.out.println("Playlist: loaded");
 
             // TODO: implemnt
             // playlist.checkConsistency();
@@ -66,7 +68,19 @@ public class PersistenceHandler {
         }
         
         if (playlist == null) {
-        	// TODO load playlist from bundle
+        	try(InputStream stream = ClassLoader.getSystemClassLoader().getResourceAsStream(DEFAULT_PLAYLIST_PATH);
+        			ObjectInputStream in = new ObjectInputStream(stream)) {
+        		playlist = (Playlist) in.readObject();
+        	} catch (IOException e) {
+        		System.out.println("Default playlist could not be loaded");
+				e.printStackTrace();
+			} catch (ClassNotFoundException e) {
+				System.out.println("Playlist class not found");
+				e.printStackTrace();
+			}
+        }
+        
+        if (playlist == null) {
         	playlist = new Playlist();
         }
 
