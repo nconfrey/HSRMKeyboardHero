@@ -58,7 +58,7 @@ public class BoxBlurFilter  {
      * @param height the height
      * @param radius the radius
      */
-    public static void blur( int[] in, int[] out, int width, int height, int radius ) {
+    public void blur( int[] in, int[] out, int width, int height, int radius ) {
         int widthMinus1 = width-1;
         int tableSize = 2*radius+1;
         int divide[] = new int[256*tableSize];
@@ -273,7 +273,7 @@ public class BoxBlurFilter  {
 	 * @param b the upper clamp threshold
 	 * @return the clamped value
 	 */
-	public static int clamp(int x, int a, int b) {
+	public int clamp(int x, int a, int b) {
 		return (x < a) ? a : (x > b) ? b : x;
 	}
 }

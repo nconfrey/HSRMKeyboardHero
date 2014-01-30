@@ -46,7 +46,6 @@ public class SongListPanel extends GHPanel {
 	public static final int MODE_HIGHSCORE = 2;
 
 	private PlayerController playerController;
-	private Playlist playlist;
 	private JList<Track> songlist;
 	private JButton mainMenuButton;
 	private ListAction selectAction;
@@ -54,7 +53,6 @@ public class SongListPanel extends GHPanel {
 	private JScrollPane scrollPane;
 	private int mode;
 	private JTextField searchField;
-	private JButton button;
 	private TextPrompt textPrompt;
 
 	/**
@@ -102,7 +100,7 @@ public class SongListPanel extends GHPanel {
 				if (songlist.getSelectedValue() != null) {
 					if (mode == MODE_PLAY || mode == MODE_RECORD) {
 						Track selectedTrack = songlist.getSelectedValue();
-						Playlist playlist = PersistenceHandler.loadPlaylist();
+						Playlist playlist = playerController.getPlaylistController().getPlaylist();
 						// TODO: wrong location to do this
 						playlist.addTrack(selectedTrack);
 						playerController.setTrack(selectedTrack);
@@ -136,15 +134,12 @@ public class SongListPanel extends GHPanel {
 	public void initPlaylist() {
 		songlist = new MenuSongList<Track>(mode == MODE_RECORD);
 		songlist.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
-
-		playlist = PersistenceHandler.loadPlaylist();
+		Playlist playlist = playerController.getPlaylistController().getPlaylist(mode == MODE_PLAY);
+		songlist.setModel(playlist);
 		if (mode == MODE_RECORD) {
-			songlist.setModel(playlist);
 			transferHandler = new PlaylistTransferHandler(playlist);
 			songlist.setDropMode(DropMode.ON);
 			songlist.setTransferHandler(transferHandler);
-		} else {
-			songlist.setModel(playlist.getPlaylistWithPlayableTracks());
 		}
 
 		scrollPane = new JScrollPane(songlist);
@@ -188,7 +183,7 @@ public class SongListPanel extends GHPanel {
 					@Override
 					public void run() {
 						final Playlist list = playerController
-								.getSoundCloud().search(search);
+								.getPlaylistController().getPlaylistForSearch(search);
 						SwingUtilities.invokeLater(new Runnable() {
 
 							@Override

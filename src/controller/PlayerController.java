@@ -16,7 +16,7 @@ import controller.recorder.StrokeRecorder;
 public class PlayerController {
 
 	private MP3Player player;
-	private SoundCloud soundCloud;
+	private PlaylistController playlistController;
 	private StrokeRecorder recorder;
 	private KeyController keyController;
 	private Track track;
@@ -28,7 +28,7 @@ public class PlayerController {
 	 */
 	public PlayerController() {
 		player = new MP3Player();
-		soundCloud = new SoundCloud();
+		playlistController = new PlaylistController();
 		recorder = new StrokeRecorder(player);
 		keyController = new KeyController();
 		scoreController = new ScoreController();
@@ -118,12 +118,12 @@ public class PlayerController {
 	}
 	
 	/**
-	 * Gets the sound cloud.
+	 * Gets the playlist controller.
 	 *
-	 * @return the sound cloud
+	 * @return the playlist controller
 	 */
-	public SoundCloud getSoundCloud() {
-		return soundCloud;
+	public PlaylistController getPlaylistController() {
+		return playlistController;
 	}
 
 	/**
