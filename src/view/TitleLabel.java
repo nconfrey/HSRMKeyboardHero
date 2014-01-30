@@ -10,13 +10,22 @@
 package view;
 
 import helper.KeyboardHeroConstants;
-
 import java.awt.Color;
-
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
-
 import model.KeyboardHeroFontModel;
+
+
+/**
+ * TitleLabel setting the Title Font  
+ * 
+ * 
+ * @author Simon Seyer
+ * @author Martin Juhasz
+ * @author Julia Kraft
+ * @author Moritz Moeller
+ * 
+ */
 
 public class TitleLabel extends JLabel {
 

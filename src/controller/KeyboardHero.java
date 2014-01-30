@@ -29,18 +29,17 @@ public class KeyboardHero {
 	 * @param args the arguments
 	 */
 	public static void main(String[] args) {
-
+		final PlayerController playerController = new PlayerController();
 		BaseFrame baseFrame = new BaseFrame();
 		NavigationController navCon = new NavigationController(baseFrame);
-		MenuPanel menu = new MenuPanel();
+		MenuPanel menu = new MenuPanel(playerController);
 		navCon.pushPanel(menu);
 
 		Runtime.getRuntime().addShutdownHook(new Thread() {
 			@Override
 			public void run() {
-				PersistenceHandler.savePlaylist();
+				playerController.getPlaylistController().save();
 			}
 		});
-
 	}
 }

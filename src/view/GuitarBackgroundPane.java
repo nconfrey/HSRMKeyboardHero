@@ -15,15 +15,19 @@ import java.awt.GridBagLayout;
 
 import javax.swing.JPanel;
 
-public class GuitarBackgroundPane extends JPanel {
+import controller.PlayerController;
 
-	private static final int GUITAR_WIDTH = 350;
+public class GuitarBackgroundPane extends JPanel {
+	
+	private static final int GUITAR_WIDTH = 450;
 	private GuitarPane guitarPane;
 
 	/**
 	 * Instantiates a new guitar background pane.
+	 *
+	 * @param playerController the player controller
 	 */
-	public GuitarBackgroundPane() {
+	public GuitarBackgroundPane(PlayerController playerController) {
 		super();
 
 		GridBagLayout layout = new GridBagLayout();
@@ -37,8 +41,8 @@ public class GuitarBackgroundPane extends JPanel {
 		c.fill = GridBagConstraints.VERTICAL;
 		c.anchor = GridBagConstraints.CENTER;
 		c.weighty = 1.0;
-
-		guitarPane = new GuitarPane();
+		
+		guitarPane = new GuitarPane(playerController);
 		guitarPane.setPreferredSize(new Dimension(GUITAR_WIDTH, 0));
 
 		add(guitarPane, c);

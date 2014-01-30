@@ -44,7 +44,7 @@ public class SongListPanel extends GHPanel {
 	public static final int MODE_RECORD = 1;
 	public static final int MODE_HIGHSCORE = 2;
 
-	private Playlist playlist;
+	private PlayerController playerController;
 	private JList<Track> songlist;
 	private JButton mainMenuButton;
 	private ListAction selectAction;
@@ -52,13 +52,15 @@ public class SongListPanel extends GHPanel {
 	private JScrollPane scrollPane;
 	private int mode;
 	private JTextField searchField;
-	private JButton button;
 	private TextPrompt textPrompt;
 
 	/**
 	 * Instantiates a new song list panel.
+	 *
+	 * @param playerController the player controller
 	 */
-	public SongListPanel() {
+	public SongListPanel(PlayerController playerController) {
+		this.playerController = playerController;
 		this.mode = MODE_PLAY;
 		init();
 	}
@@ -68,9 +70,9 @@ public class SongListPanel extends GHPanel {
 	 * 
 	 * @param mode the mode
 	 */
-	public SongListPanel(int mode) {
+	public SongListPanel(PlayerController playerController, int mode) {
+		this(playerController);
 		this.mode = mode;
-		init();
 	}
 
 	/**
@@ -93,15 +95,15 @@ public class SongListPanel extends GHPanel {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				PlayerController.getInstance().stop();
+				playerController.stop();
 				if (songlist.getSelectedValue() != null) {
 					if (mode == MODE_PLAY || mode == MODE_RECORD) {
 						Track selectedTrack = songlist.getSelectedValue();
-						Playlist playlist = PersistenceHandler.loadPlaylist();
+						Playlist playlist = playerController.getPlaylistController().getPlaylist();
 						// TODO: wrong location to do this
 						playlist.addTrack(selectedTrack);
-						PlayerController.getInstance().setTrack(selectedTrack);
-						GamePanel gameFrame = new GamePanel();
+						playerController.setTrack(selectedTrack);
+						GamePanel gameFrame = new GamePanel(playerController);
 						getNavigationController().pushPanel(gameFrame);
 					} else if (mode == MODE_HIGHSCORE) {
 						HighscorePanel highscorePanel = new HighscorePanel(
@@ -131,15 +133,12 @@ public class SongListPanel extends GHPanel {
 	public void initPlaylist() {
 		songlist = new MenuSongList<Track>(mode == MODE_RECORD);
 		songlist.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
-
-		playlist = PersistenceHandler.loadPlaylist();
+		Playlist playlist = playerController.getPlaylistController().getPlaylist(mode == MODE_PLAY);
+		songlist.setModel(playlist);
 		if (mode == MODE_RECORD) {
-			songlist.setModel(playlist);
 			transferHandler = new PlaylistTransferHandler(playlist);
 			songlist.setDropMode(DropMode.ON);
 			songlist.setTransferHandler(transferHandler);
-		} else {
-			songlist.setModel(playlist.getPlaylistWithPlayableTracks());
 		}
 
 		scrollPane = new JScrollPane(songlist);
@@ -182,8 +181,8 @@ public class SongListPanel extends GHPanel {
 
 					@Override
 					public void run() {
-						final Playlist list = PlayerController.getInstance()
-								.getSoundCloud().search(search);
+						final Playlist list = playerController
+								.getPlaylistController().getPlaylistForSearch(search);
 						SwingUtilities.invokeLater(new Runnable() {
 
 							@Override

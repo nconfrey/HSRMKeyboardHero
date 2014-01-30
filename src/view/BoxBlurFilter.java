@@ -21,6 +21,17 @@ public class BoxBlurFilter {
 	private int hRadius = 60;
 	private int vRadius = 60;
 	private int iterations = 2;
+	
+    /**
+     * Filter.
+     *
+     * @param src the src
+     * @param dst the dst
+     * @return the buffered image
+     */
+    public BufferedImage filter( BufferedImage src, BufferedImage dst ) {
+        int width = src.getWidth();
+        int height = src.getHeight();
 
 	/**
 	 * Filter.
@@ -34,18 +45,30 @@ public class BoxBlurFilter {
 		int height = src.getHeight();
 
 		if (dst == null)
+        int[] outPixels = new int[width*height];
 			dst = createCompatibleDestImage(src, null);
 
 		int[] inPixels = new int[width * height];
 		int[] outPixels = new int[width * height];
 		getRGB(src, 0, 0, width, height, inPixels);
+        }
 
 		for (int i = 0; i < iterations; i++) {
 			blur(inPixels, outPixels, width, height, hRadius);
 			blur(outPixels, inPixels, height, width, vRadius);
 		}
 
-		setRGB(dst, 0, 0, width, height, inPixels);
+    /**
+     * Blur.
+     *
+     * @param in the in
+     * @param out the out
+     * @param width the width
+     * @param height the height
+     * @param radius the radius
+     */
+    public void blur( int[] in, int[] out, int width, int height, int radius ) {
+        int widthMinus1 = width-1;
 		return dst;
 	}
 
@@ -64,9 +87,13 @@ public class BoxBlurFilter {
 		int tableSize = 2 * radius + 1;
 		int divide[] = new int[256 * tableSize];
 
+        int inIndex = 0;
+        
 		for (int i = 0; i < 256 * tableSize; i++)
+            int outIndex = y;
 			divide[i] = i / tableSize;
 
+            for ( int i = -radius; i <= radius; i++ ) {
 		int inIndex = 0;
 
 		for (int y = 0; y < height; y++) {
@@ -88,6 +115,7 @@ public class BoxBlurFilter {
 				int i1 = x + radius + 1;
 				if (i1 > widthMinus1)
 					i1 = widthMinus1;
+                    i1 = widthMinus1;
 				int i2 = x - radius;
 				if (i2 < 0)
 					i2 = 0;
@@ -198,7 +226,30 @@ public class BoxBlurFilter {
 			dstCM = src.getColorModel();
 		return new BufferedImage(dstCM, dstCM.createCompatibleWritableRaster(
 				src.getWidth(), src.getHeight()), dstCM.isAlphaPremultiplied(),
+    }
+    
+    /**
+     * Gets the bounds2 d.
+     *
+     * @param src the src
+     * @return the bounds2 d
+     */
+    public Rectangle2D getBounds2D( BufferedImage src ) {
+        return new Rectangle(0, 0, src.getWidth(), src.getHeight());
+    }
+    
+    /**
+     * Gets the point2 d.
+     *
+     * @param srcPt the src pt
+     * @param dstPt the dst pt
+     * @return the point2 d
+     */
+    public Point2D getPoint2D( Point2D srcPt, Point2D dstPt ) {
 				null);
+            dstPt = new Point2D.Double();
+        dstPt.setLocation( srcPt.getX(), srcPt.getY() );
+        return dstPt;
 	}
 
 	/**
@@ -287,7 +338,7 @@ public class BoxBlurFilter {
 	 * @param b the upper clamp threshold
 	 * @return the clamped value
 	 */
-	public static int clamp(int x, int a, int b) {
+	public int clamp(int x, int a, int b) {
 		return (x < a) ? a : (x > b) ? b : x;
 	}
 }

@@ -17,73 +17,59 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
 import model.Playlist;
-import model.Track;
+
+/**
+ * Handles the saving and loading of persistent data.
+ *
+ */
 
 public class PersistenceHandler {
 
-	private static Playlist playlist;
-	private static final File playlistFile = new File(
-			System.getProperty("user.home") + File.separator + "playlist.mpl");
+    //private static final String FILE_PATH = KeyboardHero.class.getResource("/"+mp3Name).toURI();
+	private static final File playlistFile = new File(System.getProperty("user.home") + File.separator + "playlist.mpl");
+    
+    /**
+     * Save a playlist to disk.
+     */
+    public static void savePlaylist(Playlist playlist) {
+        try (FileOutputStream fileOut = new FileOutputStream(playlistFile);
+             ObjectOutputStream out = new ObjectOutputStream(fileOut)) {
+            out.writeObject(playlist);
+            System.out.printf("Serialized data is saved");
+        } catch (IOException i) {
+            i.printStackTrace();
+        }
+    }
 
-	/**
-	 * Save a playlist to disk.
-	 */
-	public static void savePlaylist() {
-		if (playlist == null) {
-			return;
-		}
-
-		try (FileOutputStream fileOut = new FileOutputStream(playlistFile);
-				ObjectOutputStream out = new ObjectOutputStream(fileOut)) {
-			out.writeObject(playlist);
-			System.out.printf("Serialized data is saved");
-		} catch (IOException i) {
-			i.printStackTrace();
-		}
-	}
-
-	/**
-	 * Load a playlist form disk.
-	 * 
-	 * @return the loaded playlist
-	 */
-	public static Playlist loadPlaylist() {
-		if (playlist != null) {
-			return playlist;
-		}
+    /**
+     * Load a playlist form disk.
+     *
+     * @return the loaded playlist
+     */
+    public static Playlist loadPlaylist() {
+    	Playlist playlist = null;
 
 		try (FileInputStream fileIn = new FileInputStream(playlistFile);
 				ObjectInputStream in = new ObjectInputStream(fileIn)) {
 			playlist = (Playlist) in.readObject();
 			System.out.println("Playlist: loaded");
 
-			// TODO: implemnt
-			// playlist.checkConsistency();
+            // TODO: implemnt
+            // playlist.checkConsistency();
+            
+        } catch (IOException i) {
+            System.out.println("Playlist could not be loaded ");
+            i.printStackTrace();
+        } catch (ClassNotFoundException c) {
+            System.out.println("Playlist class not found");
+            c.printStackTrace();
+        }
+        
+        if (playlist == null) {
+        	// TODO load playlist from bundle
+        	playlist = new Playlist();
+        }
 
-		} catch (IOException i) {
-			System.out.println("Playlist could not be loaded ");
-			i.printStackTrace();
-		} catch (ClassNotFoundException c) {
-			System.out.println("Playlist class not found");
-			c.printStackTrace();
-		}
-
-		if (playlist == null) {
-			playlist = loadDefaultPlaylist();
-		}
-
-		return playlist;
-	}
-
-	/**
-	 * Load default playlist.
-	 * 
-	 * @return the playlist
-	 */
-	private static Playlist loadDefaultPlaylist() {
-		Playlist playlist = new Playlist();
-		Track sampleTrack = new Track("music/smoke_on_the_water_short.mp3");
-		playlist.addTrack(sampleTrack);
-		return playlist;
-	}
+        return playlist;
+    }
 }

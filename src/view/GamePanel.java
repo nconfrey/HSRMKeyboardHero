@@ -37,6 +37,7 @@ import controller.player.MP3PlayerListener;
 public class GamePanel extends GHPanel implements MP3PlayerListener,
 		GameResultsPanel.ResultListener {
 
+	private PlayerController playerController;
 	private JPanel leftContent; // sidepanel for scores, songtitle ...
 	private BufferedImage coverImage;
 	private BufferedImage backgroundImage;
@@ -49,21 +50,24 @@ public class GamePanel extends GHPanel implements MP3PlayerListener,
 
 	/**
 	 * Instantiates a new game panel.
+	 *
+	 * @param playerController the player controller
 	 */
-	public GamePanel() {
+	public GamePanel(PlayerController playerController) {
+		this.playerController = playerController;
 		setFocusable(true);
 
 		// ContentPanel
 		this.setLayout(new MigLayout("fill"));
 
-		resultsPanel = new GameResultsPanel(this);
+		resultsPanel = new GameResultsPanel(playerController, this);
 		resultsPanel.setVisible(false);
 		resultsPanel.setOpaque(false);
 		this.add(resultsPanel, "pos 0 0 container.w container.h");
 
 		this.add(this.buildLeftContent(),
 				"gapleft 30, gaptop  30, west, width 250:350:350");
-		GuitarBackgroundPane backgroundPane = new GuitarBackgroundPane();
+		GuitarBackgroundPane backgroundPane = new GuitarBackgroundPane(playerController);
 		this.add(backgroundPane, "center, growy");
 		guitarPane = backgroundPane.getGuitarPane();
 		guitarPane.start();
@@ -90,9 +94,9 @@ public class GamePanel extends GHPanel implements MP3PlayerListener,
 		// Panel
 		leftContent = new JPanel(new MigLayout("fillx", "", "[]30[]"));
 		leftContent.setOpaque(false);
-		ScorePanel scorePanel = new ScorePanel();
+		ScorePanel scorePanel = new ScorePanel(playerController);
 
-		TitlePanel titlePanel = new TitlePanel();
+		TitlePanel titlePanel = new TitlePanel(playerController);
 		titlePanel.setBackground(backgroundColor);
 		leftContent.add(titlePanel, "wrap, growx");
 
@@ -103,7 +107,7 @@ public class GamePanel extends GHPanel implements MP3PlayerListener,
 		coverWrapperPanel.add(miniCoverPanel, "grow");
 		leftContent.add(coverWrapperPanel, "h 300!,wrap, growx");
 
-		if (!PlayerController.getInstance().isRecording()) {
+		if (!playerController.isRecording()) {
 			leftContent.add(scorePanel, "wrap, growx");
 			scorePanel.setBackground(backgroundColor);
 		}
@@ -133,8 +137,7 @@ public class GamePanel extends GHPanel implements MP3PlayerListener,
 		new Thread() {
 			@Override
 			public void run() {
-				final Track currentTrack = PlayerController.getInstance()
-						.getTrack();
+				final Track currentTrack = playerController.getTrack();
 
 				final BufferedImage bandImage = AlbumLoader
 						.loadCover(currentTrack);
@@ -273,7 +276,7 @@ public class GamePanel extends GHPanel implements MP3PlayerListener,
 	@Override
 	public void panelWillAppear() {
 		// Game Results
-		PlayerController.getInstance().getPlayer().addPlayerListener(this);
+		playerController.getPlayer().addPlayerListener(this);
 		addComponentListener(componentListener);
 	}
 
@@ -340,7 +343,7 @@ public class GamePanel extends GHPanel implements MP3PlayerListener,
 	public void didPressBack(KeyEvent e) {
 		if (!paused) {
 			paused = true;
-			PlayerController.getInstance().pauseResume();
+			playerController.pauseResume();
 			guitarPane.pauseOrResume();
 
 			int d = JOptionPane.showOptionDialog(
@@ -356,12 +359,12 @@ public class GamePanel extends GHPanel implements MP3PlayerListener,
 					KeyboardHeroConstants.getString("resume"));
 
 			if (d == JOptionPane.YES_OPTION) {
-				PlayerController.getInstance().stop();
+				playerController.stop();
 				getNavigationController().popToRootPanel();
 			}
 			if (d == JOptionPane.NO_OPTION || d == JOptionPane.CLOSED_OPTION) {
 				paused = false;
-				PlayerController.getInstance().pauseResume();
+				playerController.pauseResume();
 				guitarPane.pauseOrResume();
 			}
 		}
@@ -377,7 +380,7 @@ public class GamePanel extends GHPanel implements MP3PlayerListener,
 
 			@Override
 			public void run() {
-				PlayerController.getInstance().stop();
+				playerController.stop();
 				getNavigationController().popToRootPanel();
 			}
 		});
@@ -394,9 +397,9 @@ public class GamePanel extends GHPanel implements MP3PlayerListener,
 
 			@Override
 			public void run() {
-				PlayerController.getInstance().stop();
-				PlayerController.getInstance().reset();
-				GamePanel gameFrame = new GamePanel();
+				playerController.stop();
+				playerController.reset();
+				GamePanel gameFrame = new GamePanel(playerController);
 				getNavigationController().replacePanel(gameFrame);
 			}
 		});
