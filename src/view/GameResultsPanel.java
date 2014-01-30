@@ -1,4 +1,6 @@
-package gui;
+package view;
+
+import helper.KeyboardHeroConstants;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -13,12 +15,11 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
+import controller.PlayerController;
 import model.Highscore;
 import model.Score;
 import model.StrokeSet;
 import net.miginfocom.swing.MigLayout;
-import view.KeyboardHeroConstants;
-import view.MenuButton;
 
 public class GameResultsPanel extends JPanel {
 
@@ -55,16 +56,16 @@ public class GameResultsPanel extends JPanel {
 	public GameResultsPanel(ResultListener aListener) {
 
 		this.listener = aListener;
-
-		this.setBackground(new Color(0, 0, 0, 170));
-		this.setLayout(new MigLayout("insets 50 200 50 200, fill"));
-
+		
+		this.setBackground(new Color(0,0,0, 170));
+		this.setLayout(new MigLayout("fill","[center]","[center]"));
+		
 		infoPanel = new JPanel();
-		infoPanel.setLayout(new MigLayout("fillx"));
+		infoPanel.setLayout(new MigLayout());
 		infoPanel.setBackground(Color.WHITE);
-		this.add(infoPanel, "grow");
-
-		if (!PlayerController.getInstance().isRecording()) {
+		this.add(infoPanel, "w 500!, h 500!");
+		
+		if(!PlayerController.getInstance().isRecording()){
 			setupViewsForPlaying();
 		} else {
 			setupViewForRecording();

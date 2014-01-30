@@ -1,9 +1,7 @@
 package controller;
 
-import gui.BaseFrame;
-import gui.MenuPanel;
-import gui.NavigationController;
-import model.PersistenceHandler;
+import view.BaseFrame;
+import view.MenuPanel;
 
 /**
  * Creates an instance of the game

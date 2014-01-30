@@ -1,4 +1,6 @@
-package gui;
+package view;
+
+import helper.KeyboardHeroConstants;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -11,7 +13,8 @@ import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
-import view.KeyboardHeroConstants;
+import controller.NavigationController;
+import controller.PersistenceHandler;
 import model.KeyboardHeroPreferences;
 
 /**
@@ -25,7 +28,6 @@ import model.KeyboardHeroPreferences;
  **/
 public class BaseFrame extends JFrame {
 
-	private Dimension frameSize;
 	public NavigationController navigationController;
 	private KeyboardHeroPreferences prefs;
 
@@ -36,18 +38,29 @@ public class BaseFrame extends JFrame {
 	public BaseFrame() {
 		prefs = new KeyboardHeroPreferences();
 		prefs.setPreferences();
-		frameSize = new Dimension(prefs.getScreenWidth(),
+		Dimension frameSize = new Dimension(prefs.getScreenWidth(),
 				prefs.getScreenHeight());
 		setLayout(new BorderLayout());
+		
+		this.setMinimumSize(new Dimension(1024, 700));
 		this.setSize(frameSize);
+		
+		Runtime.getRuntime().addShutdownHook(new Thread() {
+			@Override
+			public void run() {
+				prefs.setScreenSize(getWidth(), getHeight());
+			}
+		});
+		
 		WindowListener exitListener = new WindowAdapter() {
+			
 			@Override
 			public void windowClosing(WindowEvent e) {
-				prefs.setScreenSize(getWidth(), getHeight());
 				System.exit(0);
 			}
 		};
 		this.addWindowListener(exitListener);
+		
 		this.setTitle(KeyboardHeroConstants.getString("game_title"));
 		this.setLocationRelativeTo(null);
 		this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);

@@ -1,4 +1,6 @@
-package gui;
+package view;
+
+import helper.KeyboardHeroConstants;
 
 import java.awt.Color;
 import java.awt.RenderingHints.Key;
@@ -13,9 +15,7 @@ import javax.swing.JPanel;
 
 import model.Track;
 import net.miginfocom.swing.MigLayout;
-import view.KeyboardHeroConstants;
-import view.MenuButton;
-import view.TitleLabel;
+import controller.PlayerController;
 import controller.player.MP3PlayerLocalTrack;
 
 /**

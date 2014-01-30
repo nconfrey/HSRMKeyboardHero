@@ -1,4 +1,6 @@
-package gui;
+package view;
+
+import helper.KeyboardHeroConstants;
 
 import java.awt.Color;
 import java.awt.event.ActionEvent;
@@ -11,11 +13,9 @@ import javax.swing.JList;
 import javax.swing.JScrollPane;
 
 import model.Highscore;
+import model.MenuSongList;
 import model.Track;
 import net.miginfocom.swing.MigLayout;
-import view.KeyboardHeroConstants;
-import view.MenuButton;
-import view.TitleLabel;
 
 public class HighscorePanel extends GHPanel {
 

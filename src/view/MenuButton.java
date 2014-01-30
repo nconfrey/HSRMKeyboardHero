@@ -1,5 +1,7 @@
 package view;
 
+import helper.KeyboardHeroConstants;
+
 import java.awt.Color;
 import java.awt.Font;
 

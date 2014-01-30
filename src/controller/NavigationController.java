@@ -1,9 +1,12 @@
-package gui;
+package controller;
 
 import java.awt.KeyEventDispatcher;
 import java.awt.KeyboardFocusManager;
 import java.awt.event.KeyEvent;
 import java.util.Stack;
+import view.BaseFrame;
+import view.GHPanel;
+
 
 /**
  * This controller handles switching between the different views/GHPanels of the
@@ -15,7 +18,7 @@ import java.util.Stack;
  * @author Moritz Moeller
  * 
  **/
-public class NavigationController implements KeyEventDispatcher {
+public class NavigationController implements KeyEventDispatcher{
 
 	private BaseFrame baseFrame;
 	private Stack<GHPanel> stack;

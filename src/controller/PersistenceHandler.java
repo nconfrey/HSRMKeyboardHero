@@ -1,4 +1,4 @@
-package model;
+package controller;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -6,6 +6,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+
+import model.Track;
 import controller.player.Playlist;
 
 /**
@@ -57,7 +59,8 @@ public class PersistenceHandler {
             // playlist.checkConsistency();
             
         } catch (IOException i) {
-            System.out.println("Playlist could not be loaded");
+            System.out.println("Playlist could not be loaded ");
+            i.printStackTrace();
         } catch (ClassNotFoundException c) {
             System.out.println("Playlist class not found");
             c.printStackTrace();
