@@ -74,7 +74,7 @@ public class SongListPanel extends GHPanel {
 	}
 
 	/**
-	 * Inits the components
+	 * Inits the components.
 	 */
 	public void init() {
 		this.setLayout(new MigLayout("insets 50 200 50 200, fill"));

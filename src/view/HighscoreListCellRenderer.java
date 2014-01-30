@@ -1,3 +1,12 @@
+/**
+ * 
+ * 
+ * @author Simon Seyer
+ * @author Martin Juhasz
+ * @author Julia Kraft
+ * @author Moritz Moeller
+ * 
+ */
 package view;
 
 import helper.KeyboardHeroConstants;
@@ -20,10 +29,16 @@ public class HighscoreListCellRenderer extends PlayListCellRenderer {
 	private ImageIcon silverStar;
 	private ImageIcon bronzeStar;
 
+	/**
+	 * Instantiates a new highscore list cell renderer.
+	 */
 	public HighscoreListCellRenderer() {
 		init();
 	}
 
+	/**
+	 * Inits the.
+	 */
 	public void init() {
 		try {
 			goldStar = new ImageIcon(ImageIO.read(getClass()
@@ -42,6 +57,9 @@ public class HighscoreListCellRenderer extends PlayListCellRenderer {
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see javax.swing.DefaultListCellRenderer#getListCellRendererComponent(javax.swing.JList, java.lang.Object, int, boolean, boolean)
+	 */
 	@Override
 	public Component getListCellRendererComponent(JList<?> list, Object value,
 			int index, boolean isSelected, boolean cellHasFocus) {

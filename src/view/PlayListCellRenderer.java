@@ -1,3 +1,12 @@
+/**
+ * 
+ * 
+ * @author Simon Seyer
+ * @author Martin Juhasz
+ * @author Julia Kraft
+ * @author Moritz Moeller
+ * 
+ */
 package view;
 
 import helper.KeyboardHeroConstants;
@@ -12,6 +21,9 @@ import javax.swing.JList;
 
 public class PlayListCellRenderer extends DefaultListCellRenderer {
 
+	/* (non-Javadoc)
+	 * @see javax.swing.ListCellRenderer#getListCellRendererComponent(javax.swing.JList, java.lang.Object, int, boolean, boolean)
+	 */
 	@Override
 	public Component getListCellRendererComponent(JList<? extends Object> list,
 			Object value, int index, boolean isSelected, boolean cellHasFocus) {
@@ -29,6 +41,9 @@ public class PlayListCellRenderer extends DefaultListCellRenderer {
 		return c;
 	}
 	
+	/* (non-Javadoc)
+	 * @see javax.swing.JLabel#getHorizontalAlignment()
+	 */
 	@Override
 	public int getHorizontalAlignment() {
 		return CENTER;

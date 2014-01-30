@@ -1,3 +1,12 @@
+/**
+ * 
+ * 
+ * @author Simon Seyer
+ * @author Martin Juhasz
+ * @author Julia Kraft
+ * @author Moritz Moeller
+ * 
+ */
 package view;
 
 import helper.KeyboardHeroConstants;
@@ -21,10 +30,16 @@ public class RecordListCellRenderer extends PlayListCellRenderer {
 	private ImageIcon soundCloudIcon;
 	private ImageIcon noteIcon;
 
+	/**
+	 * Instantiates a new record list cell renderer.
+	 */
 	public RecordListCellRenderer() {
 		init();
 	}
 
+	/**
+	 * Inits the.
+	 */
 	private void init() {
 		try {
 			soundCloudIcon = new ImageIcon(ImageIO.read(getClass()
@@ -39,6 +54,9 @@ public class RecordListCellRenderer extends PlayListCellRenderer {
 
 	}
 
+	/* (non-Javadoc)
+	 * @see javax.swing.DefaultListCellRenderer#getListCellRendererComponent(javax.swing.JList, java.lang.Object, int, boolean, boolean)
+	 */
 	@Override
 	public Component getListCellRendererComponent(JList<?> list, Object value,
 			int index, boolean isSelected, boolean cellHasFocus) {
