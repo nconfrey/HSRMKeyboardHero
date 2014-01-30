@@ -11,7 +11,11 @@ package view;
 
 import helper.KeyboardHeroConstants;
 
+import java.awt.Color;
 import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.geom.Rectangle2D;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
@@ -82,5 +86,4 @@ public class ScorePanel extends TransparentPanel implements
 			});
 		}
 	}
-
 }

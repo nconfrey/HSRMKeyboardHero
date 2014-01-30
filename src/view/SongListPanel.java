@@ -29,12 +29,10 @@ import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 
-import model.MenuSongList;
 import model.Playlist;
 import model.Track;
 import net.miginfocom.swing.MigLayout;
 import view.TextPrompt.Show;
-import controller.PersistenceHandler;
 import controller.PlayerController;
 import controller.PlaylistTransferHandler;
 

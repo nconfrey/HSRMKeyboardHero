@@ -22,7 +22,6 @@ import javax.swing.JList;
 import javax.swing.JScrollPane;
 
 import model.Highscore;
-import model.MenuSongList;
 import model.Track;
 import net.miginfocom.swing.MigLayout;
 

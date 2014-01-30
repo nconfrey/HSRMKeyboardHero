@@ -7,7 +7,7 @@
  * @author Moritz Moeller
  * 
  */
-package model;
+package view;
 
 import helper.KeyboardHeroConstants;
 
@@ -23,6 +23,9 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.ListModel;
+
+import model.MP3PlayerRemoteTrack;
+import model.Track;
 
 public class MenuSongList<E> extends JList<E> {
 
@@ -50,8 +53,8 @@ public class MenuSongList<E> extends JList<E> {
 	}
 
 	/**
-	 * Inits the.
-	 * 
+	 * Inits the CellRenderer
+	 *
 	 * @param showIcons the show icons
 	 */
 	private void init(final boolean showIcons) {
