@@ -33,8 +33,8 @@ public class GamePanel extends GHPanel implements MP3PlayerListener,
 
 	private JPanel leftContent; // sidepanel for scores, songtitle ...
 	private BufferedImage coverImage;
-	private BufferedImage blurredBackgroundImage;
-	private Image blurredScaledBackgroundImage;
+	private BufferedImage backgroundImage;
+	private Image scaledBackgroundImage;
 	private boolean paused;
 	private ComponentListener componentListener;
 	private GameResultsPanel resultsPanel;
@@ -98,18 +98,24 @@ public class GamePanel extends GHPanel implements MP3PlayerListener,
 	}
 
 	private void loadBackgroundCover() {
+		new Thread(new Runnable() {
 
-		new Thread() {
 			@Override
 			public void run() {
-
 				try {
-					setBackgroundCoverImage(ImageIO.read(getClass()
-							.getResourceAsStream("/background.jpg")));
+					BufferedImage image = ImageIO.read(getClass()
+							.getResourceAsStream("/background.jpg"));
+					if (backgroundImage == null) {
+						setBackgroundCoverImage(image);
+					}
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
-
+			}
+		}).start();
+		new Thread() {
+			@Override
+			public void run() {
 				final Track currentTrack = PlayerController.getInstance()
 						.getTrack();
 
@@ -118,26 +124,12 @@ public class GamePanel extends GHPanel implements MP3PlayerListener,
 
 				if (bandImage != null) {
 					setCoverImage(bandImage);
-
-					float[] data = new float[25];
-					for (int i = 0; i < 25; i++) {
-						data[i] = 1.0f / 25.0f;
-					}
-					ConvolveOp bio = new ConvolveOp(new Kernel(5, 5, data),
-							ConvolveOp.EDGE_ZERO_FILL, null);
-					BufferedImage blurred = bio.filter(bandImage, null);
-					for (int i = 0; i < 49; i++) {
-						blurred = bio.filter(blurred, null);
-					}
-					final BufferedImage blurredFinal = blurred;
-					SwingUtilities.invokeLater(new Runnable() {
-						@Override
-						public void run() {
-							if (blurredFinal != null) {
-								setBackgroundCoverImage(blurredFinal);
-							}
-						}
-					});
+					BufferedImage blurred = new BufferedImage(
+							bandImage.getWidth(), bandImage.getHeight(),
+							bandImage.getType());
+					BoxBlurFilter blurFilter = new BoxBlurFilter();
+					blurFilter.filter(bandImage, blurred);
+					setBackgroundCoverImage(blurred);
 				}
 			}
 		}.start();
@@ -147,16 +139,16 @@ public class GamePanel extends GHPanel implements MP3PlayerListener,
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
 
-		if (this.blurredScaledBackgroundImage == null)
+		if (this.scaledBackgroundImage == null)
 			return;
 
 		int width = getWidth() - 1;
 		int height = getHeight() - 1;
 
-		int x = (width - blurredScaledBackgroundImage.getWidth(this)) / 2;
-		int y = (height - blurredScaledBackgroundImage.getHeight(this)) / 2;
+		int x = (width - scaledBackgroundImage.getWidth(this)) / 2;
+		int y = (height - scaledBackgroundImage.getHeight(this)) / 2;
 
-		g.drawImage(blurredScaledBackgroundImage, x, y, this);
+		g.drawImage(scaledBackgroundImage, x, y, this);
 	}
 
 	private void setCoverImage(BufferedImage image) {
@@ -170,7 +162,7 @@ public class GamePanel extends GHPanel implements MP3PlayerListener,
 	}
 
 	public void setBackgroundCoverImage(BufferedImage coverImage) {
-		this.blurredBackgroundImage = coverImage;
+		this.backgroundImage = coverImage;
 		bufferImage();
 
 		SwingUtilities.invokeLater(new Runnable() {
@@ -182,22 +174,20 @@ public class GamePanel extends GHPanel implements MP3PlayerListener,
 	}
 
 	private void bufferImage() {
-		if (blurredBackgroundImage != null) {
+		if (backgroundImage != null) {
 			double scaleFactor = Math.max(
 					1d,
 					getScaleFactorToFill(
-							new Dimension(blurredBackgroundImage.getWidth(),
-									blurredBackgroundImage.getHeight()),
-							getSize()));
+							new Dimension(backgroundImage.getWidth(),
+									backgroundImage.getHeight()), getSize()));
 
-			int scaleWidth = (int) Math.round(blurredBackgroundImage.getWidth()
+			int scaleWidth = (int) Math.round(backgroundImage.getWidth()
 					* scaleFactor);
-			int scaleHeight = (int) Math.round(blurredBackgroundImage
-					.getHeight() * scaleFactor);
+			int scaleHeight = (int) Math.round(backgroundImage.getHeight()
+					* scaleFactor);
 
-			blurredScaledBackgroundImage = blurredBackgroundImage
-					.getScaledInstance(scaleWidth, scaleHeight,
-							Image.SCALE_FAST);
+			scaledBackgroundImage = backgroundImage.getScaledInstance(
+					scaleWidth, scaleHeight, Image.SCALE_FAST);
 		}
 	}
 
