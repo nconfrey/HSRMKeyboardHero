@@ -1,3 +1,12 @@
+/**
+ * 
+ * 
+ * @author Simon Seyer
+ * @author Martin Juhasz
+ * @author Julia Kraft
+ * @author Moritz Moeller
+ * 
+ */
 package model;
 
 import java.awt.Color;
@@ -17,12 +26,25 @@ public enum StrokeKey {
 	private String text;
 	private Color color;
 	
+	/**
+	 * Instantiates a new stroke key.
+	 *
+	 * @param value the value
+	 * @param text the text
+	 * @param color the color
+	 */
 	private StrokeKey(int value, String text, Color color) {
 		this.value = value;
 		this.text = text;
 		this.color = color;
 	}
 	
+	/**
+	 * Key for code.
+	 *
+	 * @param keyCode the key code
+	 * @return the stroke key
+	 */
 	public static StrokeKey keyForCode(int keyCode) {
 		if(keyCode == KeyEvent.VK_F1) {
 			return StrokeKey.F1;
@@ -41,23 +63,47 @@ public enum StrokeKey {
 		}
 	}
 	
+	/**
+	 * Key for position.
+	 *
+	 * @param position the position
+	 * @return the stroke key
+	 */
 	public static StrokeKey keyForPosition(int position) {
 		return values()[position];
 	}
 	
+	/**
+	 * Gets the position.
+	 *
+	 * @return the position
+	 */
 	public int getPosition() {
 		return value;
 	}
 	
+	/**
+	 * Gets the color.
+	 *
+	 * @return the color
+	 */
 	public Color getColor() {
 		return color;
 	}
 	
+	/* (non-Javadoc)
+	 * @see java.lang.Enum#toString()
+	 */
 	@Override
 	public String toString() {
 		return text;
 	}
 	
+	/**
+	 * Checks if is guitar string.
+	 *
+	 * @return true, if is guitar string
+	 */
 	public boolean isGuitarString() {
 		return (this != StrokeKey.ENTER && this != StrokeKey.INVALID);
 	}

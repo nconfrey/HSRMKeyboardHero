@@ -1,3 +1,12 @@
+/**
+ * 
+ * 
+ * @author Simon Seyer
+ * @author Martin Juhasz
+ * @author Julia Kraft
+ * @author Moritz Moeller
+ * 
+ */
 package controller;
 
 import java.io.IOException;
@@ -21,10 +30,19 @@ public class SoundCloud {
 	private static final String CLIENT_ID = "e2fb08b6ea0356fa18e41a1a5cea0b38";
 	private static final String CLIENT_SECRET = "7095d828c8b1fc344361953444fd19cc";
 
+	/**
+	 * Instantiates a new sound cloud.
+	 */
 	public SoundCloud() {
 		wrapper = new ApiWrapper(CLIENT_ID, CLIENT_SECRET, null, null);
 	}
 	
+	/**
+	 * Search.
+	 *
+	 * @param searchText the search text
+	 * @return the playlist
+	 */
 	public Playlist search(String searchText) {
 		Playlist playlist = new Playlist();
 		try {
@@ -47,6 +65,13 @@ public class SoundCloud {
 		return playlist;
 	}
 
+	/**
+	 * Load stream url.
+	 *
+	 * @param url the url
+	 * @return the string
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 */
 	public synchronized String loadStreamUrl(String url) throws IOException {
 		HttpResponse urlRes;
 		synchronized(wrapper){

@@ -1,3 +1,12 @@
+/**
+ * 
+ * 
+ * @author Simon Seyer
+ * @author Martin Juhasz
+ * @author Julia Kraft
+ * @author Moritz Moeller
+ * 
+ */
 package controller;
 
 import java.awt.datatransfer.DataFlavor;
@@ -15,10 +24,18 @@ public class PlaylistTransferHandler extends TransferHandler {
 	
 	private Playlist playlist;
 	
+	/**
+	 * Instantiates a new playlist transfer handler.
+	 *
+	 * @param playlist the playlist
+	 */
 	public PlaylistTransferHandler(Playlist playlist) {
 		this.playlist = playlist;
 	}
 	
+	/* (non-Javadoc)
+	 * @see javax.swing.TransferHandler#importData(javax.swing.TransferHandler.TransferSupport)
+	 */
 	@Override
 	public boolean importData(TransferSupport info) {
 		
@@ -42,6 +59,9 @@ public class PlaylistTransferHandler extends TransferHandler {
 		
 	}
 	
+	/* (non-Javadoc)
+	 * @see javax.swing.TransferHandler#canImport(javax.swing.TransferHandler.TransferSupport)
+	 */
 	@Override
 	public boolean canImport(TransferSupport info) {
 		boolean copySupported;
@@ -63,12 +83,22 @@ public class PlaylistTransferHandler extends TransferHandler {
 		return false;
 	}
 	
+	/**
+	 * Import tracks.
+	 *
+	 * @param path the path
+	 */
 	private void importTracks(File path) {
         for (File file : path.listFiles()) {
             importTrack(file);
         }
     }
 
+    /**
+     * Import track.
+     *
+     * @param file the file
+     */
     private void importTrack(File file) {
         if (file.isDirectory()) {
             importTracks(file);
@@ -80,6 +110,12 @@ public class PlaylistTransferHandler extends TransferHandler {
         }
     }
 
+	/**
+	 * Extracted.
+	 *
+	 * @param data the data
+	 * @return the list
+	 */
 	@SuppressWarnings("unchecked")
 	private List<File> extracted(Object data) {
 		return (List<File>)data;

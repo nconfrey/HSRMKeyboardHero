@@ -1,3 +1,12 @@
+/**
+ * 
+ * 
+ * @author Simon Seyer
+ * @author Martin Juhasz
+ * @author Julia Kraft
+ * @author Moritz Moeller
+ * 
+ */
 package controller;
 
 import java.awt.KeyEventDispatcher;
@@ -25,8 +34,8 @@ public class NavigationController implements KeyEventDispatcher{
 
 	/**
 	 * Creates a NavigationController with the main frame and adds a
-	 * KeyboardFocusManager
-	 * 
+	 * KeyboardFocusManager.
+	 *
 	 * @param baseFrame the main frame of keyboard hero.
 	 */
 	public NavigationController(BaseFrame baseFrame) {
@@ -41,8 +50,8 @@ public class NavigationController implements KeyEventDispatcher{
 
 	/**
 	 * Takes a GHPanel hides current GHPanel via hide(), push the new GHPanel to
-	 * Stack and displays it via show()
-	 * 
+	 * Stack and displays it via show().
+	 *
 	 * @param panel which should be pushed to the view
 	 */
 	public void pushPanel(GHPanel panel) {
@@ -56,8 +65,8 @@ public class NavigationController implements KeyEventDispatcher{
 
 	/**
 	 * Takes a GHPanel removes current GHPanel, push the new GHPanel to Stack
-	 * and displays it via show()
-	 * 
+	 * and displays it via show().
+	 *
 	 * @param panel which should replace the current panel
 	 */
 	public void replacePanel(GHPanel panel) {
@@ -71,8 +80,7 @@ public class NavigationController implements KeyEventDispatcher{
 
 	/**
 	 * Removes current GHPanel if there are more than one in stack and displays
-	 * the GHPanel below the poped panel
-	 * 
+	 * the GHPanel below the poped panel.
 	 */
 	public void popPanel() {
 		if (stack.size() > 1) {
@@ -97,8 +105,8 @@ public class NavigationController implements KeyEventDispatcher{
 	}
 
 	/**
-	 * Adds a panel to BaseFrame
-	 * 
+	 * Adds a panel to BaseFrame.
+	 *
 	 * @param panel which will be added to BaseFrame
 	 */
 	private void show(GHPanel panel) {
@@ -108,8 +116,8 @@ public class NavigationController implements KeyEventDispatcher{
 	}
 
 	/**
-	 * Removes a panel from BaseFrame
-	 * 
+	 * Removes a panel from BaseFrame.
+	 *
 	 * @param panel which will be added to BaseFrame
 	 */
 	private void hide(GHPanel panel) {
@@ -120,6 +128,9 @@ public class NavigationController implements KeyEventDispatcher{
 	/**
 	 * KeyListener for the escape button. ESC button calls the didPressBack
 	 * method from GHPanel
+	 *
+	 * @param e the e
+	 * @return true, if successful
 	 */
 	@Override
 	public boolean dispatchKeyEvent(KeyEvent e) {
@@ -134,7 +145,8 @@ public class NavigationController implements KeyEventDispatcher{
 	}
 
 	/**
-	 * 
+	 * Gets the base frame.
+	 *
 	 * @return the BaseFrame
 	 */
 	public BaseFrame getBaseFrame() {

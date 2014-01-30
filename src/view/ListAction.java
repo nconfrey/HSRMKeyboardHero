@@ -1,3 +1,12 @@
+/**
+ * 
+ * 
+ * @author Simon Seyer
+ * @author Martin Juhasz
+ * @author Julia Kraft
+ * @author Moritz Moeller
+ * 
+ */
 package view;
 
 import java.awt.event.ActionEvent;
@@ -34,7 +43,7 @@ public class ListAction extends MouseAdapter {
     }
 
     /**
-     * Add an Action to the JList bound by the specified KeyStroke
+     * Add an Action to the JList bound by the specified KeyStroke.
      *
      * @param list             the target list
      * @param action           the action to apply
@@ -56,7 +65,7 @@ public class ListAction extends MouseAdapter {
     }
 
     /**
-     * Bind the action to the keystroke
+     * Bind the action to the keystroke.
      *
      * @param action the action
      */
@@ -69,6 +78,9 @@ public class ListAction extends MouseAdapter {
         list.getActionMap().put(keyStroke, action);
     }
 
+    /* (non-Javadoc)
+     * @see java.awt.event.MouseAdapter#mouseClicked(java.awt.event.MouseEvent)
+     */
     @Override
     public void mouseClicked(MouseEvent e) {
         // Only recognize double clicks, single clicks are normal selection

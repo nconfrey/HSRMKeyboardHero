@@ -1,3 +1,12 @@
+/**
+ * 
+ * 
+ * @author Simon Seyer
+ * @author Martin Juhasz
+ * @author Julia Kraft
+ * @author Moritz Moeller
+ * 
+ */
 package view;
 
 import helper.KeyboardHeroConstants;
@@ -40,6 +49,9 @@ public class GamePanel extends GHPanel implements MP3PlayerListener,
 	private ImagePanel miniCoverPanel;
 	private GuitarPane guitarPane;
 
+	/**
+	 * Instantiates a new game panel.
+	 */
 	public GamePanel() {
 		setFocusable(true);
 
@@ -69,6 +81,11 @@ public class GamePanel extends GHPanel implements MP3PlayerListener,
 		};
 	}
 
+	/**
+	 * Builds the left content.
+	 *
+	 * @return the j panel
+	 */
 	public JPanel buildLeftContent() {
 		Color backgroundColor = new Color(0xEEDDDDDD, true);
 
@@ -96,6 +113,9 @@ public class GamePanel extends GHPanel implements MP3PlayerListener,
 		return leftContent;
 	}
 
+	/**
+	 * Load background cover.
+	 */
 	private void loadBackgroundCover() {
 		new Thread(new Runnable() {
 
@@ -134,6 +154,9 @@ public class GamePanel extends GHPanel implements MP3PlayerListener,
 		}.start();
 	}
 
+	/* (non-Javadoc)
+	 * @see javax.swing.JComponent#paintComponent(java.awt.Graphics)
+	 */
 	@Override
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
@@ -150,6 +173,11 @@ public class GamePanel extends GHPanel implements MP3PlayerListener,
 		g.drawImage(scaledBackgroundImage, x, y, this);
 	}
 
+	/**
+	 * Sets the cover image.
+	 *
+	 * @param image the new cover image
+	 */
 	private void setCoverImage(BufferedImage image) {
 		this.coverImage = image;
 		SwingUtilities.invokeLater(new Runnable() {
@@ -160,6 +188,11 @@ public class GamePanel extends GHPanel implements MP3PlayerListener,
 		});
 	}
 
+	/**
+	 * Sets the background cover image.
+	 *
+	 * @param coverImage the new background cover image
+	 */
 	public void setBackgroundCoverImage(BufferedImage coverImage) {
 		this.backgroundImage = coverImage;
 		bufferImage();
@@ -172,6 +205,9 @@ public class GamePanel extends GHPanel implements MP3PlayerListener,
 		});
 	}
 
+	/**
+	 * Buffer image.
+	 */
 	private void bufferImage() {
 		if (backgroundImage != null) {
 			double scaleFactor = Math.max(
@@ -190,6 +226,13 @@ public class GamePanel extends GHPanel implements MP3PlayerListener,
 		}
 	}
 
+	/**
+	 * Gets the scale factor.
+	 *
+	 * @param iMasterSize the i master size
+	 * @param iTargetSize the i target size
+	 * @return the scale factor
+	 */
 	private double getScaleFactor(int iMasterSize, int iTargetSize) {
 
 		double dScale = 1;
@@ -202,6 +245,13 @@ public class GamePanel extends GHPanel implements MP3PlayerListener,
 		return dScale;
 	}
 
+	/**
+	 * Gets the scale factor to fill.
+	 *
+	 * @param masterSize the master size
+	 * @param targetSize the target size
+	 * @return the scale factor to fill
+	 */
 	private double getScaleFactorToFill(Dimension masterSize,
 			Dimension targetSize) {
 
@@ -215,6 +265,9 @@ public class GamePanel extends GHPanel implements MP3PlayerListener,
 
 	}
 
+	/* (non-Javadoc)
+	 * @see view.GHPanel#panelWillAppear()
+	 */
 	@Override
 	public void panelWillAppear() {
 		// Game Results
@@ -222,16 +275,25 @@ public class GamePanel extends GHPanel implements MP3PlayerListener,
 		addComponentListener(componentListener);
 	}
 
+	/* (non-Javadoc)
+	 * @see view.GHPanel#panelWillDisappear()
+	 */
 	@Override
 	public void panelWillDisappear() {
 		removeComponentListener(componentListener);
 	}
 
+	/* (non-Javadoc)
+	 * @see controller.player.MP3PlayerListener#playbackDidStart(controller.player.MP3Player)
+	 */
 	@Override
 	public void playbackDidStart(MP3Player player) {
 
 	}
 
+	/* (non-Javadoc)
+	 * @see controller.player.MP3PlayerListener#playbackDidStop(controller.player.MP3Player)
+	 */
 	@Override
 	public void playbackDidStop(MP3Player player) {
 		if (!paused) {
@@ -245,11 +307,17 @@ public class GamePanel extends GHPanel implements MP3PlayerListener,
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see controller.player.MP3PlayerListener#playbackPlaying(controller.player.MP3Player, int)
+	 */
 	@Override
 	public void playbackPlaying(MP3Player player, int frame) {
 
 	}
 
+	/* (non-Javadoc)
+	 * @see view.GHPanel#didPressBack(java.awt.event.KeyEvent)
+	 */
 	@Override
 	public void didPressBack(KeyEvent e) {
 		if (!paused) {
@@ -281,6 +349,9 @@ public class GamePanel extends GHPanel implements MP3PlayerListener,
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see view.GameResultsPanel.ResultListener#resultPanelShouldClose()
+	 */
 	public void resultPanelShouldClose() {
 		SwingUtilities.invokeLater(new Runnable() {
 
@@ -292,6 +363,9 @@ public class GamePanel extends GHPanel implements MP3PlayerListener,
 		});
 	}
 
+	/* (non-Javadoc)
+	 * @see view.GameResultsPanel.ResultListener#resultPanelDidSelectReplay()
+	 */
 	@Override
 	public void resultPanelDidSelectReplay() {
 		SwingUtilities.invokeLater(new Runnable() {

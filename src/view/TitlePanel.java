@@ -1,3 +1,12 @@
+/**
+ * 
+ * 
+ * @author Simon Seyer
+ * @author Martin Juhasz
+ * @author Julia Kraft
+ * @author Moritz Moeller
+ * 
+ */
 package view;
 
 import helper.KeyboardHeroConstants;
@@ -26,7 +35,7 @@ public class TitlePanel extends JPanel {
 	JLabel songLabel;
 
 	/**
-	 * Creates title panel with to labels for artist and title
+	 * Creates title panel with to labels for artist and title.
 	 */
 	public TitlePanel() {
 

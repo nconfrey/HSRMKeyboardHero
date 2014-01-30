@@ -1,3 +1,12 @@
+/**
+ * 
+ * 
+ * @author Simon Seyer
+ * @author Martin Juhasz
+ * @author Julia Kraft
+ * @author Moritz Moeller
+ * 
+ */
 package view;
 
 import helper.KeyboardHeroConstants;
@@ -31,7 +40,7 @@ public class ScorePanel extends TransparentPanel implements
 	Score score;
 
 	/**
-	 * Creates a Panel to display the current scores
+	 * Creates a Panel to display the current scores.
 	 */
 	public ScorePanel() {
 
@@ -52,7 +61,9 @@ public class ScorePanel extends TransparentPanel implements
 
 	/**
 	 * Every time the scorevalue from score controller changes the score
-	 * label will be updated
+	 * label will be updated.
+	 *
+	 * @param evt the evt
 	 */
 	@Override
 	public void propertyChange(PropertyChangeEvent evt) {

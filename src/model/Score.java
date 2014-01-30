@@ -1,3 +1,12 @@
+/**
+ * 
+ * 
+ * @author Simon Seyer
+ * @author Martin Juhasz
+ * @author Julia Kraft
+ * @author Moritz Moeller
+ * 
+ */
 package model;
 
 public class Score extends AbstractBindableModel  {
@@ -9,11 +18,19 @@ public class Score extends AbstractBindableModel  {
 	private static final int COMBOBONUS  = 100;
 	private static final int STROKEMISS  = 1;
 	
+	/**
+	 * Instantiates a new score.
+	 */
 	public Score(){
 		this.score = 0;
 		Score.combo = 0;
 	}
 	
+	/**
+	 * Raise.
+	 *
+	 * @return the long
+	 */
 	public long raise(){
 		long oldScore = score;
 		combo++; 	
@@ -29,12 +46,20 @@ public class Score extends AbstractBindableModel  {
 		return score;
 	}
 	
+	/**
+	 * Reset.
+	 */
 	public void reset() {
 		long oldScore = score;
 		score = 0;
 		firePropertyChange("score", oldScore, score);
 	}
 	
+	/**
+	 * Decrease.
+	 *
+	 * @return the long
+	 */
 	public long decrease(){
 		long oldScore = score;
 		combo = 0;
@@ -49,10 +74,18 @@ public class Score extends AbstractBindableModel  {
 		return score;
 	}
 
+	/**
+	 * Gets the score.
+	 *
+	 * @return the score
+	 */
 	public long getScore() {
 		return score;
 	}
 	
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
 	@Override
 	public String toString() {
 		return "" + score;

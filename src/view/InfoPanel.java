@@ -1,3 +1,12 @@
+/**
+ * 
+ * 
+ * @author Simon Seyer
+ * @author Martin Juhasz
+ * @author Julia Kraft
+ * @author Moritz Moeller
+ * 
+ */
 package view;
 
 import java.awt.Color;
@@ -15,6 +24,9 @@ public class InfoPanel extends JPanel{
 
 	private JLabel label;
 	
+	/**
+	 * Instantiates a new info panel.
+	 */
 	public InfoPanel() {
 		setOpaque(false);
 		setBackground(new Color(50,50,50,195));
@@ -27,18 +39,36 @@ public class InfoPanel extends JPanel{
 		add(label);
 	}
 	
+	/**
+	 * Gets the label.
+	 *
+	 * @return the label
+	 */
 	public JLabel getLabel() {
 		return label;
 	}
 	
+	/**
+	 * Sets the text.
+	 *
+	 * @param text the new text
+	 */
 	public void setText(String text) {
 		getLabel().setText(text);
 	}
 	
+	/**
+	 * Sets the font size.
+	 *
+	 * @param size the new font size
+	 */
 	public void setFontSize(int size) {
 		getLabel().setFont(new Font("sanserif", Font.BOLD, size));
 	}
 	
+	/* (non-Javadoc)
+	 * @see javax.swing.JComponent#paintComponent(java.awt.Graphics)
+	 */
 	@Override
 	protected void paintComponent(Graphics g) {
 		Graphics2D g2 = (Graphics2D)g;

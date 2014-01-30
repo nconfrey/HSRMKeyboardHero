@@ -1,3 +1,12 @@
+/**
+ * 
+ * 
+ * @author Simon Seyer
+ * @author Martin Juhasz
+ * @author Julia Kraft
+ * @author Moritz Moeller
+ * 
+ */
 package view;
 
 import helper.KeyboardHeroConstants;
@@ -37,7 +46,7 @@ public class MenuPanel extends GHPanel implements ActionListener {
 	private JButton creditsButton;
 
 	/**
-	 * Creates the main menu with its components
+	 * Creates the main menu with its components.
 	 */
 	public MenuPanel() {
 
@@ -69,7 +78,9 @@ public class MenuPanel extends GHPanel implements ActionListener {
 	}
 
 	/**
-	 * Action Listener for the buttons in main menu
+	 * Action Listener for the buttons in main menu.
+	 *
+	 * @param e the e
 	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
@@ -91,7 +102,7 @@ public class MenuPanel extends GHPanel implements ActionListener {
 	}
 
 	/**
-	 * Loads the intro song of keyboard hero and plays it in loop mode
+	 * Loads the intro song of keyboard hero and plays it in loop mode.
 	 */
 	public void loadIntro() {
 		MP3PlayerLocalTrack mp3 = new MP3PlayerLocalTrack(new File(
@@ -102,7 +113,9 @@ public class MenuPanel extends GHPanel implements ActionListener {
 	}
 
 	/**
-	 * Closes Window on ESC button
+	 * Closes Window on ESC button.
+	 *
+	 * @param e the e
 	 */
 	@Override
 	public void didPressBack(KeyEvent e) {

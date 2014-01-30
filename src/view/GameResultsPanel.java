@@ -1,3 +1,12 @@
+/**
+ * 
+ * 
+ * @author Simon Seyer
+ * @author Martin Juhasz
+ * @author Julia Kraft
+ * @author Moritz Moeller
+ * 
+ */
 package view;
 
 import helper.KeyboardHeroConstants;
@@ -32,11 +41,21 @@ public class GameResultsPanel extends JPanel {
 	private ResultListener listener;
 
 	public interface ResultListener {
+		
+		/**
+		 * Result panel should close.
+		 */
 		public void resultPanelShouldClose();
 
+		/**
+		 * Result panel did select replay.
+		 */
 		public void resultPanelDidSelectReplay();
 	}
 
+	/* (non-Javadoc)
+	 * @see javax.swing.JComponent#setVisible(boolean)
+	 */
 	public void setVisible(boolean flag) {
 		super.setVisible(flag);
 
@@ -45,6 +64,9 @@ public class GameResultsPanel extends JPanel {
 		}
 	}
 
+	/**
+	 * View did become visible.
+	 */
 	private void viewDidBecomeVisible() {
 		if (!PlayerController.getInstance().isRecording()) {
 			int score = (int) PlayerController.getInstance()
@@ -53,6 +75,11 @@ public class GameResultsPanel extends JPanel {
 		}
 	}
 
+	/**
+	 * Instantiates a new game results panel.
+	 *
+	 * @param aListener the a listener
+	 */
 	public GameResultsPanel(ResultListener aListener) {
 
 		this.listener = aListener;
@@ -105,6 +132,9 @@ public class GameResultsPanel extends JPanel {
 
 	}
 
+	/**
+	 * Setup view for recording.
+	 */
 	private void setupViewForRecording() {
 		JLabel textLabel = new JLabel(
 				KeyboardHeroConstants.getString("recording_successfull"));
@@ -113,6 +143,9 @@ public class GameResultsPanel extends JPanel {
 		infoPanel.add(textLabel, "span, wrap");
 	}
 
+	/**
+	 * Setup views for playing.
+	 */
 	private void setupViewsForPlaying() {
 		JLabel scoreTitleLabel = new JLabel(
 				KeyboardHeroConstants.getString("your_score_label"));
@@ -187,6 +220,9 @@ public class GameResultsPanel extends JPanel {
 		});
 	}
 
+	/* (non-Javadoc)
+	 * @see javax.swing.JComponent#paintComponent(java.awt.Graphics)
+	 */
 	@Override
 	protected void paintComponent(Graphics g) {
 		g.setColor(getBackground());

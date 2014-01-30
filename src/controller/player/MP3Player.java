@@ -1,3 +1,12 @@
+/**
+ * 
+ * 
+ * @author Simon Seyer
+ * @author Martin Juhasz
+ * @author Julia Kraft
+ * @author Moritz Moeller
+ * 
+ */
 package controller.player;
 
 import java.io.FileInputStream;
@@ -25,20 +34,36 @@ public class MP3Player {
     private boolean playing;
     private boolean paused;
 
+    /**
+     * Instantiates a new m p3 player.
+     */
     public MP3Player() {
         listeners = new WeakHashMap<>();
         frame = 0;
         minim = new Minim(this);
     }
 
+    /**
+     * Gets the track.
+     *
+     * @return the track
+     */
     public MP3PlayerTrack getTrack() {
 		return track;
 	}
 
+	/**
+	 * Sets the track.
+	 *
+	 * @param track the new track
+	 */
 	public void setTrack(MP3PlayerTrack track) {
 		this.track = track;
 	}
 
+    /**
+     * Play.
+     */
     public synchronized void play() {
     	if (isPlaying()) {
             stopAndWait();
@@ -54,6 +79,9 @@ public class MP3Player {
         }
     }
     
+    /**
+     * Loop.
+     */
     public synchronized void loop() { 
     	if (track != null) {
             player = minim.loadFile(track.getPath());
@@ -62,10 +90,18 @@ public class MP3Player {
         }
     }
 
+    /**
+     * Checks if is playing.
+     *
+     * @return true, if is playing
+     */
     public boolean isPlaying() {
         return playing;
     }
 
+    /**
+     * Stop and wait.
+     */
     private void stopAndWait() {
     	if (player != null) {
     		player.pause();
@@ -75,6 +111,9 @@ public class MP3Player {
     	}
     }
 
+    /**
+     * Stop.
+     */
     public synchronized void stop() {
         new Thread(new Runnable() {
 
@@ -85,6 +124,9 @@ public class MP3Player {
         }).start();
     }
     
+    /**
+     * Pause resume.
+     */
     public synchronized void pauseResume() {
     	if (player != null) {
     		if (!paused) {
@@ -101,14 +143,27 @@ public class MP3Player {
     }
 
     //listener
+    /**
+     * Adds the player listener.
+     *
+     * @param listener the listener
+     */
     public void addPlayerListener(MP3PlayerListener listener) {
         listeners.put(listener, null);
     }
 
+    /**
+     * Removes the player listener.
+     *
+     * @param listener the listener
+     */
     public void removePlayerListener(MP3PlayerListener listener) {
         listeners.remove(listener);
     }
 
+    /**
+     * Fire playback started.
+     */
     private void firePlaybackStarted() {
         if (!isPlaying()) {
             playing = true;
@@ -137,6 +192,9 @@ public class MP3Player {
         }
     }
 
+    /**
+     * Fire playback stopped.
+     */
     private void firePlaybackStopped() {
         if (isPlaying()) {
             playing = false;
@@ -148,10 +206,22 @@ public class MP3Player {
         }
     }
     
+    /**
+     * Sketch path.
+     *
+     * @param fileName the file name
+     * @return the string
+     */
     public String sketchPath(String fileName) {
     	return "";
     }
     
+    /**
+     * Creates the input.
+     *
+     * @param fileName the file name
+     * @return the input stream
+     */
     public InputStream createInput(String fileName) {
     	try {
 			return new FileInputStream(fileName);

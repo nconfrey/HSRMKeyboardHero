@@ -1,3 +1,12 @@
+/**
+ * 
+ * 
+ * @author Simon Seyer
+ * @author Martin Juhasz
+ * @author Julia Kraft
+ * @author Moritz Moeller
+ * 
+ */
 package controller.player;
 
 import java.io.Serializable;
@@ -26,16 +35,15 @@ public class Playlist extends AbstractListModel<Track> implements Serializable {
 
 	/**
 	 * Creates an empty playlist and instantiates an empty ArrayList for track
-	 * objects
-	 * 
+	 * objects.
 	 */
 	public Playlist() {
 		tracks = new ArrayList<>();
 	}
 
 	/**
-	 * Adds track to the tracklist and fires content change method
-	 * 
+	 * Adds track to the tracklist and fires content change method.
+	 *
 	 * @param track will be added to the tracklist
 	 */
 	public void addTrack(Track track) {
@@ -47,7 +55,8 @@ public class Playlist extends AbstractListModel<Track> implements Serializable {
 	}
 
 	/**
-	 * 
+	 * Gets the size.
+	 *
 	 * @return size of the tracklist
 	 */
 	@Override
@@ -56,7 +65,8 @@ public class Playlist extends AbstractListModel<Track> implements Serializable {
 	}
 
 	/**
-	 * 
+	 * Gets the tracks.
+	 *
 	 * @return whole tracklist
 	 */
 	public List<Track> getTracks() {
@@ -64,8 +74,8 @@ public class Playlist extends AbstractListModel<Track> implements Serializable {
 	}
 
 	/**
-	 * Takes a list of tracks and replaces the old tracklist
-	 * 
+	 * Takes a list of tracks and replaces the old tracklist.
+	 *
 	 * @param tracks tracklist which replaces the old tracklist
 	 */
 	public void setTracks(List<Track> tracks) {
@@ -73,8 +83,8 @@ public class Playlist extends AbstractListModel<Track> implements Serializable {
 	}
 
 	/**
-	 * Returns a track from tracklist
-	 * 
+	 * Returns a track from tracklist.
+	 *
 	 * @param index position of Track object in the playlist
 	 * @return track from requested position
 	 */
@@ -83,6 +93,11 @@ public class Playlist extends AbstractListModel<Track> implements Serializable {
 		return tracks.get(index);
 	}
 	
+	/**
+	 * Gets the playlist with playable tracks.
+	 *
+	 * @return the playlist with playable tracks
+	 */
 	public Playlist getPlaylistWithPlayableTracks() {
 		Playlist gamePlaylist = new Playlist();
 		for (Track track : getTracks()) {

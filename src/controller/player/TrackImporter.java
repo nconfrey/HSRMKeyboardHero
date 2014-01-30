@@ -1,3 +1,12 @@
+/**
+ * 
+ * 
+ * @author Simon Seyer
+ * @author Martin Juhasz
+ * @author Julia Kraft
+ * @author Moritz Moeller
+ * 
+ */
 package controller.player;
 
 import java.io.File;
@@ -28,21 +37,40 @@ public class TrackImporter {
      AbstractID3v2Tag v2tag  = f.getID3v2Tag()
      ID3v24Tag        v24tag = (AbstractID3v2Tag)f.getID3v2TagAsv24();
      */
+    /**
+     * Instantiates a new track importer.
+     *
+     * @param path the path
+     * @param playlist the playlist
+     */
     public TrackImporter(File path, Playlist playlist) {
         this.rootPath = path;
         this.playlist = playlist;
     }
 
+    /**
+     * Import tracks.
+     */
     public void importTracks() {
         importTrack(rootPath);
     }
 
+    /**
+     * Import tracks.
+     *
+     * @param path the path
+     */
     private void importTracks(File path) {
         for (File file : path.listFiles()) {
             importTrack(file);
         }
     }
 
+    /**
+     * Import track.
+     *
+     * @param file the file
+     */
     private void importTrack(File file) {
         if (file.isDirectory()) {
             importTracks(file);
@@ -54,6 +82,12 @@ public class TrackImporter {
         }
     }
 
+    /**
+     * Load track.
+     *
+     * @param file the file
+     * @return the m p3 player track
+     */
     private MP3PlayerTrack loadTrack(File file) {
         MP3PlayerLocalTrack track = new MP3PlayerLocalTrack(file);
         try {

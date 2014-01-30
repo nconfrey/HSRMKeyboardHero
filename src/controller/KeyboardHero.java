@@ -1,3 +1,12 @@
+/**
+ * 
+ * 
+ * @author Simon Seyer
+ * @author Martin Juhasz
+ * @author Julia Kraft
+ * @author Moritz Moeller
+ * 
+ */
 package controller;
 
 import view.BaseFrame;
@@ -14,6 +23,11 @@ import view.MenuPanel;
  **/
 public class KeyboardHero {
 
+	/**
+	 * The main method.
+	 *
+	 * @param args the arguments
+	 */
 	public static void main(String[] args) {
 
 		BaseFrame baseFrame = new BaseFrame();

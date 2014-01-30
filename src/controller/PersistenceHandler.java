@@ -1,3 +1,12 @@
+/**
+ * 
+ * 
+ * @author Simon Seyer
+ * @author Martin Juhasz
+ * @author Julia Kraft
+ * @author Moritz Moeller
+ * 
+ */
 package controller;
 
 import java.io.File;
@@ -21,10 +30,9 @@ public class PersistenceHandler {
 
     //private static final String FILE_PATH = KeyboardHero.class.getResource("/"+mp3Name).toURI();
 	private static final File playlistFile = new File(System.getProperty("user.home") + File.separator + "playlist.mpl");
+    
     /**
      * Save a playlist to disk.
-     *
-     * @param playlist the playlist to save
      */
     public static void savePlaylist() {
     	if (playlist == null) {
@@ -73,6 +81,11 @@ public class PersistenceHandler {
         return playlist;
     }
     
+    /**
+     * Load default playlist.
+     *
+     * @return the playlist
+     */
     private static Playlist loadDefaultPlaylist() {
     	Playlist playlist = new Playlist();
     	Track sampleTrack = new Track("music/smoke_on_the_water_short.mp3");
