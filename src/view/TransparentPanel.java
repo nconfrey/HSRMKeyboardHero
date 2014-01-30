@@ -1,13 +1,26 @@
 package view;
 
 import java.awt.Graphics;
-
 import javax.swing.JPanel;
+
+/**
+ * Transparent Panel, Only for make Panel transparent
+ * 
+ * 
+ * @author Simon Seyer
+ * @author Martin Juhasz
+ * @author Julia Kraft
+ * @author Moritz Moeller
+ * 
+ */
 
 public class TransparentPanel extends JPanel {
 	
 	
-
+	/*
+	 * method which helps that transparent Panel works
+	 * @see javax.swing.JComponent#paintComponent(java.awt.Graphics)
+	 */
 	@Override
 	protected void paintComponent(Graphics g) {
 	    g.setColor(getBackground());
