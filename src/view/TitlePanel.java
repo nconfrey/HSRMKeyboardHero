@@ -37,6 +37,8 @@ public class TitlePanel extends JPanel {
 
 	/**
 	 * Creates title panel with to labels for artist and title.
+	 *
+	 * @param playerController the player controller
 	 */
 	public TitlePanel(PlayerController playerController) {
 		this.playerController = playerController;

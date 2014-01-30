@@ -43,6 +43,8 @@ public class ScoreController implements MP3PlayerListener, StrokeRecorderListene
 	
 	/**
 	 * Instantiates a new score controller.
+	 *
+	 * @param player the player
 	 */
 	public ScoreController(MP3Player player) {
 		this.player = player;

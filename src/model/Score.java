@@ -59,6 +59,9 @@ public class Score extends AbstractBindableModel {
 		firePropertyChange("combo", oldCombo, combo);
 	}
 	
+	/**
+	 * Increase combo.
+	 */
 	public void increaseCombo() {
 		if(combo<MAXCOMBO){
 			firePropertyChange("combo", combo, ++combo);

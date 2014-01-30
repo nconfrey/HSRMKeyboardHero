@@ -57,7 +57,7 @@ public class MenuSongList<E> extends JList<E> {
 	}
 
 	/**
-	 * Inits the CellRenderer
+	 * Inits the CellRenderer.
 	 *
 	 * @param showIcons the show icons
 	 */

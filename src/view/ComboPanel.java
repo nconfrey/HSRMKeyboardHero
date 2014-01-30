@@ -1,3 +1,12 @@
+/**
+ * 
+ * 
+ * @author Simon Seyer
+ * @author Martin Juhasz
+ * @author Julia Kraft
+ * @author Moritz Moeller
+ * 
+ */
 package view;
 
 import java.awt.Color;
@@ -21,6 +30,11 @@ public class ComboPanel extends JPanel implements PropertyChangeListener {
 	private PlayerController playerController;
 	private ArrayList<JLabel> comboLabels;
 	
+	/**
+	 * Instantiates a new combo panel.
+	 *
+	 * @param playerController the player controller
+	 */
 	public ComboPanel(PlayerController playerController) {
 		
 		this.playerController = playerController;
@@ -32,6 +46,9 @@ public class ComboPanel extends JPanel implements PropertyChangeListener {
 		
 	}
 	
+	/**
+	 * Inits the labels.
+	 */
 	private void initLabels() {
 		
 		this.setLayout(new MigLayout("fill, insets 4", "[]4[]", ""));
@@ -52,6 +69,9 @@ public class ComboPanel extends JPanel implements PropertyChangeListener {
 	}
 
 
+	/* (non-Javadoc)
+	 * @see java.beans.PropertyChangeListener#propertyChange(java.beans.PropertyChangeEvent)
+	 */
 	@Override
 	public void propertyChange(PropertyChangeEvent evt) {
 		if (evt.getPropertyName() == "combo") {
@@ -65,6 +85,11 @@ public class ComboPanel extends JPanel implements PropertyChangeListener {
 		}
 	}
 	
+	/**
+	 * Show combo.
+	 *
+	 * @param combo the combo
+	 */
 	private void showCombo(int combo) {
 		
 		Color color = new Color(255,200,200);
