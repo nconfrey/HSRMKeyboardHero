@@ -1,5 +1,5 @@
 /**
- * 
+ * Local Track Model referencing a mp3 File
  * 
  * @author Simon Seyer
  * @author Martin Juhasz

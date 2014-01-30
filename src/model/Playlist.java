@@ -1,21 +1,4 @@
 /**
- * 
- * 
- * @author Simon Seyer
- * @author Martin Juhasz
- * @author Julia Kraft
- * @author Moritz Moeller
- * 
- */
-package model;
-
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.swing.AbstractListModel;
-
-/**
  * MP3 Player playlist which saves Track objects in a ArrayList
  * 
  * @author Simon Seyer
@@ -24,6 +7,15 @@ import javax.swing.AbstractListModel;
  * @author Moritz Moeller
  * 
  **/
+package model;
+
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.swing.AbstractListModel;
+
+
 public class Playlist extends AbstractListModel<Track> implements Serializable {
 
 	private static final long serialVersionUID = -909941238215193625L;

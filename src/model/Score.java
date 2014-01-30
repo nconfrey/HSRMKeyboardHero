@@ -1,5 +1,5 @@
 /**
- * 
+ * Score Model that calculates the Scores of a Game
  * 
  * @author Simon Seyer
  * @author Martin Juhasz

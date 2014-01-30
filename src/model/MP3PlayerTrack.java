@@ -1,17 +1,4 @@
 /**
- * 
- * 
- * @author Simon Seyer
- * @author Martin Juhasz
- * @author Julia Kraft
- * @author Moritz Moeller
- * 
- */
-package model;
-
-import java.io.Serializable;
-
-/**
  * Interface for MP3 tracks
  * 
  * @author Simon Seyer
@@ -20,6 +7,10 @@ import java.io.Serializable;
  * @author Moritz Moeller
  * 
  **/
+package model;
+
+import java.io.Serializable;
+
 public interface MP3PlayerTrack extends Serializable {
 
 	/**

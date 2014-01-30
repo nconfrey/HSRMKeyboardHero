@@ -1,5 +1,5 @@
 /**
- * 
+ * Remote Track referencing a track on soundcloud
  * 
  * @author Simon Seyer
  * @author Martin Juhasz
