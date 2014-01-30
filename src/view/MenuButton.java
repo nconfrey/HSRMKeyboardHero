@@ -17,9 +17,9 @@ import java.awt.Font;
 import javax.swing.JButton;
 
 public class MenuButton extends JButton {
-	
+
 	private Color backgroundColor;
-	
+
 	/**
 	 * Instantiates a new menu button.
 	 */
@@ -28,10 +28,10 @@ public class MenuButton extends JButton {
 		backgroundColor = new Color(KeyboardHeroConstants.FONT_COLOR_PRIMARY);
 		setDefaultParams();
 	}
-	
+
 	/**
 	 * Instantiates a new menu button.
-	 *
+	 * 
 	 * @param text the text
 	 */
 	public MenuButton(String text) {
@@ -39,10 +39,10 @@ public class MenuButton extends JButton {
 		backgroundColor = new Color(KeyboardHeroConstants.FONT_COLOR_PRIMARY);
 		setDefaultParams();
 	}
-	
+
 	/**
 	 * Instantiates a new menu button.
-	 *
+	 * 
 	 * @param text the text
 	 * @param backgroundColor the background color
 	 */
@@ -51,7 +51,7 @@ public class MenuButton extends JButton {
 		this.backgroundColor = backgroundColor;
 		setDefaultParams();
 	}
-	
+
 	/**
 	 * Sets the default params.
 	 */
@@ -64,5 +64,5 @@ public class MenuButton extends JButton {
 		this.setForeground(Color.WHITE);
 		this.setFont(new Font("SansSerif", Font.BOLD, 14));
 	}
-	
+
 }

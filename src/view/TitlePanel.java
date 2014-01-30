@@ -16,8 +16,8 @@ import java.awt.Font;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import controller.PlayerController;
 import net.miginfocom.swing.MigLayout;
+import controller.PlayerController;
 
 /**
  * GUI Panel for play/record mode to display the current artist and title
@@ -31,27 +31,30 @@ import net.miginfocom.swing.MigLayout;
  */
 public class TitlePanel extends JPanel {
 
-	JLabel artistLabel;
-	JLabel songLabel;
+	private PlayerController playerController;
+	private JLabel artistLabel;
+	private JLabel songLabel;
 
 	/**
 	 * Creates title panel with to labels for artist and title.
 	 */
-	public TitlePanel() {
-
+	public TitlePanel(PlayerController playerController) {
+		this.playerController = playerController;
 		this.setLayout(new MigLayout());
 
-		this.artistLabel = new JLabel(KeyboardHeroConstants.getString("artist_label"));
+		this.artistLabel = new JLabel(
+				KeyboardHeroConstants.getString("artist_label"));
 		this.artistLabel.setFont(new Font("sanserif", Font.BOLD, 19));
 		this.add(this.artistLabel, "wrap");
 
-		this.songLabel = new JLabel(KeyboardHeroConstants.getString("title_label"));
+		this.songLabel = new JLabel(
+				KeyboardHeroConstants.getString("title_label"));
 		this.songLabel.setFont(new Font("sanserif", Font.BOLD, 15));
 		this.add(this.songLabel);
 
-		this.artistLabel.setText(PlayerController.getInstance().getTrack()
+		this.artistLabel.setText(playerController.getTrack()
 				.getMp3().getArtist());
-		this.songLabel.setText(PlayerController.getInstance().getTrack()
+		this.songLabel.setText(playerController.getTrack()
 				.getMp3().getTitle());
 	}
 }

@@ -1,5 +1,5 @@
 /**
- * 
+ * Handles the saving and loading of persistent data.
  * 
  * @author Simon Seyer
  * @author Martin Juhasz
@@ -16,8 +16,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
-import model.Track;
-import controller.player.Playlist;
+import model.Playlist;
 
 /**
  * Handles the saving and loading of persistent data.
@@ -25,8 +24,6 @@ import controller.player.Playlist;
  */
 
 public class PersistenceHandler {
-	
-	private static Playlist playlist;
 
     //private static final String FILE_PATH = KeyboardHero.class.getResource("/"+mp3Name).toURI();
 	private static final File playlistFile = new File(System.getProperty("user.home") + File.separator + "playlist.mpl");
@@ -34,11 +31,7 @@ public class PersistenceHandler {
     /**
      * Save a playlist to disk.
      */
-    public static void savePlaylist() {
-    	if (playlist == null) {
-    		return;
-    	}
-
+    public static void savePlaylist(Playlist playlist) {
         try (FileOutputStream fileOut = new FileOutputStream(playlistFile);
              ObjectOutputStream out = new ObjectOutputStream(fileOut)) {
             out.writeObject(playlist);
@@ -54,14 +47,12 @@ public class PersistenceHandler {
      * @return the loaded playlist
      */
     public static Playlist loadPlaylist() {
-    	if (playlist != null) {
-    		return playlist;
-    	}
+    	Playlist playlist = null;
 
-        try (FileInputStream fileIn = new FileInputStream(playlistFile);
-             ObjectInputStream in = new ObjectInputStream(fileIn)) {
-            playlist = (Playlist) in.readObject();
-            System.out.println("Playlist: loaded");
+		try (FileInputStream fileIn = new FileInputStream(playlistFile);
+				ObjectInputStream in = new ObjectInputStream(fileIn)) {
+			playlist = (Playlist) in.readObject();
+			System.out.println("Playlist: loaded");
 
             // TODO: implemnt
             // playlist.checkConsistency();
@@ -75,22 +66,10 @@ public class PersistenceHandler {
         }
         
         if (playlist == null) {
-        	playlist = loadDefaultPlaylist();
+        	// TODO load playlist from bundle
+        	playlist = new Playlist();
         }
-        
+
         return playlist;
     }
-    
-    /**
-     * Load default playlist.
-     *
-     * @return the playlist
-     */
-    private static Playlist loadDefaultPlaylist() {
-    	Playlist playlist = new Playlist();
-    	Track sampleTrack = new Track("music/smoke_on_the_water_short.mp3");
-    	playlist.addTrack(sampleTrack);
-    	return playlist;
-    	}
 }
-

@@ -7,7 +7,7 @@
  * @author Moritz Moeller
  * 
  */
-package controller.player;
+package model;
 
 import java.io.File;
 
@@ -27,7 +27,7 @@ public class MP3PlayerLocalTrack implements MP3PlayerTrack {
 
 	/**
 	 * Instantiates a new m p3 player local track.
-	 *
+	 * 
 	 * @param file the file
 	 */
 	public MP3PlayerLocalTrack(File file) {
@@ -43,11 +43,11 @@ public class MP3PlayerLocalTrack implements MP3PlayerTrack {
 				this.artist = tag.getFirst(FieldKey.ARTIST);
 				this.title = tag.getFirst(FieldKey.TITLE);
 				this.albumTitle = tag.getFirst(FieldKey.ALBUM);
-				
+
 				if (this.title.trim().length() <= 0) {
 					this.title = extractTitleFromFileName(file.toString());
 				}
-				
+
 			} else {
 				this.title = extractTitleFromFileName(file.toString());
 			}
@@ -59,7 +59,7 @@ public class MP3PlayerLocalTrack implements MP3PlayerTrack {
 
 	/**
 	 * Sets the title.
-	 *
+	 * 
 	 * @param title the new title
 	 */
 	public void setTitle(String title) {
@@ -68,7 +68,7 @@ public class MP3PlayerLocalTrack implements MP3PlayerTrack {
 
 	/**
 	 * Sets the length.
-	 *
+	 * 
 	 * @param length the new length
 	 */
 	public void setLength(int length) {
@@ -77,7 +77,7 @@ public class MP3PlayerLocalTrack implements MP3PlayerTrack {
 
 	/**
 	 * Sets the album title.
-	 *
+	 * 
 	 * @param albumTitle the new album title
 	 */
 	public void setAlbumTitle(String albumTitle) {
@@ -86,14 +86,16 @@ public class MP3PlayerLocalTrack implements MP3PlayerTrack {
 
 	/**
 	 * Sets the artist.
-	 *
+	 * 
 	 * @param artist the new artist
 	 */
 	public void setArtist(String artist) {
 		this.artist = artist;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see controller.player.MP3PlayerTrack#getTitle()
 	 */
 	@Override
@@ -103,14 +105,16 @@ public class MP3PlayerLocalTrack implements MP3PlayerTrack {
 
 	/**
 	 * Gets the length.
-	 *
+	 * 
 	 * @return the length
 	 */
 	public int getLength() {
 		return length;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see controller.player.MP3PlayerTrack#getAlbumTitle()
 	 */
 	@Override
@@ -118,7 +122,9 @@ public class MP3PlayerLocalTrack implements MP3PlayerTrack {
 		return albumTitle;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see controller.player.MP3PlayerTrack#getArtist()
 	 */
 	@Override
@@ -128,14 +134,16 @@ public class MP3PlayerLocalTrack implements MP3PlayerTrack {
 
 	/**
 	 * Gets the file.
-	 *
+	 * 
 	 * @return the file
 	 */
 	public File getFile() {
 		return file;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#toString()
 	 */
 	@Override
@@ -145,7 +153,7 @@ public class MP3PlayerLocalTrack implements MP3PlayerTrack {
 
 	/**
 	 * Extract title from file name.
-	 *
+	 * 
 	 * @param fileName the file name
 	 * @return the string
 	 */
@@ -154,7 +162,9 @@ public class MP3PlayerLocalTrack implements MP3PlayerTrack {
 				".mp3", "");
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see controller.player.MP3PlayerTrack#getPath()
 	 */
 	@Override

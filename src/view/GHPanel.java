@@ -30,7 +30,7 @@ public abstract class GHPanel extends JPanel {
 
 	/**
 	 * Gets the navigation controller.
-	 *
+	 * 
 	 * @return navigationcontroller to switch views
 	 */
 	public NavigationController getNavigationController() {
@@ -39,7 +39,7 @@ public abstract class GHPanel extends JPanel {
 
 	/**
 	 * Sets the navigation controller.
-	 *
+	 * 
 	 * @param navigationController controller to switch between different views
 	 */
 	public void setNavigationController(
@@ -63,7 +63,7 @@ public abstract class GHPanel extends JPanel {
 
 	/**
 	 * Did press back.
-	 *
+	 * 
 	 * @param e the e
 	 */
 	public void didPressBack(KeyEvent e) {

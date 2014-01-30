@@ -1,5 +1,5 @@
 /**
- * 
+ * abstract class with property change support
  * 
  * @author Simon Seyer
  * @author Martin Juhasz
@@ -21,7 +21,8 @@ abstract class AbstractBindableModel {
 	/**
 	 * Should be transient to not conflict with serialization.
 	 */
-	private transient PropertyChangeSupport propertyChangeSupport = new PropertyChangeSupport(this);
+	private transient PropertyChangeSupport propertyChangeSupport = new PropertyChangeSupport(
+			this);
 
 	/**
 	 * Adds a property change listener.
@@ -37,7 +38,8 @@ abstract class AbstractBindableModel {
 	 * 
 	 * @param listener The property change listener
 	 */
-	public void removePropertyChangeListener(final PropertyChangeListener listener) {
+	public void removePropertyChangeListener(
+			final PropertyChangeListener listener) {
 		propertyChangeSupport.removePropertyChangeListener(listener);
 	}
 
@@ -48,8 +50,10 @@ abstract class AbstractBindableModel {
 	 * @param oldValue Old value of the property
 	 * @param newValue New value of the property
 	 */
-	protected void firePropertyChange(final String propertyName, final Object oldValue, final Object newValue) {
-		propertyChangeSupport.firePropertyChange(propertyName, oldValue, newValue);
+	protected void firePropertyChange(final String propertyName,
+			final Object oldValue, final Object newValue) {
+		propertyChangeSupport.firePropertyChange(propertyName, oldValue,
+				newValue);
 	}
 
 }

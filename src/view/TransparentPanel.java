@@ -10,6 +10,7 @@
 package view;
 
 import java.awt.Graphics;
+
 import javax.swing.JPanel;
 
 /**
@@ -24,19 +25,21 @@ import javax.swing.JPanel;
  */
 
 public class TransparentPanel extends JPanel {
-	
-	
+
 	/*
 	 * method which helps that transparent Panel works
+	 * 
 	 * @see javax.swing.JComponent#paintComponent(java.awt.Graphics)
 	 */
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see javax.swing.JComponent#paintComponent(java.awt.Graphics)
 	 */
 	@Override
 	protected void paintComponent(Graphics g) {
-	    g.setColor(getBackground());
-	    g.fillRect(0, 0, getWidth(), getHeight());
-	    super.paintComponent(g);
+		g.setColor(getBackground());
+		g.fillRect(0, 0, getWidth(), getHeight());
+		super.paintComponent(g);
 	}
 }
