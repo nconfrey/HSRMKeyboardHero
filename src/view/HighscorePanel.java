@@ -47,8 +47,10 @@ public class HighscorePanel extends GHPanel {
 				KeyboardHeroConstants.getString("hightscore_title"));
 		this.add(titleLabel, "wrap, grow");
 
-		this.scoreList = new MenuSongList<Highscore>(this.track.getStrokeSet()
-				.getHighscores(), false);
+		this.scoreList = new JList<Highscore>(this.track.getStrokeSet()
+				.getHighscores());
+		scoreList.setFixedCellHeight(60);
+		scoreList.setCellRenderer(new HighscoreListCellRenderer());
 		this.scoreList.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
 		this.scrollPane = new JScrollPane(this.scoreList);
 		this.scrollPane.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));

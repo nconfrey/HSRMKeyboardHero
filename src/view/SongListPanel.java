@@ -73,7 +73,7 @@ public class SongListPanel extends GHPanel {
 	}
 
 	/**
-	 * Inits the.
+	 * Inits the components
 	 */
 	public void init() {
 		this.setLayout(new MigLayout("insets 50 200 50 200, fill"));
@@ -92,7 +92,6 @@ public class SongListPanel extends GHPanel {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				playerController.stop();
 				if (songlist.getSelectedValue() != null) {
 					if (mode == MODE_PLAY || mode == MODE_RECORD) {
 						Track selectedTrack = songlist.getSelectedValue();
@@ -128,16 +127,22 @@ public class SongListPanel extends GHPanel {
 	 * Inits the playlist.
 	 */
 	public void initPlaylist() {
-		songlist = new MenuSongList<Track>(mode == MODE_RECORD);
+		songlist = new JList<Track>();
+		songlist.setFixedCellHeight(60);
 		songlist.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
-		Playlist playlist = playerController.getPlaylistController().getPlaylist(mode == MODE_PLAY);
+		boolean playable = mode == MODE_PLAY || mode == MODE_HIGHSCORE;
+		Playlist playlist = playerController.getPlaylistController().getPlaylist(playable);
 		songlist.setModel(playlist);
 		if (mode == MODE_RECORD) {
+			songlist.setCellRenderer(new RecordListCellRenderer());
 			transferHandler = new PlaylistTransferHandler(playlist);
 			songlist.setDropMode(DropMode.ON);
 			songlist.setTransferHandler(transferHandler);
 		}
-
+		else {
+			songlist.setCellRenderer(new PlayListCellRenderer());
+		}
+		
 		scrollPane = new JScrollPane(songlist);
 		scrollPane.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
 		add(scrollPane, "wrap, growx, pushy, growy");

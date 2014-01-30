@@ -55,6 +55,7 @@ public class GamePanel extends GHPanel implements MP3PlayerListener,
 	 */
 	public GamePanel(PlayerController playerController) {
 		this.playerController = playerController;
+		playerController.stop();
 		setFocusable(true);
 
 		// ContentPanel
