@@ -17,6 +17,7 @@ public class Score extends AbstractBindableModel {
 	private static final int STROKEHIT   = 10;
 	private static final int COMBOBONUS  = 100;
 	public static final int MAXCOMBO = 5;
+	private static final float COMBO_MULTIPLIER = 0.2f;
 
 	/**
 	 * Instantiates a new score.
@@ -34,7 +35,7 @@ public class Score extends AbstractBindableModel {
 	public long raise() {
 		long oldScore = score;
 
-		score = (int)(score + STROKEHIT + (STROKEHIT * (combo * 0.1)));
+		score = (int)(score + STROKEHIT + (STROKEHIT * (combo * COMBO_MULTIPLIER)));
 		firePropertyChange("score", oldScore, score);
 		return score;
 	}
@@ -45,6 +46,7 @@ public class Score extends AbstractBindableModel {
 	public void reset() {
 		long oldScore = score;
 		score = 0;
+		comboReset();
 		firePropertyChange("score", oldScore, score);
 	}
 

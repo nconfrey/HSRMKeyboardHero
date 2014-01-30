@@ -52,9 +52,9 @@ public class TitlePanel extends JPanel {
 		this.songLabel.setFont(new Font("sanserif", Font.BOLD, 15));
 		this.add(this.songLabel);
 
-		this.artistLabel.setText(playerController.getTrack()
-				.getMp3().getArtist());
-		this.songLabel.setText(playerController.getTrack()
-				.getMp3().getTitle());
+		this.artistLabel.setText("<html><body>" + playerController.getTrack()
+				.getMp3().getArtist() + "</body></html>");
+		this.songLabel.setText("<html><body>" + playerController.getTrack()
+				.getMp3().getTitle() + "</body></html>");
 	}
 }

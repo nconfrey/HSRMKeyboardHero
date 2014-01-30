@@ -36,21 +36,15 @@ public class ComboPanel extends JPanel implements PropertyChangeListener {
 		
 		this.setLayout(new MigLayout("fill, insets 4", "[]4[]", ""));
 		
-		Color color = new Color(255,200,200);
-		int colorSteps = 175 / Score.MAXCOMBO;
-		
 		for(int count = 1; count <= Score.MAXCOMBO; count++) {
-			color = new Color(color.getRed(), color.getGreen() - colorSteps, color.getBlue() - colorSteps);
-			
 			JLabel aLabel = new JLabel("x"+count);
 			aLabel.setOpaque(true);
-			aLabel.setBackground(color);
-			aLabel.setForeground(Color.WHITE);
 			aLabel.setBorder(BorderFactory.createEmptyBorder(0,0,0,0));
 			aLabel.setVerticalAlignment(SwingConstants.CENTER);
 			aLabel.setHorizontalAlignment(SwingConstants.CENTER);
 			aLabel.setFont(new Font("sanserif", Font.BOLD, 16));
-			aLabel.setVisible(false);
+			aLabel.setBackground(Color.LIGHT_GRAY);
+			aLabel.setForeground(Color.DARK_GRAY);
 			
 			this.add(aLabel, "grow");
 			this.comboLabels.add(aLabel);
@@ -72,9 +66,21 @@ public class ComboPanel extends JPanel implements PropertyChangeListener {
 	}
 	
 	private void showCombo(int combo) {
+		
+		Color color = new Color(255,200,200);
+		int colorSteps = 175 / Score.MAXCOMBO;
+		
 		for(int count = 0; count < Score.MAXCOMBO; count++) {
+			color = new Color(color.getRed(), color.getGreen() - colorSteps, color.getBlue() - colorSteps);
 			JLabel currentLabel = this.comboLabels.get(count);
-			currentLabel.setVisible(combo > count);
+
+			if(combo > count) {
+				currentLabel.setBackground(color);
+				currentLabel.setForeground(Color.WHITE);
+			} else {
+				currentLabel.setBackground(Color.LIGHT_GRAY);
+				currentLabel.setForeground(Color.DARK_GRAY);
+			}
 		}
 	}
 }
