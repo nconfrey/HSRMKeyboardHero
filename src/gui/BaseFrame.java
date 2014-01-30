@@ -13,6 +13,7 @@ import javax.swing.JOptionPane;
 
 import view.KeyboardHeroConstants;
 import model.KeyboardHeroPreferences;
+import model.PersistenceHandler;
 
 /**
  * The base frame where the whole gamecontent is build in
@@ -25,7 +26,6 @@ import model.KeyboardHeroPreferences;
  **/
 public class BaseFrame extends JFrame {
 
-	private Dimension frameSize;
 	public NavigationController navigationController;
 	private KeyboardHeroPreferences prefs;
 
@@ -36,18 +36,20 @@ public class BaseFrame extends JFrame {
 	public BaseFrame() {
 		prefs = new KeyboardHeroPreferences();
 		prefs.setPreferences();
-		frameSize = new Dimension(prefs.getScreenWidth(),
+		Dimension frameSize = new Dimension(prefs.getScreenWidth(),
 				prefs.getScreenHeight());
 		setLayout(new BorderLayout());
+		
+		this.setMinimumSize(new Dimension(1024, 768));
 		this.setSize(frameSize);
-		WindowListener exitListener = new WindowAdapter() {
+		
+		Runtime.getRuntime().addShutdownHook(new Thread() {
 			@Override
-			public void windowClosing(WindowEvent e) {
+			public void run() {
 				prefs.setScreenSize(getWidth(), getHeight());
-				System.exit(0);
 			}
-		};
-		this.addWindowListener(exitListener);
+		});
+		
 		this.setTitle(KeyboardHeroConstants.getString("game_title"));
 		this.setLocationRelativeTo(null);
 		this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
