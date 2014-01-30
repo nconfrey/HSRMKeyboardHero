@@ -11,7 +11,11 @@ package view;
 
 import helper.KeyboardHeroConstants;
 
+import java.awt.Color;
 import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.geom.Rectangle2D;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
@@ -35,6 +39,7 @@ import net.miginfocom.swing.MigLayout;
 public class ScorePanel extends TransparentPanel implements
 		PropertyChangeListener {
 
+	
 	JLabel scoreTitleLabel;
 	JLabel scoreLabel;
 	Score score;
@@ -78,5 +83,4 @@ public class ScorePanel extends TransparentPanel implements
 			});
 		}
 	}
-
 }
