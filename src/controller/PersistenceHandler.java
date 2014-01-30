@@ -34,7 +34,9 @@ public class PersistenceHandler {
 			+ File.separator + LOCAL_FOLDER_NAME;
 	private static final String PLAYLIST_FILE_NAME = "playlist.mpl";
 	private static final String[] filesToCopy = new String[] { "playlist.mpl",
-			"smoke_on_the_water_short.mp3", "back_in_black.mp3" };
+			"highway_to_hell.mp3",
+			"smoke_on_the_water.mp3",
+			"back_in_black.mp3" };
 
 	/**
 	 * Instantiates a new persistence handler.
@@ -65,6 +67,8 @@ public class PersistenceHandler {
 
 	/**
 	 * Save a playlist to disk.
+	 *
+	 * @param playlist the playlist
 	 */
 	public void savePlaylist(Playlist playlist) {
 		try (FileOutputStream fileOut = new FileOutputStream(

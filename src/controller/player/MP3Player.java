@@ -31,6 +31,7 @@ public class MP3Player {
     private Timer frameTimer;
     private int frame;
     private boolean playing;
+    private boolean looping;
     private boolean paused;
     private boolean volumeIsDecreased;
     private static final int GAIN_REDUCE = 7;
@@ -89,6 +90,7 @@ public class MP3Player {
 		if (track != null) {
 			player = minim.loadFile(track.getPath());
 			paused = false;
+			looping = true;
 			player.loop();
 		}
 	}
@@ -99,7 +101,7 @@ public class MP3Player {
 	 * @return true, if is playing
 	 */
 	public boolean isPlaying() {
-		return playing;
+		return playing || looping;
 	}
 
 	/**
@@ -110,7 +112,10 @@ public class MP3Player {
 			player.pause();
 			minim.stop();
 			player = null;
-			firePlaybackStopped();
+			if(playing){
+				firePlaybackStopped();
+			}
+			looping = false;
 		}
 	}
 

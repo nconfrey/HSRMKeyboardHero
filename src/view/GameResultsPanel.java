@@ -65,7 +65,8 @@ public class GameResultsPanel extends JPanel {
 
 	/**
 	 * Instantiates a new game results panel.
-	 * 
+	 *
+	 * @param playerController the player controller
 	 * @param aListener the a listener
 	 */
 	public GameResultsPanel(PlayerController playerController, ResultListener aListener) {
