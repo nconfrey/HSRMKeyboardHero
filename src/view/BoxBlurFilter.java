@@ -2,7 +2,7 @@
 ** Copyright 2005 Huxtable.com. All rights reserved.
 */
 
-package gui;
+package view;
 
 import java.awt.Rectangle;
 import java.awt.RenderingHints;

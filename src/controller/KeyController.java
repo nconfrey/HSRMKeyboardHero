@@ -1,12 +1,11 @@
 package controller;
 
-import gui.GuitarStringListener;
-
 import java.awt.KeyEventDispatcher;
 import java.awt.KeyboardFocusManager;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 
+import controller.recorder.GuitarStringListener;
 import model.StrokeKey;
 
 public class KeyController implements KeyEventDispatcher {

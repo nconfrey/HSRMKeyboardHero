@@ -1,4 +1,4 @@
-package gui;
+package controller.recorder;
 
 import model.StrokeKey;
 

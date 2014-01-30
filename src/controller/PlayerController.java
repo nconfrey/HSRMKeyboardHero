@@ -1,9 +1,6 @@
-package gui;
+package controller;
 
-import model.SoundCloud;
 import model.Track;
-import controller.KeyController;
-import controller.ScoreController;
 import controller.player.MP3Player;
 import controller.recorder.StrokeRecorder;
 

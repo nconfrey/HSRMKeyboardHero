@@ -1,12 +1,12 @@
 package controller.player;
 
-import java.io.IOException;
+import helper.KeyboardHeroConstants;
 
-import model.SoundCloud;
+import java.io.IOException;
 
 import org.json.JSONObject;
 
-import view.KeyboardHeroConstants;
+import controller.SoundCloud;
 
 /**
  * 

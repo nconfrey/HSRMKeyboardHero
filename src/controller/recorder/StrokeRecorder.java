@@ -1,7 +1,5 @@
 package controller.recorder;
 
-import gui.GuitarStringListener;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;

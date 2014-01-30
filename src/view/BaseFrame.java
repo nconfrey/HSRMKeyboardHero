@@ -1,4 +1,6 @@
-package gui;
+package view;
+
+import helper.KeyboardHeroConstants;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -11,9 +13,9 @@ import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
-import view.KeyboardHeroConstants;
+import controller.NavigationController;
+import controller.PersistenceHandler;
 import model.KeyboardHeroPreferences;
-import model.PersistenceHandler;
 
 /**
  * The base frame where the whole gamecontent is build in
@@ -40,7 +42,7 @@ public class BaseFrame extends JFrame {
 				prefs.getScreenHeight());
 		setLayout(new BorderLayout());
 		
-		this.setMinimumSize(new Dimension(1024, 768));
+		this.setMinimumSize(new Dimension(1024, 700));
 		this.setSize(frameSize);
 		
 		Runtime.getRuntime().addShutdownHook(new Thread() {
@@ -49,6 +51,15 @@ public class BaseFrame extends JFrame {
 				prefs.setScreenSize(getWidth(), getHeight());
 			}
 		});
+		
+		WindowListener exitListener = new WindowAdapter() {
+			
+			@Override
+			public void windowClosing(WindowEvent e) {
+				System.exit(0);
+			}
+		};
+		this.addWindowListener(exitListener);
 		
 		this.setTitle(KeyboardHeroConstants.getString("game_title"));
 		this.setLocationRelativeTo(null);

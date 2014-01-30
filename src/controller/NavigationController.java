@@ -1,9 +1,12 @@
-package gui;
+package controller;
 
 import java.awt.KeyEventDispatcher;
 import java.awt.KeyboardFocusManager;
 import java.awt.event.KeyEvent;
 import java.util.Stack;
+
+import view.BaseFrame;
+import view.GHPanel;
 
 public class NavigationController implements KeyEventDispatcher{
 

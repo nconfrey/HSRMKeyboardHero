@@ -1,4 +1,6 @@
-package gui;
+package view;
+
+import helper.KeyboardHeroConstants;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -20,10 +22,7 @@ import javax.swing.SwingUtilities;
 
 import model.Track;
 import net.miginfocom.swing.MigLayout;
-import view.GuitarBackgroundPane;
-import view.ImagePanel;
-import view.GuitarPane;
-import view.KeyboardHeroConstants;
+import controller.PlayerController;
 import controller.player.AlbumLoader;
 import controller.player.MP3Player;
 import controller.player.MP3PlayerListener;

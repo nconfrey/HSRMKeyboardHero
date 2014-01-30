@@ -1,7 +1,5 @@
 package view;
 
-import gui.PlayerController;
-
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics;
@@ -22,6 +20,7 @@ import model.Stroke;
 import model.StrokeKey;
 import model.Track;
 import net.miginfocom.swing.MigLayout;
+import controller.PlayerController;
 import controller.ScoreListener;
 import controller.player.MP3Player;
 import controller.player.MP3PlayerListener;
