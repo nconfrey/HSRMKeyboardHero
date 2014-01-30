@@ -25,7 +25,6 @@ import model.KeyboardHeroPreferences;
  **/
 public class BaseFrame extends JFrame {
 
-	private Dimension frameSize;
 	public NavigationController navigationController;
 	private KeyboardHeroPreferences prefs;
 
@@ -36,7 +35,7 @@ public class BaseFrame extends JFrame {
 	public BaseFrame() {
 		prefs = new KeyboardHeroPreferences();
 		prefs.setPreferences();
-		frameSize = new Dimension(prefs.getScreenWidth(),
+		Dimension frameSize = new Dimension(prefs.getScreenWidth(),
 				prefs.getScreenHeight());
 		setLayout(new BorderLayout());
 		this.setSize(frameSize);
