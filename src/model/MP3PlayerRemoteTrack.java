@@ -29,7 +29,6 @@ public class MP3PlayerRemoteTrack implements MP3PlayerTrack {
 	private String artist;
 	private String url;
 	private transient String streamUrl;
-	private transient SoundCloud soundCloud;
 	private String artworkUrl;
 
 	/**
@@ -38,8 +37,7 @@ public class MP3PlayerRemoteTrack implements MP3PlayerTrack {
 	 * @param data the data
 	 * @param soundCloud the sound cloud
 	 */
-	public MP3PlayerRemoteTrack(JSONObject data, SoundCloud soundCloud) {
-		this.soundCloud = soundCloud;
+	public MP3PlayerRemoteTrack(JSONObject data) {
 		title = data.getString("title");
 		if (!data.isNull("genre")) {
 			albumTitle = KeyboardHeroConstants.getString("remote_album_prefix")
@@ -100,9 +98,8 @@ public class MP3PlayerRemoteTrack implements MP3PlayerTrack {
 	public synchronized String getPath() {
 		if (streamUrl == null) {
 			try {
-				streamUrl = soundCloud.loadStreamUrl(url);
+				streamUrl = SoundCloud.getInstance().loadStreamUrl(url);
 			} catch (IOException e) {
-				e.printStackTrace();
 			}
 		}
 		return streamUrl;

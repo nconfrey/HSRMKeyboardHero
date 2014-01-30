@@ -28,12 +28,25 @@ public class SoundCloud {
 	private ApiWrapper wrapper;
 	private static final String CLIENT_ID = "e2fb08b6ea0356fa18e41a1a5cea0b38";
 	private static final String CLIENT_SECRET = "7095d828c8b1fc344361953444fd19cc";
+	private static SoundCloud instance;
 
 	/**
 	 * Instantiates a new sound cloud.
 	 */
 	public SoundCloud() {
 		wrapper = new ApiWrapper(CLIENT_ID, CLIENT_SECRET, null, null);
+	}
+	
+	/**
+	 * Gets the single instance of SoundCloud.
+	 *
+	 * @return single instance of SoundCloud
+	 */
+	public static SoundCloud getInstance() {
+		if(instance == null) {
+			instance = new SoundCloud();
+		}
+		return instance;
 	}
 
 	/**
@@ -58,7 +71,7 @@ public class SoundCloud {
 				JSONObject track = elements.getJSONObject(i);
 				if (track.getBoolean("streamable")) {
 					playlist.addTrack((new Track(new MP3PlayerRemoteTrack(
-							track, this))));
+							track))));
 				}
 			}
 		} catch (IOException e) {
