@@ -126,4 +126,12 @@ public class MP3PlayerRemoteTrack implements MP3PlayerTrack {
 	public String toString() {
 		return getArtist() + " - " + getTitle();
 	}
+	
+	/* (non-Javadoc)
+	 * @see model.MP3PlayerTrack#isConsistent()
+	 */
+	@Override
+	public boolean isConsistent() {
+		return true;
+	}
 }

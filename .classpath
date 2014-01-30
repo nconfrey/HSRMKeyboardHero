@@ -19,5 +19,6 @@
 	<classpathentry kind="lib" path="httpmime-4.3.2.jar"/>
 	<classpathentry kind="lib" path="json-20131018.jar"/>
 	<classpathentry kind="lib" path="soundcloud-api-wrapper.jar"/>
+	<classpathentry kind="lib" path="commons-io-2.4.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

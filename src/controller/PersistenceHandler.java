@@ -13,77 +13,103 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.io.ObjectInputStream.GetField;
+import java.net.URL;
 
 import model.Playlist;
 
+import org.apache.commons.io.FileUtils;
+
 /**
  * Handles the saving and loading of persistent data.
- *
+ * 
  */
-
 public class PersistenceHandler {
 
-	private static final String PLAYLIST_PATH = System.getProperty("user.home") + File.separator + "playlist.mpl";
-	private static final String DEFAULT_PLAYLIST_PATH = "playlist.mpl";
-	
-    /**
-     * Save a playlist to disk.
-     */
-    public static void savePlaylist(Playlist playlist) {
-        try (FileOutputStream fileOut = new FileOutputStream(new File(PLAYLIST_PATH));
-             ObjectOutputStream out = new ObjectOutputStream(fileOut)) {
-            out.writeObject(playlist);
-            System.out.printf("Serialized data is saved");
-        } catch (IOException i) {
-            i.printStackTrace();
-        }
-    }
+	private static final String FILE_FOLDER = System.getProperty("user.home")
+			+ File.separator + ".keyboardHero";
+	private static final String PLAYLIST_FILE_NAME = "playlist.mpl";
+	private static final String[] filesToCopy = new String[] { "playlist.mpl",
+			"smoke_on_the_water_short.mp3",
+			"back_in_black.mp3" };
 
-    /**
-     * Load a playlist form disk.
-     *
-     * @return the loaded playlist
-     */
-    public static Playlist loadPlaylist() {
-    	Playlist playlist = null;
+	/**
+	 * Instantiates a new persistence handler.
+	 */
+	public PersistenceHandler() {
+		copyBundleFilesToSystemIfNeeded();
+	}
 
-        try (FileInputStream fileIn = new FileInputStream(new File(PLAYLIST_PATH));
-             ObjectInputStream in = new ObjectInputStream(fileIn)) {
-            playlist = (Playlist) in.readObject();
-            System.out.println("Playlist: loaded");
-
-            // TODO: implemnt
-            // playlist.checkConsistency();
-            
-        } catch (IOException i) {
-            System.out.println("Playlist could not be loaded ");
-            i.printStackTrace();
-        } catch (ClassNotFoundException c) {
-            System.out.println("Playlist class not found");
-            c.printStackTrace();
-        }
-        
-        if (playlist == null) {
-        	try(InputStream stream = ClassLoader.getSystemClassLoader().getResourceAsStream(DEFAULT_PLAYLIST_PATH);
-        			ObjectInputStream in = new ObjectInputStream(stream)) {
-        		playlist = (Playlist) in.readObject();
-        	} catch (IOException e) {
-        		System.out.println("Default playlist could not be loaded");
-				e.printStackTrace();
-			} catch (ClassNotFoundException e) {
-				System.out.println("Playlist class not found");
-				e.printStackTrace();
+	/**
+	 * Copy bundle files to system if needed.
+	 */
+	public void copyBundleFilesToSystemIfNeeded() {
+		File rootFolder = new File(FILE_FOLDER);
+		if (!rootFolder.exists()) {
+			rootFolder.mkdir();
+			for (String filePath : filesToCopy) {
+				URL inputUrl = ClassLoader.getSystemClassLoader().getResource(
+						filePath);
+				File dest = new File(FILE_FOLDER + File.separator + filePath);
+				try {
+					FileUtils.copyURLToFile(inputUrl, dest);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
 			}
-        }
-        
-        if (playlist == null) {
-        	playlist = new Playlist();
-        }
+		}
+	}
 
-        return playlist;
-    }
+	/**
+	 * Save a playlist to disk.
+	 */
+	public void savePlaylist(Playlist playlist) {
+		try (FileOutputStream fileOut = new FileOutputStream(
+				getLocalFile(PLAYLIST_FILE_NAME));
+				ObjectOutputStream out = new ObjectOutputStream(fileOut)) {
+			out.writeObject(playlist);
+			System.out.printf("Serialized data is saved");
+		} catch (IOException i) {
+			System.out.println("Playlist class not be saved");
+		}
+	}
+
+	/**
+	 * Load a playlist form disk.
+	 * 
+	 * @return the loaded playlist
+	 */
+	public Playlist loadPlaylist() {
+		Playlist playlist = null;
+
+		try (FileInputStream fileIn = new FileInputStream(
+				getLocalFile(PLAYLIST_FILE_NAME));
+				ObjectInputStream in = new ObjectInputStream(fileIn)) {
+			playlist = (Playlist) in.readObject();
+			System.out.println("Playlist: loaded");
+			playlist.checkConsistency();
+		} catch (IOException i) {
+			System.out.println("Playlist could not be loaded ");
+		} catch (ClassNotFoundException c) {
+			System.out.println("Playlist class not found");
+		}
+
+		if (playlist == null) {
+			playlist = new Playlist();
+		}
+
+		return playlist;
+	}
+
+	/**
+	 * Gets the local file.
+	 * 
+	 * @param name
+	 *            the name
+	 * @return the local file
+	 */
+	public static File getLocalFile(String name) {
+		return new File(FILE_FOLDER + File.separator + name);
+	}
 }

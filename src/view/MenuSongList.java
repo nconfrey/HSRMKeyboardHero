@@ -31,6 +31,10 @@ public class MenuSongList<E> extends JList<E> {
 
 	private ImageIcon soundCloudIcon;
 	private ImageIcon noteIcon;
+	private ImageIcon goldStar;
+	private ImageIcon silverStar;
+	private ImageIcon bronzeStar;
+
 
 	/**
 	 * Instantiates a new menu song list.
@@ -68,7 +72,21 @@ public class MenuSongList<E> extends JList<E> {
 				noteIcon = new ImageIcon(ImageIO.read(getClass()
 						.getResourceAsStream("/note.png")));
 			} catch (IOException e) {
-
+			}
+			try {
+				goldStar = new ImageIcon(ImageIO.read(getClass()
+						.getResourceAsStream("/gold.png")));
+			} catch (IOException e) {
+			}
+			try {
+				silverStar = new ImageIcon(ImageIO.read(getClass()
+						.getResourceAsStream("/silver.png")));
+			} catch (IOException e) {
+			}
+			try {
+				bronzeStar = new ImageIcon(ImageIO.read(getClass()
+						.getResourceAsStream("/bronze.png")));
+			} catch (IOException e) {
 			}
 		}
 
