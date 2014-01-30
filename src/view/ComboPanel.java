@@ -2,56 +2,79 @@ package view;
 
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.RenderingHints;
-import java.awt.geom.Rectangle2D;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import java.util.ArrayList;
 
+import javax.swing.BorderFactory;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
 
-public class ComboPanel extends JPanel {
-	
-	private static final int COMBO_BLOCK_COUNT = 5;
-	
-	private static final int SPACING_X = 5;
+import model.Score;
+import net.miginfocom.swing.MigLayout;
+import controller.PlayerController;
 
+public class ComboPanel extends JPanel implements PropertyChangeListener {
 	
+	private PlayerController playerController;
+	private ArrayList<JLabel> comboLabels;
 	
-	protected void paintComponent(Graphics g) {
-		super.paintComponent(g);
-		Graphics2D g2 = (Graphics2D)g;
-		g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-		int alphaWert = 100;
+	public ComboPanel(PlayerController playerController) {
 		
+		this.playerController = playerController;
+		this.comboLabels = new ArrayList<>();
 		
-		float width = (getWidth() - (6 * SPACING_X)) / COMBO_BLOCK_COUNT;
-		float height = getHeight() - 2 * SPACING_X;
+		initLabels();
+		
+		playerController.getScoreController().getScore().addPropertyChangeListener(this);
+		
+	}
+	
+	private void initLabels() {
+		
+		this.setLayout(new MigLayout("fill, insets 4", "[]4[]", ""));
+		
 		Color color = new Color(255,200,200);
+		int colorSteps = 175 / Score.MAXCOMBO;
 		
-		for(int count = 0; count < COMBO_BLOCK_COUNT; count++) {
+		for(int count = 1; count <= Score.MAXCOMBO; count++) {
+			color = new Color(color.getRed(), color.getGreen() - colorSteps, color.getBlue() - colorSteps);
 			
-			color = new Color(color.getRed(), color.getGreen() - 35, color.getBlue() - 35);
-			g2.setColor(color);
-			float x = count * width + ((count + 1) * SPACING_X);
-			g2.fill(new Rectangle2D.Float(x, SPACING_X, width, height));
+			JLabel aLabel = new JLabel("x"+count);
+			aLabel.setOpaque(true);
+			aLabel.setBackground(color);
+			aLabel.setForeground(Color.WHITE);
+			aLabel.setBorder(BorderFactory.createEmptyBorder(0,0,0,0));
+			aLabel.setVerticalAlignment(SwingConstants.CENTER);
+			aLabel.setHorizontalAlignment(SwingConstants.CENTER);
+			aLabel.setFont(new Font("sanserif", Font.BOLD, 16));
+			aLabel.setVisible(false);
 			
-			g2.setFont(new Font("sanserif", Font.PLAIN, 20));
-			g2.setPaint(Color.WHITE);
-			g2.drawString("XXX", x, height - 12);
-			
+			this.add(aLabel, "grow");
+			this.comboLabels.add(aLabel);
 		}
-		
-		/*
-		g2.draw(new Rectangle2D.Float(0, 0, getWidth()/COMBO_BLOCK_COUNT, getHeight()));
-		g2.setColor(Color.PINK);
-		g.setColor(Color.GREEN);
-		g.fillRect(getWidth()-(COMBO_BLOCK_COUNT-1)*(getWidth()/COMBO_BLOCK_COUNT) , 0 , getWidth()/COMBO_BLOCK_COUNT, getHeight());
-		g.setColor(Color.BLUE);
-		g.fillRect(getWidth()- (COMBO_BLOCK_COUNT-2)*(getWidth()/COMBO_BLOCK_COUNT), 0 , getWidth()/COMBO_BLOCK_COUNT, getHeight());
-		g.setColor(Color.CYAN);
-		g.fillRect(getWidth()- (COMBO_BLOCK_COUNT-3)*(getWidth()/COMBO_BLOCK_COUNT), 0 , getWidth()/COMBO_BLOCK_COUNT, getHeight());
-		g.setColor(Color.YELLOW);
-		g.fillRect(getWidth()- (COMBO_BLOCK_COUNT-4)*(getWidth()/COMBO_BLOCK_COUNT), 0 , getWidth()/COMBO_BLOCK_COUNT, getHeight());
-		*/
+	}
+
+
+	@Override
+	public void propertyChange(PropertyChangeEvent evt) {
+		if (evt.getPropertyName() == "combo") {
+			final int combo = (int)evt.getNewValue();
+			SwingUtilities.invokeLater(new Runnable() {
+				@Override
+				public void run() {
+					showCombo(combo);
+				}
+			});
+		}
+	}
+	
+	private void showCombo(int combo) {
+		for(int count = 0; count < Score.MAXCOMBO; count++) {
+			JLabel currentLabel = this.comboLabels.get(count);
+			currentLabel.setVisible(combo > count);
+		}
 	}
 }
