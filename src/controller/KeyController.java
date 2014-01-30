@@ -1,3 +1,12 @@
+/**
+ * 
+ * 
+ * @author Simon Seyer
+ * @author Martin Juhasz
+ * @author Julia Kraft
+ * @author Moritz Moeller
+ * 
+ */
 package controller;
 
 import java.awt.KeyEventDispatcher;
@@ -13,6 +22,9 @@ public class KeyController implements KeyEventDispatcher {
 	private ArrayList<GuitarStringListener> guitarStringListener;
 	private boolean isEnterPressed;
 
+	/**
+	 * Instantiates a new key controller.
+	 */
 	public KeyController() {
 		guitarStringListener = new ArrayList<>();
 
@@ -22,6 +34,9 @@ public class KeyController implements KeyEventDispatcher {
 		manager.addKeyEventDispatcher(this);
 	}
 
+	/* (non-Javadoc)
+	 * @see java.awt.KeyEventDispatcher#dispatchKeyEvent(java.awt.event.KeyEvent)
+	 */
 	@Override
 	public boolean dispatchKeyEvent(KeyEvent e) {
 		if (e.getID() == KeyEvent.KEY_PRESSED) {
@@ -32,6 +47,11 @@ public class KeyController implements KeyEventDispatcher {
 		return false;
 	}
 	
+	/**
+	 * Key pressed.
+	 *
+	 * @param e the e
+	 */
 	public void keyPressed(KeyEvent e) {
 		StrokeKey strokeKey = StrokeKey.keyForCode(e.getKeyCode());
 		if(strokeKey != StrokeKey.INVALID && strokeKey != StrokeKey.ENTER) {
@@ -48,6 +68,11 @@ public class KeyController implements KeyEventDispatcher {
 		}
     }
 	
+    /**
+     * Key released.
+     *
+     * @param e the e
+     */
     public void keyReleased(KeyEvent e) {
     	StrokeKey strokeKey = StrokeKey.keyForCode(e.getKeyCode());
 		if(strokeKey != StrokeKey.INVALID && strokeKey != StrokeKey.ENTER) {
@@ -63,10 +88,20 @@ public class KeyController implements KeyEventDispatcher {
 		}
     }
 
+	/**
+	 * Adds the guitar string listener.
+	 *
+	 * @param listener the listener
+	 */
 	public void addGuitarStringListener(GuitarStringListener listener) {
 		this.guitarStringListener.add(listener);
 	}
 
+	/**
+	 * Removes the guitar string listener.
+	 *
+	 * @param listener the listener
+	 */
 	public void removeGuitarStringListener(GuitarStringListener listener) {
 		this.guitarStringListener.remove(listener);
 	}
