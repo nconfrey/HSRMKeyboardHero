@@ -16,8 +16,8 @@ import java.awt.Font;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import controller.PlayerController;
 import net.miginfocom.swing.MigLayout;
+import controller.PlayerController;
 
 /**
  * GUI Panel for play/record mode to display the current artist and title
@@ -41,11 +41,13 @@ public class TitlePanel extends JPanel {
 
 		this.setLayout(new MigLayout());
 
-		this.artistLabel = new JLabel(KeyboardHeroConstants.getString("artist_label"));
+		this.artistLabel = new JLabel(
+				KeyboardHeroConstants.getString("artist_label"));
 		this.artistLabel.setFont(new Font("sanserif", Font.BOLD, 19));
 		this.add(this.artistLabel, "wrap");
 
-		this.songLabel = new JLabel(KeyboardHeroConstants.getString("title_label"));
+		this.songLabel = new JLabel(
+				KeyboardHeroConstants.getString("title_label"));
 		this.songLabel.setFont(new Font("sanserif", Font.BOLD, 15));
 		this.add(this.songLabel);
 

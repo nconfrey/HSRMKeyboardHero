@@ -20,8 +20,6 @@ import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
-import java.awt.image.ConvolveOp;
-import java.awt.image.Kernel;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
@@ -83,7 +81,7 @@ public class GamePanel extends GHPanel implements MP3PlayerListener,
 
 	/**
 	 * Builds the left content.
-	 *
+	 * 
 	 * @return the j panel
 	 */
 	public JPanel buildLeftContent() {
@@ -154,7 +152,9 @@ public class GamePanel extends GHPanel implements MP3PlayerListener,
 		}.start();
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see javax.swing.JComponent#paintComponent(java.awt.Graphics)
 	 */
 	@Override
@@ -175,7 +175,7 @@ public class GamePanel extends GHPanel implements MP3PlayerListener,
 
 	/**
 	 * Sets the cover image.
-	 *
+	 * 
 	 * @param image the new cover image
 	 */
 	private void setCoverImage(BufferedImage image) {
@@ -190,7 +190,7 @@ public class GamePanel extends GHPanel implements MP3PlayerListener,
 
 	/**
 	 * Sets the background cover image.
-	 *
+	 * 
 	 * @param coverImage the new background cover image
 	 */
 	public void setBackgroundCoverImage(BufferedImage coverImage) {
@@ -228,7 +228,7 @@ public class GamePanel extends GHPanel implements MP3PlayerListener,
 
 	/**
 	 * Gets the scale factor.
-	 *
+	 * 
 	 * @param iMasterSize the i master size
 	 * @param iTargetSize the i target size
 	 * @return the scale factor
@@ -247,7 +247,7 @@ public class GamePanel extends GHPanel implements MP3PlayerListener,
 
 	/**
 	 * Gets the scale factor to fill.
-	 *
+	 * 
 	 * @param masterSize the master size
 	 * @param targetSize the target size
 	 * @return the scale factor to fill
@@ -265,7 +265,9 @@ public class GamePanel extends GHPanel implements MP3PlayerListener,
 
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see view.GHPanel#panelWillAppear()
 	 */
 	@Override
@@ -275,7 +277,9 @@ public class GamePanel extends GHPanel implements MP3PlayerListener,
 		addComponentListener(componentListener);
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see view.GHPanel#panelWillDisappear()
 	 */
 	@Override
@@ -283,16 +287,24 @@ public class GamePanel extends GHPanel implements MP3PlayerListener,
 		removeComponentListener(componentListener);
 	}
 
-	/* (non-Javadoc)
-	 * @see controller.player.MP3PlayerListener#playbackDidStart(controller.player.MP3Player)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * controller.player.MP3PlayerListener#playbackDidStart(controller.player
+	 * .MP3Player)
 	 */
 	@Override
 	public void playbackDidStart(MP3Player player) {
 
 	}
 
-	/* (non-Javadoc)
-	 * @see controller.player.MP3PlayerListener#playbackDidStop(controller.player.MP3Player)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * controller.player.MP3PlayerListener#playbackDidStop(controller.player
+	 * .MP3Player)
 	 */
 	@Override
 	public void playbackDidStop(MP3Player player) {
@@ -307,15 +319,21 @@ public class GamePanel extends GHPanel implements MP3PlayerListener,
 		}
 	}
 
-	/* (non-Javadoc)
-	 * @see controller.player.MP3PlayerListener#playbackPlaying(controller.player.MP3Player, int)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * controller.player.MP3PlayerListener#playbackPlaying(controller.player
+	 * .MP3Player, int)
 	 */
 	@Override
 	public void playbackPlaying(MP3Player player, int frame) {
 
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see view.GHPanel#didPressBack(java.awt.event.KeyEvent)
 	 */
 	@Override
@@ -349,7 +367,9 @@ public class GamePanel extends GHPanel implements MP3PlayerListener,
 		}
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see view.GameResultsPanel.ResultListener#resultPanelShouldClose()
 	 */
 	public void resultPanelShouldClose() {
@@ -363,7 +383,9 @@ public class GamePanel extends GHPanel implements MP3PlayerListener,
 		});
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see view.GameResultsPanel.ResultListener#resultPanelDidSelectReplay()
 	 */
 	@Override

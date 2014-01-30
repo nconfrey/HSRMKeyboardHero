@@ -24,11 +24,11 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
-import controller.PlayerController;
 import model.Highscore;
 import model.Score;
 import model.StrokeSet;
 import net.miginfocom.swing.MigLayout;
+import controller.PlayerController;
 
 public class GameResultsPanel extends JPanel {
 
@@ -41,7 +41,7 @@ public class GameResultsPanel extends JPanel {
 	private ResultListener listener;
 
 	public interface ResultListener {
-		
+
 		/**
 		 * Result panel should close.
 		 */
@@ -53,7 +53,9 @@ public class GameResultsPanel extends JPanel {
 		public void resultPanelDidSelectReplay();
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see javax.swing.JComponent#setVisible(boolean)
 	 */
 	public void setVisible(boolean flag) {
@@ -77,22 +79,22 @@ public class GameResultsPanel extends JPanel {
 
 	/**
 	 * Instantiates a new game results panel.
-	 *
+	 * 
 	 * @param aListener the a listener
 	 */
 	public GameResultsPanel(ResultListener aListener) {
 
 		this.listener = aListener;
-		
-		this.setBackground(new Color(0,0,0, 170));
-		this.setLayout(new MigLayout("fill","[center]","[center]"));
-		
+
+		this.setBackground(new Color(0, 0, 0, 170));
+		this.setLayout(new MigLayout("fill", "[center]", "[center]"));
+
 		infoPanel = new JPanel();
 		infoPanel.setLayout(new MigLayout());
 		infoPanel.setBackground(Color.WHITE);
 		this.add(infoPanel, "w 500!, h 500!");
-		
-		if(!PlayerController.getInstance().isRecording()){
+
+		if (!PlayerController.getInstance().isRecording()) {
 			setupViewsForPlaying();
 		} else {
 			setupViewForRecording();
@@ -220,7 +222,9 @@ public class GameResultsPanel extends JPanel {
 		});
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see javax.swing.JComponent#paintComponent(java.awt.Graphics)
 	 */
 	@Override

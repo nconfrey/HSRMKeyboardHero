@@ -13,7 +13,6 @@ import helper.KeyboardHeroConstants;
 
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.RenderingHints.Key;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -30,14 +29,14 @@ import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 
-import view.TextPrompt.Show;
 import model.MenuSongList;
+import model.Playlist;
 import model.Track;
 import net.miginfocom.swing.MigLayout;
+import view.TextPrompt.Show;
 import controller.PersistenceHandler;
 import controller.PlayerController;
 import controller.PlaylistTransferHandler;
-import controller.player.Playlist;
 
 public class SongListPanel extends GHPanel {
 
@@ -66,7 +65,7 @@ public class SongListPanel extends GHPanel {
 
 	/**
 	 * Instantiates a new song list panel.
-	 *
+	 * 
 	 * @param mode the mode
 	 */
 	public SongListPanel(int mode) {
@@ -204,7 +203,9 @@ public class SongListPanel extends GHPanel {
 		add(searchField, "wrap, grow");
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see view.GHPanel#didPressBack(java.awt.event.KeyEvent)
 	 */
 	@Override

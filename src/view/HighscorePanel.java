@@ -31,32 +31,33 @@ public class HighscorePanel extends GHPanel {
 	private Track track;
 	private JScrollPane scrollPane;
 	private JList<Highscore> scoreList;
-	
-	
+
 	/**
 	 * Instantiates a new highscore panel.
-	 *
+	 * 
 	 * @param track the track
 	 */
 	public HighscorePanel(Track track) {
-		
+
 		this.track = track;
-		
+
 		this.setLayout(new MigLayout("insets 50 200 50 200, fill"));
 		this.setBackground(Color.WHITE);
 
-		JLabel titleLabel = new TitleLabel(KeyboardHeroConstants.getString("hightscore_title"));
+		JLabel titleLabel = new TitleLabel(
+				KeyboardHeroConstants.getString("hightscore_title"));
 		this.add(titleLabel, "wrap, grow");
-		
-		
-		this.scoreList = new MenuSongList<Highscore>(this.track.getStrokeSet().getHighscores(), false);
+
+		this.scoreList = new MenuSongList<Highscore>(this.track.getStrokeSet()
+				.getHighscores(), false);
 		this.scoreList.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
-		this.scrollPane = new  JScrollPane(this.scoreList);
+		this.scrollPane = new JScrollPane(this.scoreList);
 		this.scrollPane.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
 		this.add(scrollPane, "wrap, growx, pushy, growy");
-		
-		MenuButton mainMenuButton = new MenuButton(KeyboardHeroConstants.getString("back_to_tracklist"), new Color(
-				KeyboardHeroConstants.FONT_COLOR_SECONDARY));
+
+		MenuButton mainMenuButton = new MenuButton(
+				KeyboardHeroConstants.getString("back_to_tracklist"),
+				new Color(KeyboardHeroConstants.FONT_COLOR_SECONDARY));
 		mainMenuButton.addActionListener(new ActionListener() {
 
 			@Override
@@ -65,10 +66,12 @@ public class HighscorePanel extends GHPanel {
 			}
 		});
 		this.add(mainMenuButton, "growx, height 60!");
-		
+
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see view.GHPanel#didPressBack(java.awt.event.KeyEvent)
 	 */
 	@Override

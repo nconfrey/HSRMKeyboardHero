@@ -1,5 +1,5 @@
 /**
- * 
+ * Start Point for the Application
  * 
  * @author Simon Seyer
  * @author Martin Juhasz
@@ -25,7 +25,7 @@ public class KeyboardHero {
 
 	/**
 	 * The main method.
-	 *
+	 * 
 	 * @param args the arguments
 	 */
 	public static void main(String[] args) {

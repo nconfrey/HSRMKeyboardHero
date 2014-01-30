@@ -18,9 +18,9 @@ import java.beans.PropertyChangeListener;
 import javax.swing.JLabel;
 import javax.swing.SwingUtilities;
 
-import controller.PlayerController;
 import model.Score;
 import net.miginfocom.swing.MigLayout;
+import controller.PlayerController;
 
 /**
  * GUI Panel for play mode to display the current scores
@@ -46,7 +46,8 @@ public class ScorePanel extends TransparentPanel implements
 
 		setLayout(new MigLayout());
 
-		this.scoreTitleLabel = new JLabel(KeyboardHeroConstants.getString("score_title"));
+		this.scoreTitleLabel = new JLabel(
+				KeyboardHeroConstants.getString("score_title"));
 		this.scoreTitleLabel.setFont(new Font("sanserif", Font.BOLD, 19));
 		this.add(this.scoreTitleLabel, "wrap");
 
@@ -60,9 +61,9 @@ public class ScorePanel extends TransparentPanel implements
 	}
 
 	/**
-	 * Every time the scorevalue from score controller changes the score
-	 * label will be updated.
-	 *
+	 * Every time the scorevalue from score controller changes the score label
+	 * will be updated.
+	 * 
 	 * @param evt the evt
 	 */
 	@Override
