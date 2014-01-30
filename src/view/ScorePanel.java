@@ -35,15 +35,18 @@ import net.miginfocom.swing.MigLayout;
 public class ScorePanel extends TransparentPanel implements
 		PropertyChangeListener {
 
-	JLabel scoreTitleLabel;
-	JLabel scoreLabel;
-	Score score;
+	private PlayerController playerController;
+	private JLabel scoreTitleLabel;
+	private JLabel scoreLabel;
+	private Score score;
 
 	/**
 	 * Creates a Panel to display the current scores.
+	 *
+	 * @param playerController the player controller
 	 */
-	public ScorePanel() {
-
+	public ScorePanel(PlayerController playerController) {
+		this.playerController = playerController;
 		setLayout(new MigLayout());
 
 		this.scoreTitleLabel = new JLabel(KeyboardHeroConstants.getString("score_title"));
@@ -54,7 +57,7 @@ public class ScorePanel extends TransparentPanel implements
 		this.scoreLabel.setFont(new Font("sanserif", Font.BOLD, 15));
 		this.add(this.scoreLabel);
 
-		PlayerController.getInstance().getScoreController().getScore()
+		playerController.getScoreController().getScore()
 				.addPropertyChangeListener(this);
 
 	}

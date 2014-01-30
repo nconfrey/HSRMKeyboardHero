@@ -48,6 +48,7 @@ public class GuitarPane extends JPanel implements MP3PlayerListener,
 	private static final int STYLE_PRESET = 0;
 	private static final int STYLE_LIVE = 1;
 
+	private PlayerController playerController;
 	private int frame;
 	private float strokeOffset;
 	private Timer strokeOffsetTimer;
@@ -60,19 +61,22 @@ public class GuitarPane extends JPanel implements MP3PlayerListener,
 	private CountPanel countPanel;
 	private InfoPanel[] infoPanels;
 
+	
 	/**
 	 * Instantiates a new guitar pane.
+	 *
+	 * @param playerController the player controller
 	 */
-	public GuitarPane() {
+	public GuitarPane(PlayerController playerController) {
+		this.playerController = playerController;
 		strokeRects = new ArrayList<>();
 		openStrokeRects = new ArrayList<>();
 		toRemove = new ArrayList<>();
 		scoringKeys = new boolean[StrokeKey.STROKE_COUNT];
 
-		PlayerController.getInstance().getPlayer().addPlayerListener(this);
-		PlayerController.getInstance().getRecorder()
-				.addStrokeRecorderListener(this);
-		PlayerController.getInstance().getScoreController().addListener(this);
+		playerController.getPlayer().addPlayerListener(this);
+		playerController.getRecorder().addStrokeRecorderListener(this);
+		playerController.getScoreController().addListener(this);
 
 		countPanel = new CountPanel(this);
 		
@@ -278,7 +282,7 @@ public class GuitarPane extends JPanel implements MP3PlayerListener,
 	 * Load new strokes.
 	 */
 	private void loadNewStrokes() {
-		Track track = PlayerController.getInstance().getTrack();
+		Track track = playerController.getTrack();
 		if (track.getStrokeSet() != null) {
 			int toFrame = getFrameForPixel((int) (getVerticalOffset()));
 			List<Stroke> strokes = track.getStrokeSet().getListForFrameInRange(
@@ -465,6 +469,6 @@ public class GuitarPane extends JPanel implements MP3PlayerListener,
 				}
 			}
 		});
-		PlayerController.getInstance().play();
+		playerController.play();
 	}
 }

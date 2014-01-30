@@ -40,6 +40,7 @@ import controller.player.MP3PlayerLocalTrack;
  */
 public class MenuPanel extends GHPanel implements ActionListener {
 
+	private PlayerController playerController;
 	private JButton playButton;
 	private JButton recordButton;
 	private JButton highscoreButton;
@@ -47,9 +48,11 @@ public class MenuPanel extends GHPanel implements ActionListener {
 
 	/**
 	 * Creates the main menu with its components.
+	 *
+	 * @param playerController the player controller
 	 */
-	public MenuPanel() {
-
+	public MenuPanel(PlayerController playerController) {
+		this.playerController = playerController;
 		this.setBackground(Color.WHITE);
 		this.setLayout(new MigLayout("insets 50 0 0 0, fillx"));
 
@@ -85,14 +88,13 @@ public class MenuPanel extends GHPanel implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == playButton || e.getSource() == recordButton) {
-			PlayerController.getInstance().setRecording(
-					e.getSource() == recordButton);
+			playerController.setRecording(e.getSource() == recordButton);
 			int mode = (e.getSource() == recordButton) ? SongListPanel.MODE_RECORD
 					: SongListPanel.MODE_PLAY;
-			SongListPanel songListPanel = new SongListPanel(mode);
+			SongListPanel songListPanel = new SongListPanel(playerController, mode);
 			this.getNavigationController().pushPanel(songListPanel);
 		} else if (e.getSource() == highscoreButton) {
-			SongListPanel songListPanel = new SongListPanel(
+			SongListPanel songListPanel = new SongListPanel(playerController,
 					SongListPanel.MODE_HIGHSCORE);
 			this.getNavigationController().pushPanel(songListPanel);
 		} else if (e.getSource() == creditsButton) {
@@ -108,8 +110,8 @@ public class MenuPanel extends GHPanel implements ActionListener {
 		MP3PlayerLocalTrack mp3 = new MP3PlayerLocalTrack(new File(
 				"music/back_in_black.mp3"));
 		Track intro = new Track(mp3);
-		PlayerController.getInstance().setTrack(intro);
-		PlayerController.getInstance().loop();
+		playerController.setTrack(intro);
+		playerController.loop();
 	}
 
 	/**

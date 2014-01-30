@@ -32,6 +32,7 @@ import net.miginfocom.swing.MigLayout;
 
 public class GameResultsPanel extends JPanel {
 
+	private PlayerController playerController;
 	private JTextField highscoreNameField;
 	private JButton highscoreSubmitButton;
 	private JLabel highscoreTitleLabel;
@@ -52,27 +53,14 @@ public class GameResultsPanel extends JPanel {
 		 */
 		public void resultPanelDidSelectReplay();
 	}
-
-	/* (non-Javadoc)
-	 * @see javax.swing.JComponent#setVisible(boolean)
-	 */
-	public void setVisible(boolean flag) {
-		super.setVisible(flag);
-
-		if (flag == true) {
-			viewDidBecomeVisible();
-		}
-	}
-
+	
 	/**
-	 * View did become visible.
+	 * Instantiates a new game results panel.
+	 *
+	 * @param playerController the player controller
 	 */
-	private void viewDidBecomeVisible() {
-		if (!PlayerController.getInstance().isRecording()) {
-			int score = (int) PlayerController.getInstance()
-					.getScoreController().getScore().getScore();
-			scoreLabel.setText(String.valueOf(score));
-		}
+	public GameResultsPanel(PlayerController playerController) {
+		this.playerController = playerController;
 	}
 
 	/**
@@ -80,8 +68,8 @@ public class GameResultsPanel extends JPanel {
 	 *
 	 * @param aListener the a listener
 	 */
-	public GameResultsPanel(ResultListener aListener) {
-
+	public GameResultsPanel(PlayerController playerController, ResultListener aListener) {
+		this(playerController);
 		this.listener = aListener;
 		
 		this.setBackground(new Color(0,0,0, 170));
@@ -92,7 +80,7 @@ public class GameResultsPanel extends JPanel {
 		infoPanel.setBackground(Color.WHITE);
 		this.add(infoPanel, "w 500!, h 500!");
 		
-		if(!PlayerController.getInstance().isRecording()){
+		if(!playerController.isRecording()){
 			setupViewsForPlaying();
 		} else {
 			setupViewForRecording();
@@ -103,7 +91,7 @@ public class GameResultsPanel extends JPanel {
 		infoPanel.add(pushPanel, "grow, pushy, span");
 
 		String playButtonText = KeyboardHeroConstants.getString("play_again");
-		if (PlayerController.getInstance().isRecording()) {
+		if (playerController.isRecording()) {
 			playButtonText = KeyboardHeroConstants.getString("record_again");
 		}
 
@@ -129,7 +117,28 @@ public class GameResultsPanel extends JPanel {
 			}
 		});
 		infoPanel.add(closeButton, "w 45%");
+	}
+	
+	/* (non-Javadoc)
+	 * @see javax.swing.JComponent#setVisible(boolean)
+	 */
+	public void setVisible(boolean flag) {
+		super.setVisible(flag);
 
+		if (flag == true) {
+			viewDidBecomeVisible();
+		}
+	}
+
+	/**
+	 * View did become visible.
+	 */
+	private void viewDidBecomeVisible() {
+		if (!playerController.isRecording()) {
+			int score = (int) playerController
+					.getScoreController().getScore().getScore();
+			scoreLabel.setText(String.valueOf(score));
+		}
 	}
 
 	/**
@@ -166,7 +175,7 @@ public class GameResultsPanel extends JPanel {
 		scoreLabel.setFont(new Font("sanserif", Font.BOLD, 27));
 		infoPanel.add(scoreLabel, "w 45%, h 100!");
 
-		Highscore bestHighscore = PlayerController.getInstance().getTrack()
+		Highscore bestHighscore = playerController.getTrack()
 				.getStrokeSet().getHighscores().getBestScore();
 		String bestScore = "n/a";
 		if (bestHighscore != null) {
@@ -201,9 +210,9 @@ public class GameResultsPanel extends JPanel {
 				if (highscoreNameField.getText().trim().length() <= 0)
 					return;
 
-				Score score = PlayerController.getInstance()
+				Score score = playerController
 						.getScoreController().getScore();
-				StrokeSet strokeSet = PlayerController.getInstance().getTrack()
+				StrokeSet strokeSet = playerController.getTrack()
 						.getStrokeSet();
 
 				strokeSet.addHighscore((int) score.getScore(),

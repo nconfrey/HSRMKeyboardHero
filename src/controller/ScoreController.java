@@ -19,17 +19,34 @@ import model.Score;
 import model.Stroke;
 import model.StrokeKey;
 import model.StrokeSet;
+import model.Track;
 import controller.player.MP3Player;
 import controller.player.MP3PlayerListener;
 import controller.recorder.StrokeRecorder;
 import controller.recorder.StrokeRecorderListener;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class ScoreController.
+ *
+ * @author privat
+ */
 public class ScoreController implements MP3PlayerListener, StrokeRecorderListener {
 	
+	/** The is recording. */
 	private boolean isRecording;
+	
+	/** The current played strokes. */
 	private Map<StrokeKey, Stroke> currentPlayedStrokes;
+	
+	/** The score. */
 	private Score score;
+	
+	/** The listeners. */
 	private WeakHashMap<ScoreListener, Void> listeners;
+	
+	/** The track. */
+	private Track track;
 	
 	/**
 	 * Instantiates a new score controller.
@@ -63,6 +80,15 @@ public class ScoreController implements MP3PlayerListener, StrokeRecorderListene
 	public void setRecording(boolean isRecording) {
 		this.isRecording = isRecording;
 	}
+	
+	/**
+	 * Sets the track.
+	 *
+	 * @param track the new track
+	 */
+	public void setTrack(Track track) {
+		this.track = track;
+	}
 
 	/* (non-Javadoc)
 	 * @see controller.player.MP3PlayerListener#playbackDidStop(controller.player.MP3Player)
@@ -77,7 +103,7 @@ public class ScoreController implements MP3PlayerListener, StrokeRecorderListene
 	@Override
 	public void playbackPlaying(MP3Player player, int frame) {
 		// TODO Auto-generated method stub
-		StrokeSet strokeSet = PlayerController.getInstance().getTrack().getStrokeSet();
+		StrokeSet strokeSet = track.getStrokeSet();
 		
 		List<StrokeKey> toRemove = new ArrayList<>();
 		for (StrokeKey key : currentPlayedStrokes.keySet()) {
@@ -118,7 +144,7 @@ public class ScoreController implements MP3PlayerListener, StrokeRecorderListene
 		// already added
 		if(currentPlayedStrokes.containsKey(stroke.getKey())) return;
 		
-		StrokeSet strokeSet = PlayerController.getInstance().getTrack().getStrokeSet();
+		StrokeSet strokeSet = track.getStrokeSet();
 		if(strokeSet != null && strokeSet.containsStroke(stroke)) {
 			currentPlayedStrokes.put(stroke.getKey(), stroke);
 			fireScoringDidStart(stroke.getKey());

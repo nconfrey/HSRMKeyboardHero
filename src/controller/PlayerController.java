@@ -22,20 +22,6 @@ public class PlayerController {
 	private Track track;
 	private ScoreController scoreController;
 	private boolean isRecording;
-
-	private static PlayerController instance;
-	
-	/**
-	 * Gets the single instance of PlayerController.
-	 *
-	 * @return single instance of PlayerController
-	 */
-	public static PlayerController getInstance() {
-		if(instance == null) {
-			instance = new PlayerController();
-		}
-		return instance;
-	}
 	
 	/**
 	 * Instantiates a new player controller.
@@ -171,7 +157,7 @@ public class PlayerController {
 		
 		recorder.setTrack(track);
 		player.setTrack(track.getMp3());
-		
+		scoreController.setTrack(track);
 	}
 	
 	/**

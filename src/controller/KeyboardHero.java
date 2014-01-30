@@ -29,10 +29,10 @@ public class KeyboardHero {
 	 * @param args the arguments
 	 */
 	public static void main(String[] args) {
-
+		PlayerController playerController = new PlayerController();
 		BaseFrame baseFrame = new BaseFrame();
 		NavigationController navCon = new NavigationController(baseFrame);
-		MenuPanel menu = new MenuPanel();
+		MenuPanel menu = new MenuPanel(playerController);
 		navCon.pushPanel(menu);
 
 		Runtime.getRuntime().addShutdownHook(new Thread() {
