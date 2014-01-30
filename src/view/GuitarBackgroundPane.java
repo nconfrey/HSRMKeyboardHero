@@ -19,7 +19,7 @@ import controller.PlayerController;
 
 public class GuitarBackgroundPane extends JPanel {
 	
-	private static final int GUITAR_WIDTH = 350;
+	private static final int GUITAR_WIDTH = 450;
 	private GuitarPane guitarPane;
 	
 	/**

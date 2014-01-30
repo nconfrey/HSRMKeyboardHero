@@ -42,7 +42,7 @@ public class GuitarPane extends JPanel implements MP3PlayerListener,
 	private static final int CLEAN_INTERVAL = 50;
 	private static final float RENDER_FACTOR = 2f;
 
-	private static final float STROKE_WIDTH = 20;
+	private static final float STROKE_WIDTH = 40;
 	private static final float TAB_DISTANCE = 150;
 
 	private static final int STYLE_PRESET = 0;
@@ -97,8 +97,6 @@ public class GuitarPane extends JPanel implements MP3PlayerListener,
 		infoPanels[infoPanels.length - 1] = infoPanel;
 		add(infoPanel, "pos 30 (container.h - 175) (container.w - 30)");
 		
-		
-
 		setOpaque(false);
 	}
 	
@@ -198,7 +196,7 @@ public class GuitarPane extends JPanel implements MP3PlayerListener,
 	 */
 	public void draw(Graphics2D g) {
 		// Draw background
-		g.setColor(new Color(0xF1DDDDDD, true));
+		g.setColor(new Color(0xEEDDDDDD, true));
 		g.fillRect(0, 0, getWidth(), getHeight());
 
 		float frameOffset = getPixelForFrame(frame);
@@ -268,7 +266,7 @@ public class GuitarPane extends JPanel implements MP3PlayerListener,
 			c = new Color(c.getRed(), c.getGreen(), c.getBlue(), 180);
 
 			float x = getPositionForLine(i);
-			int size = 30;
+			float size = STROKE_WIDTH - 10;
 
 			g.setColor(c);
 			g.fill(new Rectangle2D.Float(x - size / 2f, getVerticalOffset()
