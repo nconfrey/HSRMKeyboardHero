@@ -17,7 +17,9 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.URL;
 
+import model.MP3PlayerLocalTrack;
 import model.Playlist;
+import model.Track;
 
 import org.apache.commons.io.FileUtils;
 
@@ -27,12 +29,12 @@ import org.apache.commons.io.FileUtils;
  */
 public class PersistenceHandler {
 
+	private static final String LOCAL_FOLDER_NAME = ".keyboardHero";
 	private static final String FILE_FOLDER = System.getProperty("user.home")
-			+ File.separator + ".keyboardHero";
+			+ File.separator + LOCAL_FOLDER_NAME;
 	private static final String PLAYLIST_FILE_NAME = "playlist.mpl";
 	private static final String[] filesToCopy = new String[] { "playlist.mpl",
-			"smoke_on_the_water_short.mp3",
-			"back_in_black.mp3" };
+			"smoke_on_the_water_short.mp3", "back_in_black.mp3" };
 
 	/**
 	 * Instantiates a new persistence handler.
@@ -88,6 +90,26 @@ public class PersistenceHandler {
 				ObjectInputStream in = new ObjectInputStream(fileIn)) {
 			playlist = (Playlist) in.readObject();
 			System.out.println("Playlist: loaded");
+
+			/*
+			 * If the file does not exist and the path contains the
+			 * .keyboardHero folder, try to get the name of the file and search
+			 * in the current .keyboardHero folder (in the user directory), if
+			 * the file exists there
+			 */
+			for (Track track : playlist.getTracks()) {
+				String path = track.getMp3().getPath();
+				if (track.getMp3() instanceof MP3PlayerLocalTrack
+						&& !track.getMp3().isConsistent()
+						&& path.contains(LOCAL_FOLDER_NAME)) {
+					MP3PlayerLocalTrack localTrack = (MP3PlayerLocalTrack)track.getMp3();
+					File file = new File(FILE_FOLDER + File.separator
+							+ localTrack.getFile().getName());
+					if (file.exists()) {
+						track.setMp3(new MP3PlayerLocalTrack(file));
+					}
+				}
+			}
 			playlist.checkConsistency();
 		} catch (IOException i) {
 			System.out.println("Playlist could not be loaded ");
