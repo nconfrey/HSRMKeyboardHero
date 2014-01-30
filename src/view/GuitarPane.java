@@ -29,6 +29,7 @@ import model.Stroke;
 import model.StrokeKey;
 import model.Track;
 import net.miginfocom.swing.MigLayout;
+import controller.PlayException;
 import controller.PlayerController;
 import controller.ScoreListener;
 import controller.player.MP3Player;
@@ -61,10 +62,9 @@ public class GuitarPane extends JPanel implements MP3PlayerListener,
 	private CountPanel countPanel;
 	private InfoPanel[] infoPanels;
 
-	
 	/**
 	 * Instantiates a new guitar pane.
-	 *
+	 * 
 	 * @param playerController the player controller
 	 */
 	public GuitarPane(PlayerController playerController) {
@@ -111,6 +111,13 @@ public class GuitarPane extends JPanel implements MP3PlayerListener,
 			infoPanels[i].setVisible(true);
 		}
 		countPanel.startTimer();
+		new Thread(new Runnable() {
+
+			@Override
+			public void run() {
+				playerController.getPlayer().buffer();
+			}
+		}).start();
 	}
 
 	/**
@@ -410,6 +417,20 @@ public class GuitarPane extends JPanel implements MP3PlayerListener,
 	public void playbackPlaying(MP3Player player, int frame) {
 		this.frame = frame;
 		repaint();
+	}
+	
+	/* (non-Javadoc)
+	 * @see controller.player.MP3PlayerListener#playbackDidFail()
+	 */
+	@Override
+	public void playbackDidFail(final MP3Player player) {
+		SwingUtilities.invokeLater(new Runnable() {
+			
+			@Override
+			public void run() {
+				countPanel.stopTimer();
+			}
+		});
 	}
 
 	// StrokeRecorder Listener

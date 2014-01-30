@@ -80,7 +80,7 @@ public class CountPanel extends InfoPanel {
 	/**
 	 * Stop timer.
 	 */
-	private void stopTimer() {
+	public void stopTimer() {
 		if (timer != null) {
 			timer.cancel();
 			timer = null;

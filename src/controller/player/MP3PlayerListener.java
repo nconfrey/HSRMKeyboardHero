@@ -32,5 +32,7 @@ public interface MP3PlayerListener {
 	 * @param frame the frame
 	 */
 	public void playbackPlaying(final MP3Player player, final int frame);
+	
+	public void playbackDidFail(final MP3Player player);
 
 }

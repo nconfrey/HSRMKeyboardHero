@@ -44,4 +44,10 @@ public class MP3PlayerAdapter implements MP3PlayerListener {
 	public void playbackPlaying(MP3Player player, int frame) {
 	}
 
+	/* (non-Javadoc)
+	 * @see controller.player.MP3PlayerListener#playbackDidFail()
+	 */
+	@Override
+	public void playbackDidFail(final MP3Player player) {
+	}
 }

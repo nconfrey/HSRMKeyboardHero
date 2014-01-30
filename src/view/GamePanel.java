@@ -51,7 +51,7 @@ public class GamePanel extends GHPanel implements MP3PlayerListener,
 
 	/**
 	 * Instantiates a new game panel.
-	 *
+	 * 
 	 * @param playerController the player controller
 	 */
 	public GamePanel(PlayerController playerController) {
@@ -69,13 +69,15 @@ public class GamePanel extends GHPanel implements MP3PlayerListener,
 
 		this.add(this.buildLeftContent(),
 				"gapleft 30, gaptop  30, west, width 250:350:350");
-		GuitarBackgroundPane backgroundPane = new GuitarBackgroundPane(playerController);
+		GuitarBackgroundPane backgroundPane = new GuitarBackgroundPane(
+				playerController);
 		this.add(backgroundPane, "center, growy");
 		guitarPane = backgroundPane.getGuitarPane();
 		guitarPane.start();
 
 		loadBackgroundCover();
 
+		playerController.getPlayer().addPlayerListener(this);
 		componentListener = new ComponentAdapter() {
 			@Override
 			public void componentResized(ComponentEvent e) {
@@ -282,7 +284,6 @@ public class GamePanel extends GHPanel implements MP3PlayerListener,
 	@Override
 	public void panelWillAppear() {
 		// Game Results
-		playerController.getPlayer().addPlayerListener(this);
 		addComponentListener(componentListener);
 	}
 
@@ -340,6 +341,31 @@ public class GamePanel extends GHPanel implements MP3PlayerListener,
 
 	}
 
+	@Override
+	public void playbackDidFail(final MP3Player player) {
+		SwingUtilities.invokeLater(new Runnable() {
+
+			@Override
+			public void run() {
+
+				int d = JOptionPane.showOptionDialog(
+						getParent(),
+						KeyboardHeroConstants.getString("playback_failed_text"),
+						KeyboardHeroConstants
+								.getString("playback_failed_title"),
+						JOptionPane.YES_OPTION, JOptionPane.PLAIN_MESSAGE,
+						null, new String[] { KeyboardHeroConstants
+								.getString("back_to_menu"), },
+						KeyboardHeroConstants.getString("back_to_menu"));
+
+				if (d == JOptionPane.YES_OPTION) {
+					playerController.stop();
+					getNavigationController().popToRootPanel();
+				}
+			}
+		});
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -381,6 +407,7 @@ public class GamePanel extends GHPanel implements MP3PlayerListener,
 	 * 
 	 * @see view.GameResultsPanel.ResultListener#resultPanelShouldClose()
 	 */
+	@Override
 	public void resultPanelShouldClose() {
 		SwingUtilities.invokeLater(new Runnable() {
 

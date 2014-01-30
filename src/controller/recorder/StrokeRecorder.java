@@ -273,4 +273,10 @@ public class StrokeRecorder implements GuitarStringListener, MP3PlayerListener {
 		this.frame = frame;
 	}
 
+	/* (non-Javadoc)
+	 * @see controller.player.MP3PlayerListener#playbackDidFail()
+	 */
+	@Override
+	public void playbackDidFail(final MP3Player player) {
+	}
 }

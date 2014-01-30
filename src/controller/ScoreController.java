@@ -100,6 +100,13 @@ public class ScoreController implements MP3PlayerListener, StrokeRecorderListene
 	@Override
 	public void playbackDidStop(MP3Player player) {
 	}
+	
+	/* (non-Javadoc)
+	 * @see controller.player.MP3PlayerListener#playbackDidFail()
+	 */
+	@Override
+	public void playbackDidFail(final MP3Player player) {
+	}
 
 	/*
 	 * (non-Javadoc)
