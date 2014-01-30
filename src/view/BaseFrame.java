@@ -28,7 +28,6 @@ import model.KeyboardHeroPreferences;
  **/
 public class BaseFrame extends JFrame {
 
-	private Dimension frameSize;
 	public NavigationController navigationController;
 	private KeyboardHeroPreferences prefs;
 
@@ -39,11 +38,11 @@ public class BaseFrame extends JFrame {
 	public BaseFrame() {
 		prefs = new KeyboardHeroPreferences();
 		prefs.setPreferences();
-		frameSize = new Dimension(prefs.getScreenWidth(),
+		Dimension frameSize = new Dimension(prefs.getScreenWidth(),
 				prefs.getScreenHeight());
 		setLayout(new BorderLayout());
 		
-		this.setMinimumSize(new Dimension(1024, 768));
+		this.setMinimumSize(new Dimension(1024, 700));
 		this.setSize(frameSize);
 		
 		Runtime.getRuntime().addShutdownHook(new Thread() {
@@ -52,6 +51,15 @@ public class BaseFrame extends JFrame {
 				prefs.setScreenSize(getWidth(), getHeight());
 			}
 		});
+		
+		WindowListener exitListener = new WindowAdapter() {
+			
+			@Override
+			public void windowClosing(WindowEvent e) {
+				System.exit(0);
+			}
+		};
+		this.addWindowListener(exitListener);
 		
 		this.setTitle(KeyboardHeroConstants.getString("game_title"));
 		this.setLocationRelativeTo(null);
