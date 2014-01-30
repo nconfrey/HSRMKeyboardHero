@@ -1,3 +1,12 @@
+/**
+ * 
+ * 
+ * @author Simon Seyer
+ * @author Martin Juhasz
+ * @author Julia Kraft
+ * @author Moritz Moeller
+ * 
+ */
 package view;
 
 import java.util.Timer;
@@ -16,19 +25,34 @@ public class CountPanel extends InfoPanel {
 	private boolean paused;
 	
 	public interface CountListener {
+		
+		/**
+		 * Countdown did end.
+		 */
 		public void countdownDidEnd();
 	}
 	
+	/**
+	 * Instantiates a new count panel.
+	 *
+	 * @param listener the listener
+	 */
 	public CountPanel(CountListener listener) {
 		this.listener = listener;
 	}
 	
+	/**
+	 * Start timer.
+	 */
 	public void startTimer() {
 		paused = false;
 		timeLeft = COUNTDOWN_TIME * 1000;
 		createTimer();
 	}
 	
+	/**
+	 * Creates the timer.
+	 */
 	private void createTimer() {
 		stopTimer();
 		timer = new Timer();
@@ -53,6 +77,9 @@ public class CountPanel extends InfoPanel {
 		}, 0, REFRESH_INTERVAL);
 	}
 	
+	/**
+	 * Stop timer.
+	 */
 	private void stopTimer() {
 		if (timer != null) {
 			timer.cancel();
@@ -60,6 +87,9 @@ public class CountPanel extends InfoPanel {
 		}
 	}
 	
+	/**
+	 * Pause or resume.
+	 */
 	public void pauseOrResume() {
 		if (timeLeft > 0) {
 			if (paused) {

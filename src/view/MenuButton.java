@@ -1,3 +1,12 @@
+/**
+ * 
+ * 
+ * @author Simon Seyer
+ * @author Martin Juhasz
+ * @author Julia Kraft
+ * @author Moritz Moeller
+ * 
+ */
 package view;
 
 import helper.KeyboardHeroConstants;
@@ -11,24 +20,41 @@ public class MenuButton extends JButton {
 	
 	private Color backgroundColor;
 	
+	/**
+	 * Instantiates a new menu button.
+	 */
 	public MenuButton() {
 		super();
 		backgroundColor = new Color(KeyboardHeroConstants.FONT_COLOR_PRIMARY);
 		setDefaultParams();
 	}
 	
+	/**
+	 * Instantiates a new menu button.
+	 *
+	 * @param text the text
+	 */
 	public MenuButton(String text) {
 		super(text);
 		backgroundColor = new Color(KeyboardHeroConstants.FONT_COLOR_PRIMARY);
 		setDefaultParams();
 	}
 	
+	/**
+	 * Instantiates a new menu button.
+	 *
+	 * @param text the text
+	 * @param backgroundColor the background color
+	 */
 	public MenuButton(String text, Color backgroundColor) {
 		super(text);
 		this.backgroundColor = backgroundColor;
 		setDefaultParams();
 	}
 	
+	/**
+	 * Sets the default params.
+	 */
 	private void setDefaultParams() {
 		this.setBorderPainted(false);
 		this.setFocusPainted(false);

@@ -1,3 +1,12 @@
+/**
+ * 
+ * 
+ * @author Simon Seyer
+ * @author Martin Juhasz
+ * @author Julia Kraft
+ * @author Moritz Moeller
+ * 
+ */
 package view;
 
 import java.awt.*;
@@ -33,11 +42,24 @@ public class TextPrompt extends JLabel
 	private boolean showPromptOnce;
 	private int focusLost;
 
+	/**
+	 * Instantiates a new text prompt.
+	 *
+	 * @param text the text
+	 * @param component the component
+	 */
 	public TextPrompt(String text, JTextComponent component)
 	{
 		this(text, component, Show.ALWAYS);
 	}
 
+	/**
+	 * Instantiates a new text prompt.
+	 *
+	 * @param text the text
+	 * @param component the component
+	 * @param show the show
+	 */
 	public TextPrompt(String text, JTextComponent component, Show show)
 	{
 		this.component = component;
@@ -101,9 +123,9 @@ public class TextPrompt extends JLabel
 	}
 
 	/**
-	 *  Get the Show property
+	 *  Get the Show property.
 	 *
-	 *  @return the Show property.
+	 * @return the Show property.
 	 */
 	public Show getShow()
 	{
@@ -128,9 +150,9 @@ public class TextPrompt extends JLabel
 	}
 
 	/**
-	 *  Get the showPromptOnce property
+	 *  Get the showPromptOnce property.
 	 *
-	 *  @return the showPromptOnce property.
+	 * @return the showPromptOnce property.
 	 */
 	public boolean getShowPromptOnce()
 	{
@@ -194,11 +216,17 @@ public class TextPrompt extends JLabel
 
 //  Implement FocusListener
 
-	public void focusGained(FocusEvent e)
+	/* (non-Javadoc)
+ * @see java.awt.event.FocusListener#focusGained(java.awt.event.FocusEvent)
+ */
+public void focusGained(FocusEvent e)
 	{
 		checkForPrompt();
 	}
 
+	/* (non-Javadoc)
+	 * @see java.awt.event.FocusListener#focusLost(java.awt.event.FocusEvent)
+	 */
 	public void focusLost(FocusEvent e)
 	{
 		focusLost++;
@@ -207,15 +235,24 @@ public class TextPrompt extends JLabel
 
 //  Implement DocumentListener
 
-	public void insertUpdate(DocumentEvent e)
+	/* (non-Javadoc)
+ * @see javax.swing.event.DocumentListener#insertUpdate(javax.swing.event.DocumentEvent)
+ */
+public void insertUpdate(DocumentEvent e)
 	{
 		checkForPrompt();
 	}
 
+	/* (non-Javadoc)
+	 * @see javax.swing.event.DocumentListener#removeUpdate(javax.swing.event.DocumentEvent)
+	 */
 	public void removeUpdate(DocumentEvent e)
 	{
 		checkForPrompt();
 	}
 
+	/* (non-Javadoc)
+	 * @see javax.swing.event.DocumentListener#changedUpdate(javax.swing.event.DocumentEvent)
+	 */
 	public void changedUpdate(DocumentEvent e) {}
 }

@@ -1,3 +1,12 @@
+/**
+ * 
+ * 
+ * @author Simon Seyer
+ * @author Martin Juhasz
+ * @author Julia Kraft
+ * @author Moritz Moeller
+ * 
+ */
 package model;
 
 import helper.KeyboardHeroConstants;
@@ -22,15 +31,31 @@ public class MenuSongList<E> extends JList<E> {
 	private ImageIcon soundCloudIcon;
 	private ImageIcon noteIcon;
 
+	/**
+	 * Instantiates a new menu song list.
+	 *
+	 * @param dataModel the data model
+	 * @param showIcons the show icons
+	 */
 	public MenuSongList(ListModel<E> dataModel, boolean showIcons) {
 		super(dataModel);
 		init(showIcons);
 	}
 	
+	/**
+	 * Instantiates a new menu song list.
+	 *
+	 * @param showIcons the show icons
+	 */
 	public MenuSongList(boolean showIcons) {
 		init(showIcons);
 	}
 
+	/**
+	 * Inits the.
+	 *
+	 * @param showIcons the show icons
+	 */
 	private void init(final boolean showIcons) {
 		if (showIcons) {
 			try {

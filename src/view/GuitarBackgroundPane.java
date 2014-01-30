@@ -1,3 +1,12 @@
+/**
+ * 
+ * 
+ * @author Simon Seyer
+ * @author Martin Juhasz
+ * @author Julia Kraft
+ * @author Moritz Moeller
+ * 
+ */
 package view;
 
 import java.awt.Dimension;
@@ -11,6 +20,9 @@ public class GuitarBackgroundPane extends JPanel {
 	private static final int GUITAR_WIDTH = 350;
 	private GuitarPane guitarPane;
 	
+	/**
+	 * Instantiates a new guitar background pane.
+	 */
 	public GuitarBackgroundPane() {
 		super();
 		
@@ -32,6 +44,11 @@ public class GuitarBackgroundPane extends JPanel {
 		add(guitarPane, c);
 	}
 	
+	/**
+	 * Gets the guitar pane.
+	 *
+	 * @return the guitar pane
+	 */
 	public GuitarPane getGuitarPane() {
 		return guitarPane;
 	}

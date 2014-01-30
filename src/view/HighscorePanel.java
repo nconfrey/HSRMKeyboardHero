@@ -1,3 +1,12 @@
+/**
+ * 
+ * 
+ * @author Simon Seyer
+ * @author Martin Juhasz
+ * @author Julia Kraft
+ * @author Moritz Moeller
+ * 
+ */
 package view;
 
 import helper.KeyboardHeroConstants;
@@ -24,6 +33,11 @@ public class HighscorePanel extends GHPanel {
 	private JList<Highscore> scoreList;
 	
 	
+	/**
+	 * Instantiates a new highscore panel.
+	 *
+	 * @param track the track
+	 */
 	public HighscorePanel(Track track) {
 		
 		this.track = track;
@@ -54,6 +68,9 @@ public class HighscorePanel extends GHPanel {
 		
 	}
 
+	/* (non-Javadoc)
+	 * @see view.GHPanel#didPressBack(java.awt.event.KeyEvent)
+	 */
 	@Override
 	public void didPressBack(KeyEvent e) {
 		getNavigationController().popPanel();

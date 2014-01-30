@@ -1,3 +1,12 @@
+/**
+ * 
+ * 
+ * @author Simon Seyer
+ * @author Martin Juhasz
+ * @author Julia Kraft
+ * @author Moritz Moeller
+ * 
+ */
 package view;
 
 import java.awt.Graphics;
@@ -19,6 +28,9 @@ public class TransparentPanel extends JPanel {
 	
 	/*
 	 * method which helps that transparent Panel works
+	 * @see javax.swing.JComponent#paintComponent(java.awt.Graphics)
+	 */
+	/* (non-Javadoc)
 	 * @see javax.swing.JComponent#paintComponent(java.awt.Graphics)
 	 */
 	@Override

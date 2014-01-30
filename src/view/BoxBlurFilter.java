@@ -22,6 +22,13 @@ public class BoxBlurFilter  {
 	private int vRadius = 60;
 	private int iterations = 2;
 	
+    /**
+     * Filter.
+     *
+     * @param src the src
+     * @param dst the dst
+     * @return the buffered image
+     */
     public BufferedImage filter( BufferedImage src, BufferedImage dst ) {
         int width = src.getWidth();
         int height = src.getHeight();
@@ -42,6 +49,15 @@ public class BoxBlurFilter  {
         return dst;
     }
 
+    /**
+     * Blur.
+     *
+     * @param in the in
+     * @param out the out
+     * @param width the width
+     * @param height the height
+     * @param radius the radius
+     */
     public static void blur( int[] in, int[] out, int width, int height, int radius ) {
         int widthMinus1 = width-1;
         int tableSize = 2*radius+1;
@@ -86,52 +102,115 @@ public class BoxBlurFilter  {
         }
     }
         
+	/**
+	 * Sets the h radius.
+	 *
+	 * @param hRadius the new h radius
+	 */
 	public void setHRadius(int hRadius) {
 		this.hRadius = hRadius;
 	}
 	
+	/**
+	 * Gets the h radius.
+	 *
+	 * @return the h radius
+	 */
 	public int getHRadius() {
 		return hRadius;
 	}
 	
+	/**
+	 * Sets the v radius.
+	 *
+	 * @param vRadius the new v radius
+	 */
 	public void setVRadius(int vRadius) {
 		this.vRadius = vRadius;
 	}
 	
+	/**
+	 * Gets the v radius.
+	 *
+	 * @return the v radius
+	 */
 	public int getVRadius() {
 		return vRadius;
 	}
 	
+	/**
+	 * Sets the radius.
+	 *
+	 * @param radius the new radius
+	 */
 	public void setRadius(int radius) {
 		this.hRadius = this.vRadius = radius;
 	}
 	
+	/**
+	 * Gets the radius.
+	 *
+	 * @return the radius
+	 */
 	public int getRadius() {
 		return hRadius;
 	}
 	
+	/**
+	 * Sets the iterations.
+	 *
+	 * @param iterations the new iterations
+	 */
 	public void setIterations(int iterations) {
 		this.iterations = iterations;
 	}
 	
+	/**
+	 * Gets the iterations.
+	 *
+	 * @return the iterations
+	 */
 	public int getIterations() {
 		return iterations;
 	}
 	
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
 	public String toString() {
 		return "Blur/Box Blur...";
 	}
 	
+	/**
+	 * Creates the compatible dest image.
+	 *
+	 * @param src the src
+	 * @param dstCM the dst cm
+	 * @return the buffered image
+	 */
 	public BufferedImage createCompatibleDestImage(BufferedImage src, ColorModel dstCM) {
         if ( dstCM == null )
             dstCM = src.getColorModel();
         return new BufferedImage(dstCM, dstCM.createCompatibleWritableRaster(src.getWidth(), src.getHeight()), dstCM.isAlphaPremultiplied(), null);
     }
     
+    /**
+     * Gets the bounds2 d.
+     *
+     * @param src the src
+     * @return the bounds2 d
+     */
     public Rectangle2D getBounds2D( BufferedImage src ) {
         return new Rectangle(0, 0, src.getWidth(), src.getHeight());
     }
     
+    /**
+     * Gets the point2 d.
+     *
+     * @param srcPt the src pt
+     * @param dstPt the dst pt
+     * @return the point2 d
+     */
     public Point2D getPoint2D( Point2D srcPt, Point2D dstPt ) {
         if ( dstPt == null )
             dstPt = new Point2D.Double();
@@ -139,6 +218,11 @@ public class BoxBlurFilter  {
         return dstPt;
     }
 
+    /**
+     * Gets the rendering hints.
+     *
+     * @return the rendering hints
+     */
     public RenderingHints getRenderingHints() {
         return null;
     }
@@ -146,6 +230,14 @@ public class BoxBlurFilter  {
 	/**
 	 * A convenience method for getting ARGB pixels from an image. This tries to avoid the performance
 	 * penalty of BufferedImage.getRGB unmanaging the image.
+	 *
+	 * @param image the image
+	 * @param x the x
+	 * @param y the y
+	 * @param width the width
+	 * @param height the height
+	 * @param pixels the pixels
+	 * @return the rgb
 	 */
 	public int[] getRGB( BufferedImage image, int x, int y, int width, int height, int[] pixels ) {
 		int type = image.getType();
@@ -157,6 +249,13 @@ public class BoxBlurFilter  {
 	/**
 	 * A convenience method for setting ARGB pixels in an image. This tries to avoid the performance
 	 * penalty of BufferedImage.setRGB unmanaging the image.
+	 *
+	 * @param image the image
+	 * @param x the x
+	 * @param y the y
+	 * @param width the width
+	 * @param height the height
+	 * @param pixels the pixels
 	 */
 	public void setRGB( BufferedImage image, int x, int y, int width, int height, int[] pixels ) {
 		int type = image.getType();
@@ -168,9 +267,10 @@ public class BoxBlurFilter  {
 	
 	/**
 	 * Clamp a value to an interval.
+	 *
+	 * @param x the input parameter
 	 * @param a the lower clamp threshold
 	 * @param b the upper clamp threshold
-	 * @param x the input parameter
 	 * @return the clamped value
 	 */
 	public static int clamp(int x, int a, int b) {

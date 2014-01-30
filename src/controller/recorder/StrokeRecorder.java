@@ -1,3 +1,12 @@
+/**
+ * 
+ * 
+ * @author Simon Seyer
+ * @author Martin Juhasz
+ * @author Julia Kraft
+ * @author Moritz Moeller
+ * 
+ */
 package controller.recorder;
 
 import java.util.ArrayList;
@@ -25,16 +34,31 @@ public class StrokeRecorder implements GuitarStringListener, MP3PlayerListener {
 	private boolean isRecording = false;
 	private boolean isRecordingMode = false;
 	
+	/**
+	 * Checks if is recording mode.
+	 *
+	 * @return true, if is recording mode
+	 */
 	public boolean isRecordingMode() {
 		return isRecordingMode;
 	}
 
+	/**
+	 * Sets the recording mode.
+	 *
+	 * @param isRecordingMode the new recording mode
+	 */
 	public void setRecordingMode(boolean isRecordingMode) {
 		this.isRecordingMode = isRecordingMode;
 	}
 
 	private WeakHashMap<StrokeRecorderListener, Void> strokeRecorderListener;
 	
+	/**
+	 * Instantiates a new stroke recorder.
+	 *
+	 * @param player the player
+	 */
 	public StrokeRecorder(MP3Player player) {
 		strokeRecorderListener = new WeakHashMap<>();
 		
@@ -43,19 +67,37 @@ public class StrokeRecorder implements GuitarStringListener, MP3PlayerListener {
 	
 	// Getters, Setters
 
+	/**
+	 * Sets the track.
+	 *
+	 * @param track the new track
+	 */
 	public void setTrack(Track track) {
 		this.track = track;
 	}
 	
+	/**
+	 * Adds the stroke recorder listener.
+	 *
+	 * @param listener the listener
+	 */
 	public void addStrokeRecorderListener(StrokeRecorderListener listener) {
         this.strokeRecorderListener.put(listener, null);
     }
 
+    /**
+     * Removes the stroke recorder listener.
+     *
+     * @param listener the listener
+     */
     public void removeStrokeRecorderListener(StrokeRecorderListener listener) {
     	this.strokeRecorderListener.remove(listener);
     }
 	
 	// GuitarStringListener
+	/* (non-Javadoc)
+	 * @see controller.recorder.GuitarStringListener#guitarStringPressed(model.StrokeKey)
+	 */
 	@Override
 	public void guitarStringPressed(StrokeKey strokeKey) {
 		if(!isRecording) return;
@@ -67,6 +109,9 @@ public class StrokeRecorder implements GuitarStringListener, MP3PlayerListener {
 
 	}
 	
+	/* (non-Javadoc)
+	 * @see controller.recorder.GuitarStringListener#guitarStringReleased(model.StrokeKey)
+	 */
 	@Override
     public void guitarStringReleased(StrokeKey strokeKey) {
 		if(!isRecording) return;
@@ -79,6 +124,9 @@ public class StrokeRecorder implements GuitarStringListener, MP3PlayerListener {
 		finishKey(strokeKey);
     }
 	
+	/* (non-Javadoc)
+	 * @see controller.recorder.GuitarStringListener#guitarStrokePressed(model.StrokeKey)
+	 */
 	@Override
 	public void guitarStrokePressed(StrokeKey strokeKey) {
 		if(!isRecording) return;
@@ -107,11 +155,19 @@ public class StrokeRecorder implements GuitarStringListener, MP3PlayerListener {
 		}
 	}
 	
+	/* (non-Javadoc)
+	 * @see controller.recorder.GuitarStringListener#guitarStrokeReleased(model.StrokeKey)
+	 */
 	@Override
     public void guitarStrokeReleased(StrokeKey strokeKey) {
     	
     }
 	
+	/**
+	 * Finish key.
+	 *
+	 * @param strokeKey the stroke key
+	 */
 	private void finishKey(StrokeKey strokeKey) {
 		if(strokes.containsKey(strokeKey)) {
 			Stroke aStroke = strokes.get(strokeKey);
@@ -139,6 +195,9 @@ public class StrokeRecorder implements GuitarStringListener, MP3PlayerListener {
 
 	
 	// MP3PlayerListener
+	/* (non-Javadoc)
+	 * @see controller.player.MP3PlayerListener#playbackDidStart(controller.player.MP3Player)
+	 */
 	@Override
 	public void playbackDidStart(MP3Player player) {
 		this.strokes = new HashMap<StrokeKey, Stroke>();
@@ -152,6 +211,9 @@ public class StrokeRecorder implements GuitarStringListener, MP3PlayerListener {
 		isRecording = true;
 	}
 
+	/* (non-Javadoc)
+	 * @see controller.player.MP3PlayerListener#playbackDidStop(controller.player.MP3Player)
+	 */
 	@Override
 	public void playbackDidStop(MP3Player player) {
 		frame = 0;
@@ -171,6 +233,9 @@ public class StrokeRecorder implements GuitarStringListener, MP3PlayerListener {
 		*/
 	}
 
+	/* (non-Javadoc)
+	 * @see controller.player.MP3PlayerListener#playbackPlaying(controller.player.MP3Player, int)
+	 */
 	@Override
 	public void playbackPlaying(MP3Player player, int frame) {
 		this.frame = frame;

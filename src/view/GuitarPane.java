@@ -1,3 +1,12 @@
+/**
+ * 
+ * 
+ * @author Simon Seyer
+ * @author Martin Juhasz
+ * @author Julia Kraft
+ * @author Moritz Moeller
+ * 
+ */
 package view;
 
 import java.awt.BasicStroke;
@@ -51,6 +60,9 @@ public class GuitarPane extends JPanel implements MP3PlayerListener,
 	private CountPanel countPanel;
 	private InfoPanel[] infoPanels;
 
+	/**
+	 * Instantiates a new guitar pane.
+	 */
 	public GuitarPane() {
 		strokeRects = new ArrayList<>();
 		openStrokeRects = new ArrayList<>();
@@ -86,6 +98,9 @@ public class GuitarPane extends JPanel implements MP3PlayerListener,
 		setOpaque(false);
 	}
 	
+	/**
+	 * Start.
+	 */
 	public void start() {
 		reset();
 		countPanel.setVisible(true);
@@ -95,10 +110,16 @@ public class GuitarPane extends JPanel implements MP3PlayerListener,
 		countPanel.startTimer();
 	}
 	
+	/**
+	 * Pause or resume.
+	 */
 	public void pauseOrResume() {
 		countPanel.pauseOrResume();
 	}
 	
+	/* (non-Javadoc)
+	 * @see javax.swing.JComponent#paintComponent(java.awt.Graphics)
+	 */
 	@Override
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
@@ -108,6 +129,12 @@ public class GuitarPane extends JPanel implements MP3PlayerListener,
 		g2.dispose();
 	}
 
+	/**
+	 * Adds the stroke.
+	 *
+	 * @param stroke the stroke
+	 * @param style the style
+	 */
 	private void addStroke(Stroke stroke, int style) {
 		StrokeView strokeView = new StrokeView(stroke, style);
 		updateStrokeRect(strokeView);
@@ -117,12 +144,24 @@ public class GuitarPane extends JPanel implements MP3PlayerListener,
 		}
 	}
 
+	/**
+	 * Adds the strokes.
+	 *
+	 * @param strokes the strokes
+	 * @param style the style
+	 */
 	private void addStrokes(List<Stroke> strokes, int style) {
 		for (Stroke stroke : strokes) {
 			addStroke(stroke, style);
 		}
 	}
 
+	/**
+	 * Gets the stroke length.
+	 *
+	 * @param stroke the stroke
+	 * @return the stroke length
+	 */
 	private int getStrokeLength(Stroke stroke) {
 		if (stroke.isOpen()) {
 			return frame - stroke.getStartFrame();
@@ -131,6 +170,11 @@ public class GuitarPane extends JPanel implements MP3PlayerListener,
 		}
 	}
 
+	/**
+	 * Update stroke rect.
+	 *
+	 * @param strokeView the stroke view
+	 */
 	private void updateStrokeRect(StrokeView strokeView) {
 		float width = STROKE_WIDTH;
 		float height = getPixelForFrame(getStrokeLength(strokeView.getStroke()));
@@ -143,6 +187,11 @@ public class GuitarPane extends JPanel implements MP3PlayerListener,
 				.setRect(new RoundRectangle2D.Float(x, y, width, height, 0, 0));
 	}
 
+	/**
+	 * Draw.
+	 *
+	 * @param g the g
+	 */
 	public void draw(Graphics2D g) {
 		// Draw background
 		g.setColor(new Color(0xF1DDDDDD, true));
@@ -225,6 +274,9 @@ public class GuitarPane extends JPanel implements MP3PlayerListener,
 		drawCounter++;
 	}
 
+	/**
+	 * Load new strokes.
+	 */
 	private void loadNewStrokes() {
 		Track track = PlayerController.getInstance().getTrack();
 		if (track.getStrokeSet() != null) {
@@ -238,33 +290,68 @@ public class GuitarPane extends JPanel implements MP3PlayerListener,
 		}
 	}
 
+	/**
+	 * Gets the vertical offset.
+	 *
+	 * @return the vertical offset
+	 */
 	private float getVerticalOffset() {
 		return getHeight() - 150;
 	}
 
+	/**
+	 * Gets the position for line.
+	 *
+	 * @param line the line
+	 * @return the position for line
+	 */
 	private float getPositionForLine(int line) {
 		return (line + 1) * (getWidth() / 6.0f);
 	}
 
+	/**
+	 * Gets the position for key.
+	 *
+	 * @param key the key
+	 * @return the position for key
+	 */
 	private float getPositionForKey(StrokeKey key) {
 		return getPositionForLine(key.getPosition());
 	}
 
+	/**
+	 * Gets the pixel for frame.
+	 *
+	 * @param frame the frame
+	 * @return the pixel for frame
+	 */
 	public float getPixelForFrame(int frame) {
 		return frame * 0.3f;
 	}
 
+	/**
+	 * Gets the frame for pixel.
+	 *
+	 * @param pixel the pixel
+	 * @return the frame for pixel
+	 */
 	public int getFrameForPixel(float pixel) {
 		return (int) (pixel / 0.3f);
 	}
 
 	// MP3Player Listener
 
+	/* (non-Javadoc)
+	 * @see controller.player.MP3PlayerListener#playbackDidStart(controller.player.MP3Player)
+	 */
 	@Override
 	public void playbackDidStart(MP3Player player) {
 
 	}
 
+	/* (non-Javadoc)
+	 * @see controller.player.MP3PlayerListener#playbackDidStop(controller.player.MP3Player)
+	 */
 	@Override
 	public void playbackDidStop(MP3Player player) {
 		strokeOffsetTimer = new Timer();
@@ -284,6 +371,9 @@ public class GuitarPane extends JPanel implements MP3PlayerListener,
 		}, 0, 50);
 	}
 	
+	/**
+	 * Reset.
+	 */
 	private void reset() {
 		frame = 0;
 		maxLoadedFrame = 0;
@@ -296,6 +386,9 @@ public class GuitarPane extends JPanel implements MP3PlayerListener,
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see controller.player.MP3PlayerListener#playbackPlaying(controller.player.MP3Player, int)
+	 */
 	@Override
 	public void playbackPlaying(MP3Player player, int frame) {
 		this.frame = frame;
@@ -304,11 +397,17 @@ public class GuitarPane extends JPanel implements MP3PlayerListener,
 
 	// StrokeRecorder Listener
 
+	/* (non-Javadoc)
+	 * @see controller.recorder.StrokeRecorderListener#redcorderDidOpenStroke(controller.recorder.StrokeRecorder, model.Stroke)
+	 */
 	@Override
 	public void redcorderDidOpenStroke(StrokeRecorder recorder, Stroke stroke) {
 		addStroke(stroke, STYLE_LIVE);
 	}
 
+	/* (non-Javadoc)
+	 * @see controller.recorder.StrokeRecorderListener#redcorderDidCloseStroke(controller.recorder.StrokeRecorder, model.Stroke)
+	 */
 	@Override
 	public void redcorderDidCloseStroke(StrokeRecorder recorder, Stroke stroke) {
 		if (stroke.isEmpty()) {
@@ -321,6 +420,11 @@ public class GuitarPane extends JPanel implements MP3PlayerListener,
 		}
 	}
 
+	/**
+	 * Clean stroke list.
+	 *
+	 * @param treshold the treshold
+	 */
 	private void cleanStrokeList(float treshold) {
 		for (StrokeView strokeView : strokeRects) {
 			if (strokeView.getRect().getY() + treshold > 0) {
@@ -330,16 +434,25 @@ public class GuitarPane extends JPanel implements MP3PlayerListener,
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see controller.ScoreListener#scoringDidStart(model.StrokeKey)
+	 */
 	@Override
 	public void scoringDidStart(StrokeKey key) {
 		scoringKeys[key.getPosition()] = true;
 	}
 
+	/* (non-Javadoc)
+	 * @see controller.ScoreListener#scoringDidEnd(model.StrokeKey)
+	 */
 	@Override
 	public void scoringDidEnd(StrokeKey key) {
 		scoringKeys[key.getPosition()] = false;
 	}
 
+	/* (non-Javadoc)
+	 * @see view.CountPanel.CountListener#countdownDidEnd()
+	 */
 	@Override
 	public void countdownDidEnd() {
 		SwingUtilities.invokeLater(new Runnable() {

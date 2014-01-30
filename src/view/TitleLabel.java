@@ -1,3 +1,12 @@
+/**
+ * 
+ * 
+ * @author Simon Seyer
+ * @author Martin Juhasz
+ * @author Julia Kraft
+ * @author Moritz Moeller
+ * 
+ */
 package view;
 
 import helper.KeyboardHeroConstants;
@@ -20,12 +29,20 @@ import model.KeyboardHeroFontModel;
 
 public class TitleLabel extends JLabel {
 
+	/**
+	 * Instantiates a new title label.
+	 */
 	public TitleLabel() {
 		setFont(KeyboardHeroFontModel.getInstance().getFont(KeyboardHeroFontModel.FONT_NIGHTMARE).deriveFont(82f));
 		setHorizontalAlignment(SwingConstants.CENTER);
 		setForeground(new Color(KeyboardHeroConstants.FONT_COLOR_PRIMARY));
 	}
 	
+	/**
+	 * Instantiates a new title label.
+	 *
+	 * @param text the text
+	 */
 	public TitleLabel(String text) {
 		this();
 		setText(text);

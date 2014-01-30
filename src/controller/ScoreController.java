@@ -1,3 +1,12 @@
+/**
+ * 
+ * 
+ * @author Simon Seyer
+ * @author Martin Juhasz
+ * @author Julia Kraft
+ * @author Moritz Moeller
+ * 
+ */
 package controller;
 
 import java.util.ArrayList;
@@ -22,6 +31,9 @@ public class ScoreController implements MP3PlayerListener, StrokeRecorderListene
 	private Score score;
 	private WeakHashMap<ScoreListener, Void> listeners;
 	
+	/**
+	 * Instantiates a new score controller.
+	 */
 	public ScoreController() {
 		isRecording = false;
 		currentPlayedStrokes = new HashMap<StrokeKey, Stroke>();
@@ -29,22 +41,39 @@ public class ScoreController implements MP3PlayerListener, StrokeRecorderListene
 		score = new Score();
 	}
 	
+	/**
+	 * Reset score.
+	 */
 	public void resetScore() {
 		score.reset();
 	}
 	
+	/* (non-Javadoc)
+	 * @see controller.player.MP3PlayerListener#playbackDidStart(controller.player.MP3Player)
+	 */
 	@Override
 	public void playbackDidStart(MP3Player player) {
 	}
 
+	/**
+	 * Sets the recording.
+	 *
+	 * @param isRecording the new recording
+	 */
 	public void setRecording(boolean isRecording) {
 		this.isRecording = isRecording;
 	}
 
+	/* (non-Javadoc)
+	 * @see controller.player.MP3PlayerListener#playbackDidStop(controller.player.MP3Player)
+	 */
 	@Override
 	public void playbackDidStop(MP3Player player) {
 	}
 
+	/* (non-Javadoc)
+	 * @see controller.player.MP3PlayerListener#playbackPlaying(controller.player.MP3Player, int)
+	 */
 	@Override
 	public void playbackPlaying(MP3Player player, int frame) {
 		// TODO Auto-generated method stub
@@ -69,10 +98,18 @@ public class ScoreController implements MP3PlayerListener, StrokeRecorderListene
 		}
 	}
 
+	/**
+	 * Gets the score.
+	 *
+	 * @return the score
+	 */
 	public Score getScore() {
 		return score;
 	}
 
+	/* (non-Javadoc)
+	 * @see controller.recorder.StrokeRecorderListener#redcorderDidOpenStroke(controller.recorder.StrokeRecorder, model.Stroke)
+	 */
 	@Override
 	public void redcorderDidOpenStroke(StrokeRecorder recorder, Stroke stroke) {
 		// just score in playing mode
@@ -89,6 +126,9 @@ public class ScoreController implements MP3PlayerListener, StrokeRecorderListene
 		
 	}
 
+	/* (non-Javadoc)
+	 * @see controller.recorder.StrokeRecorderListener#redcorderDidCloseStroke(controller.recorder.StrokeRecorder, model.Stroke)
+	 */
 	@Override
 	public void redcorderDidCloseStroke(StrokeRecorder recorder, Stroke stroke) {
 		// just score in playing mode
@@ -101,20 +141,40 @@ public class ScoreController implements MP3PlayerListener, StrokeRecorderListene
 		
 	}
 	
+	/**
+	 * Adds the listener.
+	 *
+	 * @param listener the listener
+	 */
 	public void addListener(ScoreListener listener){
 		this.listeners.put(listener, null);
 	}
 
+	/**
+	 * Removes the listener.
+	 *
+	 * @param listener the listener
+	 */
 	public void removeListener(ScoreListener listener){
 		this.listeners.remove(listener);
 	}
 	
+	/**
+	 * Fire scoring did start.
+	 *
+	 * @param key the key
+	 */
 	private void fireScoringDidStart(StrokeKey key) {
 		for (ScoreListener listener : listeners.keySet()) {
 			listener.scoringDidStart(key);
 		}
 	}
 	
+	/**
+	 * Fire scoring did end.
+	 *
+	 * @param key the key
+	 */
 	private void fireScoringDidEnd(StrokeKey key) {
 		for (ScoreListener listener : listeners.keySet()) {
 			listener.scoringDidEnd(key);

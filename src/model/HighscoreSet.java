@@ -1,3 +1,12 @@
+/**
+ * 
+ * 
+ * @author Simon Seyer
+ * @author Martin Juhasz
+ * @author Julia Kraft
+ * @author Moritz Moeller
+ * 
+ */
 package model;
 
 import java.util.ArrayList;
@@ -10,25 +19,44 @@ public class HighscoreSet extends AbstractListModel<Highscore>  {
 	
 	private List<Highscore> highscores;
 	
+	/**
+	 * Instantiates a new highscore set.
+	 */
 	public HighscoreSet() {
 		this.highscores = new ArrayList<>();
 	}
 	
+	/**
+	 * Adds the high score.
+	 *
+	 * @param highscore the highscore
+	 */
 	public void addHighScore(Highscore highscore) {
 		this.highscores.add(highscore);
 		Collections.sort(highscores);
 	}
 	
+	/**
+	 * Gets the best score.
+	 *
+	 * @return the best score
+	 */
 	public Highscore getBestScore() {
 		if(this.highscores.size() <= 0) return null;
 		return this.highscores.get(0);
 	}
 	
+	/* (non-Javadoc)
+	 * @see javax.swing.ListModel#getSize()
+	 */
 	@Override
 	public int getSize() {
 		return highscores.size();
 	}
 
+	/* (non-Javadoc)
+	 * @see javax.swing.ListModel#getElementAt(int)
+	 */
 	@Override
 	public Highscore getElementAt(int index) {
 		// TODO Auto-generated method stub

@@ -1,3 +1,12 @@
+/**
+ * 
+ * 
+ * @author Simon Seyer
+ * @author Martin Juhasz
+ * @author Julia Kraft
+ * @author Moritz Moeller
+ * 
+ */
 package view;
 
 import javax.swing.JPanel;
@@ -20,6 +29,12 @@ public class ImagePanel extends JPanel {
 	private Image oldScaled;
 	
 	
+	/**
+	 * Instantiates a new image panel.
+	 *
+	 * @param path the path
+	 * @param mode the mode
+	 */
 	public ImagePanel(String path, int mode){
 		this.sizeMode = mode;
 		this.setBackground(Color.WHITE);
@@ -33,6 +48,11 @@ public class ImagePanel extends JPanel {
 	}
 	
 	
+	/**
+	 * Sets the cover image.
+	 *
+	 * @param coverImage the new cover image
+	 */
 	public void setCoverImage(BufferedImage coverImage) {
 		this.coverImage = coverImage;
 		
@@ -44,6 +64,13 @@ public class ImagePanel extends JPanel {
 		repaint();
 	}
 	
+	/**
+	 * Gets the scale factor.
+	 *
+	 * @param iMasterSize the i master size
+	 * @param iTargetSize the i target size
+	 * @return the scale factor
+	 */
 	private double getScaleFactor(int iMasterSize, int iTargetSize) {
 
 	    double dScale = 1;
@@ -56,6 +83,13 @@ public class ImagePanel extends JPanel {
 	    return dScale;
 	}
 
+	/**
+	 * Gets the scale factor to fill.
+	 *
+	 * @param masterSize the master size
+	 * @param targetSize the target size
+	 * @return the scale factor to fill
+	 */
 	private double getScaleFactorToFill(Dimension masterSize, Dimension targetSize) {
 
 	    double dScaleWidth = getScaleFactor(masterSize.width, targetSize.width);
@@ -67,6 +101,9 @@ public class ImagePanel extends JPanel {
 
 	}
 
+	/* (non-Javadoc)
+	 * @see javax.swing.JComponent#paintComponent(java.awt.Graphics)
+	 */
 	@Override
 	protected void paintComponent(Graphics g) {
 
@@ -103,6 +140,12 @@ public class ImagePanel extends JPanel {
 	    }
 	}
 	
+	/**
+	 * Gets the coords for image.
+	 *
+	 * @param image the image
+	 * @return the coords for image
+	 */
 	private Point getCoordsForImage(Image image) {
 		int width = getWidth() - 1;
 	    int height = getHeight() - 1;

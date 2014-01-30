@@ -1,3 +1,12 @@
+/**
+ * 
+ * 
+ * @author Simon Seyer
+ * @author Martin Juhasz
+ * @author Julia Kraft
+ * @author Moritz Moeller
+ * 
+ */
 package view;
 
 import helper.KeyboardHeroConstants;
@@ -47,16 +56,27 @@ public class SongListPanel extends GHPanel {
 	private JButton button;
 	private TextPrompt textPrompt;
 
+	/**
+	 * Instantiates a new song list panel.
+	 */
 	public SongListPanel() {
 		this.mode = MODE_PLAY;
 		init();
 	}
 
+	/**
+	 * Instantiates a new song list panel.
+	 *
+	 * @param mode the mode
+	 */
 	public SongListPanel(int mode) {
 		this.mode = mode;
 		init();
 	}
 
+	/**
+	 * Inits the.
+	 */
 	public void init() {
 		this.setLayout(new MigLayout("insets 50 200 50 200, fill"));
 		this.setBackground(Color.WHITE);
@@ -106,6 +126,9 @@ public class SongListPanel extends GHPanel {
 		add(mainMenuButton, "growx, height 60!");
 	}
 
+	/**
+	 * Inits the playlist.
+	 */
 	public void initPlaylist() {
 		songlist = new MenuSongList<Track>(mode == MODE_RECORD);
 		songlist.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
@@ -125,6 +148,9 @@ public class SongListPanel extends GHPanel {
 		add(scrollPane, "wrap, growx, pushy, growy");
 	}
 
+	/**
+	 * Inits the search field.
+	 */
 	private void initSearchField() {
 		searchField = new JTextField();
 		searchField.setForeground(Color.white);
@@ -178,6 +204,9 @@ public class SongListPanel extends GHPanel {
 		add(searchField, "wrap, grow");
 	}
 
+	/* (non-Javadoc)
+	 * @see view.GHPanel#didPressBack(java.awt.event.KeyEvent)
+	 */
 	@Override
 	public void didPressBack(KeyEvent e) {
 		getNavigationController().popToRootPanel();

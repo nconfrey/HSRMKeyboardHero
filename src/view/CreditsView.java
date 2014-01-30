@@ -1,3 +1,12 @@
+/**
+ * 
+ * 
+ * @author Simon Seyer
+ * @author Martin Juhasz
+ * @author Julia Kraft
+ * @author Moritz Moeller
+ * 
+ */
 package view;
 
 import helper.KeyboardHeroConstants;
@@ -18,6 +27,9 @@ public class CreditsView extends GHPanel {
 
 	private JButton mainMenuButton;
 
+	/**
+	 * Instantiates a new credits view.
+	 */
 	public CreditsView() {
 
 		// General
@@ -57,10 +69,18 @@ public class CreditsView extends GHPanel {
 		this.add(mainMenuButton, "growx, height 60!");
 	}
 
+	/**
+	 * Action performed.
+	 *
+	 * @param e the e
+	 */
 	public void actionPerformed(ActionEvent e) {
 		getNavigationController().popPanel();
 	};
 
+	/* (non-Javadoc)
+	 * @see view.GHPanel#didPressBack(java.awt.event.KeyEvent)
+	 */
 	@Override
 	public void didPressBack(KeyEvent e) {
 		getNavigationController().popToRootPanel();

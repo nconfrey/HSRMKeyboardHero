@@ -1,3 +1,12 @@
+/**
+ * 
+ * 
+ * @author Simon Seyer
+ * @author Martin Juhasz
+ * @author Julia Kraft
+ * @author Moritz Moeller
+ * 
+ */
 package controller.player;
 
 import helper.KeyboardHeroConstants;
@@ -23,6 +32,12 @@ public class MP3PlayerRemoteTrack implements MP3PlayerTrack {
 	private String artworkUrl;
 	
 
+	/**
+	 * Instantiates a new m p3 player remote track.
+	 *
+	 * @param data the data
+	 * @param soundCloud the sound cloud
+	 */
 	public MP3PlayerRemoteTrack(JSONObject data, SoundCloud soundCloud) {
 		this.soundCloud = soundCloud;
 		title = data.getString("title");
@@ -38,25 +53,40 @@ public class MP3PlayerRemoteTrack implements MP3PlayerTrack {
 		url = data.getString("stream_url");
 	}
 
+	/* (non-Javadoc)
+	 * @see controller.player.MP3PlayerTrack#getTitle()
+	 */
 	@Override
 	public String getTitle() {
 		return title;
 	}
 
+	/* (non-Javadoc)
+	 * @see controller.player.MP3PlayerTrack#getAlbumTitle()
+	 */
 	@Override
 	public String getAlbumTitle() {
 		return albumTitle;
 	}
 
+	/* (non-Javadoc)
+	 * @see controller.player.MP3PlayerTrack#getArtist()
+	 */
 	@Override
 	public String getArtist() {
 		return artist;
 	}
 	
+	/**
+	 * Cache.
+	 */
 	public void cache() {
 		getPath();
 	}
 
+	/* (non-Javadoc)
+	 * @see controller.player.MP3PlayerTrack#getPath()
+	 */
 	@Override
 	public synchronized String getPath() {
 		if (streamUrl == null) {
@@ -69,10 +99,18 @@ public class MP3PlayerRemoteTrack implements MP3PlayerTrack {
 		return streamUrl;
 	}
 	
+	/**
+	 * Gets the artwork url.
+	 *
+	 * @return the artwork url
+	 */
 	public String getArtworkUrl() {
 		return artworkUrl;
 	}
 
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
 	@Override
 	public String toString() {
 		return getArtist() + " - " + getTitle();
