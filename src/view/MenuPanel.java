@@ -112,7 +112,7 @@ public class MenuPanel extends GHPanel implements ActionListener {
 	 * Loads the intro song of keyboard hero and plays it in loop mode.
 	 */
 	public void loadIntro() {
-		File file = PersistenceHandler.getLocalFile("music" + File.separator + "back_in_black.mp3");
+		File file = PersistenceHandler.getLocalFile("back_in_black.mp3");
 		MP3PlayerLocalTrack mp3 = new MP3PlayerLocalTrack(file);
 		Track intro = new Track(mp3);
 		playerController.setTrack(intro);

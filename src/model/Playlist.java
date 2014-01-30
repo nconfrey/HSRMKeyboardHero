@@ -104,4 +104,21 @@ public class Playlist extends AbstractListModel<Track> implements Serializable {
 		}
 		return gamePlaylist;
 	}
+	
+	/**
+	 * Check consistency of the tracks.
+	 */
+	public void checkConsistency() {
+        List<Track> toRemove = new ArrayList<>();
+        for (Track track : tracks) {
+            if (!track.getMp3().isConsistent()) {
+                toRemove.add(track);
+                System.out.println("Removed track '" + track + "' from playlist"
+                                   + " because track is not consitent "
+                                   + "(for example the mp3 "
+                                   + "file could not exist anymore)");
+            }
+        }
+        tracks.removeAll(toRemove);
+    }
 }

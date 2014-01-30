@@ -49,4 +49,11 @@ public interface MP3PlayerTrack extends Serializable {
 	 * @return the path of the mp3 file
 	 */
 	public String getPath();
+	
+	/**
+	 * Checks if the file is consistent.
+	 *
+	 * @return true, if it is consistent
+	 */
+	public boolean isConsistent();
 }

@@ -31,8 +31,8 @@ public class PersistenceHandler {
 			+ File.separator + ".keyboardHero";
 	private static final String PLAYLIST_FILE_NAME = "playlist.mpl";
 	private static final String[] filesToCopy = new String[] { "playlist.mpl",
-			"music" + File.separator + "smoke_on_the_water_short.mp3",
-			"music" + File.separator + "back_in_black.mp3" };
+			"smoke_on_the_water_short.mp3",
+			"back_in_black.mp3" };
 
 	/**
 	 * Instantiates a new persistence handler.
@@ -88,10 +88,7 @@ public class PersistenceHandler {
 				ObjectInputStream in = new ObjectInputStream(fileIn)) {
 			playlist = (Playlist) in.readObject();
 			System.out.println("Playlist: loaded");
-
-			// TODO: implemnt
-			// playlist.checkConsistency();
-
+			playlist.checkConsistency();
 		} catch (IOException i) {
 			System.out.println("Playlist could not be loaded ");
 		} catch (ClassNotFoundException c) {
