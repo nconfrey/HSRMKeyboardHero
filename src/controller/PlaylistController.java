@@ -17,6 +17,7 @@ public class PlaylistController {
 
 	/** The playlist. */
 	private Playlist playlist;
+	private PersistenceHandler persistenceHandler;
 
 	/** The sound cloud. */
 	private SoundCloud soundCloud;
@@ -25,7 +26,9 @@ public class PlaylistController {
 	 * Instantiates a new playlist controller.
 	 */
 	public PlaylistController() {
-		playlist = PersistenceHandler.loadPlaylist();
+		persistenceHandler = new PersistenceHandler();
+		playlist = persistenceHandler.loadPlaylist();
+		soundCloud = new SoundCloud();
 	}
 
 	/**
@@ -66,7 +69,7 @@ public class PlaylistController {
 	 * Save.
 	 */
 	public void save() {
-		PersistenceHandler.savePlaylist(playlist);
+		persistenceHandler.savePlaylist(playlist);
 	}
 
 }

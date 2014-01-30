@@ -24,6 +24,7 @@ import javax.swing.JPanel;
 import model.MP3PlayerLocalTrack;
 import model.Track;
 import net.miginfocom.swing.MigLayout;
+import controller.PersistenceHandler;
 import controller.PlayerController;
 
 /**
@@ -111,8 +112,8 @@ public class MenuPanel extends GHPanel implements ActionListener {
 	 * Loads the intro song of keyboard hero and plays it in loop mode.
 	 */
 	public void loadIntro() {
-		MP3PlayerLocalTrack mp3 = new MP3PlayerLocalTrack(new File(
-				"music/back_in_black.mp3"));
+		File file = PersistenceHandler.getLocalFile("music" + File.separator + "back_in_black.mp3");
+		MP3PlayerLocalTrack mp3 = new MP3PlayerLocalTrack(file);
 		Track intro = new Track(mp3);
 		playerController.setTrack(intro);
 		playerController.loop();
