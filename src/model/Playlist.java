@@ -7,18 +7,13 @@
  * @author Moritz Moeller
  * 
  */
-package controller.player;
+package model;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
 import java.util.List;
 
-import javax.sql.rowset.Predicate;
 import javax.swing.AbstractListModel;
-
-import model.Track;
 
 /**
  * MP3 Player playlist which saves Track objects in a ArrayList
@@ -31,7 +26,9 @@ import model.Track;
  **/
 public class Playlist extends AbstractListModel<Track> implements Serializable {
 
+	private static final long serialVersionUID = -909941238215193625L;
 	private List<Track> tracks;
+	
 
 	/**
 	 * Creates an empty playlist and instantiates an empty ArrayList for track
@@ -43,7 +40,7 @@ public class Playlist extends AbstractListModel<Track> implements Serializable {
 
 	/**
 	 * Adds track to the tracklist and fires content change method.
-	 *
+	 * 
 	 * @param track will be added to the tracklist
 	 */
 	public void addTrack(Track track) {
@@ -56,7 +53,7 @@ public class Playlist extends AbstractListModel<Track> implements Serializable {
 
 	/**
 	 * Gets the size.
-	 *
+	 * 
 	 * @return size of the tracklist
 	 */
 	@Override
@@ -66,7 +63,7 @@ public class Playlist extends AbstractListModel<Track> implements Serializable {
 
 	/**
 	 * Gets the tracks.
-	 *
+	 * 
 	 * @return whole tracklist
 	 */
 	public List<Track> getTracks() {
@@ -75,7 +72,7 @@ public class Playlist extends AbstractListModel<Track> implements Serializable {
 
 	/**
 	 * Takes a list of tracks and replaces the old tracklist.
-	 *
+	 * 
 	 * @param tracks tracklist which replaces the old tracklist
 	 */
 	public void setTracks(List<Track> tracks) {
@@ -84,7 +81,7 @@ public class Playlist extends AbstractListModel<Track> implements Serializable {
 
 	/**
 	 * Returns a track from tracklist.
-	 *
+	 * 
 	 * @param index position of Track object in the playlist
 	 * @return track from requested position
 	 */
@@ -92,10 +89,10 @@ public class Playlist extends AbstractListModel<Track> implements Serializable {
 	public Track getElementAt(int index) {
 		return tracks.get(index);
 	}
-	
+
 	/**
 	 * Gets the playlist with playable tracks.
-	 *
+	 * 
 	 * @return the playlist with playable tracks
 	 */
 	public Playlist getPlaylistWithPlayableTracks() {

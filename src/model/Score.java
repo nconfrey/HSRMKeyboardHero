@@ -9,45 +9,39 @@
  */
 package model;
 
-public class Score extends AbstractBindableModel  {
-	
+public class Score extends AbstractBindableModel {
+
 	private long score;
 	private int combo;
 	
 	private static final int STROKEHIT   = 10;
 	private static final int COMBOBONUS  = 100;
 	public static final int MAXCOMBO = 10;
+
 	/**
 	 * Instantiates a new score.
 	 */
-	public Score(){
+	public Score() {
 		this.score = 0;
 		this.combo = 0;
 	}
-	
+
 	/**
 	 * Raise.
-	 *
+	 * 
 	 * @return the long
 	 */
-	public long raise(){
+	public long raise() {
 		long oldScore = score;
 		
 		if(combo<MAXCOMBO){
 			combo++;
 		}
-		/*
-		if (combo == MAXCOMBO){	// bonus system for combos
-			score = score + COMBOBONUS;
-			System.out.println("!!!COMBOHIT!!!");
-		}
-		*/
 		score = (int)(score + STROKEHIT + (STROKEHIT * (combo * 0.1)));
-		
 		firePropertyChange("score", oldScore, score);
 		return score;
 	}
-	
+
 	/**
 	 * Reset.
 	 */
@@ -56,7 +50,7 @@ public class Score extends AbstractBindableModel  {
 		score = 0;
 		firePropertyChange("score", oldScore, score);
 	}
-	
+
 	/**
 	 * Resets the combo multiplier.
 	 */
@@ -66,14 +60,16 @@ public class Score extends AbstractBindableModel  {
 
 	/**
 	 * Gets the score.
-	 *
+	 * 
 	 * @return the score
 	 */
 	public long getScore() {
 		return score;
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#toString()
 	 */
 	@Override

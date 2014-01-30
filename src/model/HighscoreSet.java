@@ -1,5 +1,5 @@
 /**
- * 
+ * Model that holds all Highscores for a track
  * 
  * @author Simon Seyer
  * @author Martin Juhasz
@@ -15,38 +15,42 @@ import java.util.List;
 
 import javax.swing.AbstractListModel;
 
-public class HighscoreSet extends AbstractListModel<Highscore>  {
-	
+public class HighscoreSet extends AbstractListModel<Highscore> {
+
+	private static final long serialVersionUID = -6204551776079832861L;
 	private List<Highscore> highscores;
-	
+
 	/**
 	 * Instantiates a new highscore set.
 	 */
 	public HighscoreSet() {
 		this.highscores = new ArrayList<>();
 	}
-	
+
 	/**
 	 * Adds the high score.
-	 *
+	 * 
 	 * @param highscore the highscore
 	 */
 	public void addHighScore(Highscore highscore) {
 		this.highscores.add(highscore);
 		Collections.sort(highscores);
 	}
-	
+
 	/**
 	 * Gets the best score.
-	 *
+	 * 
 	 * @return the best score
 	 */
 	public Highscore getBestScore() {
-		if(this.highscores.size() <= 0) return null;
+		if (this.highscores.size() <= 0)
+			return null;
 		return this.highscores.get(0);
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see javax.swing.ListModel#getSize()
 	 */
 	@Override
@@ -54,7 +58,9 @@ public class HighscoreSet extends AbstractListModel<Highscore>  {
 		return highscores.size();
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see javax.swing.ListModel#getElementAt(int)
 	 */
 	@Override
@@ -62,5 +68,5 @@ public class HighscoreSet extends AbstractListModel<Highscore>  {
 		// TODO Auto-generated method stub
 		return highscores.get(index);
 	}
-	
+
 }

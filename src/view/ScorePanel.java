@@ -11,16 +11,20 @@ package view;
 
 import helper.KeyboardHeroConstants;
 
+import java.awt.Color;
 import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.geom.Rectangle2D;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
 import javax.swing.JLabel;
 import javax.swing.SwingUtilities;
 
-import controller.PlayerController;
 import model.Score;
 import net.miginfocom.swing.MigLayout;
+import controller.PlayerController;
 
 /**
  * GUI Panel for play mode to display the current scores
@@ -35,18 +39,22 @@ import net.miginfocom.swing.MigLayout;
 public class ScorePanel extends TransparentPanel implements
 		PropertyChangeListener {
 
-	JLabel scoreTitleLabel;
-	JLabel scoreLabel;
-	Score score;
+	private PlayerController playerController;
+	private JLabel scoreTitleLabel;
+	private JLabel scoreLabel;
+	private Score score;
 
 	/**
 	 * Creates a Panel to display the current scores.
+	 *
+	 * @param playerController the player controller
 	 */
-	public ScorePanel() {
-
+	public ScorePanel(PlayerController playerController) {
+		this.playerController = playerController;
 		setLayout(new MigLayout());
 
-		this.scoreTitleLabel = new JLabel(KeyboardHeroConstants.getString("score_title"));
+		this.scoreTitleLabel = new JLabel(
+				KeyboardHeroConstants.getString("score_title"));
 		this.scoreTitleLabel.setFont(new Font("sanserif", Font.BOLD, 19));
 		this.add(this.scoreTitleLabel, "wrap");
 
@@ -54,15 +62,15 @@ public class ScorePanel extends TransparentPanel implements
 		this.scoreLabel.setFont(new Font("sanserif", Font.BOLD, 15));
 		this.add(this.scoreLabel);
 
-		PlayerController.getInstance().getScoreController().getScore()
+		playerController.getScoreController().getScore()
 				.addPropertyChangeListener(this);
 
 	}
 
 	/**
-	 * Every time the scorevalue from score controller changes the score
-	 * label will be updated.
-	 *
+	 * Every time the scorevalue from score controller changes the score label
+	 * will be updated.
+	 * 
 	 * @param evt the evt
 	 */
 	@Override
@@ -78,5 +86,4 @@ public class ScorePanel extends TransparentPanel implements
 			});
 		}
 	}
-
 }

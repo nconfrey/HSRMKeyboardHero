@@ -12,7 +12,6 @@ package view;
 import helper.KeyboardHeroConstants;
 
 import java.awt.Color;
-import java.awt.RenderingHints.Key;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -22,10 +21,10 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import model.MP3PlayerLocalTrack;
 import model.Track;
 import net.miginfocom.swing.MigLayout;
 import controller.PlayerController;
-import controller.player.MP3PlayerLocalTrack;
 
 /**
  * Main menu panel. This is the root panel. Every section/view of Keyboard Hero
@@ -40,6 +39,7 @@ import controller.player.MP3PlayerLocalTrack;
  */
 public class MenuPanel extends GHPanel implements ActionListener {
 
+	private PlayerController playerController;
 	private JButton playButton;
 	private JButton recordButton;
 	private JButton highscoreButton;
@@ -47,22 +47,29 @@ public class MenuPanel extends GHPanel implements ActionListener {
 
 	/**
 	 * Creates the main menu with its components.
+	 *
+	 * @param playerController the player controller
 	 */
-	public MenuPanel() {
-
+	public MenuPanel(PlayerController playerController) {
+		this.playerController = playerController;
 		this.setBackground(Color.WHITE);
 		this.setLayout(new MigLayout("insets 50 0 0 0, fillx"));
 
-		JLabel titleLabel = new TitleLabel(KeyboardHeroConstants.getString("game_title"));
+		JLabel titleLabel = new TitleLabel(
+				KeyboardHeroConstants.getString("game_title"));
 		this.add(titleLabel, "wrap, grow");
 
-		playButton = new MenuButton(KeyboardHeroConstants.getString("start_game"));
+		playButton = new MenuButton(
+				KeyboardHeroConstants.getString("start_game"));
 		playButton.addActionListener(this);
-		recordButton = new MenuButton(KeyboardHeroConstants.getString("start_recording"));
+		recordButton = new MenuButton(
+				KeyboardHeroConstants.getString("start_recording"));
 		recordButton.addActionListener(this);
-		highscoreButton = new MenuButton(KeyboardHeroConstants.getString("show_highscore"));
+		highscoreButton = new MenuButton(
+				KeyboardHeroConstants.getString("show_highscore"));
 		highscoreButton.addActionListener(this);
-		creditsButton = new MenuButton(KeyboardHeroConstants.getString("show_credits"));
+		creditsButton = new MenuButton(
+				KeyboardHeroConstants.getString("show_credits"));
 		creditsButton.addActionListener(this);
 
 		JPanel buttonPanel = new JPanel(new MigLayout(
@@ -79,20 +86,19 @@ public class MenuPanel extends GHPanel implements ActionListener {
 
 	/**
 	 * Action Listener for the buttons in main menu.
-	 *
+	 * 
 	 * @param e the e
 	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == playButton || e.getSource() == recordButton) {
-			PlayerController.getInstance().setRecording(
-					e.getSource() == recordButton);
+			playerController.setRecording(e.getSource() == recordButton);
 			int mode = (e.getSource() == recordButton) ? SongListPanel.MODE_RECORD
 					: SongListPanel.MODE_PLAY;
-			SongListPanel songListPanel = new SongListPanel(mode);
+			SongListPanel songListPanel = new SongListPanel(playerController, mode);
 			this.getNavigationController().pushPanel(songListPanel);
 		} else if (e.getSource() == highscoreButton) {
-			SongListPanel songListPanel = new SongListPanel(
+			SongListPanel songListPanel = new SongListPanel(playerController,
 					SongListPanel.MODE_HIGHSCORE);
 			this.getNavigationController().pushPanel(songListPanel);
 		} else if (e.getSource() == creditsButton) {
@@ -108,13 +114,13 @@ public class MenuPanel extends GHPanel implements ActionListener {
 		MP3PlayerLocalTrack mp3 = new MP3PlayerLocalTrack(new File(
 				"music/back_in_black.mp3"));
 		Track intro = new Track(mp3);
-		PlayerController.getInstance().setTrack(intro);
-		PlayerController.getInstance().loop();
+		playerController.setTrack(intro);
+		playerController.loop();
 	}
 
 	/**
 	 * Closes Window on ESC button.
-	 *
+	 * 
 	 * @param e the e
 	 */
 	@Override

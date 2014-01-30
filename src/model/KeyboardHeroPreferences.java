@@ -1,18 +1,4 @@
 /**
- * 
- * 
- * @author Simon Seyer
- * @author Martin Juhasz
- * @author Julia Kraft
- * @author Moritz Moeller
- * 
- */
-package model;
-
-import java.util.prefs.BackingStoreException;
-import java.util.prefs.Preferences;
-
-/**
  * Saves all user chosen preferences
  * 
  * @author Simon Seyer
@@ -21,6 +7,11 @@ import java.util.prefs.Preferences;
  * @author Moritz Moeller
  * 
  **/
+package model;
+
+import java.util.prefs.Preferences;
+
+
 public class KeyboardHeroPreferences {
 	private Preferences prefs;
 	private static final String PREF_NAME = "keyboardhero.pref";
@@ -36,16 +27,16 @@ public class KeyboardHeroPreferences {
 
 	/**
 	 * Gets the screen width.
-	 *
+	 * 
 	 * @return the saved screen witdth (default 800)
 	 */
 	public int getScreenWidth() {
 		return prefs.getInt(SCREEN_WIDTH, 1000);
 	}
-	
+
 	/**
 	 * Gets the screen height.
-	 *
+	 * 
 	 * @return the saved screen height (default 600)
 	 */
 	public int getScreenHeight() {
@@ -54,7 +45,7 @@ public class KeyboardHeroPreferences {
 
 	/**
 	 * Saves user set screensize.
-	 *
+	 * 
 	 * @param width sets the preference for screen width
 	 * @param height sets the preference for screen height
 	 */

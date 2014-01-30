@@ -16,11 +16,12 @@ import java.util.Map;
 import java.util.NavigableMap;
 import java.util.TreeMap;
 
-public class StrokeSet implements Serializable{
-	
+public class StrokeSet implements Serializable {
+
+	private static final long serialVersionUID = 7800898096075391569L;
 	private NavigableMap<Integer, List<Stroke>> strokes;
 	private HighscoreSet highscores;
-	
+
 	/**
 	 * Instantiates a new stroke set.
 	 */
@@ -28,10 +29,10 @@ public class StrokeSet implements Serializable{
 		this.strokes = new TreeMap<>();
 		this.highscores = new HighscoreSet();
 	}
-	
+
 	/**
 	 * Gets the highscores.
-	 *
+	 * 
 	 * @return the highscores
 	 */
 	public HighscoreSet getHighscores() {
@@ -40,7 +41,7 @@ public class StrokeSet implements Serializable{
 
 	/**
 	 * Adds the highscore.
-	 *
+	 * 
 	 * @param score the score
 	 * @param name the name
 	 */
@@ -51,32 +52,33 @@ public class StrokeSet implements Serializable{
 
 	/**
 	 * Gets the strokes.
-	 *
+	 * 
 	 * @return the strokes
 	 */
 	public NavigableMap<Integer, List<Stroke>> getStrokes() {
 		return strokes;
 	}
-	
+
 	/**
 	 * Gets the stroke for stroke.
-	 *
+	 * 
 	 * @param recordedStroke the recorded stroke
 	 * @return the stroke for stroke
 	 */
 	public Stroke getStrokeForStroke(Stroke recordedStroke) {
-		ArrayList<Stroke> frameList = getListForFrame(recordedStroke.getStartFrame());
+		ArrayList<Stroke> frameList = getListForFrame(recordedStroke
+				.getStartFrame());
 		for (Stroke stroke : frameList) {
-			if(stroke.equals(recordedStroke)) {
+			if (stroke.equals(recordedStroke)) {
 				return stroke;
 			}
 		}
 		return null;
 	}
-	
+
 	/**
 	 * Contains stroke.
-	 *
+	 * 
 	 * @param aStroke the a stroke
 	 * @return true, if successful
 	 */
@@ -87,7 +89,7 @@ public class StrokeSet implements Serializable{
 
 	/**
 	 * Sets the.
-	 *
+	 * 
 	 * @param frame the frame
 	 * @param key the key
 	 * @param length the length
@@ -97,74 +99,76 @@ public class StrokeSet implements Serializable{
 		Stroke stroke = new Stroke(key, frame, 0);
 		return set(stroke);
 	}
-	
+
 	/**
 	 * Sets the.
-	 *
+	 * 
 	 * @param stroke the stroke
 	 * @return the stroke
 	 */
 	public Stroke set(Stroke stroke) {
 		ArrayList<Stroke> frameList = getListForFrame(stroke.getStartFrame());
-		
+
 		// remove old stroke with possibly other length
-		if(frameList.contains(stroke)) {
+		if (frameList.contains(stroke)) {
 			frameList.remove(stroke);
 		}
-		
+
 		frameList.add(stroke);
 		return stroke;
 	}
-	
+
 	/**
 	 * Gets the list for frame.
-	 *
+	 * 
 	 * @param frame the frame
 	 * @return the list for frame
 	 */
 	private ArrayList<Stroke> getListForFrame(Integer frame) {
-		if(strokes.containsKey(frame)) {
-			return (ArrayList<Stroke>)strokes.get(frame);
+		if (strokes.containsKey(frame)) {
+			return (ArrayList<Stroke>) strokes.get(frame);
 		}
-		
+
 		ArrayList<Stroke> newList = new ArrayList<Stroke>();
 		this.strokes.put(frame, newList);
 		return newList;
 	}
-	
+
 	/**
 	 * Gets the list for frame in range.
-	 *
+	 * 
 	 * @param fromFrame the from frame
 	 * @param toFrame the to frame
 	 * @return the list for frame in range
 	 */
-	public List<Stroke> getListForFrameInRange(Integer fromFrame, Integer toFrame) {
+	public List<Stroke> getListForFrameInRange(Integer fromFrame,
+			Integer toFrame) {
 		Map<Integer, List<Stroke>> subMap = strokes.subMap(fromFrame, toFrame);
 		List<Stroke> strokeRangeList = new ArrayList<>();
-		
+
 		for (List<Stroke> strokeList : subMap.values()) {
 			strokeRangeList.addAll(strokeList);
 		}
-		
+
 		return strokeRangeList;
 	}
-	
+
 	/**
 	 * Gets the list for frame in range.
-	 *
+	 * 
 	 * @param fromFrame the from frame
 	 * @param toFrame the to frame
 	 * @param key the key
 	 * @return the list for frame in range
 	 */
-	public List<Stroke> getListForFrameInRange(Integer fromFrame, Integer toFrame, StrokeKey key) {
+	public List<Stroke> getListForFrameInRange(Integer fromFrame,
+			Integer toFrame, StrokeKey key) {
 		Map<Integer, List<Stroke>> subMap = strokes.subMap(fromFrame, toFrame);
 		List<Stroke> strokeRangeList = new ArrayList<>();
-		
+
 		for (List<Stroke> strokeList : subMap.values()) {
-			for(Stroke stroke : strokeList) {
-				if(stroke.getKey() == key) {
+			for (Stroke stroke : strokeList) {
+				if (stroke.getKey() == key) {
 					strokeRangeList.add(stroke);
 				}
 			}

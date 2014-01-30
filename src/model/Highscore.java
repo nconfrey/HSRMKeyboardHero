@@ -1,5 +1,5 @@
 /**
- * 
+ * Highscore Model of a single score
  * 
  * @author Simon Seyer
  * @author Martin Juhasz
@@ -12,13 +12,14 @@ package model;
 import java.io.Serializable;
 
 public class Highscore implements Comparable<Highscore>, Serializable {
-	
+
+	private static final long serialVersionUID = -3955711964526156861L;
 	private String name;
 	private int score;
-		
+
 	/**
 	 * Instantiates a new highscore.
-	 *
+	 * 
 	 * @param score the score
 	 * @param name the name
 	 */
@@ -26,10 +27,10 @@ public class Highscore implements Comparable<Highscore>, Serializable {
 		this.score = score;
 		this.name = name;
 	}
-	
+
 	/**
 	 * Gets the name.
-	 *
+	 * 
 	 * @return the name
 	 */
 	public String getName() {
@@ -38,22 +39,26 @@ public class Highscore implements Comparable<Highscore>, Serializable {
 
 	/**
 	 * Gets the score.
-	 *
+	 * 
 	 * @return the score
 	 */
 	public int getScore() {
 		return score;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Comparable#compareTo(java.lang.Object)
 	 */
 	@Override
 	public int compareTo(Highscore o) {
 		return o.getScore() - getScore();
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#toString()
 	 */
 	public String toString() {

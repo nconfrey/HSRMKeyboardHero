@@ -11,15 +11,16 @@ package model;
 
 import java.io.Serializable;
 
-public class Stroke implements Serializable{
-	
+public class Stroke implements Serializable {
+
+	private static final long serialVersionUID = 3344807030757232975L;
 	private StrokeKey key;
 	private int length;
 	private int startFrame;
-	
+
 	/**
 	 * Instantiates a new stroke.
-	 *
+	 * 
 	 * @param strokeKey the stroke key
 	 * @param startFrame the start frame
 	 * @param length the length
@@ -32,7 +33,7 @@ public class Stroke implements Serializable{
 
 	/**
 	 * Gets the key.
-	 *
+	 * 
 	 * @return the key
 	 */
 	public StrokeKey getKey() {
@@ -41,7 +42,7 @@ public class Stroke implements Serializable{
 
 	/**
 	 * Gets the length.
-	 *
+	 * 
 	 * @return the length
 	 */
 	public int getLength() {
@@ -50,16 +51,16 @@ public class Stroke implements Serializable{
 
 	/**
 	 * Gets the start frame.
-	 *
+	 * 
 	 * @return the start frame
 	 */
 	public int getStartFrame() {
 		return startFrame;
 	}
-	
+
 	/**
 	 * Gets the end frame.
-	 *
+	 * 
 	 * @return the end frame
 	 */
 	public int getEndFrame() {
@@ -68,7 +69,7 @@ public class Stroke implements Serializable{
 
 	/**
 	 * Sets the length.
-	 *
+	 * 
 	 * @param length the new length
 	 */
 	public void setLength(int length) {
@@ -77,32 +78,34 @@ public class Stroke implements Serializable{
 
 	/**
 	 * Sets the start frame.
-	 *
+	 * 
 	 * @param startFrame the new start frame
 	 */
 	public void setStartFrame(int startFrame) {
 		this.startFrame = startFrame;
 	}
-	
+
 	/**
 	 * Checks if is open.
-	 *
+	 * 
 	 * @return true, if is open
 	 */
 	public boolean isOpen() {
 		return isEmpty();
 	}
-	
+
 	/**
 	 * Checks if is empty.
-	 *
+	 * 
 	 * @return true, if is empty
 	 */
 	public boolean isEmpty() {
 		return this.length == 0;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#hashCode()
 	 */
 	@Override
@@ -114,7 +117,9 @@ public class Stroke implements Serializable{
 		return result;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
 	@Override
@@ -132,8 +137,10 @@ public class Stroke implements Serializable{
 			return false;
 		return true;
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#toString()
 	 */
 	@Override
@@ -141,5 +148,4 @@ public class Stroke implements Serializable{
 		return "Stroke " + key + " <" + startFrame + "|" + length + ">";
 	}
 
-	
 }

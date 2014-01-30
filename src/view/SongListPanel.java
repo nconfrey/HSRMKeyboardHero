@@ -13,7 +13,6 @@ import helper.KeyboardHeroConstants;
 
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.RenderingHints.Key;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -30,14 +29,12 @@ import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 
-import view.TextPrompt.Show;
-import model.MenuSongList;
+import model.Playlist;
 import model.Track;
 import net.miginfocom.swing.MigLayout;
-import controller.PersistenceHandler;
+import view.TextPrompt.Show;
 import controller.PlayerController;
 import controller.PlaylistTransferHandler;
-import controller.player.Playlist;
 
 public class SongListPanel extends GHPanel {
 
@@ -45,7 +42,7 @@ public class SongListPanel extends GHPanel {
 	public static final int MODE_RECORD = 1;
 	public static final int MODE_HIGHSCORE = 2;
 
-	private Playlist playlist;
+	private PlayerController playerController;
 	private JList<Track> songlist;
 	private JButton mainMenuButton;
 	private ListAction selectAction;
@@ -53,23 +50,24 @@ public class SongListPanel extends GHPanel {
 	private JScrollPane scrollPane;
 	private int mode;
 	private JTextField searchField;
-	private JButton button;
 	private TextPrompt textPrompt;
 
 	/**
 	 * Instantiates a new song list panel.
+	 *
+	 * @param playerController the player controller
 	 */
-	public SongListPanel() {
-		this.mode = MODE_PLAY;
-		init();
+	public SongListPanel(PlayerController playerController) {
+		this(playerController, MODE_PLAY);
 	}
 
 	/**
 	 * Instantiates a new song list panel.
-	 *
+	 * 
 	 * @param mode the mode
 	 */
-	public SongListPanel(int mode) {
+	public SongListPanel(PlayerController playerController, int mode) {
+		this.playerController = playerController;
 		this.mode = mode;
 		init();
 	}
@@ -94,15 +92,15 @@ public class SongListPanel extends GHPanel {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				PlayerController.getInstance().stop();
+				playerController.stop();
 				if (songlist.getSelectedValue() != null) {
 					if (mode == MODE_PLAY || mode == MODE_RECORD) {
 						Track selectedTrack = songlist.getSelectedValue();
-						Playlist playlist = PersistenceHandler.loadPlaylist();
+						Playlist playlist = playerController.getPlaylistController().getPlaylist();
 						// TODO: wrong location to do this
 						playlist.addTrack(selectedTrack);
-						PlayerController.getInstance().setTrack(selectedTrack);
-						GamePanel gameFrame = new GamePanel();
+						playerController.setTrack(selectedTrack);
+						GamePanel gameFrame = new GamePanel(playerController);
 						getNavigationController().pushPanel(gameFrame);
 					} else if (mode == MODE_HIGHSCORE) {
 						HighscorePanel highscorePanel = new HighscorePanel(
@@ -132,15 +130,12 @@ public class SongListPanel extends GHPanel {
 	public void initPlaylist() {
 		songlist = new MenuSongList<Track>(mode == MODE_RECORD);
 		songlist.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
-
-		playlist = PersistenceHandler.loadPlaylist();
+		Playlist playlist = playerController.getPlaylistController().getPlaylist(mode == MODE_PLAY);
+		songlist.setModel(playlist);
 		if (mode == MODE_RECORD) {
-			songlist.setModel(playlist);
 			transferHandler = new PlaylistTransferHandler(playlist);
 			songlist.setDropMode(DropMode.ON);
 			songlist.setTransferHandler(transferHandler);
-		} else {
-			songlist.setModel(playlist.getPlaylistWithPlayableTracks());
 		}
 
 		scrollPane = new JScrollPane(songlist);
@@ -183,8 +178,8 @@ public class SongListPanel extends GHPanel {
 
 					@Override
 					public void run() {
-						final Playlist list = PlayerController.getInstance()
-								.getSoundCloud().search(search);
+						final Playlist list = playerController
+								.getPlaylistController().getPlaylistForSearch(search);
 						SwingUtilities.invokeLater(new Runnable() {
 
 							@Override
@@ -204,7 +199,9 @@ public class SongListPanel extends GHPanel {
 		add(searchField, "wrap, grow");
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see view.GHPanel#didPressBack(java.awt.event.KeyEvent)
 	 */
 	@Override

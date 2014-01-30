@@ -1,5 +1,5 @@
 /**
- * 
+ * Handles the saving and loading of persistent data.
  * 
 ++3 * @author Simon Seyer
  * @author Martin Juhasz
@@ -13,11 +13,12 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.ObjectInputStream.GetField;
 
-import model.Track;
-import controller.player.Playlist;
+import model.Playlist;
 
 /**
  * Handles the saving and loading of persistent data.
@@ -25,21 +26,15 @@ import controller.player.Playlist;
  */
 
 public class PersistenceHandler {
-	
-	private static Playlist playlist;
 
-    //private static final String FILE_PATH = KeyboardHero.class.getResource("/"+mp3Name).toURI();
-	private static final File playlistFile = new File(System.getProperty("user.home") + File.separator + "playlist.mpl");
-    
+	private static final String PLAYLIST_PATH = System.getProperty("user.home") + File.separator + "playlist.mpl";
+	private static final String DEFAULT_PLAYLIST_PATH = "playlist.mpl";
+	
     /**
      * Save a playlist to disk.
      */
-    public static void savePlaylist() {
-    	if (playlist == null) {
-    		return;
-    	}
-
-        try (FileOutputStream fileOut = new FileOutputStream(playlistFile);
+    public static void savePlaylist(Playlist playlist) {
+        try (FileOutputStream fileOut = new FileOutputStream(new File(PLAYLIST_PATH));
              ObjectOutputStream out = new ObjectOutputStream(fileOut)) {
             out.writeObject(playlist);
             System.out.printf("Serialized data is saved");
@@ -54,11 +49,9 @@ public class PersistenceHandler {
      * @return the loaded playlist
      */
     public static Playlist loadPlaylist() {
-    	if (playlist != null) {
-    		return playlist;
-    	}
+    	Playlist playlist = null;
 
-        try (FileInputStream fileIn = new FileInputStream(playlistFile);
+        try (FileInputStream fileIn = new FileInputStream(new File(PLAYLIST_PATH));
              ObjectInputStream in = new ObjectInputStream(fileIn)) {
             playlist = (Playlist) in.readObject();
             System.out.println("Playlist: loaded");
@@ -75,22 +68,22 @@ public class PersistenceHandler {
         }
         
         if (playlist == null) {
-        	playlist = loadDefaultPlaylist();
+        	try(InputStream stream = ClassLoader.getSystemClassLoader().getResourceAsStream(DEFAULT_PLAYLIST_PATH);
+        			ObjectInputStream in = new ObjectInputStream(stream)) {
+        		playlist = (Playlist) in.readObject();
+        	} catch (IOException e) {
+        		System.out.println("Default playlist could not be loaded");
+				e.printStackTrace();
+			} catch (ClassNotFoundException e) {
+				System.out.println("Playlist class not found");
+				e.printStackTrace();
+			}
         }
         
+        if (playlist == null) {
+        	playlist = new Playlist();
+        }
+
         return playlist;
     }
-    
-    /**
-     * Load default playlist.
-     *
-     * @return the playlist
-     */
-    private static Playlist loadDefaultPlaylist() {
-    	Playlist playlist = new Playlist();
-//    	Track sampleTrack = new Track("music/smoke_on_the_water_short.mp3");
-//    	playlist.addTrack(sampleTrack);
-    	return playlist;
-    	}
 }
-

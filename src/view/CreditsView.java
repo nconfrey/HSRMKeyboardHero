@@ -71,14 +71,16 @@ public class CreditsView extends GHPanel {
 
 	/**
 	 * Action performed.
-	 *
+	 * 
 	 * @param e the e
 	 */
 	public void actionPerformed(ActionEvent e) {
 		getNavigationController().popPanel();
 	};
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see view.GHPanel#didPressBack(java.awt.event.KeyEvent)
 	 */
 	@Override

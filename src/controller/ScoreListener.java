@@ -1,5 +1,5 @@
 /**
- * 
+ * Interface to listen to scores
  * 
  * @author Simon Seyer
  * @author Martin Juhasz
@@ -11,24 +11,20 @@ package controller;
 
 import model.StrokeKey;
 
-/**
- *
- * @author sseye001
- */
 public interface ScoreListener {
-    
-    /**
-     * Scoring did start.
-     *
-     * @param key the key
-     */
-    public void scoringDidStart(StrokeKey key);
-    
-    /**
-     * Scoring did end.
-     *
-     * @param key the key
-     */
-    public void scoringDidEnd(StrokeKey key);
-    
+
+	/**
+	 * Scoring did start.
+	 * 
+	 * @param key the key
+	 */
+	public void scoringDidStart(StrokeKey key);
+
+	/**
+	 * Scoring did end.
+	 * 
+	 * @param key the key
+	 */
+	public void scoringDidEnd(StrokeKey key);
+
 }

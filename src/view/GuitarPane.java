@@ -42,12 +42,13 @@ public class GuitarPane extends JPanel implements MP3PlayerListener,
 	private static final int CLEAN_INTERVAL = 50;
 	private static final float RENDER_FACTOR = 2f;
 
-	private static final float STROKE_WIDTH = 20;
+	private static final float STROKE_WIDTH = 40;
 	private static final float TAB_DISTANCE = 150;
 
 	private static final int STYLE_PRESET = 0;
 	private static final int STYLE_LIVE = 1;
 
+	private PlayerController playerController;
 	private int frame;
 	private float strokeOffset;
 	private Timer strokeOffsetTimer;
@@ -60,44 +61,46 @@ public class GuitarPane extends JPanel implements MP3PlayerListener,
 	private CountPanel countPanel;
 	private InfoPanel[] infoPanels;
 
+	
 	/**
 	 * Instantiates a new guitar pane.
+	 *
+	 * @param playerController the player controller
 	 */
-	public GuitarPane() {
+	public GuitarPane(PlayerController playerController) {
+		this.playerController = playerController;
 		strokeRects = new ArrayList<>();
 		openStrokeRects = new ArrayList<>();
 		toRemove = new ArrayList<>();
 		scoringKeys = new boolean[StrokeKey.STROKE_COUNT];
 
-		PlayerController.getInstance().getPlayer().addPlayerListener(this);
-		PlayerController.getInstance().getRecorder()
-				.addStrokeRecorderListener(this);
-		PlayerController.getInstance().getScoreController().addListener(this);
+		playerController.getPlayer().addPlayerListener(this);
+		playerController.getRecorder().addStrokeRecorderListener(this);
+		playerController.getScoreController().addListener(this);
 
 		countPanel = new CountPanel(this);
-		
+
 		setLayout(new MigLayout("fill", "[center]", "[center]"));
 		add(countPanel, "width 100!, height 100!");
-		
+
 		infoPanels = new InfoPanel[StrokeKey.STROKE_COUNT + 1];
 		for (int i = 0; i < infoPanels.length - 1; i++) {
 			InfoPanel infoPanel = new InfoPanel();
 			infoPanel.setText(StrokeKey.keyForPosition(i).toString());
 			infoPanel.setFontSize(16);
 			infoPanels[i] = infoPanel;
-			add(infoPanel, "pos (" + (i+1) + " * container.w / 6 - 25px) (container.h - 90)");
+			add(infoPanel, "pos (" + (i + 1)
+					+ " * container.w / 6 - 25px) (container.h - 90)");
 		}
 		InfoPanel infoPanel = new InfoPanel();
 		infoPanel.setText(StrokeKey.ENTER.toString());
 		infoPanel.setFontSize(16);
 		infoPanels[infoPanels.length - 1] = infoPanel;
 		add(infoPanel, "pos 30 (container.h - 175) (container.w - 30)");
-		
-		
 
 		setOpaque(false);
 	}
-	
+
 	/**
 	 * Start.
 	 */
@@ -109,15 +112,17 @@ public class GuitarPane extends JPanel implements MP3PlayerListener,
 		}
 		countPanel.startTimer();
 	}
-	
+
 	/**
 	 * Pause or resume.
 	 */
 	public void pauseOrResume() {
 		countPanel.pauseOrResume();
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see javax.swing.JComponent#paintComponent(java.awt.Graphics)
 	 */
 	@Override
@@ -131,7 +136,7 @@ public class GuitarPane extends JPanel implements MP3PlayerListener,
 
 	/**
 	 * Adds the stroke.
-	 *
+	 * 
 	 * @param stroke the stroke
 	 * @param style the style
 	 */
@@ -146,7 +151,7 @@ public class GuitarPane extends JPanel implements MP3PlayerListener,
 
 	/**
 	 * Adds the strokes.
-	 *
+	 * 
 	 * @param strokes the strokes
 	 * @param style the style
 	 */
@@ -158,7 +163,7 @@ public class GuitarPane extends JPanel implements MP3PlayerListener,
 
 	/**
 	 * Gets the stroke length.
-	 *
+	 * 
 	 * @param stroke the stroke
 	 * @return the stroke length
 	 */
@@ -172,7 +177,7 @@ public class GuitarPane extends JPanel implements MP3PlayerListener,
 
 	/**
 	 * Update stroke rect.
-	 *
+	 * 
 	 * @param strokeView the stroke view
 	 */
 	private void updateStrokeRect(StrokeView strokeView) {
@@ -189,12 +194,12 @@ public class GuitarPane extends JPanel implements MP3PlayerListener,
 
 	/**
 	 * Draw.
-	 *
+	 * 
 	 * @param g the g
 	 */
 	public void draw(Graphics2D g) {
 		// Draw background
-		g.setColor(new Color(0xF1DDDDDD, true));
+		g.setColor(new Color(0xEEDDDDDD, true));
 		g.fillRect(0, 0, getWidth(), getHeight());
 
 		float frameOffset = getPixelForFrame(frame);
@@ -208,7 +213,7 @@ public class GuitarPane extends JPanel implements MP3PlayerListener,
 			Line2D line = new Line2D.Float(leftP, rightP);
 			g.draw(line);
 		}
-		
+
 		for (int i = 0; i < StrokeKey.STROKE_COUNT; i++) {
 			float x = getPositionForLine(i);
 			if (scoringKeys[i]) {
@@ -238,7 +243,7 @@ public class GuitarPane extends JPanel implements MP3PlayerListener,
 		if (drawCounter % CLEAN_INTERVAL == 0) {
 			cleanStrokeList(frameOffset - getHeight());
 		}
-		
+
 		strokeRects.removeAll(toRemove);
 		openStrokeRects.removeAll(toRemove);
 		toRemove.clear();
@@ -264,7 +269,7 @@ public class GuitarPane extends JPanel implements MP3PlayerListener,
 			c = new Color(c.getRed(), c.getGreen(), c.getBlue(), 180);
 
 			float x = getPositionForLine(i);
-			int size = 30;
+			float size = STROKE_WIDTH - 10;
 
 			g.setColor(c);
 			g.fill(new Rectangle2D.Float(x - size / 2f, getVerticalOffset()
@@ -278,7 +283,7 @@ public class GuitarPane extends JPanel implements MP3PlayerListener,
 	 * Load new strokes.
 	 */
 	private void loadNewStrokes() {
-		Track track = PlayerController.getInstance().getTrack();
+		Track track = playerController.getTrack();
 		if (track.getStrokeSet() != null) {
 			int toFrame = getFrameForPixel((int) (getVerticalOffset()));
 			List<Stroke> strokes = track.getStrokeSet().getListForFrameInRange(
@@ -292,7 +297,7 @@ public class GuitarPane extends JPanel implements MP3PlayerListener,
 
 	/**
 	 * Gets the vertical offset.
-	 *
+	 * 
 	 * @return the vertical offset
 	 */
 	private float getVerticalOffset() {
@@ -301,7 +306,7 @@ public class GuitarPane extends JPanel implements MP3PlayerListener,
 
 	/**
 	 * Gets the position for line.
-	 *
+	 * 
 	 * @param line the line
 	 * @return the position for line
 	 */
@@ -311,7 +316,7 @@ public class GuitarPane extends JPanel implements MP3PlayerListener,
 
 	/**
 	 * Gets the position for key.
-	 *
+	 * 
 	 * @param key the key
 	 * @return the position for key
 	 */
@@ -321,7 +326,7 @@ public class GuitarPane extends JPanel implements MP3PlayerListener,
 
 	/**
 	 * Gets the pixel for frame.
-	 *
+	 * 
 	 * @param frame the frame
 	 * @return the pixel for frame
 	 */
@@ -331,7 +336,7 @@ public class GuitarPane extends JPanel implements MP3PlayerListener,
 
 	/**
 	 * Gets the frame for pixel.
-	 *
+	 * 
 	 * @param pixel the pixel
 	 * @return the frame for pixel
 	 */
@@ -341,16 +346,24 @@ public class GuitarPane extends JPanel implements MP3PlayerListener,
 
 	// MP3Player Listener
 
-	/* (non-Javadoc)
-	 * @see controller.player.MP3PlayerListener#playbackDidStart(controller.player.MP3Player)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * controller.player.MP3PlayerListener#playbackDidStart(controller.player
+	 * .MP3Player)
 	 */
 	@Override
 	public void playbackDidStart(MP3Player player) {
 
 	}
 
-	/* (non-Javadoc)
-	 * @see controller.player.MP3PlayerListener#playbackDidStop(controller.player.MP3Player)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * controller.player.MP3PlayerListener#playbackDidStop(controller.player
+	 * .MP3Player)
 	 */
 	@Override
 	public void playbackDidStop(MP3Player player) {
@@ -370,7 +383,7 @@ public class GuitarPane extends JPanel implements MP3PlayerListener,
 			}
 		}, 0, 50);
 	}
-	
+
 	/**
 	 * Reset.
 	 */
@@ -386,8 +399,12 @@ public class GuitarPane extends JPanel implements MP3PlayerListener,
 		}
 	}
 
-	/* (non-Javadoc)
-	 * @see controller.player.MP3PlayerListener#playbackPlaying(controller.player.MP3Player, int)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * controller.player.MP3PlayerListener#playbackPlaying(controller.player
+	 * .MP3Player, int)
 	 */
 	@Override
 	public void playbackPlaying(MP3Player player, int frame) {
@@ -397,16 +414,24 @@ public class GuitarPane extends JPanel implements MP3PlayerListener,
 
 	// StrokeRecorder Listener
 
-	/* (non-Javadoc)
-	 * @see controller.recorder.StrokeRecorderListener#redcorderDidOpenStroke(controller.recorder.StrokeRecorder, model.Stroke)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * controller.recorder.StrokeRecorderListener#redcorderDidOpenStroke(controller
+	 * .recorder.StrokeRecorder, model.Stroke)
 	 */
 	@Override
 	public void redcorderDidOpenStroke(StrokeRecorder recorder, Stroke stroke) {
 		addStroke(stroke, STYLE_LIVE);
 	}
 
-	/* (non-Javadoc)
-	 * @see controller.recorder.StrokeRecorderListener#redcorderDidCloseStroke(controller.recorder.StrokeRecorder, model.Stroke)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * controller.recorder.StrokeRecorderListener#redcorderDidCloseStroke(controller
+	 * .recorder.StrokeRecorder, model.Stroke)
 	 */
 	@Override
 	public void redcorderDidCloseStroke(StrokeRecorder recorder, Stroke stroke) {
@@ -422,7 +447,7 @@ public class GuitarPane extends JPanel implements MP3PlayerListener,
 
 	/**
 	 * Clean stroke list.
-	 *
+	 * 
 	 * @param treshold the treshold
 	 */
 	private void cleanStrokeList(float treshold) {
@@ -434,7 +459,9 @@ public class GuitarPane extends JPanel implements MP3PlayerListener,
 		}
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see controller.ScoreListener#scoringDidStart(model.StrokeKey)
 	 */
 	@Override
@@ -442,7 +469,9 @@ public class GuitarPane extends JPanel implements MP3PlayerListener,
 		scoringKeys[key.getPosition()] = true;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see controller.ScoreListener#scoringDidEnd(model.StrokeKey)
 	 */
 	@Override
@@ -450,7 +479,9 @@ public class GuitarPane extends JPanel implements MP3PlayerListener,
 		scoringKeys[key.getPosition()] = false;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see view.CountPanel.CountListener#countdownDidEnd()
 	 */
 	@Override
@@ -465,6 +496,6 @@ public class GuitarPane extends JPanel implements MP3PlayerListener,
 				}
 			}
 		});
-		PlayerController.getInstance().play();
+		playerController.play();
 	}
 }

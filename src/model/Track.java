@@ -12,26 +12,24 @@ package model;
 import java.io.File;
 import java.io.Serializable;
 
-import controller.player.MP3PlayerLocalTrack;
-import controller.player.MP3PlayerTrack;
+public class Track implements Serializable {
 
-public class Track implements Serializable{
-
+	private static final long serialVersionUID = 7876085004865638208L;
 	private StrokeSet strokeSet;
 	private MP3PlayerTrack mp3;
-	
+
 	/**
 	 * Instantiates a new track.
-	 *
+	 * 
 	 * @param mp3 the mp3
 	 */
 	public Track(MP3PlayerTrack mp3) {
 		this.mp3 = mp3;
 	}
-	
+
 	/**
 	 * Instantiates a new track.
-	 *
+	 * 
 	 * @param mp3Name the mp3 name
 	 */
 	public Track(String mp3Name) {
@@ -43,11 +41,10 @@ public class Track implements Serializable{
 		}
 		this.mp3 = new MP3PlayerLocalTrack(mp3File);
 	}
-	
 
 	/**
 	 * Gets the stroke set.
-	 *
+	 * 
 	 * @return the stroke set
 	 */
 	public StrokeSet getStrokeSet() {
@@ -56,7 +53,7 @@ public class Track implements Serializable{
 
 	/**
 	 * Sets the stroke set.
-	 *
+	 * 
 	 * @param strokeSet the new stroke set
 	 */
 	public void setStrokeSet(StrokeSet strokeSet) {
@@ -65,7 +62,7 @@ public class Track implements Serializable{
 
 	/**
 	 * Gets the mp3.
-	 *
+	 * 
 	 * @return the mp3
 	 */
 	public MP3PlayerTrack getMp3() {
@@ -74,18 +71,20 @@ public class Track implements Serializable{
 
 	/**
 	 * Sets the mp3.
-	 *
+	 * 
 	 * @param mp3 the new mp3
 	 */
 	public void setMp3(MP3PlayerTrack mp3) {
 		this.mp3 = mp3;
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#toString()
 	 */
 	@Override
-	public String toString(){
+	public String toString() {
 		return mp3.toString();
 	}
 }

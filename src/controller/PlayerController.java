@@ -1,5 +1,5 @@
 /**
- * 
+ * Handles a Game
  * 
  * @author Simon Seyer
  * @author Martin Juhasz
@@ -16,44 +16,30 @@ import controller.recorder.StrokeRecorder;
 public class PlayerController {
 
 	private MP3Player player;
-	private SoundCloud soundCloud;
+	private PlaylistController playlistController;
 	private StrokeRecorder recorder;
 	private KeyController keyController;
 	private Track track;
 	private ScoreController scoreController;
 	private boolean isRecording;
-
-	private static PlayerController instance;
-	
-	/**
-	 * Gets the single instance of PlayerController.
-	 *
-	 * @return single instance of PlayerController
-	 */
-	public static PlayerController getInstance() {
-		if(instance == null) {
-			instance = new PlayerController();
-		}
-		return instance;
-	}
 	
 	/**
 	 * Instantiates a new player controller.
 	 */
 	public PlayerController() {
 		player = new MP3Player();
-		soundCloud = new SoundCloud();
+		playlistController = new PlaylistController();
 		recorder = new StrokeRecorder(player);
 		keyController = new KeyController();
-		scoreController = new ScoreController();
-		
+		scoreController = new ScoreController(player);
+
 		keyController.addGuitarStringListener(recorder);
 		player.addPlayerListener(scoreController);
 		recorder.addStrokeRecorderListener(scoreController);
-		
+
 		setRecording(false);
 	}
-	
+
 	/**
 	 * Play.
 	 */
@@ -62,21 +48,21 @@ public class PlayerController {
 		scoreController.resetScore();
 		player.play();
 	}
-	
+
 	/**
 	 * Loop.
 	 */
 	public void loop() {
 		player.loop();
 	}
-	
+
 	/**
 	 * Stop.
 	 */
 	public void stop() {
 		player.stop();
 	}
-	
+
 	/**
 	 * Pause resume.
 	 */
@@ -86,97 +72,96 @@ public class PlayerController {
 
 	/**
 	 * Checks if is recording.
-	 *
+	 * 
 	 * @return true, if is recording
 	 */
 	public boolean isRecording() {
 		return isRecording;
 	}
-	
+
 	/**
 	 * Reset.
 	 */
 	public void reset() {
 		scoreController.resetScore();
-		if(isRecording){
+		if (isRecording) {
 			track.setStrokeSet(null);
 		}
 	}
-	
+
 	/**
 	 * Sets the recording.
-	 *
+	 * 
 	 * @param isRecording the new recording
 	 */
 	public void setRecording(boolean isRecording) {
 		this.isRecording = isRecording;
-		
-		if(scoreController != null) {
+
+		if (scoreController != null) {
 			scoreController.setRecording(isRecording);
 		}
-		
-		if(recorder != null) {
+
+		if (recorder != null) {
 			recorder.setRecordingMode(isRecording);
 		}
-		
-		
+
 	}
 
 	/**
 	 * Gets the player.
-	 *
+	 * 
 	 * @return the player
 	 */
 	public MP3Player getPlayer() {
 		return player;
 	}
-	
+
 	/**
-	 * Gets the sound cloud.
+	 * Gets the playlist controller.
 	 *
-	 * @return the sound cloud
+	 * @return the playlist controller
 	 */
-	public SoundCloud getSoundCloud() {
-		return soundCloud;
+	public PlaylistController getPlaylistController() {
+		return playlistController;
 	}
 
 	/**
 	 * Gets the recorder.
-	 *
+	 * 
 	 * @return the recorder
 	 */
 	public StrokeRecorder getRecorder() {
 		return recorder;
 	}
-	
+
 	/**
 	 * Gets the track.
-	 *
+	 * 
 	 * @return the track
 	 */
 	public Track getTrack() {
 		return track;
 	}
-	
+
 	/**
 	 * Sets the track.
-	 *
+	 * 
 	 * @param track the new track
 	 */
 	public void setTrack(Track track) {
 		this.track = track;
-		if(isRecording){
+		if (isRecording) {
 			track.setStrokeSet(null);
 		}
-		
+
 		recorder.setTrack(track);
 		player.setTrack(track.getMp3());
-		
+		scoreController.setTrack(track);
 	}
-	
+
 	/**
 	 * Gets the score controller.
-	 *
+	 * 
 	 * @return the score controller
 	 */
 	public ScoreController getScoreController() {

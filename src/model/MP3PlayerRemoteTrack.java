@@ -7,7 +7,7 @@
  * @author Moritz Moeller
  * 
  */
-package controller.player;
+package model;
 
 import helper.KeyboardHeroConstants;
 
@@ -23,6 +23,7 @@ import controller.SoundCloud;
  */
 public class MP3PlayerRemoteTrack implements MP3PlayerTrack {
 
+	private static final long serialVersionUID = -1307265295302017540L;
 	private String title;
 	private String albumTitle;
 	private String artist;
@@ -30,11 +31,10 @@ public class MP3PlayerRemoteTrack implements MP3PlayerTrack {
 	private transient String streamUrl;
 	private transient SoundCloud soundCloud;
 	private String artworkUrl;
-	
 
 	/**
 	 * Instantiates a new m p3 player remote track.
-	 *
+	 * 
 	 * @param data the data
 	 * @param soundCloud the sound cloud
 	 */
@@ -42,7 +42,8 @@ public class MP3PlayerRemoteTrack implements MP3PlayerTrack {
 		this.soundCloud = soundCloud;
 		title = data.getString("title");
 		if (!data.isNull("genre")) {
-			albumTitle = KeyboardHeroConstants.getString("remote_album_prefix") + " " + data.getString("genre");
+			albumTitle = KeyboardHeroConstants.getString("remote_album_prefix")
+					+ " " + data.getString("genre");
 		} else {
 			albumTitle = "";
 		}
@@ -53,7 +54,9 @@ public class MP3PlayerRemoteTrack implements MP3PlayerTrack {
 		url = data.getString("stream_url");
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see controller.player.MP3PlayerTrack#getTitle()
 	 */
 	@Override
@@ -61,7 +64,9 @@ public class MP3PlayerRemoteTrack implements MP3PlayerTrack {
 		return title;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see controller.player.MP3PlayerTrack#getAlbumTitle()
 	 */
 	@Override
@@ -69,14 +74,16 @@ public class MP3PlayerRemoteTrack implements MP3PlayerTrack {
 		return albumTitle;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see controller.player.MP3PlayerTrack#getArtist()
 	 */
 	@Override
 	public String getArtist() {
 		return artist;
 	}
-	
+
 	/**
 	 * Cache.
 	 */
@@ -84,7 +91,9 @@ public class MP3PlayerRemoteTrack implements MP3PlayerTrack {
 		getPath();
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see controller.player.MP3PlayerTrack#getPath()
 	 */
 	@Override
@@ -98,17 +107,19 @@ public class MP3PlayerRemoteTrack implements MP3PlayerTrack {
 		}
 		return streamUrl;
 	}
-	
+
 	/**
 	 * Gets the artwork url.
-	 *
+	 * 
 	 * @return the artwork url
 	 */
 	public String getArtworkUrl() {
 		return artworkUrl;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#toString()
 	 */
 	@Override
