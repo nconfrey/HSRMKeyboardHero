@@ -63,7 +63,8 @@ public class SongListPanel extends GHPanel {
 
 	/**
 	 * Instantiates a new song list panel.
-	 * 
+	 *
+	 * @param playerController the player controller
 	 * @param mode the mode
 	 */
 	public SongListPanel(PlayerController playerController, int mode) {

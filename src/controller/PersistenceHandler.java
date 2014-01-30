@@ -63,6 +63,8 @@ public class PersistenceHandler {
 
 	/**
 	 * Save a playlist to disk.
+	 *
+	 * @param playlist the playlist
 	 */
 	public void savePlaylist(Playlist playlist) {
 		try (FileOutputStream fileOut = new FileOutputStream(

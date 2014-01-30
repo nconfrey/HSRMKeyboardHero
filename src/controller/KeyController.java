@@ -51,8 +51,8 @@ public class KeyController implements KeyEventDispatcher {
 	}
 
 	/**
-	 * Key pressed event
-	 * 
+	 * Key pressed event.
+	 *
 	 * @param e the KeyEvent
 	 */
 	public void keyPressed(KeyEvent e) {
@@ -72,8 +72,8 @@ public class KeyController implements KeyEventDispatcher {
 	}
 
 	/**
-	 * Key released event
-	 * 
+	 * Key released event.
+	 *
 	 * @param e the KeyEvent
 	 */
 	public void keyReleased(KeyEvent e) {

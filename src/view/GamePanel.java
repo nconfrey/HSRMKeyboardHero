@@ -47,6 +47,7 @@ public class GamePanel extends GHPanel implements MP3PlayerListener,
 	private GameResultsPanel resultsPanel;
 	private ImagePanel miniCoverPanel;
 	private GuitarPane guitarPane;
+	private ComboPanel comboPanel;
 
 	/**
 	 * Instantiates a new game panel.
@@ -107,11 +108,12 @@ public class GamePanel extends GHPanel implements MP3PlayerListener,
 		miniCoverPanel.setOpaque(false);
 		coverWrapperPanel.add(miniCoverPanel, "grow");
 		leftContent.add(coverWrapperPanel, "h 300!,wrap, growx");
-		
-		ComboPanel comboPanel = new ComboPanel();
-		leftContent.add(comboPanel, "h 60!, wrap, growx");
 
 		if (!playerController.isRecording()) {
+			
+			comboPanel = new ComboPanel(playerController);
+			leftContent.add(comboPanel, "h 60!, wrap, growx");
+			
 			leftContent.add(scorePanel, "wrap, growx");
 			scorePanel.setBackground(backgroundColor);
 		}

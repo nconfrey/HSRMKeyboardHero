@@ -37,6 +37,8 @@ public class TitlePanel extends JPanel {
 
 	/**
 	 * Creates title panel with to labels for artist and title.
+	 *
+	 * @param playerController the player controller
 	 */
 	public TitlePanel(PlayerController playerController) {
 		this.playerController = playerController;
@@ -52,9 +54,9 @@ public class TitlePanel extends JPanel {
 		this.songLabel.setFont(new Font("sanserif", Font.BOLD, 15));
 		this.add(this.songLabel);
 
-		this.artistLabel.setText(playerController.getTrack()
-				.getMp3().getArtist());
-		this.songLabel.setText(playerController.getTrack()
-				.getMp3().getTitle());
+		this.artistLabel.setText("<html><body>" + playerController.getTrack()
+				.getMp3().getArtist() + "</body></html>");
+		this.songLabel.setText("<html><body>" + playerController.getTrack()
+				.getMp3().getTitle() + "</body></html>");
 	}
 }
