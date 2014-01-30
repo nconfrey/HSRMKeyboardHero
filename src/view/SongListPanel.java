@@ -131,18 +131,8 @@ public class SongListPanel extends GHPanel {
 		songlist = new JList<Track>();
 		songlist.setFixedCellHeight(60);
 		songlist.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
-		boolean playable = mode == MODE_PLAY || mode == MODE_HIGHSCORE;
-		Playlist playlist = playerController.getPlaylistController().getPlaylist(playable);
-		songlist.setModel(playlist);
-		if (mode == MODE_RECORD) {
-			songlist.setCellRenderer(new RecordListCellRenderer());
-			transferHandler = new PlaylistTransferHandler(playlist);
-			songlist.setDropMode(DropMode.ON);
-			songlist.setTransferHandler(transferHandler);
-		}
-		else {
-			songlist.setCellRenderer(new PlayListCellRenderer());
-		}
+		
+		setDefaultPlaylistModel();
 		
 		scrollPane = new JScrollPane(songlist);
 		scrollPane.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
@@ -175,6 +165,14 @@ public class SongListPanel extends GHPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				final String search = searchField.getText();
+				
+				if (search.trim().length() <= 0) {
+					setDefaultPlaylistModel();
+					textPrompt.setText(KeyboardHeroConstants
+							.getString("search_sound_cloud"));
+					return;
+				}
+				
 				searchField.setText("");
 				songlist.requestFocus();
 				textPrompt.setText(KeyboardHeroConstants.getString("loading")
@@ -194,6 +192,7 @@ public class SongListPanel extends GHPanel {
 								textPrompt.setText(KeyboardHeroConstants
 										.getString("search_sound_cloud"));
 								textPrompt.setHorizontalAlignment(JLabel.LEFT);
+								searchField.setText(search);
 								searchField.requestFocus();
 							}
 						});
@@ -203,6 +202,23 @@ public class SongListPanel extends GHPanel {
 		});
 
 		add(searchField, "wrap, grow");
+	}
+	
+	private void setDefaultPlaylistModel() {
+		boolean playable = mode == MODE_PLAY || mode == MODE_HIGHSCORE;
+		Playlist playlist = playerController.getPlaylistController().getPlaylist(playable);
+		songlist.setModel(playlist);
+		
+		if (mode == MODE_RECORD) {
+			songlist.setCellRenderer(new RecordListCellRenderer());
+			transferHandler = new PlaylistTransferHandler(playlist);
+			songlist.setDropMode(DropMode.ON);
+			songlist.setTransferHandler(transferHandler);
+		}
+		else {
+			songlist.setCellRenderer(new PlayListCellRenderer());
+		}
+		
 	}
 
 	/*
