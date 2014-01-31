@@ -125,6 +125,15 @@ public class MP3Player {
 	public boolean isPlaying() {
 		return playing || looping;
 	}
+	
+	/**
+	 * Checks if is looping.
+	 *
+	 * @return true, if is looping
+	 */
+	public boolean isLooping() {
+		return looping;
+	}
 
 	/**
 	 * Stop and wait.

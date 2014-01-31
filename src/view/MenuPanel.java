@@ -73,7 +73,6 @@ public class MenuPanel extends GHPanel implements ActionListener {
 		buttonPanel.add(creditsButton, "wrap, grow, height 60");
 
 		this.add(buttonPanel, "wrap, grow");
-		loadIntro();
 	}
 
 	/**
@@ -104,18 +103,28 @@ public class MenuPanel extends GHPanel implements ActionListener {
 	 * Loads the intro song of keyboard hero and plays it in loop mode.
 	 */
 	public void loadIntro() {
-		new Thread(new Runnable() {
+		if (!playerController.getPlayer().isLooping()) {
+			new Thread(new Runnable() {
 
-			@Override
-			public void run() {
-				File file = PersistenceHandler
-						.getLocalFile("back_in_black.mp3");
-				MP3PlayerLocalTrack mp3 = new MP3PlayerLocalTrack(file);
-				Track intro = new Track(mp3);
-				playerController.setTrack(intro);
-				playerController.loop();
-			}
-		}).start();
+				@Override
+				public void run() {
+					File file = PersistenceHandler
+							.getLocalFile("back_in_black.mp3");
+					MP3PlayerLocalTrack mp3 = new MP3PlayerLocalTrack(file);
+					Track intro = new Track(mp3);
+					playerController.setTrack(intro);
+					playerController.loop();
+				}
+			}).start();
+		}
+	}
+	
+	/* (non-Javadoc)
+	 * @see view.GHPanel#panelWillAppear()
+	 */
+	@Override
+	public void panelWillAppear() {
+		loadIntro();
 	}
 
 	/**
