@@ -21,7 +21,7 @@ public class InputTextField extends JTextField {
 				KeyboardHeroConstants.COLOR_PRIMARY);
 		this.setBackground(searchFieldColor);
 		this.setBorder(BorderFactory.createCompoundBorder(
-				new LineBorder(searchFieldColor.darker(), 2), new EmptyBorder(
+				new LineBorder(searchFieldColor.darker(), 1), new EmptyBorder(
 						8, 8, 8, 8)));
 	}
 	

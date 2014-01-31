@@ -221,7 +221,7 @@ public class GameResultsPanel extends JPanel {
 
 		highscoreSubmitButton = new MenuButton(
 				KeyboardHeroConstants.getString("submit_highscore"), new Color(KeyboardHeroConstants.COLOR_SECONDARY));
-		infoPanel.add(highscoreSubmitButton, "growx, wrap, span");
+		infoPanel.add(highscoreSubmitButton, "growx, wrap, span, gapy 5");
 		
 		
 		ActionListener submitListener = new ActionListener() {

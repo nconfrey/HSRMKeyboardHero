@@ -65,7 +65,7 @@ public class GamePanel extends GHPanel implements MP3PlayerListener,
 		this.setLayout(new MigLayout("fill"));
 
 		resultsPanel = new GameResultsPanel(playerController, this);
-		resultsPanel.setVisible(true);
+		resultsPanel.setVisible(false);
 		resultsPanel.setOpaque(false);
 		this.add(resultsPanel, "pos 0 0 container.w container.h");
 		
