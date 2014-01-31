@@ -91,13 +91,13 @@ public class GuitarPane extends JPanel implements MP3PlayerListener,
 			infoPanel.setFontSize(16);
 			infoPanels[i] = infoPanel;
 			add(infoPanel, "pos (" + (i + 1)
-					+ " * container.w / 6 - 25px) (container.h - 90)");
+					+ " * container.w / 6 - 25px) (container.h - 90), width 50, height 50");
 		}
 		InfoPanel infoPanel = new InfoPanel();
 		infoPanel.setText(StrokeKey.ENTER.toString());
 		infoPanel.setFontSize(16);
 		infoPanels[infoPanels.length - 1] = infoPanel;
-		add(infoPanel, "pos 30 (container.h - 175) (container.w - 30)");
+		add(infoPanel, "pos 30 (container.h - 175) (container.w - 30), height 50");
 
 		countPanel.startTimer();
 		new Thread(new Runnable() {
