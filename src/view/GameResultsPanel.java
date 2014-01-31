@@ -24,6 +24,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
+import view.TextPrompt.Show;
 import model.Highscore;
 import model.Score;
 import model.StrokeSet;
@@ -79,7 +80,13 @@ public class GameResultsPanel extends JPanel {
 		infoPanel = new JPanel();
 		infoPanel.setLayout(new MigLayout());
 		infoPanel.setBackground(Color.WHITE);
-		this.add(infoPanel, "w 500!, h 500!");
+		
+		String size = "w 500!, h 400!";
+		if(this.playerController.isRecording()) {
+			size = "w 500!, h 200!";
+		}
+		
+		this.add(infoPanel, size);
 		
 		if(!playerController.isRecording()){
 			setupViewsForPlaying();
@@ -149,8 +156,8 @@ public class GameResultsPanel extends JPanel {
 		JLabel textLabel = new JLabel(
 				KeyboardHeroConstants.getString("recording_successfull"));
 		textLabel.setFont(new Font("sanserif", Font.BOLD, 16));
-		textLabel.setVerticalAlignment(SwingConstants.CENTER);
-		infoPanel.add(textLabel, "span, wrap");
+		textLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		infoPanel.add(textLabel, "span, wrap, grow, gapy 50");
 	}
 
 	/**
@@ -194,40 +201,57 @@ public class GameResultsPanel extends JPanel {
 		bestScoreLabel.setFont(new Font("sanserif", Font.BOLD, 27));
 		infoPanel.add(bestScoreLabel, "w 45%, h 100!, wrap");
 
-		highscoreTitleLabel = new JLabel(
-				KeyboardHeroConstants.getString("submit_highscore_label"));
-		infoPanel.add(highscoreTitleLabel, "gapy 30,span, wrap");
+		highscoreTitleLabel = new JLabel("");
+		highscoreTitleLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		highscoreTitleLabel.setFont(new Font("sanserif", Font.BOLD, 14));
+		infoPanel.add(highscoreTitleLabel, "gapy 30,span, wrap, growx");
 
-		highscoreNameField = new JTextField();
-		infoPanel.add(highscoreNameField, "w 45%");
+
+		
+		highscoreNameField = new InputTextField();
+
+		// Placeholder
+		TextPrompt textPrompt = new TextPrompt(
+				KeyboardHeroConstants.getString("submit_highscore_label"),
+				highscoreNameField, Show.FOCUS_LOST);
+		textPrompt.setBorder(null);
+		
+		
+		infoPanel.add(highscoreNameField, "growx, wrap, span");
 
 		highscoreSubmitButton = new MenuButton(
-				KeyboardHeroConstants.getString("submit_highscore"));
-		infoPanel.add(highscoreSubmitButton, "w 45%, wrap");
-		highscoreSubmitButton.addActionListener(new ActionListener() {
+				KeyboardHeroConstants.getString("submit_highscore"), new Color(KeyboardHeroConstants.COLOR_SECONDARY));
+		infoPanel.add(highscoreSubmitButton, "growx, wrap, span");
+		
+		
+		ActionListener submitListener = new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-
-				if (highscoreNameField.getText().trim().length() <= 0)
-					return;
-
-				Score score = playerController
-						.getScoreController().getScore();
-				StrokeSet strokeSet = playerController.getTrack()
-						.getStrokeSet();
-
-				strokeSet.addHighscore((int) score.getScore(),
-						highscoreNameField.getText());
-
-				highscoreNameField.setVisible(false);
-				highscoreSubmitButton.setVisible(false);
-				highscoreNameField.setEditable(false);
-				highscoreSubmitButton.setEnabled(false);
-				highscoreTitleLabel.setText(KeyboardHeroConstants
-						.getString("submit_highscore_successfull"));
-
+				submitHighscore();
 			}
-		});
+		};
+		highscoreSubmitButton.addActionListener(submitListener);
+		highscoreNameField.addActionListener(submitListener);
+	}
+	
+	private void submitHighscore() {
+		if (highscoreNameField.getText().trim().length() <= 0)
+			return;
+
+		Score score = playerController
+				.getScoreController().getScore();
+		StrokeSet strokeSet = playerController.getTrack()
+				.getStrokeSet();
+
+		strokeSet.addHighscore((int) score.getScore(),
+				highscoreNameField.getText());
+
+		highscoreNameField.setVisible(false);
+		highscoreSubmitButton.setVisible(false);
+		highscoreNameField.setEditable(false);
+		highscoreSubmitButton.setEnabled(false);
+		highscoreTitleLabel.setText(KeyboardHeroConstants
+				.getString("submit_highscore_successfull"));
 	}
 
 	/*

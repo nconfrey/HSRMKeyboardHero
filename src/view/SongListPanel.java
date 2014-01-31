@@ -86,6 +86,7 @@ public class SongListPanel extends GHPanel {
 		this.add(titleLabel, "wrap, grow");
 
 		if (mode == MODE_RECORD) {
+
 			initSearchField();
 		}
 		initPlaylist();
@@ -144,16 +145,7 @@ public class SongListPanel extends GHPanel {
 	 * Inits the search field.
 	 */
 	private void initSearchField() {
-		searchField = new JTextField();
-		searchField.setForeground(Color.white);
-		searchField.setCaretColor(Color.white);
-		searchField.setFont(new Font("SansSerif", Font.BOLD, 14));
-		Color searchFieldColor = new Color(
-				KeyboardHeroConstants.COLOR_PRIMARY);
-		searchField.setBackground(searchFieldColor);
-		searchField.setBorder(BorderFactory.createCompoundBorder(
-				new LineBorder(searchFieldColor.darker(), 2), new EmptyBorder(
-						8, 8, 8, 8)));
+		searchField = new InputTextField();
 
 		// Placeholder
 		textPrompt = new TextPrompt(
@@ -216,8 +208,13 @@ public class SongListPanel extends GHPanel {
 		if (mode == MODE_RECORD) {
 			songlist.setCellRenderer(new RecordListCellRenderer());
 			transferHandler = new PlaylistTransferHandler(playlist);
-			songlist.setDropMode(DropMode.ON);
-			songlist.setTransferHandler(transferHandler);
+			
+			
+			
+			//songlist.setDropMode(DropMode.ON);
+			//songlist.setTransferHandler(transferHandler);
+			
+			this.setTransferHandler(transferHandler);
 		}
 		else {
 			songlist.setCellRenderer(new PlayListCellRenderer());

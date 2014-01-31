@@ -65,10 +65,10 @@ public class GamePanel extends GHPanel implements MP3PlayerListener,
 		this.setLayout(new MigLayout("fill"));
 
 		resultsPanel = new GameResultsPanel(playerController, this);
-		resultsPanel.setVisible(false);
+		resultsPanel.setVisible(true);
 		resultsPanel.setOpaque(false);
 		this.add(resultsPanel, "pos 0 0 container.w container.h");
-
+		
 		this.add(this.buildLeftContent(),
 				"gapleft 30, gaptop  30, west, width 250:350:350");
 		GuitarBackgroundPane backgroundPane = new GuitarBackgroundPane(
