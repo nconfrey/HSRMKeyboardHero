@@ -236,8 +236,10 @@ public class GuitarPane extends JPanel implements MP3PlayerListener,
 		}
 
 		// Draw current frame
+		/* debug
 		g.setColor(Color.black);
 		g.drawString("" + frame, 10, 20);
+		*/
 
 		float translateY = frameOffset + getVerticalOffset() + strokeOffset;
 		g.translate(0, translateY);
