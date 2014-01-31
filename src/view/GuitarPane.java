@@ -204,7 +204,7 @@ public class GuitarPane extends JPanel implements MP3PlayerListener,
 	/**
 	 * Draw.
 	 * 
-	 * @param g the g
+	 * @param g the graphics context
 	 */
 	public void draw(Graphics2D g) {
 		// Draw background
@@ -227,7 +227,7 @@ public class GuitarPane extends JPanel implements MP3PlayerListener,
 			float x = getPositionForLine(i);
 			if (scoringKeys[i]) {
 				g.setStroke(new BasicStroke(3));
-				g.setColor(StrokeKey.keyForPosition(i).getColor());
+				g.setColor(StrokeKey.keyForPosition(i).getPrimaryColor());
 			} else {
 				g.setStroke(new BasicStroke(1.5f));
 				g.setColor(new Color(0xC0C0C0));
@@ -262,20 +262,19 @@ public class GuitarPane extends JPanel implements MP3PlayerListener,
 		}
 
 		for (StrokeView strokeView : strokeRects) {
-			Color c = strokeView.getStroke().getKey().getColor();
+			Color c = strokeView.getStroke().getKey().getPrimaryColor();
 			if (strokeView.getStyle() == STYLE_PRESET) {
-				c = c.brighter();
-				c = new Color(c.getRed(), c.getGreen(), c.getBlue(), 150);
+				c = strokeView.getStroke().getKey().getSecondaryColor();
 			}
 			g.setColor(c);
 			g.fill(strokeView.getRect());
 		}
 
 		g.translate(0, -translateY);
-
+		
+		// fixed blocks for stroking
 		for (int i = 0; i < StrokeKey.STROKE_COUNT; i++) {
-			Color c = StrokeKey.keyForPosition(i).getColor();
-			c = new Color(c.getRed(), c.getGreen(), c.getBlue(), 180);
+			Color c = StrokeKey.keyForPosition(i).getPrimaryColor();
 
 			float x = getPositionForLine(i);
 			float size = STROKE_WIDTH - 10;
