@@ -33,7 +33,7 @@ public class MP3Player {
 	private boolean looping;
 	private boolean paused;
 	private boolean volumeIsDecreased;
-	private static final int GAIN_REDUCE = 7;
+	private static final int GAIN_REDUCE = -10;
 	private static final long REDUCE_TIME = 500;
 	private Object lock = new Object();
 	private boolean buffered;
@@ -287,7 +287,7 @@ public class MP3Player {
 		final Timer volumeTimer = new Timer();
 
 		if (!volumeIsDecreased) {
-			player.setGain(-GAIN_REDUCE);
+			player.setGain(GAIN_REDUCE);
 			volumeIsDecreased = true;
 		}
 
@@ -295,7 +295,7 @@ public class MP3Player {
 
 			@Override
 			public void run() {
-				player.setGain(GAIN_REDUCE);
+				player.setGain(0);
 				volumeTimer.cancel();
 				volumeIsDecreased = false;
 			}
