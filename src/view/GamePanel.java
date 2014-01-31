@@ -298,8 +298,14 @@ public class GamePanel extends GHPanel implements MP3PlayerListener,
 		removeComponentListener(componentListener);
 		playerController.getPlayer().removePlayerListener(this);
 		guitarPane.cleanUp();
-		comboPanel.cleanUp();
-		scorePanel.cleanUp();
+		
+		if(comboPanel != null) {
+			comboPanel.cleanUp();
+		}
+		
+		if(scorePanel != null) {
+			scorePanel.cleanUp();
+		}
 	}
 
 	/*
