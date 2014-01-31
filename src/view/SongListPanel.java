@@ -26,6 +26,7 @@ import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
@@ -86,7 +87,12 @@ public class SongListPanel extends GHPanel {
 		this.add(titleLabel, "wrap, grow");
 
 		if (mode == MODE_RECORD) {
-
+			
+			JLabel infoLabel = new JLabel(KeyboardHeroConstants.getString("record_notice"));
+			infoLabel.setHorizontalAlignment(SwingConstants.CENTER);
+			infoLabel.setForeground(new Color(KeyboardHeroConstants.COLOR_SECONDARY));
+			this.add(infoLabel, "wrap, grow");
+			
 			initSearchField();
 		}
 		initPlaylist();
@@ -194,7 +200,7 @@ public class SongListPanel extends GHPanel {
 			}
 		});
 
-		add(searchField, "wrap, grow");
+		add(searchField, "wrap, grow, gapy 10");
 	}
 	
 	/**

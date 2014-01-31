@@ -59,8 +59,13 @@ public class PlayListCellRenderer extends DefaultListCellRenderer {
 			}
 		}
 		
-		c.setBackground(new Color(
-				KeyboardHeroConstants.COLOR_PRIMARY));
+		Color backgroundColor = new Color(KeyboardHeroConstants.COLOR_PRIMARY);
+		
+		if(isSelected || cellHasFocus) {
+			backgroundColor = backgroundColor.brighter();
+		}
+		
+		c.setBackground(backgroundColor);
 		c.setForeground(Color.WHITE);
 		c.setFont(new Font("SansSerif", Font.BOLD, 14));
 

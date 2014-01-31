@@ -84,9 +84,7 @@ public class PlayerController {
 	 */
 	public void reset() {
 		scoreController.resetScore();
-		if (isRecording) {
-			track.setStrokeSet(null);
-		}
+
 	}
 
 	/**
