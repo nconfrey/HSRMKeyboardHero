@@ -138,6 +138,7 @@ public class MP3Player {
 				firePlaybackStopped();
 			}
 			looping = false;
+			buffered = false;
 		}
 	}
 
