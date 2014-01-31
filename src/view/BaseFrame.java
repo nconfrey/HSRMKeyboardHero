@@ -1,12 +1,12 @@
 /**
- * 
+ * The base frame where the whole gamecontent is build in
  * 
  * @author Simon Seyer
  * @author Martin Juhasz
  * @author Julia Kraft
  * @author Moritz Moeller
  * 
- */
+ **/
 package view;
 
 import helper.KeyboardHeroConstants;
@@ -23,15 +23,7 @@ import javax.swing.JFrame;
 import model.KeyboardHeroPreferences;
 import controller.NavigationController;
 
-/**
- * The base frame where the whole gamecontent is build in
- * 
- * @author Simon Seyer
- * @author Martin Juhasz
- * @author Julia Kraft
- * @author Moritz Moeller
- * 
- **/
+
 public class BaseFrame extends JFrame {
 
 	public NavigationController navigationController;

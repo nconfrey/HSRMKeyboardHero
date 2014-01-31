@@ -1,5 +1,5 @@
 /**
- * 
+ * Guitar Panel that displays a Guitar Neck with strokes
  * 
  * @author Simon Seyer
  * @author Martin Juhasz
@@ -29,7 +29,6 @@ import model.Stroke;
 import model.StrokeKey;
 import model.Track;
 import net.miginfocom.swing.MigLayout;
-import controller.PlayException;
 import controller.PlayerController;
 import controller.ScoreListener;
 import controller.player.MP3Player;

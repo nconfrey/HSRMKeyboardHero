@@ -1,5 +1,5 @@
 /**
- * 
+ * a cell renderer specialized to display tracks to record
  * 
  * @author Simon Seyer
  * @author Martin Juhasz

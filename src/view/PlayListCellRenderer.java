@@ -1,5 +1,5 @@
 /**
- * 
+ * a cell renderer for the playlist
  * 
  * @author Simon Seyer
  * @author Martin Juhasz
@@ -34,6 +34,9 @@ public class PlayListCellRenderer extends DefaultListCellRenderer {
 	
 	private ImageIcon soundCloudIcon;
 	
+	/* (non-Javadoc)
+	 * @see javax.swing.ListCellRenderer#getListCellRendererComponent(javax.swing.JList, java.lang.Object, int, boolean, boolean)
+	 */
 	@Override
 	public Component getListCellRendererComponent(JList<? extends Object> list,
 			Object value, int index, boolean isSelected, boolean cellHasFocus) {

@@ -1,5 +1,5 @@
 /**
- * 
+ * a StrokeSet holds multiple Strokes and a Highscore
  * 
  * @author Simon Seyer
  * @author Martin Juhasz
@@ -77,7 +77,7 @@ public class StrokeSet implements Serializable {
 	}
 
 	/**
-	 * Contains stroke.
+	 * Checks if aStroke is part of the StrokeSet
 	 * 
 	 * @param aStroke the a stroke
 	 * @return true, if successful
@@ -88,7 +88,7 @@ public class StrokeSet implements Serializable {
 	}
 
 	/**
-	 * Sets the.
+	 * Sets a Stroke to the given params
 	 * 
 	 * @param frame the frame
 	 * @param key the key
@@ -101,7 +101,7 @@ public class StrokeSet implements Serializable {
 	}
 
 	/**
-	 * Sets the.
+	 * Adds a Stroke to the StrokeSet
 	 * 
 	 * @param stroke the stroke
 	 * @return the stroke

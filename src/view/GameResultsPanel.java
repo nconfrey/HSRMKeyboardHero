@@ -1,5 +1,5 @@
 /**
- * 
+ * Shows the Results of a played or recorded track
  * 
  * @author Simon Seyer
  * @author Martin Juhasz

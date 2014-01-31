@@ -1,4 +1,6 @@
 /**
+ * Main menu panel. This is the root panel. Every section/view of Keyboard Hero
+ * is reachable from this view
  * 
  * 
  * @author Simon Seyer
@@ -27,17 +29,6 @@ import net.miginfocom.swing.MigLayout;
 import controller.PersistenceHandler;
 import controller.PlayerController;
 
-/**
- * Main menu panel. This is the root panel. Every section/view of Keyboard Hero
- * is reachable from this view
- * 
- * 
- * @author Simon Seyer
- * @author Martin Juhasz
- * @author Julia Kraft
- * @author Moritz Moeller
- * 
- */
 public class MenuPanel extends GHPanel implements ActionListener {
 
 	private PlayerController playerController;

@@ -1,5 +1,5 @@
 /**
- * 
+ * a KeyboardHero Track that holds the music and the StrokeSet
  * 
  * @author Simon Seyer
  * @author Martin Juhasz

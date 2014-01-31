@@ -1,5 +1,5 @@
 /**
- * 
+ * a JButton for the main menu
  * 
  * @author Simon Seyer
  * @author Martin Juhasz

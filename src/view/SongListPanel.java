@@ -1,5 +1,5 @@
 /**
- * 
+ * a panel that displays the songs that you can play/record
  * 
  * @author Simon Seyer
  * @author Martin Juhasz
@@ -10,6 +10,7 @@
 package view;
 
 import helper.KeyboardHeroConstants;
+import helper.ListAction;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -204,6 +205,9 @@ public class SongListPanel extends GHPanel {
 		add(searchField, "wrap, grow");
 	}
 	
+	/**
+	 * Sets the default playlist model.
+	 */
 	private void setDefaultPlaylistModel() {
 		boolean playable = mode == MODE_PLAY || mode == MODE_HIGHSCORE;
 		Playlist playlist = playerController.getPlaylistController().getPlaylist(playable);

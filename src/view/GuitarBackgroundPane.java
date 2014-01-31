@@ -1,5 +1,5 @@
 /**
- * 
+ * Background Panel 
  * 
  * @author Simon Seyer
  * @author Martin Juhasz

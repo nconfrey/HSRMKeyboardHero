@@ -1,5 +1,5 @@
 /**
- * 
+ * Displays a Countdown
  * 
  * @author Simon Seyer
  * @author Martin Juhasz

@@ -1,5 +1,5 @@
 /**
- * 
+ * an abstract panel that needs to be subclassed if you want to push a panel to the NavigationController
  * 
  * @author Simon Seyer
  * @author Martin Juhasz

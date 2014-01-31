@@ -1,5 +1,5 @@
 /**
- * 
+ * Displays the Highscores
  * 
  * @author Simon Seyer
  * @author Martin Juhasz

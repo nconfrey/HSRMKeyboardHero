@@ -1,5 +1,5 @@
 /**
- * 
+ * a jlist specialized for  songs
  * 
  * @author Simon Seyer
  * @author Martin Juhasz

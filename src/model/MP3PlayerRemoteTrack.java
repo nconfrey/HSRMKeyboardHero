@@ -33,9 +33,8 @@ public class MP3PlayerRemoteTrack implements MP3PlayerTrack {
 
 	/**
 	 * Instantiates a new m p3 player remote track.
-	 * 
+	 *
 	 * @param data the data
-	 * @param soundCloud the sound cloud
 	 */
 	public MP3PlayerRemoteTrack(JSONObject data) {
 		title = data.getString("title");

@@ -1,5 +1,5 @@
 /**
- * 
+ * Cell Renderer for Highscore List display
  * 
  * @author Simon Seyer
  * @author Martin Juhasz
@@ -37,7 +37,7 @@ public class HighscoreListCellRenderer extends PlayListCellRenderer {
 	}
 
 	/**
-	 * Inits the.
+	 * Inits the resources 
 	 */
 	public void init() {
 		try {

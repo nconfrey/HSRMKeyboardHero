@@ -1,4 +1,6 @@
+
 /**
+ * Transparent Panel, Only for make Panel transparent
  * 
  * 
  * @author Simon Seyer
@@ -13,16 +15,6 @@ import java.awt.Graphics;
 
 import javax.swing.JPanel;
 
-/**
- * Transparent Panel, Only for make Panel transparent
- * 
- * 
- * @author Simon Seyer
- * @author Martin Juhasz
- * @author Julia Kraft
- * @author Moritz Moeller
- * 
- */
 
 public class TransparentPanel extends JPanel {
 

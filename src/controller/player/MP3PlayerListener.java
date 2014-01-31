@@ -33,6 +33,11 @@ public interface MP3PlayerListener {
 	 */
 	public void playbackPlaying(final MP3Player player, final int frame);
 	
+	/**
+	 * Playback did fail.
+	 *
+	 * @param player the player
+	 */
 	public void playbackDidFail(final MP3Player player);
 
 }

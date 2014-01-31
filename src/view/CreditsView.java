@@ -1,5 +1,5 @@
 /**
- * 
+ * a View that displays information about the authors
  * 
  * @author Simon Seyer
  * @author Martin Juhasz
@@ -72,7 +72,7 @@ public class CreditsView extends GHPanel {
 	/**
 	 * Action performed.
 	 * 
-	 * @param e the e
+	 * @param e the event
 	 */
 	public void actionPerformed(ActionEvent e) {
 		getNavigationController().popPanel();

@@ -1,5 +1,5 @@
 /**
- * 
+ * A Single Key
  * 
  * @author Simon Seyer
  * @author Martin Juhasz
@@ -61,7 +61,7 @@ public enum StrokeKey {
 	}
 
 	/**
-	 * Key for position.
+	 * Key for position on the guitar pane.
 	 * 
 	 * @param position the position
 	 * @return the stroke key

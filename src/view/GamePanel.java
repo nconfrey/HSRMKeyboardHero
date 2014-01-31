@@ -1,5 +1,5 @@
 /**
- * 
+ * Main Game Panel where all panels get added that are needed for a game
  * 
  * @author Simon Seyer
  * @author Martin Juhasz
@@ -90,7 +90,7 @@ public class GamePanel extends GHPanel implements MP3PlayerListener,
 	/**
 	 * Builds the left content.
 	 * 
-	 * @return the j panel
+	 * @return the left content jpanel
 	 */
 	public JPanel buildLeftContent() {
 		Color backgroundColor = new Color(0xEEDDDDDD, true);
@@ -217,7 +217,7 @@ public class GamePanel extends GHPanel implements MP3PlayerListener,
 	}
 
 	/**
-	 * Buffer image.
+	 * Buffer image. Scales the background image
 	 */
 	private void bufferImage() {
 		if (backgroundImage != null) {
@@ -341,6 +341,9 @@ public class GamePanel extends GHPanel implements MP3PlayerListener,
 
 	}
 
+	/* (non-Javadoc)
+	 * @see controller.player.MP3PlayerListener#playbackDidFail(controller.player.MP3Player)
+	 */
 	@Override
 	public void playbackDidFail(final MP3Player player) {
 		SwingUtilities.invokeLater(new Runnable() {

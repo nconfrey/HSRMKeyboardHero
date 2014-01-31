@@ -1,7 +1,16 @@
-/*
- ** Copyright 2005 Huxtable.com. All rights reserved.
- */
-
+/**
+ * A Blurring Filter that blurs an Image
+ * 
+ * Copyright 2005 Huxtable.com. All rights reserved.
+ * 
+ * @author Simon Seyer
+ * @author Martin Juhasz
+ * @author Julia Kraft
+ * @author Moritz Moeller
+ * 
+ * @author http://www.jhlabs.com/ip/blurring.html
+ * 
+ **/
 package view;
 
 import java.awt.Rectangle;
@@ -11,11 +20,6 @@ import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.awt.image.ColorModel;
 
-/**
- * 
- * @author http://www.jhlabs.com/ip/blurring.html
- * 
- */
 public class BoxBlurFilter {
 
 	private int hRadius = 60;

@@ -1,5 +1,5 @@
 /**
- * 
+ * A JPanel with a Label that handles also Transparency
  * 
  * @author Simon Seyer
  * @author Martin Juhasz

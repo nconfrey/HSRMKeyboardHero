@@ -1,5 +1,5 @@
 /**
- * 
+ * a MouseHandler for a JList that handles multi-clicks
  * 
  * @author Simon Seyer
  * @author Martin Juhasz
@@ -7,7 +7,7 @@
  * @author Moritz Moeller
  * 
  */
-package view;
+package helper;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;

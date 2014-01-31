@@ -1,5 +1,5 @@
 /**
- * 
+ * Single Stroke referencing a key and its position and length
  * 
  * @author Simon Seyer
  * @author Martin Juhasz

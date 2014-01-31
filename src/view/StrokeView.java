@@ -1,5 +1,5 @@
 /**
- * 
+ * a view that holds a single stroke for displaying
  * 
  * @author Simon Seyer
  * @author Martin Juhasz

@@ -1,4 +1,5 @@
 /**
+ * GUI Panel for play mode to display the current scores
  * 
  * 
  * @author Simon Seyer
@@ -26,16 +27,7 @@ import model.Score;
 import net.miginfocom.swing.MigLayout;
 import controller.PlayerController;
 
-/**
- * GUI Panel for play mode to display the current scores
- * 
- * 
- * @author Simon Seyer
- * @author Martin Juhasz
- * @author Julia Kraft
- * @author Moritz Moeller
- * 
- */
+
 public class ScorePanel extends TransparentPanel implements
 		PropertyChangeListener {
 

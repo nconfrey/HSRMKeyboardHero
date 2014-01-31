@@ -67,6 +67,9 @@ public class MP3Player {
 		}
 	}
 
+	/**
+	 * Buffer.
+	 */
 	public void buffer() {
 		synchronized (lock) {
 			if (!buffered && track != null) {
@@ -231,6 +234,9 @@ public class MP3Player {
 		}
 	}
 	
+	/**
+	 * Fire playback did fail.
+	 */
 	private void firePlaybackDidFail() {
 		for (MP3PlayerListener mP3PlayerListener : listeners.keySet()) {
 			System.out.println(mP3PlayerListener);

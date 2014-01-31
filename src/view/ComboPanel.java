@@ -1,5 +1,5 @@
 /**
- * 
+ * a Panel that visualises the current Combo-Multiplier
  * 
  * @author Simon Seyer
  * @author Martin Juhasz
@@ -86,7 +86,7 @@ public class ComboPanel extends JPanel implements PropertyChangeListener {
 	}
 	
 	/**
-	 * Show combo.
+	 * Changes the view to reflect the current combo multiplier
 	 *
 	 * @param combo the combo
 	 */

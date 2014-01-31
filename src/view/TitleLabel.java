@@ -1,22 +1,4 @@
 /**
- * 
- * 
- * @author Simon Seyer
- * @author Martin Juhasz
- * @author Julia Kraft
- * @author Moritz Moeller
- * 
- */
-package view;
-
-import helper.KeyboardHeroConstants;
-import java.awt.Color;
-import javax.swing.JLabel;
-import javax.swing.SwingConstants;
-import model.KeyboardHeroFontModel;
-
-
-/**
  * TitleLabel setting the Title Font  
  * 
  * 
@@ -26,6 +8,16 @@ import model.KeyboardHeroFontModel;
  * @author Moritz Moeller
  * 
  */
+
+package view;
+
+import helper.KeyboardHeroConstants;
+import java.awt.Color;
+import javax.swing.JLabel;
+import javax.swing.SwingConstants;
+import model.KeyboardHeroFontModel;
+
+
 
 public class TitleLabel extends JLabel {
 

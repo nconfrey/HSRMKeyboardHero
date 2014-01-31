@@ -1,4 +1,5 @@
 /**
+ * GUI Panel for play/record mode to display the current artist and title
  * 
  * 
  * @author Simon Seyer
@@ -19,16 +20,7 @@ import javax.swing.JPanel;
 import net.miginfocom.swing.MigLayout;
 import controller.PlayerController;
 
-/**
- * GUI Panel for play/record mode to display the current artist and title
- * 
- * 
- * @author Simon Seyer
- * @author Martin Juhasz
- * @author Julia Kraft
- * @author Moritz Moeller
- * 
- */
+
 public class TitlePanel extends JPanel {
 
 	private PlayerController playerController;

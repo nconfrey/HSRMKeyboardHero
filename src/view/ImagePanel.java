@@ -1,5 +1,5 @@
 /**
- * 
+ * ImagePanel that handles Resizing and displaying and image
  * 
  * @author Simon Seyer
  * @author Martin Juhasz
