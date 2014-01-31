@@ -11,9 +11,9 @@ package controller;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.WeakHashMap;
 
 import model.Score;
 import model.Stroke;
@@ -36,7 +36,7 @@ public class ScoreController implements MP3PlayerListener, StrokeRecorderListene
 	private boolean isRecording;
 	private Map<StrokeKey, Stroke> currentPlayedStrokes;
 	private Score score;
-	private WeakHashMap<ScoreListener, Void> listeners;
+	private List<ScoreListener> listeners;
 	private Track track;
 	private MP3Player player;
 	
@@ -50,7 +50,7 @@ public class ScoreController implements MP3PlayerListener, StrokeRecorderListene
 		this.player = player;
 		isRecording = false;
 		currentPlayedStrokes = new HashMap<StrokeKey, Stroke>();
-		listeners = new WeakHashMap<>();
+		listeners = new LinkedList<>();
 		score = new Score();
 	}
 
@@ -205,7 +205,7 @@ public class ScoreController implements MP3PlayerListener, StrokeRecorderListene
 	 * @param listener the listener
 	 */
 	public void addListener(ScoreListener listener) {
-		this.listeners.put(listener, null);
+		this.listeners.add(listener);
 	}
 
 	/**
@@ -223,7 +223,7 @@ public class ScoreController implements MP3PlayerListener, StrokeRecorderListene
 	 * @param key the key
 	 */
 	private void fireScoringDidStart(StrokeKey key) {
-		for (ScoreListener listener : listeners.keySet()) {
+		for (ScoreListener listener : listeners) {
 			listener.scoringDidStart(key);
 		}
 	}
@@ -234,7 +234,7 @@ public class ScoreController implements MP3PlayerListener, StrokeRecorderListene
 	 * @param key the key
 	 */
 	private void fireScoringDidEnd(StrokeKey key) {
-		for (ScoreListener listener : listeners.keySet()) {
+		for (ScoreListener listener : listeners) {
 			listener.scoringDidEnd(key);
 		}
 	}

@@ -11,9 +11,9 @@ package controller.recorder;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.WeakHashMap;
 
 import model.Stroke;
 import model.StrokeKey;
@@ -29,6 +29,7 @@ public class StrokeRecorder implements GuitarStringListener, MP3PlayerListener {
 	private Track track;
 	private Map<StrokeKey, Stroke> strokes;
 	private List<StrokeKey> pressedKeys;
+	private List<StrokeRecorderListener> strokeRecorderListener;
 
 	private int frame = 0;
 	private boolean isRecording = false;
@@ -52,15 +53,13 @@ public class StrokeRecorder implements GuitarStringListener, MP3PlayerListener {
 		this.isRecordingMode = isRecordingMode;
 	}
 
-	private WeakHashMap<StrokeRecorderListener, Void> strokeRecorderListener;
-
 	/**
 	 * Instantiates a new stroke recorder.
 	 * 
 	 * @param player the player
 	 */
 	public StrokeRecorder(MP3Player player) {
-		strokeRecorderListener = new WeakHashMap<>();
+		strokeRecorderListener = new LinkedList<>();
 
 		player.addPlayerListener(this);
 	}
@@ -82,7 +81,7 @@ public class StrokeRecorder implements GuitarStringListener, MP3PlayerListener {
 	 * @param listener the listener
 	 */
 	public void addStrokeRecorderListener(StrokeRecorderListener listener) {
-		this.strokeRecorderListener.put(listener, null);
+		this.strokeRecorderListener.add(listener);
 	}
 
 	/**
@@ -166,8 +165,7 @@ public class StrokeRecorder implements GuitarStringListener, MP3PlayerListener {
 			strokes.put(aKey, newStroke);
 
 			// Notify listener
-			for (StrokeRecorderListener listener : this.strokeRecorderListener
-					.keySet()) {
+			for (StrokeRecorderListener listener : this.strokeRecorderListener) {
 				listener.redcorderDidOpenStroke(this, newStroke);
 			}
 		}
@@ -210,8 +208,7 @@ public class StrokeRecorder implements GuitarStringListener, MP3PlayerListener {
 			}
 
 			// Notify listener
-			for (StrokeRecorderListener listener : this.strokeRecorderListener
-					.keySet()) {
+			for (StrokeRecorderListener listener : this.strokeRecorderListener) {
 				listener.redcorderDidCloseStroke(this, aStroke);
 			}
 		}

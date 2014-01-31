@@ -114,7 +114,7 @@ public class NavigationController implements KeyEventDispatcher {
 	 */
 	private void hide(GHPanel panel) {
 		panel.panelWillDisappear();
-		baseFrame.getContentPane().remove(panel);
+		baseFrame.hide(panel);
 	}
 
 	/**

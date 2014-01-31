@@ -101,4 +101,13 @@ public class CountPanel extends InfoPanel {
 			}
 		}
 	}
+	
+	/**
+	 * Checks if is counting.
+	 *
+	 * @return true, if is counting
+	 */
+	public boolean isCounting() {
+		return timeLeft > 0;
+	}
 }

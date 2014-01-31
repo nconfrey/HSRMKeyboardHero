@@ -56,8 +56,10 @@ public class GamePanel extends GHPanel implements MP3PlayerListener,
 	 */
 	public GamePanel(PlayerController playerController) {
 		this.playerController = playerController;
-		playerController.stop();
 		setFocusable(true);
+		
+		playerController.stop();
+		playerController.getPlayer().addPlayerListener(this);
 
 		// ContentPanel
 		this.setLayout(new MigLayout("fill"));
@@ -73,11 +75,9 @@ public class GamePanel extends GHPanel implements MP3PlayerListener,
 				playerController);
 		this.add(backgroundPane, "center, growy");
 		guitarPane = backgroundPane.getGuitarPane();
-		guitarPane.start();
 
 		loadBackgroundCover();
 
-		playerController.getPlayer().addPlayerListener(this);
 		componentListener = new ComponentAdapter() {
 			@Override
 			public void componentResized(ComponentEvent e) {
@@ -295,6 +295,8 @@ public class GamePanel extends GHPanel implements MP3PlayerListener,
 	@Override
 	public void panelWillDisappear() {
 		removeComponentListener(componentListener);
+		playerController.getPlayer().removePlayerListener(this);
+		guitarPane.cleanUp();
 	}
 
 	/*
@@ -346,27 +348,20 @@ public class GamePanel extends GHPanel implements MP3PlayerListener,
 	 */
 	@Override
 	public void playbackDidFail(final MP3Player player) {
-		SwingUtilities.invokeLater(new Runnable() {
+		int d = JOptionPane.showOptionDialog(
+				getParent(),
+				KeyboardHeroConstants.getString("playback_failed_text"),
+				KeyboardHeroConstants
+						.getString("playback_failed_title"),
+				JOptionPane.YES_OPTION, JOptionPane.PLAIN_MESSAGE,
+				null, new String[] { KeyboardHeroConstants
+						.getString("back_to_menu"), },
+				KeyboardHeroConstants.getString("back_to_menu"));
 
-			@Override
-			public void run() {
-
-				int d = JOptionPane.showOptionDialog(
-						getParent(),
-						KeyboardHeroConstants.getString("playback_failed_text"),
-						KeyboardHeroConstants
-								.getString("playback_failed_title"),
-						JOptionPane.YES_OPTION, JOptionPane.PLAIN_MESSAGE,
-						null, new String[] { KeyboardHeroConstants
-								.getString("back_to_menu"), },
-						KeyboardHeroConstants.getString("back_to_menu"));
-
-				if (d == JOptionPane.YES_OPTION) {
-					playerController.stop();
-					getNavigationController().popToRootPanel();
-				}
-			}
-		});
+		if (d == JOptionPane.YES_OPTION) {
+			playerController.stop();
+			getNavigationController().popToRootPanel();
+		}
 	}
 
 	/*
@@ -378,7 +373,6 @@ public class GamePanel extends GHPanel implements MP3PlayerListener,
 	public void didPressBack(KeyEvent e) {
 		if (!paused) {
 			paused = true;
-			playerController.pauseResume();
 			guitarPane.pauseOrResume();
 
 			int d = JOptionPane.showOptionDialog(
@@ -399,7 +393,6 @@ public class GamePanel extends GHPanel implements MP3PlayerListener,
 			}
 			if (d == JOptionPane.NO_OPTION || d == JOptionPane.CLOSED_OPTION) {
 				paused = false;
-				playerController.pauseResume();
 				guitarPane.pauseOrResume();
 			}
 		}

@@ -66,12 +66,14 @@ public class GuitarPane extends JPanel implements MP3PlayerListener,
 	 * 
 	 * @param playerController the player controller
 	 */
-	public GuitarPane(PlayerController playerController) {
-		this.playerController = playerController;
+	public GuitarPane(PlayerController aPlayerController) {
+		this.playerController = aPlayerController;
 		strokeRects = new ArrayList<>();
 		openStrokeRects = new ArrayList<>();
 		toRemove = new ArrayList<>();
 		scoringKeys = new boolean[StrokeKey.STROKE_COUNT];
+		
+		setOpaque(false);
 
 		playerController.getPlayer().addPlayerListener(this);
 		playerController.getRecorder().addStrokeRecorderListener(this);
@@ -97,18 +99,6 @@ public class GuitarPane extends JPanel implements MP3PlayerListener,
 		infoPanels[infoPanels.length - 1] = infoPanel;
 		add(infoPanel, "pos 30 (container.h - 175) (container.w - 30)");
 
-		setOpaque(false);
-	}
-
-	/**
-	 * Start.
-	 */
-	public void start() {
-		reset();
-		countPanel.setVisible(true);
-		for (int i = 0; i < infoPanels.length; i++) {
-			infoPanels[i].setVisible(true);
-		}
 		countPanel.startTimer();
 		new Thread(new Runnable() {
 
@@ -120,10 +110,23 @@ public class GuitarPane extends JPanel implements MP3PlayerListener,
 	}
 
 	/**
+	 * Clean up. Remove all listeners.
+	 */
+	public void cleanUp() {
+		playerController.getPlayer().removePlayerListener(this);
+		playerController.getRecorder().removeStrokeRecorderListener(this);
+		playerController.getScoreController().removeListener(this);
+	}
+
+	/**
 	 * Pause or resume.
 	 */
 	public void pauseOrResume() {
-		countPanel.pauseOrResume();
+		if (countPanel.isCounting()) {
+			countPanel.pauseOrResume();
+		} else {
+			playerController.getPlayer().pauseResume();
+		}
 	}
 
 	/*
@@ -388,21 +391,6 @@ public class GuitarPane extends JPanel implements MP3PlayerListener,
 
 			}
 		}, 0, 50);
-	}
-
-	/**
-	 * Reset.
-	 */
-	private void reset() {
-		frame = 0;
-		maxLoadedFrame = 0;
-		drawCounter = 0;
-		strokeRects.clear();
-		openStrokeRects.clear();
-		toRemove.clear();
-		for (int i = 0; i < scoringKeys.length; i++) {
-			scoringKeys[i] = false;
-		}
 	}
 
 	/*
