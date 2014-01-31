@@ -12,12 +12,13 @@
 package view;
 
 import helper.KeyboardHeroConstants;
+
 import java.awt.Color;
+
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
+
 import model.KeyboardHeroFontModel;
-
-
 
 public class TitleLabel extends JLabel {
 

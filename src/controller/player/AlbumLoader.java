@@ -24,7 +24,6 @@ import model.Track;
 import de.umass.lastfm.Album;
 import de.umass.lastfm.ImageSize;
 
-
 public class AlbumLoader {
 
 	private static Map<String, BufferedImage> cache;

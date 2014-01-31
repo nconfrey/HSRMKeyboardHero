@@ -12,7 +12,6 @@ package controller;
 
 import model.Playlist;
 
-
 public class PlaylistController {
 
 	/** The playlist. */
@@ -43,8 +42,7 @@ public class PlaylistController {
 	/**
 	 * Gets the playlist.
 	 * 
-	 * @param playable
-	 *            the playable
+	 * @param playable the playable
 	 * @return the playlist
 	 */
 	public Playlist getPlaylist(boolean playable) {
@@ -57,8 +55,7 @@ public class PlaylistController {
 	/**
 	 * Gets the playlist for search.
 	 * 
-	 * @param searchString
-	 *            the search string
+	 * @param searchString the search string
 	 * @return the playlist for search
 	 */
 	public Playlist getPlaylistForSearch(String searchString) {

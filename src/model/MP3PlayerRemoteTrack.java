@@ -33,7 +33,7 @@ public class MP3PlayerRemoteTrack implements MP3PlayerTrack {
 
 	/**
 	 * Instantiates a new m p3 player remote track.
-	 *
+	 * 
 	 * @param data the data
 	 */
 	public MP3PlayerRemoteTrack(JSONObject data) {
@@ -122,8 +122,10 @@ public class MP3PlayerRemoteTrack implements MP3PlayerTrack {
 	public String toString() {
 		return getArtist() + " - " + getTitle();
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see model.MP3PlayerTrack#isConsistent()
 	 */
 	@Override

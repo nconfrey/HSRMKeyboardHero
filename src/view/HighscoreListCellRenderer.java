@@ -21,8 +21,7 @@ import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JList;
-
-import model.Track;
+import javax.swing.SwingConstants;
 
 public class HighscoreListCellRenderer extends PlayListCellRenderer {
 	private ImageIcon goldStar;
@@ -37,7 +36,7 @@ public class HighscoreListCellRenderer extends PlayListCellRenderer {
 	}
 
 	/**
-	 * Inits the resources 
+	 * Inits the resources
 	 */
 	public void init() {
 		try {
@@ -57,8 +56,12 @@ public class HighscoreListCellRenderer extends PlayListCellRenderer {
 		}
 	}
 
-	/* (non-Javadoc)
-	 * @see javax.swing.DefaultListCellRenderer#getListCellRendererComponent(javax.swing.JList, java.lang.Object, int, boolean, boolean)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * javax.swing.DefaultListCellRenderer#getListCellRendererComponent(javax
+	 * .swing.JList, java.lang.Object, int, boolean, boolean)
 	 */
 	@Override
 	public Component getListCellRendererComponent(JList<?> list, Object value,
@@ -69,7 +72,7 @@ public class HighscoreListCellRenderer extends PlayListCellRenderer {
 
 		if (c instanceof JLabel) {
 			JLabel label = (JLabel) c;
-			label.setHorizontalTextPosition(JLabel.RIGHT);
+			label.setHorizontalTextPosition(SwingConstants.RIGHT);
 			label.setIconTextGap(15);
 			if (index == 0) {
 				label.setIcon(goldStar);

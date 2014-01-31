@@ -12,17 +12,14 @@ import javax.swing.border.LineBorder;
 
 public class InputTextField extends JTextField {
 
-	
 	public InputTextField() {
 		this.setForeground(Color.white);
 		this.setCaretColor(Color.white);
 		this.setFont(new Font("SansSerif", Font.BOLD, 14));
-		Color searchFieldColor = new Color(
-				KeyboardHeroConstants.COLOR_PRIMARY);
+		Color searchFieldColor = new Color(KeyboardHeroConstants.COLOR_PRIMARY);
 		this.setBackground(searchFieldColor);
-		this.setBorder(BorderFactory.createCompoundBorder(
-				new LineBorder(searchFieldColor.darker(), 1), new EmptyBorder(
-						8, 8, 8, 8)));
+		this.setBorder(BorderFactory.createCompoundBorder(new LineBorder(
+				searchFieldColor.darker(), 1), new EmptyBorder(8, 8, 8, 8)));
 	}
-	
+
 }

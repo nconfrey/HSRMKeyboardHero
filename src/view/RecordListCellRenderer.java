@@ -9,18 +9,14 @@
  */
 package view;
 
-import helper.KeyboardHeroConstants;
-
-import java.awt.Color;
 import java.awt.Component;
-import java.awt.Font;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
-import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.SwingConstants;
 
 import model.MP3PlayerRemoteTrack;
 import model.Track;
@@ -54,8 +50,12 @@ public class RecordListCellRenderer extends PlayListCellRenderer {
 
 	}
 
-	/* (non-Javadoc)
-	 * @see javax.swing.DefaultListCellRenderer#getListCellRendererComponent(javax.swing.JList, java.lang.Object, int, boolean, boolean)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * javax.swing.DefaultListCellRenderer#getListCellRendererComponent(javax
+	 * .swing.JList, java.lang.Object, int, boolean, boolean)
 	 */
 	@Override
 	public Component getListCellRendererComponent(JList<?> list, Object value,
@@ -67,7 +67,7 @@ public class RecordListCellRenderer extends PlayListCellRenderer {
 		if (value instanceof Track && c instanceof JLabel) {
 			Track track = (Track) value;
 			JLabel label = (JLabel) c;
-			label.setHorizontalTextPosition(JLabel.LEFT);
+			label.setHorizontalTextPosition(SwingConstants.LEFT);
 			label.setIconTextGap(15);
 			if (track.getStrokeSet() != null) {
 				label.setIcon(noteIcon);

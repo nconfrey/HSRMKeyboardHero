@@ -61,6 +61,7 @@ public class Highscore implements Comparable<Highscore>, Serializable {
 	 * 
 	 * @see java.lang.Object#toString()
 	 */
+	@Override
 	public String toString() {
 		return getScore() + " - " + getName();
 	}

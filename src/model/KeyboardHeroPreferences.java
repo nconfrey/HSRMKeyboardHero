@@ -11,7 +11,6 @@ package model;
 
 import java.util.prefs.Preferences;
 
-
 public class KeyboardHeroPreferences {
 	private Preferences prefs;
 	private static final String PREF_NAME = "keyboardhero.pref";

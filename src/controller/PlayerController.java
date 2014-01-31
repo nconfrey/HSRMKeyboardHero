@@ -22,7 +22,7 @@ public class PlayerController {
 	private Track track;
 	private ScoreController scoreController;
 	private boolean isRecording;
-	
+
 	/**
 	 * Instantiates a new player controller.
 	 */
@@ -116,7 +116,7 @@ public class PlayerController {
 
 	/**
 	 * Gets the playlist controller.
-	 *
+	 * 
 	 * @return the playlist controller
 	 */
 	public PlaylistController getPlaylistController() {

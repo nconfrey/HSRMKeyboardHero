@@ -20,7 +20,6 @@ import javax.swing.JPanel;
 import net.miginfocom.swing.MigLayout;
 import controller.PlayerController;
 
-
 public class TitlePanel extends JPanel {
 
 	private PlayerController playerController;
@@ -29,7 +28,7 @@ public class TitlePanel extends JPanel {
 
 	/**
 	 * Creates title panel with to labels for artist and title.
-	 *
+	 * 
 	 * @param playerController the player controller
 	 */
 	public TitlePanel(PlayerController playerController) {
@@ -46,9 +45,11 @@ public class TitlePanel extends JPanel {
 		this.songLabel.setFont(new Font("sanserif", Font.BOLD, 15));
 		this.add(this.songLabel);
 
-		this.artistLabel.setText("<html><body>" + playerController.getTrack()
-				.getMp3().getArtist() + "</body></html>");
-		this.songLabel.setText("<html><body>" + playerController.getTrack()
-				.getMp3().getTitle() + "</body></html>");
+		this.artistLabel.setText("<html><body>"
+				+ playerController.getTrack().getMp3().getArtist()
+				+ "</body></html>");
+		this.songLabel.setText("<html><body>"
+				+ playerController.getTrack().getMp3().getTitle()
+				+ "</body></html>");
 	}
 }

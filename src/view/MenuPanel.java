@@ -39,7 +39,7 @@ public class MenuPanel extends GHPanel implements ActionListener {
 
 	/**
 	 * Creates the main menu with its components.
-	 *
+	 * 
 	 * @param playerController the player controller
 	 */
 	public MenuPanel(PlayerController playerController) {
@@ -87,7 +87,8 @@ public class MenuPanel extends GHPanel implements ActionListener {
 			playerController.setRecording(e.getSource() == recordButton);
 			int mode = (e.getSource() == recordButton) ? SongListPanel.MODE_RECORD
 					: SongListPanel.MODE_PLAY;
-			SongListPanel songListPanel = new SongListPanel(playerController, mode);
+			SongListPanel songListPanel = new SongListPanel(playerController,
+					mode);
 			this.getNavigationController().pushPanel(songListPanel);
 		} else if (e.getSource() == highscoreButton) {
 			SongListPanel songListPanel = new SongListPanel(playerController,
@@ -104,10 +105,11 @@ public class MenuPanel extends GHPanel implements ActionListener {
 	 */
 	public void loadIntro() {
 		new Thread(new Runnable() {
-			
+
 			@Override
 			public void run() {
-				File file = PersistenceHandler.getLocalFile("back_in_black.mp3");
+				File file = PersistenceHandler
+						.getLocalFile("back_in_black.mp3");
 				MP3PlayerLocalTrack mp3 = new MP3PlayerLocalTrack(file);
 				Track intro = new Track(mp3);
 				playerController.setTrack(intro);

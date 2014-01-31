@@ -172,8 +172,10 @@ public class MP3PlayerLocalTrack implements MP3PlayerTrack {
 	public String getPath() {
 		return file.getAbsolutePath();
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see model.MP3PlayerTrack#isConsistent()
 	 */
 	@Override

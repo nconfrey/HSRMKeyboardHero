@@ -21,12 +21,12 @@ import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 
 import javax.swing.JLabel;
+import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.text.Document;
 import javax.swing.text.JTextComponent;
-
 
 public class TextPrompt extends JLabel implements FocusListener,
 		DocumentListener {
@@ -67,7 +67,7 @@ public class TextPrompt extends JLabel implements FocusListener,
 		setFont(component.getFont());
 		setForeground(component.getForeground());
 		setBorder(new EmptyBorder(component.getInsets()));
-		setHorizontalAlignment(JLabel.LEADING);
+		setHorizontalAlignment(SwingConstants.LEADING);
 
 		component.addFocusListener(this);
 		document.addDocumentListener(this);
@@ -202,6 +202,7 @@ public class TextPrompt extends JLabel implements FocusListener,
 	 * 
 	 * @see java.awt.event.FocusListener#focusGained(java.awt.event.FocusEvent)
 	 */
+	@Override
 	public void focusGained(FocusEvent e) {
 		checkForPrompt();
 	}
@@ -211,6 +212,7 @@ public class TextPrompt extends JLabel implements FocusListener,
 	 * 
 	 * @see java.awt.event.FocusListener#focusLost(java.awt.event.FocusEvent)
 	 */
+	@Override
 	public void focusLost(FocusEvent e) {
 		focusLost++;
 		checkForPrompt();
@@ -224,6 +226,7 @@ public class TextPrompt extends JLabel implements FocusListener,
 	 * @see javax.swing.event.DocumentListener#insertUpdate(javax.swing.event.
 	 * DocumentEvent)
 	 */
+	@Override
 	public void insertUpdate(DocumentEvent e) {
 		checkForPrompt();
 	}
@@ -234,6 +237,7 @@ public class TextPrompt extends JLabel implements FocusListener,
 	 * @see javax.swing.event.DocumentListener#removeUpdate(javax.swing.event.
 	 * DocumentEvent)
 	 */
+	@Override
 	public void removeUpdate(DocumentEvent e) {
 		checkForPrompt();
 	}
@@ -244,6 +248,7 @@ public class TextPrompt extends JLabel implements FocusListener,
 	 * @see javax.swing.event.DocumentListener#changedUpdate(javax.swing.event.
 	 * DocumentEvent)
 	 */
+	@Override
 	public void changedUpdate(DocumentEvent e) {
 	}
 }

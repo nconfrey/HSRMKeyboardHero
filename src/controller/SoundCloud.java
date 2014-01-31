@@ -36,14 +36,14 @@ public class SoundCloud {
 	public SoundCloud() {
 		wrapper = new ApiWrapper(CLIENT_ID, CLIENT_SECRET, null, null);
 	}
-	
+
 	/**
 	 * Gets the single instance of SoundCloud.
-	 *
+	 * 
 	 * @return single instance of SoundCloud
 	 */
 	public static SoundCloud getInstance() {
-		if(instance == null) {
+		if (instance == null) {
 			instance = new SoundCloud();
 		}
 		return instance;
@@ -70,8 +70,8 @@ public class SoundCloud {
 			for (int i = 0; i < elements.length(); i++) {
 				JSONObject track = elements.getJSONObject(i);
 				if (track.getBoolean("streamable")) {
-					playlist.addTrack((new Track(new MP3PlayerRemoteTrack(
-							track))));
+					playlist.addTrack((new Track(
+							new MP3PlayerRemoteTrack(track))));
 				}
 			}
 		} catch (IOException e) {

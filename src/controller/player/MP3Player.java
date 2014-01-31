@@ -39,20 +39,20 @@ public class MP3Player {
 	private boolean buffered;
 
 	/**
-     * Instantiates a new m p3 player.
-     */
-    public MP3Player() {
-        listeners = new LinkedList<>();
-        frame = 0;
-        minim = new Minim(this);
-    }
+	 * Instantiates a new m p3 player.
+	 */
+	public MP3Player() {
+		listeners = new LinkedList<>();
+		frame = 0;
+		minim = new Minim(this);
+	}
 
 	/**
-     * Gets the track.
-     *
-     * @return the track
-     */
-    public MP3PlayerTrack getTrack() {
+	 * Gets the track.
+	 * 
+	 * @return the track
+	 */
+	public MP3PlayerTrack getTrack() {
 		return track;
 	}
 
@@ -88,7 +88,7 @@ public class MP3Player {
 	/**
 	 * Play.
 	 */
-	public synchronized void play(){
+	public synchronized void play() {
 		if (isPlaying()) {
 			stopAndWait();
 		}
@@ -134,7 +134,7 @@ public class MP3Player {
 			player.pause();
 			minim.stop();
 			player = null;
-			if(playing){
+			if (playing) {
 				firePlaybackStopped();
 			}
 			looping = false;
@@ -235,7 +235,7 @@ public class MP3Player {
 			}
 		}
 	}
-	
+
 	/**
 	 * Fire playback did fail.
 	 */

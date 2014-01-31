@@ -18,13 +18,13 @@ import javax.swing.JPanel;
 import controller.PlayerController;
 
 public class GuitarBackgroundPane extends JPanel {
-	
+
 	private static final int GUITAR_WIDTH = 450;
 	private GuitarPane guitarPane;
 
 	/**
 	 * Instantiates a new guitar background pane.
-	 *
+	 * 
 	 * @param playerController the player controller
 	 */
 	public GuitarBackgroundPane(PlayerController playerController) {
@@ -41,7 +41,7 @@ public class GuitarBackgroundPane extends JPanel {
 		c.fill = GridBagConstraints.VERTICAL;
 		c.anchor = GridBagConstraints.CENTER;
 		c.weighty = 1.0;
-		
+
 		guitarPane = new GuitarPane(playerController);
 		guitarPane.setPreferredSize(new Dimension(GUITAR_WIDTH, 0));
 

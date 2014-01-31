@@ -24,7 +24,6 @@ import javax.swing.SwingUtilities;
 import model.KeyboardHeroPreferences;
 import controller.NavigationController;
 
-
 public class BaseFrame extends JFrame {
 
 	public NavigationController navigationController;
@@ -74,25 +73,25 @@ public class BaseFrame extends JFrame {
 	 */
 	public void display(final JComponent component) {
 		SwingUtilities.invokeLater(new Runnable() {
-			
+
 			@Override
 			public void run() {
 				getContentPane().add(component, BorderLayout.CENTER);
 				getContentPane().revalidate();
 				getContentPane().repaint();
-				
+
 			}
 		});
 	}
-	
+
 	/**
 	 * Hide a component and remove it from the view.
-	 *
+	 * 
 	 * @param component the component
 	 */
 	public void hide(final JComponent component) {
 		SwingUtilities.invokeLater(new Runnable() {
-			
+
 			@Override
 			public void run() {
 				getContentPane().remove(component);

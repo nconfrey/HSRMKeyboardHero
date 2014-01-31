@@ -72,7 +72,7 @@ public class GuitarPane extends JPanel implements MP3PlayerListener,
 		openStrokeRects = new ArrayList<>();
 		toRemove = new ArrayList<>();
 		scoringKeys = new boolean[StrokeKey.STROKE_COUNT];
-		
+
 		setOpaque(false);
 
 		playerController.getPlayer().addPlayerListener(this);
@@ -271,7 +271,7 @@ public class GuitarPane extends JPanel implements MP3PlayerListener,
 		}
 
 		g.translate(0, -translateY);
-		
+
 		// fixed blocks for stroking
 		for (int i = 0; i < StrokeKey.STROKE_COUNT; i++) {
 			Color c = StrokeKey.keyForPosition(i).getPrimaryColor();
@@ -404,14 +404,16 @@ public class GuitarPane extends JPanel implements MP3PlayerListener,
 		this.frame = frame;
 		repaint();
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see controller.player.MP3PlayerListener#playbackDidFail()
 	 */
 	@Override
 	public void playbackDidFail(final MP3Player player) {
 		SwingUtilities.invokeLater(new Runnable() {
-			
+
 			@Override
 			public void run() {
 				countPanel.stopTimer();

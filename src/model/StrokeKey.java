@@ -13,13 +13,12 @@ import java.awt.Color;
 import java.awt.event.KeyEvent;
 
 public enum StrokeKey {
-	F1(0, "F1", new Color(0x5cb81b), new Color(0x75dd2c)), 
-	F2(1, "F2", new Color(0xb72b19), new Color(0xff1c00)), 
-	F3(2, "F3", new Color(0xecc630), new Color(0xf8f263)), 
-	F4(3, "F4", new Color(0x508dc3), new Color(0x57abf6)), 
-	F5(4, "F5", new Color(0x9c591c), new Color(0xd98538)), 
-	ENTER(-1, "ENTER", null, null), 
-	INVALID(-1, "INVALID", null, null);
+	F1(0, "F1", new Color(0x5cb81b), new Color(0x75dd2c)), F2(1, "F2",
+			new Color(0xb72b19), new Color(0xff1c00)), F3(2, "F3", new Color(
+			0xecc630), new Color(0xf8f263)), F4(3, "F4", new Color(0x508dc3),
+			new Color(0x57abf6)), F5(4, "F5", new Color(0x9c591c), new Color(
+			0xd98538)), ENTER(-1, "ENTER", null, null), INVALID(-1, "INVALID",
+			null, null);
 
 	public static final int STROKE_COUNT = 5;
 	private int value;
@@ -34,7 +33,8 @@ public enum StrokeKey {
 	 * @param text the text
 	 * @param color the color
 	 */
-	private StrokeKey(int value, String text, Color primaryColor, Color secondaryColor) {
+	private StrokeKey(int value, String text, Color primaryColor,
+			Color secondaryColor) {
 		this.value = value;
 		this.text = text;
 		this.primaryColor = primaryColor;
@@ -83,10 +83,10 @@ public enum StrokeKey {
 	public int getPosition() {
 		return value;
 	}
-	
+
 	/**
 	 * Gets the primary color.
-	 *
+	 * 
 	 * @return the primary color
 	 */
 	public Color getPrimaryColor() {
@@ -95,13 +95,13 @@ public enum StrokeKey {
 
 	/**
 	 * Gets the secondary color.
-	 *
+	 * 
 	 * @return the secondary color
 	 */
 	public Color getSecondaryColor() {
 		return secondaryColor;
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * 

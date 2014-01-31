@@ -34,8 +34,7 @@ public class PersistenceHandler {
 			+ File.separator + LOCAL_FOLDER_NAME;
 	private static final String PLAYLIST_FILE_NAME = "playlist.mpl";
 	private static final String[] filesToCopy = new String[] { "playlist.mpl",
-			"highway_to_hell.mp3",
-			"smoke_on_the_water.mp3",
+			"highway_to_hell.mp3", "smoke_on_the_water.mp3",
 			"back_in_black.mp3" };
 
 	/**
@@ -67,7 +66,7 @@ public class PersistenceHandler {
 
 	/**
 	 * Save a playlist to disk.
-	 *
+	 * 
 	 * @param playlist the playlist
 	 */
 	public void savePlaylist(Playlist playlist) {
@@ -106,7 +105,8 @@ public class PersistenceHandler {
 				if (track.getMp3() instanceof MP3PlayerLocalTrack
 						&& !track.getMp3().isConsistent()
 						&& path.contains(LOCAL_FOLDER_NAME)) {
-					MP3PlayerLocalTrack localTrack = (MP3PlayerLocalTrack)track.getMp3();
+					MP3PlayerLocalTrack localTrack = (MP3PlayerLocalTrack) track
+							.getMp3();
 					File file = new File(FILE_FOLDER + File.separator
 							+ localTrack.getFile().getName());
 					if (file.exists()) {
@@ -131,8 +131,7 @@ public class PersistenceHandler {
 	/**
 	 * Gets the local file.
 	 * 
-	 * @param name
-	 *            the name
+	 * @param name the name
 	 * @return the local file
 	 */
 	public static File getLocalFile(String name) {

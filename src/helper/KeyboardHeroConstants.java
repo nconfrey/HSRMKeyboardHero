@@ -17,7 +17,9 @@ public class KeyboardHeroConstants {
 	public static final int COLOR_GOLD = 0xE5C100;
 	public static final int COLOR_SILVER = 0xC0C0C0;
 	public static final int COLOR_BRONZE = 0xCD7F32;
-	public static final ResourceBundle BUNDLE_RESOURCE = ResourceBundle.getBundle("KeyboardHero");
+	public static final ResourceBundle BUNDLE_RESOURCE = ResourceBundle
+			.getBundle("KeyboardHero");
+
 	/**
 	 * Gets the string.
 	 * 

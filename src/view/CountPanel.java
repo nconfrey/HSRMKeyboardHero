@@ -69,7 +69,7 @@ public class CountPanel extends InfoPanel {
 
 						@Override
 						public void run() {
-							setText(String.valueOf((int) timeLeft / 1000));
+							setText(String.valueOf(timeLeft / 1000));
 						}
 					});
 				}
@@ -101,10 +101,10 @@ public class CountPanel extends InfoPanel {
 			}
 		}
 	}
-	
+
 	/**
 	 * Checks if is counting.
-	 *
+	 * 
 	 * @return true, if is counting
 	 */
 	public boolean isCounting() {

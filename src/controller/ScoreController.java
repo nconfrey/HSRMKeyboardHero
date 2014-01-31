@@ -28,22 +28,22 @@ import controller.recorder.StrokeRecorderListener;
 // TODO: Auto-generated Javadoc
 /**
  * The Class ScoreController.
- *
+ * 
  * @author privat
  */
-public class ScoreController implements MP3PlayerListener, StrokeRecorderListener {
-	
+public class ScoreController implements MP3PlayerListener,
+		StrokeRecorderListener {
+
 	private boolean isRecording;
 	private Map<StrokeKey, Stroke> currentPlayedStrokes;
 	private Score score;
 	private List<ScoreListener> listeners;
 	private Track track;
 	private MP3Player player;
-	
-	
+
 	/**
 	 * Instantiates a new score controller.
-	 *
+	 * 
 	 * @param player the player
 	 */
 	public ScoreController(MP3Player player) {
@@ -80,10 +80,10 @@ public class ScoreController implements MP3PlayerListener, StrokeRecorderListene
 	public void setRecording(boolean isRecording) {
 		this.isRecording = isRecording;
 	}
-	
+
 	/**
 	 * Sets the track.
-	 *
+	 * 
 	 * @param track the new track
 	 */
 	public void setTrack(Track track) {
@@ -100,8 +100,10 @@ public class ScoreController implements MP3PlayerListener, StrokeRecorderListene
 	@Override
 	public void playbackDidStop(MP3Player player) {
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see controller.player.MP3PlayerListener#playbackDidFail()
 	 */
 	@Override
@@ -119,7 +121,6 @@ public class ScoreController implements MP3PlayerListener, StrokeRecorderListene
 	public void playbackPlaying(MP3Player player, int frame) {
 		// TODO Auto-generated method stub
 		StrokeSet strokeSet = track.getStrokeSet();
-		
 
 		List<StrokeKey> toRemove = new ArrayList<>();
 		for (StrokeKey key : currentPlayedStrokes.keySet()) {
@@ -172,7 +173,7 @@ public class ScoreController implements MP3PlayerListener, StrokeRecorderListene
 			currentPlayedStrokes.put(stroke.getKey(), stroke);
 			score.increaseCombo();
 			fireScoringDidStart(stroke.getKey());
-		} else if (strokeSet != null){
+		} else if (strokeSet != null) {
 			score.comboReset();
 			player.volumeControl();
 		}

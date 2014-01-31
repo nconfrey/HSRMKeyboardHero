@@ -13,14 +13,12 @@ import helper.KeyboardHeroConstants;
 import helper.ListAction;
 
 import java.awt.Color;
-import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 
 import javax.swing.AbstractAction;
 import javax.swing.BorderFactory;
-import javax.swing.DropMode;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JList;
@@ -28,8 +26,6 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
-import javax.swing.border.EmptyBorder;
-import javax.swing.border.LineBorder;
 
 import model.Playlist;
 import model.Track;
@@ -56,7 +52,7 @@ public class SongListPanel extends GHPanel {
 
 	/**
 	 * Instantiates a new song list panel.
-	 *
+	 * 
 	 * @param playerController the player controller
 	 */
 	public SongListPanel(PlayerController playerController) {
@@ -65,7 +61,7 @@ public class SongListPanel extends GHPanel {
 
 	/**
 	 * Instantiates a new song list panel.
-	 *
+	 * 
 	 * @param playerController the player controller
 	 * @param mode the mode
 	 */
@@ -104,7 +100,8 @@ public class SongListPanel extends GHPanel {
 				if (songlist.getSelectedValue() != null) {
 					if (mode == MODE_PLAY || mode == MODE_RECORD) {
 						Track selectedTrack = songlist.getSelectedValue();
-						Playlist playlist = playerController.getPlaylistController().getPlaylist();
+						Playlist playlist = playerController
+								.getPlaylistController().getPlaylist();
 						// TODO: wrong location to do this
 						playlist.addTrack(selectedTrack);
 						playerController.setTrack(selectedTrack);
@@ -139,9 +136,9 @@ public class SongListPanel extends GHPanel {
 		songlist = new JList<Track>();
 		songlist.setFixedCellHeight(60);
 		songlist.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
-		
+
 		setDefaultPlaylistModel();
-		
+
 		scrollPane = new JScrollPane(songlist);
 		scrollPane.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
 		add(scrollPane, "wrap, growx, pushy, growy");
@@ -164,25 +161,26 @@ public class SongListPanel extends GHPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				final String search = searchField.getText();
-				
+
 				if (search.trim().length() <= 0) {
 					setDefaultPlaylistModel();
 					textPrompt.setText(KeyboardHeroConstants
 							.getString("search_sound_cloud"));
 					return;
 				}
-				
+
 				searchField.setText("");
 				songlist.requestFocus();
 				textPrompt.setText(KeyboardHeroConstants.getString("loading")
 						+ " '" + search + "'");
-				textPrompt.setHorizontalAlignment(JLabel.CENTER);
+				textPrompt.setHorizontalAlignment(SwingConstants.CENTER);
 				new Thread(new Runnable() {
 
 					@Override
 					public void run() {
 						final Playlist list = playerController
-								.getPlaylistController().getPlaylistForSearch(search);
+								.getPlaylistController().getPlaylistForSearch(
+										search);
 						SwingUtilities.invokeLater(new Runnable() {
 
 							@Override
@@ -190,7 +188,8 @@ public class SongListPanel extends GHPanel {
 								songlist.setModel(list);
 								textPrompt.setText(KeyboardHeroConstants
 										.getString("search_sound_cloud"));
-								textPrompt.setHorizontalAlignment(JLabel.LEFT);
+								textPrompt
+										.setHorizontalAlignment(SwingConstants.LEFT);
 								searchField.setText(search);
 								searchField.requestFocus();
 							}
@@ -202,30 +201,28 @@ public class SongListPanel extends GHPanel {
 
 		add(searchField, "wrap, grow, gapy 10");
 	}
-	
+
 	/**
 	 * Sets the default playlist model.
 	 */
 	private void setDefaultPlaylistModel() {
 		boolean playable = mode == MODE_PLAY || mode == MODE_HIGHSCORE;
-		Playlist playlist = playerController.getPlaylistController().getPlaylist(playable);
+		Playlist playlist = playerController.getPlaylistController()
+				.getPlaylist(playable);
 		songlist.setModel(playlist);
-		
+
 		if (mode == MODE_RECORD) {
 			songlist.setCellRenderer(new RecordListCellRenderer());
 			transferHandler = new PlaylistTransferHandler(playlist);
-			
-			
-			
-			//songlist.setDropMode(DropMode.ON);
-			//songlist.setTransferHandler(transferHandler);
-			
+
+			// songlist.setDropMode(DropMode.ON);
+			// songlist.setTransferHandler(transferHandler);
+
 			this.setTransferHandler(transferHandler);
-		}
-		else {
+		} else {
 			songlist.setCellRenderer(new PlayListCellRenderer());
 		}
-		
+
 	}
 
 	/*

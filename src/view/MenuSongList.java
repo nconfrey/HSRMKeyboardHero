@@ -23,6 +23,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.ListModel;
+import javax.swing.SwingConstants;
 
 import model.MP3PlayerRemoteTrack;
 import model.Track;
@@ -34,7 +35,6 @@ public class MenuSongList<E> extends JList<E> {
 	private ImageIcon goldStar;
 	private ImageIcon silverStar;
 	private ImageIcon bronzeStar;
-
 
 	/**
 	 * Instantiates a new menu song list.
@@ -58,7 +58,7 @@ public class MenuSongList<E> extends JList<E> {
 
 	/**
 	 * Inits the CellRenderer.
-	 *
+	 * 
 	 * @param showIcons the show icons
 	 */
 	private void init(final boolean showIcons) {
@@ -105,7 +105,7 @@ public class MenuSongList<E> extends JList<E> {
 				if (showIcons && value instanceof Track && c instanceof JLabel) {
 					Track track = (Track) value;
 					JLabel label = (JLabel) c;
-					label.setHorizontalTextPosition(JLabel.LEFT);
+					label.setHorizontalTextPosition(SwingConstants.LEFT);
 					label.setIconTextGap(15);
 					if (track.getStrokeSet() != null) {
 						label.setIcon(noteIcon);
@@ -113,8 +113,7 @@ public class MenuSongList<E> extends JList<E> {
 						label.setIcon(soundCloudIcon);
 					}
 				}
-				c.setBackground(new Color(
-						KeyboardHeroConstants.COLOR_PRIMARY));
+				c.setBackground(new Color(KeyboardHeroConstants.COLOR_PRIMARY));
 				c.setForeground(Color.WHITE);
 				c.setFont(new Font("SansSerif", Font.BOLD, 14));
 

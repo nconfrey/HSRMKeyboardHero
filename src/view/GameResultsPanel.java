@@ -24,11 +24,11 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
-import view.TextPrompt.Show;
 import model.Highscore;
 import model.Score;
 import model.StrokeSet;
 import net.miginfocom.swing.MigLayout;
+import view.TextPrompt.Show;
 import controller.PlayerController;
 
 public class GameResultsPanel extends JPanel {
@@ -54,10 +54,10 @@ public class GameResultsPanel extends JPanel {
 		 */
 		public void resultPanelDidSelectReplay();
 	}
-	
+
 	/**
 	 * Instantiates a new game results panel.
-	 *
+	 * 
 	 * @param playerController the player controller
 	 */
 	public GameResultsPanel(PlayerController playerController) {
@@ -66,11 +66,12 @@ public class GameResultsPanel extends JPanel {
 
 	/**
 	 * Instantiates a new game results panel.
-	 *
+	 * 
 	 * @param playerController the player controller
 	 * @param aListener the a listener
 	 */
-	public GameResultsPanel(PlayerController playerController, ResultListener aListener) {
+	public GameResultsPanel(PlayerController playerController,
+			ResultListener aListener) {
 		this(playerController);
 		this.listener = aListener;
 
@@ -80,15 +81,15 @@ public class GameResultsPanel extends JPanel {
 		infoPanel = new JPanel();
 		infoPanel.setLayout(new MigLayout());
 		infoPanel.setBackground(Color.WHITE);
-		
+
 		String size = "w 500!, h 400!";
-		if(this.playerController.isRecording()) {
+		if (this.playerController.isRecording()) {
 			size = "w 500!, h 200!";
 		}
-		
+
 		this.add(infoPanel, size);
-		
-		if(!playerController.isRecording()){
+
+		if (!playerController.isRecording()) {
 			setupViewsForPlaying();
 		} else {
 			setupViewForRecording();
@@ -126,10 +127,13 @@ public class GameResultsPanel extends JPanel {
 		});
 		infoPanel.add(closeButton, "w 45%");
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see javax.swing.JComponent#setVisible(boolean)
 	 */
+	@Override
 	public void setVisible(boolean flag) {
 		super.setVisible(flag);
 
@@ -143,8 +147,8 @@ public class GameResultsPanel extends JPanel {
 	 */
 	private void viewDidBecomeVisible() {
 		if (!playerController.isRecording()) {
-			int score = (int) playerController
-					.getScoreController().getScore().getScore();
+			int score = (int) playerController.getScoreController().getScore()
+					.getScore();
 			scoreLabel.setText(String.valueOf(score));
 		}
 	}
@@ -176,15 +180,15 @@ public class GameResultsPanel extends JPanel {
 
 		scoreLabel = new JLabel("0");
 		scoreLabel.setOpaque(true);
-		scoreLabel.setBackground(new Color(
-				KeyboardHeroConstants.COLOR_PRIMARY));
+		scoreLabel
+				.setBackground(new Color(KeyboardHeroConstants.COLOR_PRIMARY));
 		scoreLabel.setForeground(Color.WHITE);
 		scoreLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		scoreLabel.setFont(new Font("sanserif", Font.BOLD, 27));
 		infoPanel.add(scoreLabel, "w 45%, h 100!");
 
-		Highscore bestHighscore = playerController.getTrack()
-				.getStrokeSet().getHighscores().getBestScore();
+		Highscore bestHighscore = playerController.getTrack().getStrokeSet()
+				.getHighscores().getBestScore();
 		String bestScore = "n/a";
 		if (bestHighscore != null) {
 			bestScore = MessageFormat.format(
@@ -206,8 +210,6 @@ public class GameResultsPanel extends JPanel {
 		highscoreTitleLabel.setFont(new Font("sanserif", Font.BOLD, 14));
 		infoPanel.add(highscoreTitleLabel, "gapy 30,span, wrap, growx");
 
-
-		
 		highscoreNameField = new InputTextField();
 
 		// Placeholder
@@ -215,15 +217,14 @@ public class GameResultsPanel extends JPanel {
 				KeyboardHeroConstants.getString("submit_highscore_label"),
 				highscoreNameField, Show.FOCUS_LOST);
 		textPrompt.setBorder(null);
-		
-		
+
 		infoPanel.add(highscoreNameField, "growx, wrap, span");
 
 		highscoreSubmitButton = new MenuButton(
-				KeyboardHeroConstants.getString("submit_highscore"), new Color(KeyboardHeroConstants.COLOR_SECONDARY));
+				KeyboardHeroConstants.getString("submit_highscore"), new Color(
+						KeyboardHeroConstants.COLOR_SECONDARY));
 		infoPanel.add(highscoreSubmitButton, "growx, wrap, span, gapy 5");
-		
-		
+
 		ActionListener submitListener = new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -233,15 +234,13 @@ public class GameResultsPanel extends JPanel {
 		highscoreSubmitButton.addActionListener(submitListener);
 		highscoreNameField.addActionListener(submitListener);
 	}
-	
+
 	private void submitHighscore() {
 		if (highscoreNameField.getText().trim().length() <= 0)
 			return;
 
-		Score score = playerController
-				.getScoreController().getScore();
-		StrokeSet strokeSet = playerController.getTrack()
-				.getStrokeSet();
+		Score score = playerController.getScoreController().getScore();
+		StrokeSet strokeSet = playerController.getTrack().getStrokeSet();
 
 		strokeSet.addHighscore((int) score.getScore(),
 				highscoreNameField.getText());

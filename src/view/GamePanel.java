@@ -58,7 +58,7 @@ public class GamePanel extends GHPanel implements MP3PlayerListener,
 	public GamePanel(PlayerController playerController) {
 		this.playerController = playerController;
 		setFocusable(true);
-		
+
 		playerController.stop();
 		playerController.getPlayer().addPlayerListener(this);
 
@@ -69,7 +69,7 @@ public class GamePanel extends GHPanel implements MP3PlayerListener,
 		resultsPanel.setVisible(false);
 		resultsPanel.setOpaque(false);
 		this.add(resultsPanel, "pos 0 0 container.w container.h");
-		
+
 		this.add(this.buildLeftContent(),
 				"gapleft 30, gaptop  30, west, width 250:350:350");
 		GuitarBackgroundPane backgroundPane = new GuitarBackgroundPane(
@@ -113,10 +113,10 @@ public class GamePanel extends GHPanel implements MP3PlayerListener,
 		leftContent.add(coverWrapperPanel, "h 300!,wrap, growx");
 
 		if (!playerController.isRecording()) {
-			
+
 			comboPanel = new ComboPanel(playerController);
 			leftContent.add(comboPanel, "h 60!, wrap, growx");
-			
+
 			leftContent.add(scorePanel, "wrap, growx");
 			scorePanel.setBackground(backgroundColor);
 		}
@@ -298,12 +298,12 @@ public class GamePanel extends GHPanel implements MP3PlayerListener,
 		removeComponentListener(componentListener);
 		playerController.getPlayer().removePlayerListener(this);
 		guitarPane.cleanUp();
-		
-		if(comboPanel != null) {
+
+		if (comboPanel != null) {
 			comboPanel.cleanUp();
 		}
-		
-		if(scorePanel != null) {
+
+		if (scorePanel != null) {
 			scorePanel.cleanUp();
 		}
 	}
@@ -352,20 +352,24 @@ public class GamePanel extends GHPanel implements MP3PlayerListener,
 
 	}
 
-	/* (non-Javadoc)
-	 * @see controller.player.MP3PlayerListener#playbackDidFail(controller.player.MP3Player)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * controller.player.MP3PlayerListener#playbackDidFail(controller.player
+	 * .MP3Player)
 	 */
 	@Override
 	public void playbackDidFail(final MP3Player player) {
-		int d = JOptionPane.showOptionDialog(
-				getParent(),
-				KeyboardHeroConstants.getString("playback_failed_text"),
-				KeyboardHeroConstants
-						.getString("playback_failed_title"),
-				JOptionPane.YES_OPTION, JOptionPane.PLAIN_MESSAGE,
-				null, new String[] { KeyboardHeroConstants
-						.getString("back_to_menu"), },
-				KeyboardHeroConstants.getString("back_to_menu"));
+		int d = JOptionPane
+				.showOptionDialog(getParent(), KeyboardHeroConstants
+						.getString("playback_failed_text"),
+						KeyboardHeroConstants
+								.getString("playback_failed_title"),
+						JOptionPane.YES_OPTION, JOptionPane.PLAIN_MESSAGE,
+						null, new String[] { KeyboardHeroConstants
+								.getString("back_to_menu"), },
+						KeyboardHeroConstants.getString("back_to_menu"));
 
 		if (d == JOptionPane.YES_OPTION) {
 			playerController.stop();
