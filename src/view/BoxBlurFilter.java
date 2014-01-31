@@ -22,8 +22,8 @@ import java.awt.image.ColorModel;
 
 public class BoxBlurFilter {
 
-	private int hRadius = 60;
-	private int vRadius = 60;
+	private int hRadius = 40;
+	private int vRadius = 40;
 	private int iterations = 2;
 
 

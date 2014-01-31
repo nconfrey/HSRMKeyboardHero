@@ -12,21 +12,15 @@ package view;
 
 import helper.KeyboardHeroConstants;
 
-import java.awt.Color;
 import java.awt.Font;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.geom.Rectangle2D;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
 import javax.swing.JLabel;
 import javax.swing.SwingUtilities;
 
-import model.Score;
 import net.miginfocom.swing.MigLayout;
 import controller.PlayerController;
-
 
 public class ScorePanel extends TransparentPanel implements
 		PropertyChangeListener {
@@ -34,11 +28,10 @@ public class ScorePanel extends TransparentPanel implements
 	private PlayerController playerController;
 	private JLabel scoreTitleLabel;
 	private JLabel scoreLabel;
-	private Score score;
 
 	/**
 	 * Creates a Panel to display the current scores.
-	 *
+	 * 
 	 * @param playerController the player controller
 	 */
 	public ScorePanel(PlayerController playerController) {
@@ -57,6 +50,14 @@ public class ScorePanel extends TransparentPanel implements
 		playerController.getScoreController().getScore()
 				.addPropertyChangeListener(this);
 
+	}
+
+	/**
+	 * Clean up. Remove all listener.
+	 */
+	public void cleanUp() {
+		playerController.getScoreController().getScore()
+				.removePropertyChangeListener(this);
 	}
 
 	/**

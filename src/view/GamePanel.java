@@ -48,6 +48,7 @@ public class GamePanel extends GHPanel implements MP3PlayerListener,
 	private ImagePanel miniCoverPanel;
 	private GuitarPane guitarPane;
 	private ComboPanel comboPanel;
+	private ScorePanel scorePanel;
 
 	/**
 	 * Instantiates a new game panel.
@@ -98,7 +99,7 @@ public class GamePanel extends GHPanel implements MP3PlayerListener,
 		// Panel
 		leftContent = new JPanel(new MigLayout("fillx", "", "[]30[]"));
 		leftContent.setOpaque(false);
-		ScorePanel scorePanel = new ScorePanel(playerController);
+		scorePanel = new ScorePanel(playerController);
 
 		TitlePanel titlePanel = new TitlePanel(playerController);
 		titlePanel.setBackground(backgroundColor);
@@ -297,6 +298,8 @@ public class GamePanel extends GHPanel implements MP3PlayerListener,
 		removeComponentListener(componentListener);
 		playerController.getPlayer().removePlayerListener(this);
 		guitarPane.cleanUp();
+		comboPanel.cleanUp();
+		scorePanel.cleanUp();
 	}
 
 	/*

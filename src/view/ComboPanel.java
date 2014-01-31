@@ -47,6 +47,13 @@ public class ComboPanel extends JPanel implements PropertyChangeListener {
 	}
 	
 	/**
+	 * Clean up. Remove all listeners.
+	 */
+	public void cleanUp() {
+		playerController.getScoreController().getScore().removePropertyChangeListener(this);
+	}
+	
+	/**
 	 * Inits the labels.
 	 */
 	private void initLabels() {
