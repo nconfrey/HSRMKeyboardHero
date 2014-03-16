@@ -11,3 +11,11 @@ Features of the game:
 * Import your own songs and record guitar srokes
 * Play music from SoundCloud
 
+
+
+Screenshots
+================
+
+![Screenshot](https://raw.github.com/martinjuhasz/HSRMKeyboardHero/master/res/screenshots/screenshot_1.png "Screenshot")
+
+![Screenshot](https://raw.github.com/martinjuhasz/HSRMKeyboardHero/master/res/screenshots/screenshot_2.png "Screenshot")
