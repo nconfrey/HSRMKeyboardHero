@@ -4,21 +4,21 @@
 	<classpathentry kind="src" path="music"/>
 	<classpathentry kind="src" path="res"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.7"/>
-	<classpathentry kind="lib" path="jaudiotagger-2.2.0-20130321.162819-3.jar"/>
-	<classpathentry kind="lib" path="lastfm-java-0.1.2.jar"/>
-	<classpathentry kind="lib" path="jl1.0.jar"/>
-	<classpathentry kind="lib" path="jsminim.jar"/>
-	<classpathentry kind="lib" path="minim.jar"/>
-	<classpathentry kind="lib" path="mp3spi1.9.4.jar"/>
-	<classpathentry kind="lib" path="tritonus_aos.jar"/>
-	<classpathentry kind="lib" path="tritonus_share.jar"/>
-	<classpathentry kind="lib" path="miglayout-4.0-swing.jar"/>
-	<classpathentry kind="lib" path="commons-logging-1.1.3.jar"/>
-	<classpathentry kind="lib" path="httpclient-4.3.2.jar"/>
-	<classpathentry kind="lib" path="httpcore-4.3.1.jar"/>
-	<classpathentry kind="lib" path="httpmime-4.3.2.jar"/>
-	<classpathentry kind="lib" path="json-20131018.jar"/>
-	<classpathentry kind="lib" path="soundcloud-api-wrapper.jar"/>
-	<classpathentry kind="lib" path="commons-io-2.4.jar"/>
+	<classpathentry kind="lib" path="libs/commons-io-2.4.jar"/>
+	<classpathentry kind="lib" path="libs/commons-logging-1.1.3.jar"/>
+	<classpathentry kind="lib" path="libs/httpclient-4.3.2.jar"/>
+	<classpathentry kind="lib" path="libs/httpcore-4.3.1.jar"/>
+	<classpathentry kind="lib" path="libs/httpmime-4.3.2.jar"/>
+	<classpathentry kind="lib" path="libs/jaudiotagger-2.2.0-20130321.162819-3.jar"/>
+	<classpathentry kind="lib" path="libs/jl1.0.jar"/>
+	<classpathentry kind="lib" path="libs/jsminim.jar"/>
+	<classpathentry kind="lib" path="libs/json-20131018.jar"/>
+	<classpathentry kind="lib" path="libs/lastfm-java-0.1.2.jar"/>
+	<classpathentry kind="lib" path="libs/miglayout-4.0-swing.jar"/>
+	<classpathentry kind="lib" path="libs/minim.jar"/>
+	<classpathentry kind="lib" path="libs/mp3spi1.9.4.jar"/>
+	<classpathentry kind="lib" path="libs/soundcloud-api-wrapper.jar"/>
+	<classpathentry kind="lib" path="libs/tritonus_aos.jar"/>
+	<classpathentry kind="lib" path="libs/tritonus_share.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
