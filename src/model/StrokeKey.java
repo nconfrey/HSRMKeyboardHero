@@ -66,14 +66,17 @@ public enum StrokeKey {
 	}
 	
 	public static StrokeKey keyForSerialCode(String keyCode) {
-		if (keyCode.equals("1")) {
+		// 2 4 1 3 0
+		if (keyCode.equals("2")) {
 			return StrokeKey.F1;
-		} else if (keyCode.equals("2")) {
-			return StrokeKey.F2;
-		} else if (keyCode.equals("3")) {
-			return StrokeKey.F3;
 		} else if (keyCode.equals("4")) {
+			return StrokeKey.F2;
+		} else if (keyCode.equals("1")) {
+			return StrokeKey.F3;
+		} else if (keyCode.equals("3")) {
 			return StrokeKey.F4;
+		} else if (keyCode.equals("0")) {
+			return StrokeKey.F5;
 		} else {
 			return StrokeKey.INVALID;
 		}
