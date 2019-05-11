@@ -33,9 +33,7 @@ public class PersistenceHandler {
 	private static final String FILE_FOLDER = System.getProperty("user.home")
 			+ File.separator + LOCAL_FOLDER_NAME;
 	private static final String PLAYLIST_FILE_NAME = "playlist.mpl";
-	private static final String[] filesToCopy = new String[] { "playlist.mpl",
-			"highway_to_hell.mp3", "smoke_on_the_water.mp3",
-			"back_in_black.mp3" };
+	private static final String[] filesToCopy = new String[] { "playlist.mpl", "sandstorm.mp3" };
 
 	/**
 	 * Instantiates a new persistence handler.

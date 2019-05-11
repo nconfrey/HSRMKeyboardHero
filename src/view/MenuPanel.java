@@ -109,7 +109,7 @@ public class MenuPanel extends GHPanel implements ActionListener {
 				@Override
 				public void run() {
 					File file = PersistenceHandler
-							.getLocalFile("back_in_black.mp3");
+							.getLocalFile("sandstorm.mp3");
 					MP3PlayerLocalTrack mp3 = new MP3PlayerLocalTrack(file);
 					Track intro = new Track(mp3);
 					playerController.setTrack(intro);

@@ -13,6 +13,16 @@ Features of the game:
 
 
 
+Setup
+================
+
+Before running the game, execute the following commands:
+
+```
+mkdir ~/.keyboardHero
+cp ./music/sandstorm.mp3 ~/.keyboardHero
+```
+
 Screenshots
 ================
 
