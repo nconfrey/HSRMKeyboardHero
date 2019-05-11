@@ -20,10 +20,6 @@
 	<classpathentry kind="lib" path="libs/soundcloud-api-wrapper.jar"/>
 	<classpathentry kind="lib" path="libs/tritonus_aos.jar"/>
 	<classpathentry kind="lib" path="libs/tritonus_share.jar"/>
-	<classpathentry kind="lib" path="/Users/nconfrey/Downloads/rxtx-2.1-7-bins-r2/RXTXcomm.jar">
-		<attributes>
-			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="/Users/nconfrey/Downloads/rxtx-2.1-7-bins-r2/Mac_OS_X"/>
-		</attributes>
-	</classpathentry>
+	<classpathentry kind="lib" path="libs/RXTXcomm.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
