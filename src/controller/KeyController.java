@@ -9,21 +9,19 @@
  */
 package controller;
 
-import java.awt.KeyEventDispatcher;
-import java.awt.KeyboardFocusManager;
 import java.awt.event.KeyEvent;
-import java.util.ArrayList;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
-import gnu.io.CommPortIdentifier; 
-import gnu.io.SerialPort;
-import gnu.io.SerialPortEvent; 
-import gnu.io.SerialPortEventListener; 
+import java.util.ArrayList;
 import java.util.Enumeration;
 
-import model.StrokeKey;
 import controller.recorder.GuitarStringListener;
+import gnu.io.CommPortIdentifier;
+import gnu.io.SerialPort;
+import gnu.io.SerialPortEvent;
+import gnu.io.SerialPortEventListener;
+import model.StrokeKey;
 
 public class KeyController implements SerialPortEventListener {
 
@@ -32,7 +30,9 @@ public class KeyController implements SerialPortEventListener {
 	SerialPort serialPort;
 	/** The port we're normally going to use. */
 	private static final String PORT_NAMES[] = { 
-			"/dev/tty.usbserial-A9007UX1", // Mac OS X
+			"/dev/cu.usbmodem1411",
+			//"/dev/tty.usbserial-A9007UX1", // Mac OS X
+//			"/dev/tty.usbserial-AH03F6SU", // Mac OS X EL Sequencer? 
 			"/dev/ttyACM0", // Raspberry Pi
 			"/dev/ttyUSB0", // Linux
 			"COM3", // Windows
@@ -63,7 +63,7 @@ public class KeyController implements SerialPortEventListener {
 
 		// the next line is for Raspberry Pi and 
 		// gets us into the while loop and was suggested here was suggested https://www.raspberrypi.org/phpBB3/viewtopic.php?f=81&t=32186
-		System.setProperty("gnu.io.rxtx.SerialPorts", "/dev/ttyACM0");
+		// System.setProperty("gnu.io.rxtx.SerialPorts", "/dev/ttyACM0");
 
 		CommPortIdentifier portId = null;
 		Enumeration portEnum = CommPortIdentifier.getPortIdentifiers();
@@ -125,6 +125,16 @@ public class KeyController implements SerialPortEventListener {
 		if (oEvent.getEventType() == SerialPortEvent.DATA_AVAILABLE) {
 			try {
 				String inputLine=input.readLine();
+				String[] tokedInput = inputLine.split(" ");
+				String pinTouched = tokedInput[0];
+				String toggled = tokedInput[1];
+				if (toggled.equals("on")) {
+					touchBoardPressed(pinTouched);
+				} else if (toggled.equals("off")) {
+					touchBoardReleased(pinTouched);
+				} else {
+					System.out.println("wtf got a wierd serial thing");
+				}
 				System.out.println(inputLine);
 			} catch (Exception e) {
 				System.err.println(e.toString());
@@ -146,6 +156,20 @@ public class KeyController implements SerialPortEventListener {
 			keyReleased(e);
 		}
 		return false;
+	}
+	
+	public void touchBoardPressed(String pin) {
+		StrokeKey strokeKey = StrokeKey.keyForSerialCode(pin);
+		for (GuitarStringListener guitarStringListener : this.guitarStringListener) {
+			guitarStringListener.guitarStringPressed(strokeKey);
+		}
+	}
+	
+	public void touchBoardReleased(String pin) {
+		StrokeKey strokeKey = StrokeKey.keyForSerialCode(pin);
+		for (GuitarStringListener guitarStringListener : this.guitarStringListener) {
+			guitarStringListener.guitarStringReleased(strokeKey);
+		}
 	}
 
 	/**
