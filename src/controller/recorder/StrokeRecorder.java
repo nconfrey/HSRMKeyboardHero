@@ -110,6 +110,8 @@ public class StrokeRecorder implements GuitarStringListener, MP3PlayerListener {
 		if (strokeKey.isGuitarString() && !pressedKeys.contains(strokeKey)) {
 			pressedKeys.add(strokeKey);
 		}
+		
+		guitarStrokePressed(null);
 
 	}
 
