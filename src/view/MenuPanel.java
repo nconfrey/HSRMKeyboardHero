@@ -68,9 +68,9 @@ public class MenuPanel extends GHPanel implements ActionListener {
 				"insets 0 200 20 200, fillx", "", "[]15[]"));
 		buttonPanel.setBackground(Color.WHITE);
 		buttonPanel.add(playButton, "wrap, grow, height 60!");
-		buttonPanel.add(recordButton, "wrap, grow, height 60");
+//		buttonPanel.add(recordButton, "wrap, grow, height 60");
 		buttonPanel.add(highscoreButton, "wrap, grow, height 60");
-		buttonPanel.add(creditsButton, "wrap, grow, height 60");
+//		buttonPanel.add(creditsButton, "wrap, grow, height 60");
 
 		this.add(buttonPanel, "wrap, grow");
 	}
