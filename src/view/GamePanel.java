@@ -13,6 +13,7 @@ import helper.KeyboardHeroConstants;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.event.ComponentAdapter;
@@ -23,6 +24,7 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
@@ -121,6 +123,15 @@ public class GamePanel extends GHPanel implements MP3PlayerListener,
 			scorePanel.setBackground(backgroundColor);
 		}
 
+		// Display "Breck Scav"
+		JPanel breckScavPanel = new JPanel(new MigLayout("fill"));
+		JLabel breckScavLabel = new JLabel();
+		breckScavLabel.setFont(new Font("sanserif", Font.BOLD, 15));
+		breckScavLabel.setText("<html><body>BRECK SCAV - CHAOS REIGNS</body></html>");
+		breckScavPanel.setBackground(backgroundColor);
+		breckScavPanel.add(breckScavLabel);
+		leftContent.add(breckScavPanel, "wrap, growx");
+		
 		return leftContent;
 	}
 
