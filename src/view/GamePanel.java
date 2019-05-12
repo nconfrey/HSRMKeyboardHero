@@ -110,7 +110,7 @@ public class GamePanel extends GHPanel implements MP3PlayerListener,
 		miniCoverPanel = new ImagePanel("cover.png", ImagePanel.SIZE_FILL);
 		miniCoverPanel.setOpaque(false);
 		coverWrapperPanel.add(miniCoverPanel, "grow");
-		leftContent.add(coverWrapperPanel, "h 300!,wrap, growx");
+//		leftContent.add(coverWrapperPanel, "h 300!,wrap, growx");
 
 		if (!playerController.isRecording()) {
 
